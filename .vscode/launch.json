@@ -1,0 +1,32 @@
+// File: /home/eagles/dockerz/efast-copy/.vscode/launch.json
+{
+  "$schema": "vscode://schemas/launch",
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run eslint",
+      "runtimeExecutable": "eslint",
+      "cwd": "${workspaceFolder}",
+      "args": []
+    },
+    {
+      "name": "Python Debugger: Current File",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Launch Chrome", // ← added as 2nd entry
+      "type": "chrome", // ← upgraded to the built-in JS Debugger
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}",
+      "runtimeArgs": [
+        "--remote-debugging-port=9222"
+      ]
+    }
+  ]
+}

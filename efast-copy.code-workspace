@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"checkpoints.autoOpenFile": true,
+		"checkpoints.askForCheckpointName": false,
+		"checkpoints.addCheckpointOnSave": true,
+		"spellright.documentTypes": [
+
+			"markdown",
+			"latex",
+			"plaintext"
+		],
+		"spellright.useDocumentSymbolsInCode": false
+	}
+}

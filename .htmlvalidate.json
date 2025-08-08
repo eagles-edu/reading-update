@@ -1,0 +1,10 @@
+{
+    "$schema": "https://html-validate.org/schemas/config.json",
+    "extends": [
+        "html-validate:recommended"
+    ],
+    "rules": {
+        "prefer-tbody": "off",
+        "no-inline-scripts": "off"
+    }
+}

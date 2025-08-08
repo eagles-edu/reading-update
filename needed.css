@@ -1,0 +1,116 @@
+<div style="width:fit-content; margin:10px auto;">
+<div class="wrapfit">
+
+<script type="text/javascript"> =  <script>
+
+style="text-indent: 2.2vw; color: #009000;"
+class="dlogindnt"
+
+
+.dlogindnt {
+    text-indent: 2.2vw;
+    color: #009000;
+}
+
+
+<div style="text-align: center;">  = <div class="cenmar">
+
+
+<p class="textres12 bm12" style="text-indent: .35in; line-height: 1.5em">  =  <p class="textres12 bm12">
+
+
+ style="text-indent: .0in; line-height: 210%; padding: 0 0 0 5vw; margin-bottom: 12px;"
+
+
+<audio id="audio" src="../audio/dailylife003.mp3" controls  oncontextmenu="return false;"></audio>
+
+
+<div class="cenmar" style="font-weight: 500;"> = <div class="cenmar fw500">
+
+
+
+
+<!-- outside the form, but explicitly tied to it: -->
+<button
+  id="CheckButton2"
+  class="FuncButton"
+  type="submit"
+  form="Cloze"
+  onmouseover="FuncBtnOver(this)"
+  onfocus="FuncBtnOver(this)"
+  onmouseout="FuncBtnOut(this)"
+  onblur="FuncBtnOut(this)"
+  onmousedown="FuncBtnDown(this)"
+  onmouseup="FuncBtnOut(this)"
+  onclick="CheckAnswers()"
+>&nbsp;Check&nbsp;</button>
+
+<button id="CheckButton2" class="FuncButton" onmouseover =  
+<button id="CheckButton2" class="FuncButton" type="submit" form="Cloze" onmouseover
+
+
+
+<button
+  class="FuncButton"
+  type="button"
+  onmouseover="FuncBtnOver(this)"
+  onfocus="FuncBtnOver(this)"
+  onmouseout="FuncBtnOut(this)"
+  onblur="FuncBtnOut(this)"
+  onmousedown="FuncBtnDown(this)"
+  onmouseup="FuncBtnOut(this)"
+  onclick="ShowHint()"
+>&nbsp;Hint&nbsp;</button>
+
+
+<button class="FuncButton" onmouseover
+<button class="FuncButton" type="button" onmouseover
+
+
+<div class="cenmar textres12" style="font-weight:500">
+<div class="cenmar textres12 fw500">
+
+
+<div style="width:fit-content; margin:10px auto;">
+<div class="wrapfit">
+
+
+<div style="margin:0 auto;">
+<div style="margin:10px auto;">
+<div class="wrapit">
+
+
+<p class="textres12 bm12" style="text-indent: .35in; line-height: 1.5em">
+<p class="textres12">
+
+
+<div class="cenmar textres20" style="font-weight: 500;">
+<div class="cenmar textres20 fw500">
+
+
+
+
+/* make all short-answer textareas fluid and respect their container */
+.ShortAnswerBox {
+  width: 100%;         /* fill the available width */
+  max-width: 100%;     /* never exceed the parent’s width */
+  box-sizing: border-box; /* include padding/border in that width */
+  overflow-wrap: break-word; /* wrap long words if needed */
+  margin-top: 2em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

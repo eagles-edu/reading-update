@@ -1,0 +1,90 @@
+<button class="FuncButton" onclick="CheckShortAnswer(4)">Check</button>
+<button([^>]*?)onclick="CheckShortAnswer\((\d+)\)"
+<button$1 type="submit" onclick="CheckShortAnswer($2)"
+
+
+<button class="FuncButton" onclick="ShowHint(4)">Hint</button>
+<button([^>]*?)(onclick="(?:ShowHint|ShowAnswers|HideFeedback|PrevQButton|NextQButton)\(-?\d+\)(?:; return false;)?)"
+<button$1 type="button" $2
+
+
+
+# submit 
+<button class="FuncButton" onclick="CheckShortAnswer(0)">Check</button>
+{
+(<button\b[^>]*?)\s+onclick="CheckShortAnswer\((\d+)\)"
+
+
+$1 type="submit" form="Cloze" onclick="CheckShortAnswer($2)"
+}
+
+
+# button
+{
+(<button\b[^>]*?)\s+onclick="((?:ShowHideQuestions|ChangeQ|ShowHint|ShowAnswers|HideFeedback)[^"]+)"
+
+$1 type="button" onclick="$2"
+}
+
+
+<button id="ShowMethodButton" class="FuncButton" onclick="ShowHideQuestions(); return false;" style="display: inline;">Show all questions</button>
+
+<button id="PrevQButton" class="FuncButton" onclick="ChangeQ(-1); return false;" style="visibility: hidden;">&lt;=</button>
+
+<button id="NextQButton" class="FuncButton" onclick="ChangeQ(1); return false;" style="visibility: visible;">=&gt;</button>
+ 
+<button class="FuncButton" onclick="ShowHint(0)">Hint</button>
+
+<button class="FuncButton" onclick="ShowAnswers(0)">Show Answer</button>
+
+<button id="FeedbackOKButton" class="FuncButton" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
+
+
+<div style="width:fit-content; margin:0 auto;"> or
+<div style="max-width:900px; width: 100%; margin:0 auto;">
+<div class="wrapfit">
+
+<div style="margin:0 auto;">
+<div class="wrapit">
+
+
+<p style="text-align: right;">
+<p class="rghtagln">
+
+ style="visibility: hidden;"
+remove 
+
+<button id="PrevQButton" class="FuncButton"
+<button id="PrevQButton" class="FuncButton viz"
+
+ style="visibility: visible;"
+remove 
+
+<button id="NextQButton" class="FuncButton"
+<button id="NextQButton" class="FuncButton vizon"
+
+
+ style="list-style-type: none;"
+remove 
+
+<ol class="QuizQuestions"
+
+<script type="text/javascript">
+<script>
+
+<div style="width:fit-content; margin:0 auto;">
+
+	<script>
+		window.dataLayer = window.dataLayer || [];
+
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+		gtag('config', 'G-M335KR2ZY9');
+	</script>
+remove
+
+
+<!doctype html>     >   <!DOCTYPE html>
+

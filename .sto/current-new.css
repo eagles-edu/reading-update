@@ -1,0 +1,353 @@
+
+:root {
+    --strFontFace: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	--strFontSize: inherit;
+	--strTextColor: #000000;
+	--strTextColorHov: #ffffff;
+	--strTextColorCor: #006f23;
+	--strTextColorPar: #580050;
+	--strTitleColor: #000000;
+	--strFuncLightColor: #ffffff;
+	--strFuncShadeColor: #7d7d7d;
+	--strLinkColor: #0000FF;
+	--strVLinkColor: #0000CC;
+	--strNavBarColor: #000000;
+	--strNavLightColor: #7f7f7f;
+	--strNavShadeColor: #000000;
+	--strNavTextColor: #ffffff;
+	--strPageBGColor: #C0C0C0;
+	--strExBGColor: #FFFFFF;
+	--strButtBGColor: #FFEBCD;
+	--strButtBGColorHov: #3c63ff;
+	--strDivFeedback: #87cefa;
+	--content-width: 80%;
+	--content-max: 1280px;
+}
+/* Hack to hide a nested Quicktime player from IE, which can't handle it. */
+* html object.MediaPlayerNotForIE {
+	display: none;
+}
+
+
+body {
+    background-color: var(--strPageBGColor);
+    color: var(--strTextColor);
+	font-family: var(--strFontFace);
+	font-size: var(--strFontSize);
+	line-height: inherit;
+	margin: 0 auto;
+	padding-left: 5%!important;
+	padding-right: 5%!important;
+}
+
+
+p {
+	font-family: var(--strFontFace);
+	font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+	margin: 0 0 1em 0;
+	text-align: left;
+	text-indent: .35in;
+}
+
+
+
+button {
+    display: inline;
+    font-family: var(--strFontFace);
+    font-size: calc(17px + (24 - 17) * ((100vw - 300px) / (1600 - 300)));
+    margin:3px;
+}
+
+.ExerciseTitle {
+	color: var(--strTextColor);
+	font-family: var(--strFontFace);
+	font-size: calc(20px + (24 - 20) * ((100vw - 300px) / (1600 - 300)));
+    line-height: normal;
+	margin:  1.12em auto;
+}
+
+
+
+
+div.StdDiv{
+	background-color: #FFFFFF;
+	border-color: #000000;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	color: #000000;
+	font-size: 100%;
+	line-height: 1.25em;
+	margin-bottom: 1px;
+	padding: 0.75em;
+	text-align: center;
+}
+
+
+	font-weight: 600;
+
+
+
+/* ─── Updated feedback popup styling ─── */
+div.Feedback {
+  position: absolute;
+  top: 0;   /* your JS will override this */
+  left: 50%;   /* anchor the left edge at 50% of viewport */
+  transform: translateX(-50%); /* shift back by half its own width */
+  background-color:var(--strDivFeedback);
+  border: 1px solid var(--strTextColor);
+  padding: 5px;
+  text-align: center;
+  color: var(--strTextColor);
+  font-size: 100%;
+  display: none;   /* shown/hidden by JS */
+  max-width: 350px;
+  width: 250px;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+/* ───────────────────────────────────── */
+
+
+
+div.ClozeBody {
+    font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+	line-height: 2.0;
+	margin-top: 1em;
+	margin-bottom: 1em;
+    padding: 1em;
+	text-align: left;
+}
+
+
+
+textarea{
+	font-family: var(--strFontFace);
+}
+
+.QuestionText{
+	text-align: left;
+	margin: 0px;
+	font-size: 100%;
+}
+
+.Answer{
+    font-family: var(--strFontFace);
+    font-size: calc(19px + (24 - 19) * ((100vw - 300px) / (1600 - 300)));
+	font-weight: 500;
+	letter-spacing: 0.05em;
+}
+
+.PartialAnswer{
+	color: var(--strTextColorPar);
+	font-family: var(--strFontFace);
+    font-size: calc(19px + (24 - 19) * ((100vw - 300px) / (1600 - 300)));
+	font-weight: 500;
+	letter-spacing: 0.05em;
+}
+
+/* === remove built‑in left indent on <ol class="QuizQuestions"> === */
+ol.QuizQuestions{
+  list-style: none !important;   /* kill numbering */
+  margin: 0;                     /* no left margin */
+  padding: 0 !important;         /* clear UA 40 px padding */
+}
+
+.ShortAnswerBox {
+	width: 100%;
+         /* fill the available width */
+	max-width: 400px;
+     /* never exceed the parent’s width */
+	box-sizing: border-box;
+ /* include padding/border in that width */
+	overflow-wrap: break-word;
+ /* wrap long words if needed */
+	margin-top: 1em;
+}
+
+
+/* ≤ 480 px: let page grow to 90 % so 5 % paddings still fit inside 320 px */
+@media (max-width: 480px) {
+  body {
+    width: 90vw; 
+  }
+
+.instruct {
+	font-size: calc(17px + (24 - 17) * ((100vw - 300px) / (1600 - 300)));
+    line-height: 1.5;
+  }
+}
+
+/* between 480 px: 1000 px */
+  .instruct {
+    font-size: calc(17px + (24 - 17) * ((100vw - 300px) / (1600 - 300)));
+    line-height: 1.5;
+    }
+
+/* ≥ 1000 px: enlarge desktop text (matches original “mx” pages) */
+@media screen and (min-width: 1000px) {
+  body {
+    font-size: 1.5em;
+    line-height: inherit;
+  }
+  .ExerciseTitle {
+    font-size: 1.5em;
+    line-height: inherit;
+  }
+
+  .instruct {
+    font-size: calc(18px + (24 - 17) * ((100vw - 300px) / (1600 - 300)));
+    line-height: 1.5;
+  }
+
+  .ClozeBody {               /* NEW */
+    font-size: 1.5em;         /* NEW */
+    line-height: 2em;
+  }
+  p {
+    font-size: 1.5em;
+    line-height: 1.5em;
+  }
+  .FuncButton, .FuncButtonDown, .FuncButtonUp, .FeedbackOKButton {               /* NEW */
+    font-size: calc(17px + (24 - 17) * ((100vw - 300px) / (1600 - 300)));
+    line-height: 1.5em;
+  }
+}
+
+
+/* hide default marker */
+#Instructions summary::-webkit-details-marker,
+#Instructions summary::marker {
+  display: none;
+}
+
+/* make summary tappable */
+#Instructions summary {
+  cursor: pointer;
+  font-weight: normal;
+}
+
+/* inject “ more…” after summary text when closed */
+#Instructions summary::after {
+  content: " more...";
+  color: blue;
+  font-weight: bold;
+}
+
+/* switch to “ less…” when open */
+#Instructions[open] summary::after {
+  content: " less...";
+}
+
+/* style the hidden paragraph */
+#Instructions p {
+  margin: 0.5em 0 0;
+  line-height: 1.4;
+}
+
+
+
+
+//If no guess, give the first correct bit
+	if (G.length < 1){
+		var Ans = GetFirstCorrectAnswer(QNum);
+		var Hint = Ans.charAt(0);
+		ShowMessage(NextCorrect + '<br>' + '" ' + Hint + ' "');
+		
+		
+var CaseSensitive = true;
+var ShowAlsoCorrect = false;
+var PleaseEnter = 'Please enter a guess. <br>';
+var HybridTries = 5;
+var PartlyIncorrect = 'Your answer is partly wrong: <br>';
+var CorrectList = 'Correct answer: <br>';
+var NextCorrect = 'Next correct letter in the answer:<br> ';
+var CurrBox = null;
+		
+		
+function ReplaceGuessBox(QNum, Ans){
+	if (document.getElementById('Q_' + QNum + '_SA') != null){
+		var El = document.getElementById('Q_' + QNum + '_SA');
+		while (El.childNodes.length > 0){
+			El.removeChild(El.childNodes[0]);
+		}
+		var A = document.createElement('span');
+		A.setAttribute('class', 'Answer correct'); <--
+		var T = document.createTextNode(Ans);
+		A.appendChild(T);
+		El.appendChild(A);
+	}
+}
+
+or 
+
+A.setAttribute('class', 'Answer');   =   A.setAttribute('class', 'Answer correct');
+
+
+
+
+		
+		
+//CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
+
+var topZ = 1000;
+
+function ShowMessage(Feedback){
+	var Output = Feedback + '<br><br>';
+	document.getElementById('FeedbackContent').innerHTML = Output;
+	var FDiv = document.getElementById('FeedbackDiv');
+	topZ++;
+	FDiv.style.zIndex = topZ;
+
+ // ─── determine anchor as before ───
+    var anchorElem = null;
+    // (your existing logic to find correctSpan or document.activeElement)
+    if (typeof CurrQNum === 'number' && QArray && QArray[CurrQNum]) {
+        var correctSpan = QArray[CurrQNum].querySelector('span.Answer.correct');
+        if (correctSpan) anchorElem = correctSpan;
+    }
+    if (!anchorElem && document.activeElement && document.activeElement.getBoundingClientRect) {
+        anchorElem = document.activeElement;
+    }
+
+    // ─── UPDATED: render & measure popup BEFORE positioning ───
+    if (anchorElem && anchorElem.getBoundingClientRect) {
+        // make it visible (but hidden) so offsetHeight is accurate
+        FDiv.style.display    = 'block';
+        FDiv.style.visibility = 'hidden';
+
+        var popupHeight = FDiv.offsetHeight;               // ← now correct
+        var rect        = anchorElem.getBoundingClientRect();
+        var topPos      = window.pageYOffset + rect.top    // anchor’s top
+                          - popupHeight - 10;             // rise above by height+gap
+
+        FDiv.style.top        = topPos + 'px';
+        FDiv.style.visibility = 'visible';
+    } else {
+        // fallback
+        FDiv.style.top     = TopSettingWithScrollOffset(30) + 'px';
+        FDiv.style.display = 'block';
+    }
+    // ─── end updated positioning ───
+
+	ShowElements(false, 'input');
+	ShowElements(false, 'select');
+	ShowElements(false, 'object');
+	ShowElements(true, 'object', 'FeedbackContent');
+
+//Focus the OK button
+	setTimeout("document.getElementById('FeedbackOKButton').focus()", 50);
+
+//
+}		
+		
+	<div id="Instructions" class="instruct">
+	
+	
+	
+	<script>
+    document.addEventListener('DOMContentLoaded', () => {
+     // strip "Dictation" prefix plus any ":" or "-" and following spaces
+    const cleanTitle = document.title.replace(/^Dictation[:\-]\s*/, '');
+    document.querySelector('.ExerciseTitle').textContent = cleanTitle;
+    });
+  </script>

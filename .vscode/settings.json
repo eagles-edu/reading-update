@@ -1,0 +1,54 @@
+{
+  // Exclude your .undo folder everywhere
+  "files.exclude": {
+    "**/.undo": true,
+    "**/.undo/**": true,
+    "**/.sto": true,
+    "**/.sto/**": true
+  },
+  "search.exclude": {
+    "**/.undo": true,
+    "**/.undo/**": true
+  },
+  "files.watcherExclude": {
+    "**/.undo/**": true,
+    "**/.sto/**": true,
+    "**/lib/python*/**": true
+  },
+  // Turn off hover tooltips in HTML
+  "[html]": {
+    "editor.hover.enabled": true
+  },
+  "json.schemas": [
+    {
+      "fileMatch": [ ".vscode/launch.json" ],
+      "url": "vscode://schemas/launch"
+    }
+  ],
+  "javascript.validate.enable": false,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "json",
+    "jsonc",
+    "markdown",
+    "css"
+  ],
+  "editor.hover.delay": 200,
+  // Allow VS Code to pull in community JSON schemas
+  "json.schemaDownload.enable": true,
+  "json.enableSchemaStore": true,
+
+  // Disable built-in HTML validation of inline scripts & styles
+  "html.validate.scripts": false,
+  "html.validate.styles": false,
+    // …
+  "files.trimTrailingWhitespace": true,
+  // [CHANGE] include your user-site so bs4 & cssutils are resolved
+  "python.analysis.extraPaths": [
+    "/home/eagles/.local/lib/python3.10/site-packages"],
+     // turn off built-in JS/TS validation entirely
+  "typescript.validate.enable": false
+}
+
+

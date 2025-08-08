@@ -1,0 +1,336 @@
+div.Feedback {
+	background-color: lightskyblue;
+
+size="28"  =  	cols="28"
+
+.FeedbackText, .FeedbackText span.CorrectAnswer, .FeedbackText span.Guess, .FeedbackText span.Answer{
+	color: black;
+	font-size: large;
+}
+/* ensure default answers stay black */
+.Answer { color: black; }
+/* correct answers turn green */
+.Answer.correct { color: green; }
+
+	color: #000000; = color: #000000;
+	color: black;
+
+
+A.setAttribute('class', 'Answer');   =   A.setAttribute('class', 'Answer correct');
+
+
+rows="2"><br /><br />   =   rows="2"></textarea><br><br>
+
+<input   =   <textarea
+
+' />' = '>'
+
+</textarea><br><br><button class="FuncButton" onfocus=
+</textarea><br><br><button class="FuncButton smb" type="submit" onfocus=
+
+<button class="FuncButton" onfocus=
+<button class="FuncButton smb" type="button" onfocus=
+
+p {
+margin: 0px;
+text-align: left;
+text-indent: .35in;
+}
+
+p.rghtagln, .rghtagln {
+	text-align: right;
+}
+
+p.centagln, .centalgn {
+	text-align: center;
+}
+
+p.leftagln, .leftalgn {
+	text-align: left;
+}
+
+
+
+div.ClozeBody {
+    line-height: 2.0;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: 1em;
+    text-align: left;
+}
+
+
+
+.QuestionText{
+    text-align: left;
+    margin: 1em auto;
+    font-size: 100%;
+}
+
+.flextxtright.flextxtrght {
+display: flex;
+justify-content: right;
+}
+
+.flextxtcen, .flextxtcent {
+display: flex;
+justify-content: center;
+}
+
+.flextxtleft {
+display: flex;
+justify-content: left;
+}
+
+
+.bm12, .bm75 {
+  margin-bottom: 0.75em;
+}
+
+.bm1 {
+  margin-bottom: 1em;
+}
+
+.tm75 {
+  margin-top: 0.75em;
+}
+
+.bm1 {
+  margin-top: 1em;
+}
+
+ol {
+display: block;
+list-style-type: none;
+margin-block-start: 0;
+margin-block-end: 0;
+padding-inline-start: 0;
+unicode-bidi: isolate;
+}
+
+.lnhght115 {
+  line-height: 1.15em;
+}
+
+.lnhght125 {
+  line-height: 1.25em;
+
+}
+
+.lnhght15 {
+  line-height: 1.5em;
+}
+
+.lnhght175 {
+  line-height: 1.75em;
+}
+
+.lnhght20 {
+  line-height: 2em;
+}
+
+.menuweight {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.fw300 {
+  font-weight: 300;
+}
+
+.fw500 {
+  font-weight: 500;
+}
+
+.fw600 {
+  font-weight: 600;
+}
+
+.fw700 {
+  font-weight: 700;
+}
+
+.wrapit {
+  margin: 0 auto;
+}
+
+.wrapfit {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+#ShowMethodButton, .smb {
+margin:1em inherit;
+}
+
+hr.new2, hr {
+  border: 0;
+  border-top: 1px solid #76a7d8;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--content-max);
+  width: var(--content-width);
+}
+
+.tbm1525 {
+    margin-top: 1.5em!important;
+    margin-bottom: 2.5em!important;
+}
+
+
+/* make all short-answer textareas fluid and respect their container */
+.ShortAnswerBox {
+  width: 100%;         /* fill the available width */
+  max-width: 100%;     /* never exceed the parent’s width */
+  box-sizing: border-box; /* include padding/border in that width */
+  overflow-wrap: break-word; /* wrap long words if needed */
+  margin-top: 2em;
+}
+
+
+
+
+
+@charset "utf-8";
+
+:root {
+  --content-width: 80%;
+  /* fallback for small screens  */
+  --content-max: 1075px;
+  /* hard cap for large screens */
+}
+
+.boxlist5,
+.boxlist5t,
+.boxlist6,
+.boxlist7,
+.boxlist8,
+.boxlist9,
+.boxlist10,
+.boxlist11,
+.boxlist12,
+.boxlist13,
+.boxlist14,
+.boxlist15 {
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px #b3b3b3;
+  display: block;
+  height: fit-content;
+  margin: 1em auto;
+  max-width: var(--content-max);
+  padding: 1em;
+  text-align: left;
+  width: var(--content-width);
+}
+
+hr.new2, hr {
+  border: 0;
+  border-top: 1px solid #76a7d8;
+  margin: 10px auto;
+  max-width: var(--content-max);
+  width: var(--content-width);
+}
+
+
+hr.new2{
+  border: 0;
+  box-sizing: border-box;   /* include the 1 px border in width */
+  border-top: 1px solid slategray;
+  margin: 10px auto;        /* auto left/right keeps it centred */
+  max-width: var(--content-max);
+  width: var(--content-width);
+}
+
+
+
+# for dict
+			.FuncButton,
+			.FuncButtonDown,
+			.FuncButtonUp,
+			.FeedbackOKButton,
+			.ExerciseSubtitle {
+				/* NEW */
+				font-size: 1rem !important;
+				line-height: 1.5em;
+				/* NEW */
+			}
+
+
+body {
+	background-color: #C0C0C0;
+	color: #000000;
+	font-family: 'Open Sans', 'Segoe UI', Geneva, Verdana, Tahoma, Arial, sans-serif !important;
+	font-size: inherit;
+	line-height: inherit;
+	margin: 0 auto;
+	padding-left: 5%;
+	padding-right: 5%;
+}
+
+
+
+
+
+.ExerciseTitle {
+	color: #000000;
+	font-size: -webkit-calc(20px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+	font-size: -moz-calc(20px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+	font-size: calc(20px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+    line-height: 0;
+	margin: 0 auto .5em auto;
+}
+
+
+.ExerciseTitle, h1, h2 {
+	color: #000000;
+	font-size: calc(20px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+    line-height: 0;
+	margin: 1em auto 2em auto;
+}
+
+
+.ExerciseTitle {
+	color: #000000;
+	line-height: 0;
+	margin: 1em auto 2em auto;
+}
+
+
+
+/* make all short-answer textareas fluid and respect their container */
+.ShortAnswerBox {
+  width: 100%;         /* fill the available width */
+  max-width: 100%;     /* never exceed the parent’s width */
+  box-sizing: border-box; /* include padding/border in that width */
+  overflow-wrap: break-word; /* wrap long words if needed */
+  margin-top: 2em;
+}
+
+
+
+
+-<audio controls controlslist="nodownload noplaybackrate" …>
++<audio controls oncontextmenu="return false" …>
+
+
+<audio class="audio-player" controls oncontextmenu="return false">
+  <source src="…/b2d02803.mp3" type="audio/mp3">
+</audio>
+<script>
+document.querySelectorAll('.audio-player').forEach(audio => {
+  // only if the API exists
+  if (audio.controlsList && audio.controlsList.add) {
+    audio.controlsList.add('nodownload', 'noplaybackrate');
+  }
+});
+</script>
+
+
+
+   /* Chrome/Edge: hide the download button */
+   audio::-internal-media-controls-download-button {
+     display: none;
+   }
+   /* Firefox (future) or other engines may need different selectors */
+   ```

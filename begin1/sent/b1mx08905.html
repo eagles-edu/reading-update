@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>404 Not Found</title>
+<style><!--
+.style3 {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  color: #CC0000;
+}
+.s {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  font-weight: normal;
+  color: #000000;
+  line-height: 18px;
+  text-align: center;
+  border: 1px solid #CCCCCC;
+  background-color: #FFFFEC;
+}
+body {
+  background-color: #FFFFFF;
+  margin-top: 100px;
+}
+-->.centxt {
+  text-align: center;
+}
+
+.cenmar {
+  text-align: center;
+}
+
+.cenmar a {
+  display: inline-block;
+}
+
+.dblock {
+display: block;
+}
+
+.dinlineblk {
+  display: inline-block;
+}
+
+.center-container {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.nodisplay {
+display: none
+}
+
+body {
+padding-top: 1em;
+}
+
+ /*   new clamp sys*/
+
+         /* Shared interpolation: (100vw - 300px) / 1300  ==>  0 at 300px viewport, 1 at 1600px viewport */
+
+         /* h1: 22px → 28px */
+         h1,
+         .ExerciseTitle,
+         .Titles {
+             font-size: clamp(20px,
+                     calc(22px + (28 - 20) * ((100vw - 300px) / 1300)),
+                     28px);
+             line-height: normal;
+         }
+
+         /* textres13: 22px → 28px */
+         .textres13 {
+             font-size: clamp(22px,
+                     calc(22px + (28 - 22) * ((100vw - 300px) / 1300)),
+                     28px);
+             line-height: normal;
+         }
+
+         /* textres20 & #MainDiv: 20px → 28px (was 20→26 then jump; now seamless) */
+         .textres20 {
+             font-size: clamp(20px,
+                     calc(20px + (28 - 20) * ((100vw - 300px) / 1300)),
+                     28px);
+             line-height: normal;
+         }
+
+         /* textres12: 18px → 24px */
+         .textres12,
+         div.ClozeBody,
+         #MainDiv,
+         .QuestionText,
+		 p {
+             font-size: clamp(18px,
+                     calc(18px + (24 - 18) * ((100vw - 300px) / 1300)),
+                     24px);
+             line-height: 1.25em;
+         }
+
+         /* textres11 + instructions + nav buttons: 17.7px → 25px (enforce floor 17.7) */
+         .textres11,
+         #Instructions,
+         .NavButton,
+         .NavButtonDown,
+         .NavButtonUp {
+             font-size: clamp(17.7px,
+                     calc(17.7px + (25 - 17.7) * ((100vw - 300px) / 1300)),
+                     25px);
+             line-height: normal;
+         }
+
+         /* Optional: if you want consistent button sizing even when user zooms further,
+         you could add a max-width breakpoint tweak, but usually clamp alone suffices. */
+.wrapfit {
+   width: fit-content;
+   margin: 0 auto;
+}
+
+.wrapit {
+   margin: 0 auto;
+}
+
+</style>
+
+<link rel="icon" href="../../pics/favicon.png">
+</head>
+<body>
+<div class="cenmar">
+<h2><span class="style3">404 Not Found</span></h2>
+<table>
+<tbody><tr><td class="s">The requested URL was not found on this server.</td></tr></tbody>
+</table>
+</div>
+</body>
+</html>

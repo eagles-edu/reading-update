@@ -1,0 +1,486 @@
+<div id="Instructions" class="instruct">
+
+:root {
+    --strFontFace: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	--strFontSize: inherit;
+	--strTextColor: #000000;
+	--strTextColorHov: #ffffff;
+	--strTextColorCor: #007100;
+	--strTitleColor: #000000;
+	--strFuncLightColor: #ffffff;
+	--strFuncShadeColor: #7d7d7d;
+	--strLinkColor: #0000FF;
+	--strVLinkColor: #0000CC;
+	--strNavBarColor: #000000;
+	--strNavLightColor: #7f7f7f;
+	--strNavShadeColor: #000000;
+	--strNavTextColor: #ffffff;
+	--strPageBGColor: #C0C0C0;
+	--strExBGColor: #FFFFFF;
+	--strButtBGColor: #FFEBCD;
+	--strButtBGColorHov: #3c63ff;
+	--strDivFeedback: #87cefa;
+	--content-width: 80%;
+	--content-max: 1280px;
+}
+
+.FuncButton {
+	text-align: center;
+	border-style: solid;
+
+	border-left-color: var(--strFuncLightColor);
+	border-top-color: var(--strFuncLightColor);
+	border-right-color: var(--strFuncShadeColor);
+	border-bottom-color:  var(--strFuncShadeColor);
+	
+	color: var(--strTextColor);
+	background-color: var(--strButtBGColor);
+
+	border-width: 2px;
+	padding: 3px 6px 3px 6px;
+	cursor: pointer;
+}
+
+.FuncButtonUp {
+	text-align: center;
+	border-style: solid;
+
+	border-left-color: var(--strFuncLightColor);
+	border-top-color: var(--strFuncLightColor);
+	border-right-color: var(--strFuncShadeColor);
+	border-bottom-color: var(--strFuncShadeColor);
+
+	background-color:var(--strButtBGColorHov);
+	color: var(--strTextColorHov);
+
+	border-width: 2px;
+	padding: 3px 6px 3px 6px;
+	cursor: pointer;
+}
+
+.FuncButtonDown {
+	text-align: center;
+	border-style: solid;
+
+	border-left-color: var(--strFuncShadeColor);
+	border-top-color: var(--strFuncShadeColor);
+	border-right-color: var(--strFuncLightColor);
+	border-bottom-color: var(--strFuncLightColor);
+
+	background-color:var(--strButtBGColorHov);
+	color: var(--strTextColorHov);
+
+	border-width: 2px;
+	padding: 3px 6px 3px 6px;
+	cursor: pointer;
+}
+
+/*new dict begin6*/
+.NavButton {
+	border-style: solid;
+	border-radius: 0.5em;
+	padding: 0.5em;
+	min-width: 3em;
+	border-left-color: var(--strNavLightColor);
+	border-top-color: var(--strNavLightColor);
+	border-right-color: var(--strNavShadeColor);
+	border-bottom-color: var(--strNavShadeColor);
+	background-color: var(--strNavBarColor);
+	color: var(--strNavTextColor);
+	border-width: 1pt;
+	cursor: pointer;
+	box-shadow: 0.2em 0.3em 0.2em var(--strNavShadeColor);
+}
+
+.NavButton:active {
+	box-shadow: none;
+}
+
+.NavButton:hover {
+	color: var(--strNavBarColor);
+	background-color: var(--strNavTextColor);
+}
+/*new dict begin6*/
+
+button {
+	display: inline;
+	font-family: var(--strTextColor);
+	font-size: calc(17px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+	margin: 3px;
+}
+
+.smb,
+#ShowMethodButton {
+	display: inline-block;
+	font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+	margin-bottom: 1em;
+	margin-top: 1em;
+}
+
+.FuncButton, .FuncButtonDown, .FuncButtonUp, .FeedbackOKButton {
+               /* NEW */
+	font-size: calc(17px + (24 - 17) * ((100vw - 300px) / (1600 - 300)));
+	line-height: 1.5em;
+     
+}
+
+p {
+	font-family: var(--strFontFace);
+	font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+	margin: 0 0 1em 0;
+	text-align: left;
+	text-indent: .35in;
+}
+			
+			/* make all short-answer textareas fluid and respect their container */
+.ShortAnswerBox {
+	width: 100%;
+         /* fill the available width */
+	max-width: 100%;
+     /* never exceed the parent’s width */
+	box-sizing: border-box;
+ /* include padding/border in that width */
+	overflow-wrap: break-word;
+ /* wrap long words if needed */
+	margin-top: 2em;
+}
+
+/*     or       */
+
+.ShortAnswerBox {
+	width: 100%;
+         /* fill the available width */
+	max-width: 400px;
+     /* never exceed the parent’s width */
+	box-sizing: border-box;
+ /* include padding/border in that width */
+	overflow-wrap: break-word;
+ /* wrap long words if needed */
+	margin-top: 2em;
+}
+
+.GapBox {
+	padding: 2px;
+	font-size: 1.1em;
+}
+
+.centxt, .cent {
+	text-align: center;
+}
+
+.cenmar {
+	text-align: center;
+}
+
+.cenmar a {
+	display: inline-block;
+}
+
+.dblock, .block {
+	display: block;
+}
+
+.dinlineblk, .inlineblk {
+	display: inline-block;
+}
+
+.center-container {
+	width: fit-content;
+	margin: 0 auto;
+}
+
+.flextxtleft {
+	display: flex;
+	justify-content: left;
+}
+
+.flextxtcen, .flextxtcent {
+	display: flex;
+	justify-content: center;
+}
+
+.flextxtright, .flextxtrght {
+	display: flex;
+	justify-content: right;
+}
+
+.fw500 {
+	font-weight: 500;
+}
+
+p.rghtalgn,
+.rghtalgn {
+	text-align: right;
+}
+
+p.centalgn,
+.centalgn {
+	text-align: center;
+}
+
+p.leftalgn,
+.leftalgn {
+	text-align: left;
+}
+
+.nodisplay {
+	display: none;
+}
+
+body {
+	padding-top: 1em;
+}
+
+.smb,
+#ShowMethodButton {
+	display: inline-block;
+	font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+	margin-bottom: 1em;
+	margin-top: 1em;
+}
+
+hr.new2,
+hr {
+	border: 0;
+	border-top: 1px solid slategray;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: var(--content-max);
+	width: var(--content-width);
+}
+
+.vizoff {
+	visibility: hidden;
+}
+
+.vizon {
+	visibility: visible;
+}
+
+ol .QuizQuestions, .lstnosty {
+	list-style-type: none;
+}
+
+
+/* ≤ 480 px: let page grow to 90 % so 5 % paddings still fit inside 320 px */
+@media (max-width: 480px) {
+	body {
+		width: 90vw;
+                /* keeps full viewable column */;
+	}
+
+	.instruct {
+		font-size: calc(17px + (24 - 17) * ((100vw - 300px) / (1600 - 300)));
+        /* NEW */
+		line-height: 1.5;
+	}
+}
+
+/* ≥ 1000 px: enlarge desktop text (matches original “mx” pages) */
+@media screen and (min-width: 1000px) {
+	body {
+                      /* NEW */
+		font-size: 1.5em;
+         /* NEW */
+		line-height: inherit;
+     /* NEW */;
+	}
+
+	.ExerciseTitle {
+            /* NEW */
+		font-size: 1.5em;
+        /* NEW */
+		line-height: inherit;
+     /* NEW */;
+	}
+
+	.instruct {
+		font-size: calc(18px + (24 - 17) * ((100vw - 300px) / (1600 - 300)));
+        /* NEW */
+		line-height: 1.5;
+	}
+
+	.ClozeBody {
+               /* NEW */
+		font-size: 1.5em;
+         /* NEW */
+		line-height: 2em;
+         /* NEW */;
+	}
+
+	p {
+                         /* NEW */
+		font-size: 1.5em;
+         /* NEW */
+		line-height: 1.5em;
+       /* NEW */;
+	}
+
+	.FuncButton, .FuncButtonDown, .FuncButtonUp, .FeedbackOKButton {
+               /* NEW */
+		font-size: calc(17px + (24 - 17) * ((100vw - 300px) / (1600 - 300)));
+		line-height: 1.5em;
+       /* NEW */;
+	}
+}
+
+/* === Audio Player Sizing === */
+.audio-player {
+                /* NEW */
+	width: 100%;
+                 /* fluid within parent */
+	max-width: 280px;
+            /* desktop cap */;
+}
+
+@media (max-width: 480px) {
+    /* NEW */
+	.audio-player {
+		max-width: 180px;
+          /* extra‑small phones */;
+	}
+}
+
+/* === Native Media‑Controls Polishing === */
+audio,
+.audiox {
+	display: inline-block !important;
+	margin: 0 auto .5em auto !important;
+}
+
+audio::-internal-media-controls-download-button {
+	display: none;
+}
+
+audio::-webkit-media-controls-enclosure {
+	overflow: hidden;
+            /* hide the over‑wide enclosure */;
+}
+
+audio::-webkit-media-controls-panel {
+	width: 100%;
+                 /* stretch to player width */
+	background-color: #87CEFA;
+   /* solid fallback */
+	background-color: rgba(135, 206, 250, .5);
+ /* sky‑blue 50 % */;
+}
+
+.wrapit {
+	margin: 0 auto;
+}
+
+.wrapfit {
+	width: fit-content;
+	margin: 0 auto;
+}
+
+
+
+         /* textres12: 18px → 24px */
+         .textres12,
+         div.ClozeBody,
+         #MainDiv,
+         .QuestionText {
+             font-size: clamp(18px,
+                     calc(18px + (24 - 18) * ((100vw - 300px) / 1300)),
+                     24px);
+             line-height: 1.25em;
+         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ≤ 480 px: let page grow to 90 % so 5 % pad
+
+/*   new clamp sys*/
+
+/* Shared interpolation: (100vw - 300px) / 1300  ==>  0 at 300px viewport, 1 at 1600px viewport */
+
+/* h1: 22px → 28px */
+h1,
+.ExerciseTitle {
+  font-size: clamp(22px,
+      calc(22px + (28 - 22) * ((100vw - 300px) / 1300)),
+      28px);
+  line-height: normal;
+}
+
+/* textres13: 22px → 28px */
+.textres13 {
+  font-size: clamp(22px,
+      calc(22px + (28 - 22) * ((100vw - 300px) / 1300)),
+      28px);
+  line-height: normal;
+}
+
+/* textres20 & #MainDiv: 20px → 28px (was 20→26 then jump; now seamless) */
+.textres20 {
+  font-size: clamp(19px,
+      calc(19px + (28 - 19) * ((100vw - 300px) / 1300)),
+      25px);
+  line-height: 1.75em;
+}
+
+/* textres12: 18px → 24px */
+.textres12,
+div.ClozeBody,
+#MainDiv,
+.QuestionText,
+p {
+  font-size: clamp(18px,
+      calc(18px + (24 - 18) * ((100vw - 300px) / 1300)),
+      24px);
+  line-height: 2em;
+}
+
+/* textres11 + instructions + nav buttons: 17.7px → 25px (enforce floor 17.7) */
+.textres11,
+#Instructions,
+.NavButton,
+.NavButtonDown,
+.NavButtonUp,
+.ExerciseSubtitle {
+  font-size: clamp(17.7px,
+      calc(17.7px + (25 - 17.7) * ((100vw - 300px) / 1300)),
+      25px);
+  line-height: normal;
+}
+
+/* Optional: if you want consistent button sizing even when user zooms further,
+     you could add a max-width breakpoint tweak, but usually clamp alone suffices. */
+
+.wrapit {
+  margin: 0 auto;
+}
+
+.wrapfit {
+  width: fit-content;
+  margin: 0 auto;
+}
+/* make all short-answer textareas fluid and respect their container */
+.ShortAnswerBox {
+  width: 100%;         /* fill the available width */
+  max-width: 100%;     /* never exceed the parent’s width */
+  box-sizing: border-box; /* include padding/border in that width */
+  overflow-wrap: break-word; /* wrap long words if needed */
+  margin-top: 2em;
+}

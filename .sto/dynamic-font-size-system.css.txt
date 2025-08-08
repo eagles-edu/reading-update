@@ -1,0 +1,363 @@
+@media screen and (min-width: 320px) and (max-width: 580px) {
+
+    .textres11,
+    #Instructions,
+    .NavButton,
+    .NavButtonDown,
+    .NavButtonUp {
+        font-size: 17.7px;
+        line-height: normal;
+    }
+}
+
+@media screen and (min-width: 581px) and (max-width: 1000px) {
+
+    h1,
+    .ExerciseTitle,
+    title {
+        font-size: -webkit-calc(22px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: -moz-calc(22px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: calc(22px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        line-height: normal;
+    }
+
+    .textres13 {
+        font-size: -webkit-calc(22px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: -moz-calc(22px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: calc(22px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        line-height: normal;
+    }
+
+    .textres20,
+    #MainDiv {
+        font-size: -webkit-calc(20px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: -moz-calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: calc(20px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        line-height: normal;
+    }
+
+    .textres12 {
+        font-size: -webkit-calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: -moz-calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        line-height: 1.75em;
+    }
+
+    .textres11,
+    #Instructions,
+    .NavButton,
+    .NavButtonDown,
+    .NavButtonUp {
+        font-size: -webkit-calc(14px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: -moz-calc(14px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: calc(14px + (24 - 2) * ((100vw - 300px) / (1600 - 300)));
+        line-height: normal;
+    }
+}
+
+@media screen and (min-width: 1001px) {
+    .textres13 {
+        font-size: 1.75em;
+        line-height: normal;
+    }
+
+    .textres20,
+    #MainDiv {
+        font-size: 1.75em;
+        line-height: normal;
+    }
+
+    .textres12 {
+        font-size: 1.5em;
+        line-height: 1.5em;
+    }
+
+    .textres11,
+    #Instructions,
+    .NavButton,
+    .NavButtonDown,
+    .NavButtonUp {
+        font-size: 25px;
+        line-height: normal;
+    }
+
+    h1 {
+        font-size: 1.75em;
+    }
+}
+
+
+
+
+
+@media screen and (max-width: 1000px) {
+
+    h1 {
+        font-size: -webkit-calc(22px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: -moz-calc(22px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: calc(22px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        line-height: normal;
+    }
+
+    .textres13 {
+        font-size: -webkit-calc(22px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: -moz-calc(22px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: calc(22px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        line-height: normal;
+    }
+
+    .textres20,
+    #MainDiv {
+        font-size: -webkit-calc(20px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: -moz-calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: calc(20px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        line-height: normal;
+    }
+
+    .textres12 {
+        font-size: -webkit-calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: -moz-calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        line-height: 1.75em;
+    }
+
+    .textres11,
+    #Instructions,
+    .NavButton,
+    .NavButtonDown,
+    .NavButtonUp {
+        font-size: -webkit-calc(13px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: -moz-calc(13px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+        font-size: calc(13px + (24 - 2) * ((100vw - 300px) / (1600 - 300)));
+        line-height: normal;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .textres13 {
+        font-size: 1.75em;
+        line-height: normal;
+    }
+
+    .textres20,
+    #MainDiv {
+        font-size: 1.75em;
+        line-height: normal;
+    }
+
+    .textres12 {
+        font-size: 1.5em;
+        line-height: 1.5em;
+    }
+
+    .textres11,
+    #Instructions,
+    .NavButton,
+    .NavButtonDown,
+    .NavButtonUp {
+        font-size: 1.25em;
+        line-height: normal;
+    }
+
+    h1 {
+        font-size: 1.75em;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/*   new clamp sys*/
+
+/* Shared interpolation:
+   (100vw - 300px) / 1300  ==>  0 at 300px viewport, 1 at 1600px viewport */
+
+/* h1: 22px → 28px */
+h1,
+.ExerciseTitle,
+title {
+    font-size: clamp(20px,
+            calc(22px + (28 - 20) * ((100vw - 300px) / 1300)),
+            28px);
+    line-height: normal;
+}
+
+/* textres13: 22px → 28px */
+.textres13 {
+    font-size: clamp(22px,
+            calc(22px + (28 - 22) * ((100vw - 300px) / 1300)),
+            28px);
+    line-height: normal;
+}
+
+/* textres20 & #MainDiv: 20px → 28px (was 20→26 then jump; now seamless) */
+.textres20,
+#MainDiv {
+    font-size: clamp(20px,
+            calc(20px + (28 - 20) * ((100vw - 300px) / 1300)),
+            28px);
+    line-height: normal;
+}
+
+/* textres12: 18px → 24px */
+.textres12,
+.ClozeBody,
+p {
+    font-size: clamp(18px,
+            calc(18px + (24 - 18) * ((100vw - 300px) / 1300)),
+            24px);
+    line-height: 1.5em;
+}
+
+/* textres11 + instructions + nav buttons: 17.7px → 25px (enforce floor 17.7) */
+.textres11,
+#Instructions,
+.NavButton,
+.NavButtonDown,
+.NavButtonUp {
+    font-size: clamp(17.7px,
+            calc(17.7px + (25 - 17.7) * ((100vw - 300px) / 1300)),
+            25px);
+    line-height: normal;
+}
+
+/* Optional: if you want consistent button sizing even when user zooms further,
+     you could add a max-width breakpoint tweak, but usually clamp alone suffices. */
+
+    body {
+             padding-top: 1em;
+         }
+
+    /* for cloze */
+
+         /*   new clamp sys*/
+
+         /* Shared interpolation: (100vw - 300px) / 1300  ==>  0 at 300px viewport, 1 at 1600px viewport */
+
+         /* h1: 22px → 28px */
+         h1,
+         .ExerciseTitle,
+         .Titles
+          {
+             font-size: clamp(20px,
+                     calc(22px + (28 - 20) * ((100vw - 300px) / 1300)),
+                     28px);
+             line-height: normal;
+         }
+
+         /* textres13: 22px → 28px */
+         .textres13 {
+             font-size: clamp(22px,
+                     calc(22px + (28 - 22) * ((100vw - 300px) / 1300)),
+                     28px);
+             line-height: normal;
+         }
+
+         /* textres20 & #MainDiv: 20px → 28px (was 20→26 then jump; now seamless) */
+         .textres20 {
+             font-size: clamp(20px,
+                     calc(20px + (28 - 20) * ((100vw - 300px) / 1300)),
+                     28px);
+             line-height: normal;
+         }
+
+         /* textres12: 18px → 24px */
+         .textres12,
+         div.ClozeBody,
+         #MainDiv {
+             font-size: clamp(18px,
+                     calc(18px + (24 - 18) * ((100vw - 300px) / 1300)),
+                     24px);
+             line-height: 2em;
+         }
+
+         /* textres11 + instructions + nav buttons: 17.7px → 25px (enforce floor 17.7) */
+         .textres11,
+         #Instructions,
+         .NavButton,
+         .NavButtonDown,
+         .NavButtonUp {
+             font-size: clamp(17.7px,
+                     calc(17.7px + (25 - 17.7) * ((100vw - 300px) / 1300)),
+                     25px);
+             line-height: normal;
+         }
+
+         /* Optional: if you want consistent button sizing even when user zooms further,
+     you could add a max-width breakpoint tweak, but usually clamp alone suffices. */
+
+
+
+
+
+
+
+
+
+
+         /* for cloze */
+
+         /*   new clamp sys*/
+
+         /* Shared interpolation: (100vw - 300px) / 1300  ==>  0 at 300px viewport, 1 at 1600px viewport */
+
+         /* h1: 22px → 28px */
+         h1,
+         .ExerciseTitle,
+         .Titles {
+             font-size: clamp(20px,
+                     calc(22px + (28 - 20) * ((100vw - 300px) / 1300)),
+                     28px);
+             line-height: normal;
+         }
+
+         /* textres13: 22px → 28px */
+         .textres13 {
+             font-size: clamp(22px,
+                     calc(22px + (28 - 22) * ((100vw - 300px) / 1300)),
+                     28px);
+             line-height: normal;
+         }
+
+         /* textres20 & #MainDiv: 20px → 28px (was 20→26 then jump; now seamless) */
+         .textres20 {
+             font-size: clamp(20px,
+                     calc(20px + (28 - 20) * ((100vw - 300px) / 1300)),
+                     28px);
+             line-height: normal;
+         }
+
+         /* textres12: 18px → 24px */
+         .textres12,
+         div.ClozeBody,
+         #MainDiv,
+         .QuestionText,
+		 p {
+             font-size: clamp(18px,
+                     calc(18px + (24 - 18) * ((100vw - 300px) / 1300)),
+                     24px);
+             line-height: 1.25em;
+         }
+
+         /* textres11 + instructions + nav buttons: 17.7px → 25px (enforce floor 17.7) */
+         .textres11,
+         #Instructions,
+         .NavButton,
+         .NavButtonDown,
+         .NavButtonUp {
+             font-size: clamp(17.7px,
+                     calc(17.7px + (25 - 17.7) * ((100vw - 300px) / 1300)),
+                     25px);
+             line-height: normal;
+         }
+
+         /* Optional: if you want consistent button sizing even when user zooms further,
+         you could add a max-width breakpoint tweak, but usually clamp alone suffices. */
+
+
