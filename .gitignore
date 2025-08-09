@@ -4,7 +4,7 @@ _vti_cnf/
 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/
 AboutPageAssets/
 node_modules/
-robot/
+robot/**
 dwsync*.xml
 # *.mp3
 # Built Visual Studio Code Extensions
