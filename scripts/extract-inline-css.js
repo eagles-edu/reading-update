@@ -1,538 +1,430 @@
 #!/usr/bin/env node
 /**
- * Bulk inline CSS → stylesheet (per-folder) with dry-run, logs, backup, prompts.
+ * Inline CSS extractor -> stylesheet classes (per-dir).
+ * - Processes .html/.htm in the **current directory only** (not subdirs)
+ * - Leaves inline rules that contain `display: none`
+ * - Writes/updates css/inline.css next to each HTML file (one per directory)
+ * - Dry-run by default; use --apply to write changes
+ * - Backs up all HTML/HTM in current dir to backup_inline_<ts>.zip before apply
+ * - Logs to console + writes logs to inline_dry_run.log / inline_apply.log
  *
- * Defaults:
- *   - Scope: current directory only (HTML/HTM files). Use --recursive for subfolders.
- *   - Skip extracting inline styles that match any skip pattern (default: /display:\s*none/i).
- *   - Generate one class per unique inline style block (composite), with descriptive slug + short hash.
- *   - Write extracted CSS to css/inline.css in the same folder as each HTML file.
- *   - Dry-run first (no changes), print + write logs. Then prompt before applying.
- *   - On apply, zip all HTML files in scope before writing changes.
- *
- * CLI:
- *   --recursive         Walk subdirectories
- *   --atomic            Generate atomic classes (one per declaration) instead of composite classes
- *   --skip="regex|..."  Extra skip patterns (pipe-separated). Default adds /display:\s*none/i
- *   --apply             Apply without interactive prompt (still does a dry-run log first)
- *   --dry-run           Force dry-run (default)
- *
- * Logs:
- *   logs/inline-extract-YYYYMMDD-HHMMSS.dryrun.log
- *   logs/inline-extract-YYYYMMDD-HHMMSS.apply.log
- *
- * Backup (on apply):
- *   backups/inline-css-backup-YYYYMMDD-HHMMSS.zip
+ * Requires: cheerio, archiver, glob@7
  */
 
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
-const readline = require('readline');
-const glob = require('glob');
-const cheerio = require('cheerio');
 const archiver = require('archiver');
+const cheerio = require('cheerio');
 
-const CWD = process.cwd();
+// ---------------- CLI ----------------
 const args = process.argv.slice(2);
+const APPLY = args.includes('--apply');
+const DRY = !APPLY;
+const LOG_ONLY = args.includes('--log-only'); // won’t prompt (still dry unless --apply)
 
-// ==== Flags ====
-const RECURSIVE = args.includes('--recursive');
-const ATOMIC = args.includes('--atomic');
-const FORCE_APPLY = args.includes('--apply');
-const FORCE_DRYRUN = args.includes('--dry-run');
+// CHANGE: clarify names. SAFE_WRITES is just the save mechanism (temp+rename). Not a class mode.
+const SAFE_WRITES = true; // safe file writes (temp file + rename)
 
-// ==== Skip patterns (display:none by default) ====
-const userSkipArg = args.find(a => a.startsWith('--skip='));
-const SKIP_REGEXES = [
-  /display\s*:\s*none/i,
-];
-if (userSkipArg) {
-  // --skip="regex|regex2"
-  const raw = userSkipArg.split('=').slice(1).join('=').trim().replace(/^"|"$/g, '');
-  raw.split('|').map(s => s.trim()).filter(Boolean).forEach(pat => {
-    try {
-      SKIP_REGEXES.push(new RegExp(pat, 'i'));
-    } catch (e) {
-      console.warn(`WARN: Bad --skip pattern ignored: ${pat}`);
-    }
+// CHANGE: explicit class mode label for the banner (we are using composite class names)
+const CLASS_MODE = 'composite'; // options in future could be 'composite' or 'atomic-classes'
+
+const RUN_DIR = process.cwd();
+
+// ---- helpers: IO ----
+function readFile(p) { return fs.readFileSync(p, 'utf8'); }
+function writeFileAtomic(p, content) {
+  const tmp = p + '.tmp';
+  fs.writeFileSync(tmp, content, 'utf8');
+  fs.renameSync(tmp, p);
+}
+function ensureDir(p) {
+  if (!fs.existsSync(p)) fs.mkdirSync(p, { recursive: true });
+}
+function zipBackupHtml(dir) {
+  const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const outPath = path.join(dir, `backup_inline_${stamp}.zip`);
+  const output = fs.createWriteStream(outPath);
+  const archive = archiver('zip', { zlib: { level: 9 } });
+  return new Promise((resolve, reject) => {
+    output.on('close', () => resolve(outPath));
+    archive.on('error', reject);
+    archive.pipe(output);
+    fs.readdirSync(dir)
+      .filter(f => /\.(html?|HTML?)$/.test(f))
+      .forEach(f => archive.file(path.join(dir, f), { name: f }));
+    archive.finalize();
   });
 }
 
-// ==== Discovery ====
-const GLOB = RECURSIVE ? '**/*.htm?(l)' : '*.htm?(l)';
-const GLOB_IGNORE = ['**/node_modules/**', '**/.git/**'];
+// ---------------- CSS value tokenization & class-name building ----------------
 
-// ==== Output & logs ====
-const TS = new Date().toISOString().replace(/[-:]/g, '').replace(/\..+/, '').replace('T', '-');
-const LOG_DIR = path.join(CWD, 'logs');
-const BK_DIR  = path.join(CWD, 'backups');
-fs.mkdirSync(LOG_DIR, { recursive: true });
-fs.mkdirSync(BK_DIR, { recursive: true });
+// Maps property to a short slug (kept simple; extend as needed)
+const PROP_SLUG = {
+  'line-height': 'lh',
+  'text-indent': 'text-indent',
+  'margin': 'mar',
+  'padding': 'pad',
+  'box-shadow': 'bsh',
+  'font-weight': 'w',
+  'color': 'c',
+  'background-color': 'bgc',
+  'background': 'bg',
+  'border-radius': 'br',
+  'letter-spacing': 'ls',
+  'word-spacing': 'ws'
+};
 
-const DRYRUN_LOG = path.join(LOG_DIR, `inline-extract-${TS}.dryrun.log`);
-const APPLY_LOG  = path.join(LOG_DIR, `inline-extract-${TS}.apply.log`);
-
-// ==== Helpers ====
-function hash(text, len = 6) {
-  return crypto.createHash('md5').update(String(text)).digest('hex').slice(0, len);
-}
-function normDecls(styleText) {
-  // Clean weird cases like "margin; 0 auto" → "margin: 0 auto"
-  let txt = String(styleText || '').trim();
-  // unify whitespace, kill trailing semicolons
-  txt = txt.replace(/\s+/g, ' ').replace(/;+\s*$/, '');
-
-  // split by ;, parse prop:value
-  const raw = txt.split(';').map(s => s.trim()).filter(Boolean);
-  const decls = [];
-  for (let d of raw) {
-    let idx = d.indexOf(':');
-    if (idx === -1) {
-      const semi = d.indexOf(';');
-      if (semi !== -1) idx = semi;
-    }
-    if (idx === -1) continue;
-    const prop = d.slice(0, idx).trim().toLowerCase();
-    const val  = d.slice(idx + 1).trim();
-    if (prop && val) decls.push({ prop, val });
-  }
-  decls.sort((a,b) => a.prop.localeCompare(b.prop));
-  return decls;
-}
-function shouldSkip(styleText) {
-  if (!styleText) return false;
-  return SKIP_REGEXES.some(r => r.test(styleText));
-}
-function tokenizeValue(val) {
-  let v = val.toLowerCase().trim();
-  v = v.replace(/#/g, '').replace(/\s+/g, '-');
-  v = v.replace(/px/g, '');
-  v = v.replace(/\(.*?\)/g, '');
-  v = v.replace(/[^a-z0-9%.-]+/g, '');
-  v = v.replace(/\bauto\b/g, 'a');
-  v = v.replace(/\bbold\b/g, 'bold');
-  v = v.replace(/\bnormal\b/g, 'n');
-  return v || 'v';
-}
-function shortProp(prop) {
-  const map = {
-    'margin': 'mar',
-    'margin-left': 'ml',
-    'margin-right': 'mr',
-    'margin-top': 'mt',
-    'margin-bottom': 'mb',
-    'padding': 'pad',
-    'padding-left': 'pl',
-    'padding-right': 'pr',
-    'padding-top': 'pt',
-    'padding-bottom': 'pb',
-    'font-weight': 'w',
-    'font-size': 'fs',
-    'line-height': 'lh',
-    'color': 'c',
-    'background': 'bg',
-    'background-color': 'bgc',
-    'text-align': 'ta',
-    'display': 'd',
-    'width': 'wth',
-    'height': 'hgt',
-    'max-width': 'maxw',
-    'min-width': 'minw',
-    'max-height': 'maxh',
-    'min-height': 'minh',
-    'border': 'bd',
-    'border-radius': 'rad',
-    'letter-spacing': 'ls',
-    'word-spacing': 'ws',
+// strict sanitizer per your mapping (keep `_`; many chars drop; dot->pt; %->pct; &->amp; #->hash).
+function sanitizeValueToken(raw) {
+  const CHAR_MAP = {
+    ' ': '-', '.': 'pt', '%': 'pct',
+    '/': '', '\\': '', '+': '',
+    '&': 'amp',
+    '@': '', ':': '', ';': '', ',': '',
+    '=': '', '|': '', '~': '', '^': '',
+    '!': '', '?': '',
+    '#': 'hash',
+    '"': '', "'": '', '`': '',
+    '(': '', ')': '', '[': '', ']': '',
+    '{': '', '}': '', '<': '', '>': ''
   };
-  return map[prop] || prop.replace(/[^a-z0-9]+/g, '-');
-}
-function compositeSlug(decls, maxPieces = 4) {
-  const parts = [];
-  for (const {prop, val} of decls.slice(0, maxPieces)) {
-    const p = shortProp(prop);
-    if (p === 'w' && /^bold$/i.test(val)) {
-      parts.push('w-bold');
-    } else if (p === 'w' && /^\d+$/.test(val)) {
-      parts.push(`w${val}`);
-    } else if (p === 'mar' && /^0\s*a(uto)?$/i.test(tokenizeValue(val))) {
-      parts.push('mar-0-a');
-    } else if (p === 'pad') {
-      parts.push(`pad-${tokenizeValue(val).replace(/-/g, '-')}`);
-    } else if (p === 'c') {
-      parts.push(`c-${tokenizeValue(val)}`);
-    } else {
-      parts.push(`${p}-${tokenizeValue(val)}`);
-    }
-  }
-  const base = parts.join('_').replace(/_{2,}/g, '_').slice(0, 48);
-  return base || 'style';
-}
-function ensureHeadLink($, href) {
-  const have = $(`link[rel="stylesheet"][href="${href}"]`).length > 0;
-  if (have) return false;
-  const linkEl = `<link rel="stylesheet" href="${href}">`;
-  if ($('head').length) $('head').append('\n' + linkEl + '\n');
-  else $('html').prepend('\n<head>\n' + linkEl + '\n</head>\n');
-  return true;
-}
-function toCssRule(className, decls) {
-  const body = decls.map(d => `${d.prop}: ${d.val};`).join(' ');
-  return `.in-${className} { ${body} }`;
-}
-function atomicClassForDecl(prop, val) {
-  const p = shortProp(prop);
-  const v = tokenizeValue(val);
-  let slug = `${p}-${v}`.replace(/^-+/, '');
-  slug = slug.slice(0, 80);
-  return slug || 'decl';
-}
-function compositeClassForDecls(decls) {
-  const key = decls.map(d => `${d.prop}:${d.val}`).join(';');
-  const slug = compositeSlug(decls);
-  const h = hash(key, 6);
-  let name = `${slug}__${h}`.replace(/^-+/, '');
-  name = name.slice(0, 96);
-  return name || `style__${h}`;
+
+  let s = String(raw);
+
+  // normalize whitespace to single spaces first
+  s = s.trim().replace(/\s+/g, ' ');
+
+  // map chars
+  s = s.replace(/[\s.%/\\+&@:;,=|~^!?#"'`()\[\]{}<>]/g, ch => CHAR_MAP[ch] ?? '');
+
+  // collapse dashes
+  s = s.replace(/-+/g, '-');
+
+  // leading minus → n (for numbers like -0.35 → n0pt35 later after dot mapping)
+  if (s.startsWith('-')) s = 'n' + s.slice(1);
+
+  // keep only [a-z0-9_-]; non-ascii → drop (we’ll map numbers/units separately)
+  s = s.toLowerCase().replace(/[^a-z0-9_-]/g, '');
+
+  // trim stray dashes
+  s = s.replace(/^-+/, '').replace(/-+$/, '');
+  return s;
 }
 
-// Per-folder CSS registry
-class FolderCss {
-  constructor(folderPath) {
-    this.folderPath = folderPath;
-    this.classes = new Map(); // key -> { name, decls }
-    this.atomic = new Map();  // "prop:val" -> className
-  }
-  addComposite(decls) {
-    const key = decls.map(d => `${d.prop}:${d.val}`).join(';');
-    if (this.classes.has(key)) return this.classes.get(key).name;
-    const name = compositeClassForDecls(decls);
-    this.classes.set(key, { name, decls });
-    return name;
-  }
-  addAtomic(prop, val) {
-    const key = `${prop}:${val}`;
-    if (this.atomic.has(key)) return this.atomic.get(key);
-    const name = atomicClassForDecl(prop, val);
-    this.atomic.set(key, name);
-    return name;
-  }
-  cssPathFor(filePath) {
-    const dir = path.dirname(filePath);
-    const cssDir = path.join(dir, 'css');
-    return { cssDir, cssFile: path.join(cssDir, 'inline.css') };
-  }
-  writeCssForFile(filePath) {
-    const { cssDir, cssFile } = this.cssPathFor(filePath);
-    fs.mkdirSync(cssDir, { recursive: true });
-    const lines = [];
-    // Composite first
-    for (const { name, decls } of this.classes.values()) {
-      lines.push(toCssRule(name, decls));
-    }
-    // Then atomic
-    for (const [key, cls] of this.atomic.entries()) {
-      const [prop, val] = key.split(':');
-      lines.push(toCssRule(cls, [{ prop, val }]));
-    }
-    const text = lines.join('\n') + (lines.length ? '\n' : '');
-    fs.writeFileSync(cssFile, text, 'utf8');
-    return cssFile;
-  }
-}
+// numeric/unit parser honoring your unit rules (., %, em/rem, px packing)
+function parseNumberUnit(token) {
+  // token examples: "12px", "0", "-0.35in", "1.2em", "150%"
+  const m = String(token).trim().match(/^(-)?(\d+(?:\.\d+)?)([a-z%]*)$/i);
+  if (!m) return { kind: 'other', raw: token };
 
-// ==== Scan ====
-function findHtmlFiles() {
-  return glob.sync(GLOB, { cwd: CWD, ignore: GLOB_IGNORE, nodir: true })
-    .map(f => path.join(CWD, f))
-    .filter(f => /\.html?$/i.test(f));
-}
+  const negative = !!m[1];
+  let num = m[2];
+  let unit = (m[3] || '').toLowerCase();
 
-function buildDryRun(files) {
-  const byFile = new Map();
-  const folders = new Map();
-  const errors = [];
-  let totalChanges = 0;
-  let totalNewClasses = 0;
+  // dot → pt in number for class token
+  num = num.replace('.', 'pt');
 
-  for (const file of files) {
-    let html;
-    try {
-      html = fs.readFileSync(file, 'utf8');
-    } catch (e) {
-      errors.push({ file, error: `read failed: ${e.message}` });
-      continue;
-    }
-    const $ = cheerio.load(html, { decodeEntities: false });
-    const changes = [];
-    const dir = path.dirname(file);
-    if (!folders.has(dir)) folders.set(dir, new FolderCss(dir));
-    const folderCss = folders.get(dir);
-
-    $('[style]').each((idx, el) => {
-      const $el = $(el);
-      const styleText = $el.attr('style') || '';
-      if (!styleText.trim()) return;
-
-      if (shouldSkip(styleText)) return;
-
-      const decls = normDecls(styleText);
-      if (!decls.length) return;
-
-      if (ATOMIC) {
-        const classNames = [];
-        for (const {prop, val} of decls) {
-          const cls = folderCss.addAtomic(prop, val);
-          classNames.push(`in-${cls}`);
-        }
-        changes.push({
-          type: 'atomic',
-          classNames,
-          removed: decls.map(d => `${d.prop}: ${d.val}`).join('; '),
-        });
-        totalChanges += decls.length;
-      } else {
-        const cls = folderCss.addComposite(decls);
-        changes.push({
-          type: 'composite',
-          className: `in-${cls}`,
-          removed: decls.map(d => `${d.prop}: ${d.val}`).join('; '),
-        });
-        totalChanges += 1;
-      }
-    });
-
-    let injected = false;
-    if (changes.length > 0) {
-      injected = !$(`link[rel="stylesheet"][href="css/inline.css"]`).length;
-    }
-
-    byFile.set(file, { changes, injectedLink: injected });
-  }
-
-  for (const f of folders.values()) {
-    totalNewClasses += f.classes.size + f.atomic.size;
-  }
-
-  const totalFiles = files.length;
-  const changedFiles = Array.from(byFile.values()).filter(v => v.changes.length > 0).length;
-  const avgChanges = changedFiles ? (totalChanges / changedFiles) : 0;
+  // map units to your abbreviations:
+  // px -> px, em -> m, rem -> rm, % -> pct, others unchanged
+  if (unit === '%') unit = 'pct';
+  else if (unit === 'em') unit = 'm';
+  else if (unit === 'rem') unit = 'rm';
+  // keep px/in/cm/mm/pt as written (pt here is CSS pt, different from dot mapping)
 
   return {
-    byFile, folders, errors,
-    totals: {
-      totalFiles, changedFiles, totalChanges, avgChanges, totalNewClasses
-    }
+    kind: 'num',
+    negative,
+    num,  // already dot→pt
+    unit  // mapped
   };
 }
 
-function renderLog(title, data) {
-  const lines = [];
-  lines.push(title);
-  lines.push('='.repeat(title.length));
-  lines.push('');
+// join a shorthand list with “unit only on first if all same unit and not mixed”
+// Applies to margin/padding/box-shadow values
+function joinShorthandValues(values) {
+  // Parse each token into {kind,num,unit,negative} or {kind:'other'}
+  const parsed = values.map(v => parseNumberUnit(v));
 
-  for (const [file, { changes, injectedLink }] of data.byFile.entries()) {
-    if (changes.length === 0) continue;
-    lines.push(file);
-    for (const ch of changes) {
-      if (ch.type === 'atomic') {
-        lines.push(`  + classes: ${ch.classNames.join(' ')}`);
-        lines.push(`    - removed: ${ch.removed}`);
+  // Determine if all numeric tokens share same non-empty unit
+  const numTokens = parsed.filter(p => p.kind === 'num');
+  const units = new Set(numTokens.map(p => p.unit));
+  const hasOnlyOneUnit = units.size === 1 && !units.has('');
+  const allSameUnit = hasOnlyOneUnit;
+
+  // If not all same unit, we must include unit on each numeric token
+  const includeEachUnit = !allSameUnit;
+
+  const parts = [];
+  let firstUnitUsed = false;
+  for (const p of parsed) {
+    if (p.kind !== 'num') {
+      // non-numeric token → sanitize (e.g., colors, keywords)
+      parts.push(sanitizeValueToken(p.raw));
+      continue;
+    }
+    const lead = p.negative ? 'n' : '';
+    if (includeEachUnit) {
+      parts.push(lead + p.num + (p.unit ? p.unit : ''));
+    } else {
+      // all numeric units same → include unit on first numeric only
+      if (!firstUnitUsed) {
+        parts.push(lead + p.num + p.unit); // first carries unit
+        firstUnitUsed = true;
       } else {
-        lines.push(`  + class: ${ch.className}`);
-        lines.push(`    - removed: ${ch.removed}`);
+        parts.push(lead + p.num); // subsequent omit unit
       }
     }
-    if (injectedLink) lines.push(`  + will add <link rel="stylesheet" href="css/inline.css">`);
-    lines.push('');
   }
-
-  if (data.errors.length) {
-    lines.push('Errors:');
-    for (const e of data.errors) lines.push(`  ! ${e.file} :: ${e.error}`);
-    lines.push('');
-  }
-
-  const t = data.totals;
-  lines.push('Stats:');
-  lines.push(`  Files (scanned): ${t.totalFiles}`);
-  lines.push(`  Files (changed): ${t.changedFiles}`);
-  lines.push(`  Conversions (sum): ${t.totalChanges}`);
-  lines.push(`  New classes: ${t.totalNewClasses}`);
-  lines.push(`  Avg changes/file (changed only): ${t.avgChanges.toFixed(2)}`);
-  lines.push('');
-  return lines.join('\n');
+  return parts.filter(Boolean).join('-');
 }
 
-function writeFileSafe(p, text) {
-  fs.mkdirSync(path.dirname(p), { recursive: true });
-  fs.writeFileSync(p, text, 'utf8');
+function tokenizeValue(prop, value) {
+  const val = String(value).trim();
+
+  // leave display:none entirely (we filter earlier too)
+  if (/^none$/i.test(val) && prop === 'display') return 'none';
+
+  // split value on whitespace for shorthands we care about
+  if (prop === 'margin' || prop === 'padding' || prop === 'box-shadow') {
+    const parts = val.split(/\s+/);
+    return joinShorthandValues(parts);
+  }
+
+  // single value: try numeric mapping first
+  const parsed = parseNumberUnit(val);
+  if (parsed.kind === 'num') {
+    const lead = parsed.negative ? 'n' : '';
+    return lead + parsed.num + (parsed.unit ? parsed.unit : '');
+  }
+
+  // fallback: sanitize (keep underscores, apply mapping)
+  return sanitizeValueToken(val);
 }
 
-function zipHtmlBackup(files, outZip) {
-  return new Promise((resolve, reject) => {
+function propSlug(prop) {
+  const p = prop.toLowerCase();
+  return PROP_SLUG[p] || sanitizeValueToken(p);
+}
+
+function makeClassName(decls) {
+  // decls: array of {prop,val}
+  const tokens = decls.map(({ prop, val }) => {
+    const p = propSlug(prop);
+    const v = tokenizeValue(prop, val);
+    return `${p}-${v}`;
+  });
+
+  const base = 'in-' + tokens.join('_'); // keep underscores between properties
+  // suffix short hash for uniqueness within file
+  const hash = shortHash(tokens.join('|'));
+  let cls = `${base}__${hash}`;
+
+  // class must not start with digit (we already prefixed with 'in-')
+  return cls;
+}
+
+// naive short hash (stable for same token set)
+function shortHash(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) {
+    h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  }
+  return h.toString(36).slice(0, 6);
+}
+
+// ---------------- HTML processing ----------------
+
+function parseStyleAttr(styleAttr) {
+  const out = [];
+  String(styleAttr).split(';').forEach(seg => {
+    if (!seg.trim()) return;
+    const m = seg.split(':');
+    if (m.length < 2) return;
+    const prop = m[0].trim().toLowerCase();
+    const val = m.slice(1).join(':').trim();
+    out.push({ prop, val });
+  });
+  return out;
+}
+
+function containsDisplayNone(styleAttr) {
+  const decls = parseStyleAttr(styleAttr);
+  return decls.some(d => d.prop === 'display' && /\bnone\b/i.test(d.val));
+}
+
+function normalizeDecls(styleAttr) {
+  const decls = parseStyleAttr(styleAttr);
+  // drop display:none entirely from extraction set (we won’t touch inline if it contains it)
+  const kept = decls.filter(d => !(d.prop === 'display' && /\bnone\b/i.test(d.val)));
+  return kept;
+}
+
+function ensureLink($, cssRelPath) {
+  // add <link rel="stylesheet" href="css/inline.css"> if missing
+  const has = $('link[rel="stylesheet"]').toArray().some(el => {
+    const href = $(el).attr('href') || '';
+    return href === cssRelPath;
+  });
+  if (!has) {
+    // try to place into <head>, else prepend to body
+    if ($('head').length) {
+      $('head').append(`\n<link rel="stylesheet" href="${cssRelPath}">`);
+    } else {
+      $('body').prepend(`<link rel="stylesheet" href="${cssRelPath}">\n`);
+    }
+    return true;
+  }
+  return false;
+}
+
+// ---------------- Runner ----------------
+
+(async function run() {
+  const files = fs.readdirSync(RUN_DIR).filter(f => /\.(html?|HTML?)$/.test(f));
+  const logLines = [];
+  const changedFiles = new Set();
+  let sumConversions = 0;
+  let newClasses = 0;
+  let errors = 0;
+
+  if (!DRY) {
     try {
-      const output = fs.createWriteStream(outZip);
-      const archive = archiver('zip', { zlib: { level: 9 } });
-
-      output.on('close', () => resolve());
-      archive.on('warning', err => {
-        console.warn('Backup warning:', err.message);
-      });
-      archive.on('error', err => reject(err));
-
-      archive.pipe(output);
-      for (const f of files) {
-        try {
-          const rel = path.relative(CWD, f);
-          archive.file(f, { name: rel });
-        } catch (e) { /* continue */ }
-      }
-      archive.finalize();
+      const backupPath = await zipBackupHtml(RUN_DIR);
+      console.log(`Backup created: ${path.basename(backupPath)}`);
     } catch (e) {
-      reject(e);
+      console.error('Backup failed:', e.message);
+      errors++;
     }
-  });
-}
+  }
 
-async function applyChanges(dry) {
-  const backupZip = path.join(BK_DIR, `inline-css-backup-${TS}.zip`);
-  const files = Array.from(dry.byFile.keys());
-  await zipHtmlBackup(files, backupZip).catch(err => {
-    throw new Error(`Backup failed: ${err.message}`);
-  });
-
-  const errors = [];
-  let wroteFiles = 0;
-
-  for (const [file, { changes, injectedLink }] of dry.byFile.entries()) {
-    if (changes.length === 0) continue;
-
+  for (const fname of files) {
+    const full = path.join(RUN_DIR, fname);
     let html;
     try {
-      html = fs.readFileSync(file, 'utf8');
+      html = readFile(full);
     } catch (e) {
-      errors.push({ file, error: `read failed: ${e.message}` });
+      errors++;
+      logLines.push(`${full}\n  ! ERROR: ${e.message}`);
       continue;
     }
     const $ = cheerio.load(html, { decodeEntities: false });
+    const perFileClasses = new Map(); // declKey -> className
+    const perFileCSS = new Map();     // className -> CSS text
+    let fileConversions = 0;
+    let fileAddedLink = false;
 
-    $('[style]').each((idx, el) => {
+    $('[style]').each((_, el) => {
       const $el = $(el);
-      const styleText = $el.attr('style') || '';
-      if (!styleText.trim()) return;
-      if (shouldSkip(styleText)) return;
+      const styleAttr = $el.attr('style') || '';
+      if (!styleAttr.trim()) return;
 
-      const decls = normDecls(styleText);
-      if (!decls.length) return;
+      // Leave inline styles that contain display:none
+      if (containsDisplayNone(styleAttr)) return;
 
-      if (ATOMIC) {
-        const classNames = [];
-        for (const {prop, val} of decls) {
-          const folderCss = dry.folders.get(path.dirname(file));
-          const cls = folderCss.addAtomic(prop, val);
-          classNames.push(`in-${cls}`);
-        }
-        const existing = ($el.attr('class') || '').trim();
-        const set = new Set(existing ? existing.split(/\s+/) : []);
-        for (const c of classNames) set.add(c);
-        $el.attr('class', Array.from(set).join(' ').trim());
-        $el.removeAttr('style');
-      } else {
-        const folderCss = dry.folders.get(path.dirname(file));
-        const cls = folderCss.addComposite(decls);
-        const existing = ($el.attr('class') || '').trim();
-        const set = new Set(existing ? existing.split(/\s+/) : []);
-        set.add(`in-${cls}`);
-        $el.attr('class', Array.from(set).join(' ').trim());
-        $el.removeAttr('style');
+      const decls = normalizeDecls(styleAttr);
+      if (decls.length === 0) return;
+
+      // Make a canonical key for reuse within this file
+      const declKey = decls.map(d => `${d.prop}:${d.val}`).sort().join(';');
+
+      let cls = perFileClasses.get(declKey);
+      if (!cls) {
+        cls = makeClassName(decls);
+        perFileClasses.set(declKey, cls);
+        const cssBody = decls.map(d => `  ${d.prop}: ${d.val};`).join('\n');
+        perFileCSS.set(cls, `.${cls} {\n${cssBody}\n}\n`);
+        newClasses++;
       }
+
+      // apply class, remove those style declarations (entire style attr if all extracted)
+      const oldClass = $el.attr('class') || '';
+      const classes = new Set(oldClass.split(/\s+/).filter(Boolean));
+      classes.add(cls);
+      $el.attr('class', Array.from(classes).join(' '));
+
+      // remove extracted declarations from style attribute
+      // Since we extracted all (except display:none handled earlier), drop style attr entirely.
+      $el.removeAttr('style');
+
+      fileConversions++;
     });
 
-    if (injectedLink) ensureHeadLink($, 'css/inline.css');
+    if (fileConversions > 0) {
+      // Ensure css/inline.css in same dir as file
+      const cssDir = path.join(RUN_DIR, 'css');
+      const cssRel = 'css/inline.css';
+      ensureDir(cssDir);
 
-    try {
-      fs.writeFileSync(file, $.html(), 'utf8');
-      wroteFiles++;
-    } catch (e) {
-      errors.push({ file, error: `write failed: ${e.message}` });
+      // Append/merge CSS (naive append; duplicates within this run already deduped)
+      const cssPath = path.join(RUN_DIR, cssRel);
+      const cssAppend = Array.from(perFileCSS.values()).join('\n');
+      if (!DRY && cssAppend) {
+        const existing = fs.existsSync(cssPath) ? fs.readFileSync(cssPath, 'utf8') : '';
+        const next = existing + (existing && !existing.endsWith('\n') ? '\n' : '') + cssAppend;
+        SAFE_WRITES ? writeFileAtomic(cssPath, next) : fs.writeFileSync(cssPath, next, 'utf8'); // CHANGE: name
+      }
+
+      // Ensure link tag present
+      const added = ensureLink($, cssRel);
+      fileAddedLink = fileAddedLink || added;
+
+      // Write HTML back
+      const outHtml = $.html();
+      if (!DRY) {
+        SAFE_WRITES ? writeFileAtomic(full, outHtml) : fs.writeFileSync(full, outHtml, 'utf8'); // CHANGE: name
+      }
+
+      changedFiles.add(full);
+      sumConversions += fileConversions;
+
+      // Log section
+      const classesList = Array.from(perFileCSS.keys()).map(c => `  + class: ${c}`).join('\n');
+      logLines.push(`${full}\n${classesList}${fileAddedLink ? `\n  + added <link rel="stylesheet" href="css/inline.css">` : ''}`);
     }
-
-    try {
-      const folderCss = dry.folders.get(path.dirname(file));
-      folderCss.writeCssForFile(file);
-    } catch (e) {
-      errors.push({ file, error: `write css failed: ${e.message}` });
-    }
   }
 
-  return { wroteFiles, errors, backupZip };
-}
+  // Stats
+  const scanned = files.length;
+  const changed = changedFiles.size;
+  const avg = changed ? (sumConversions / changed).toFixed(2) : '0.00';
+  const stats =
+`Stats:
+  Files (scanned): ${scanned}
+  Files (changed): ${changed}
+  Conversions (sum): ${sumConversions}
+  New classes: ${newClasses}
+  Avg changes/file (changed only): ${avg}
+  Errors: ${errors}`;
 
-function promptYesNo(q) {
-  return new Promise(resolve => {
-    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-    rl.question(q, ans => {
-      rl.close();
-      resolve(/^y(es)?$/i.test((ans || '').trim()));
-    });
-  });
-}
+  const banner = DRY ? 'DRY-RUN' : 'APPLY';
+  // CHANGE: banner now shows class mode AND safe-write status (on/off)
+  const header = `${banner} (${CLASS_MODE}; safe-writes:${SAFE_WRITES ? 'on' : 'off'}; current-dir)\n================================\n`;
 
-(async function main() {
-  const files = findHtmlFiles();
-  const dry = buildDryRun(files);
+  const logText = [header, ...logLines, '', stats, ''].join('\n');
 
-  const title = `DRY-RUN (${ATOMIC ? 'atomic' : 'composite'}; ${RECURSIVE ? 'recursive' : 'current-dir'})`;
-  const dryText = renderLog(title, dry);
-  console.log(dryText);
-  writeFileSafe(DRYRUN_LOG, dryText);
+  console.log(logText);
 
-  if (FORCE_DRYRUN) {
-    console.log(`Dry-run log written: ${path.relative(CWD, DRYRUN_LOG)}`);
-    return;
-  }
-
-  let proceed = FORCE_APPLY;
-  if (!proceed) {
-    proceed = await promptYesNo('Apply changes? (y/N) ');
-  }
-  if (!proceed) {
-    console.log('Aborted. No changes applied.');
-    return;
-  }
-
+  const logName = DRY ? 'inline_dry_run.log' : 'inline_apply.log';
   try {
-    const res = await applyChanges(dry);
-    const t = dry.totals;
-    const lines = [];
-    lines.push(`APPLY (${ATOMIC ? 'atomic' : 'composite'}; ${RECURSIVE ? 'recursive' : 'current-dir'})`);
-    lines.push('='.repeat(64));
-    lines.push('');
-    lines.push(`Backup: ${path.relative(CWD, res.backupZip)}`);
-    lines.push('');
-    lines.push(`Files (scanned): ${t.totalFiles}`);
-    lines.push(`Files (changed): ${t.changedFiles}`);
-    lines.push(`Files (written): ${res.wroteFiles}`);
-    lines.push(`Conversions (sum): ${t.totalChanges}`);
-    lines.push(`New classes: ${t.totalNewClasses}`);
-    lines.push(`Avg changes/file (changed only): ${t.avgChanges.toFixed(2)}`);
-    lines.push('');
-    if (dry.errors.length || res.errors.length) {
-      lines.push('Errors:');
-      [...dry.errors, ...res.errors].forEach(e => {
-        lines.push(`  ! ${e.file} :: ${e.error}`);
-      });
-      lines.push('');
-    }
-    const applyText = lines.join('\n');
-    console.log(applyText);
-    writeFileSafe(APPLY_LOG, applyText);
-
-    console.log('Done ✓');
+    fs.writeFileSync(path.join(RUN_DIR, logName), logText, 'utf8');
   } catch (e) {
-    console.error('FAILED during apply:', e.message);
+    console.error('Failed to write log:', e.message);
   }
-})();
+
+  if (DRY && !LOG_ONLY) {
+    process.stdout.write('Apply changes? (y/N) ');
+    process.stdin.setEncoding('utf8');
+    process.stdin.once('data', (d) => {
+      const yes = String(d).trim().toLowerCase() === 'y';
+      if (yes) {
+        console.log('Re-run with --apply to execute.');
+      } else {
+        console.log('Aborted (dry-run only).');
+      }
+      process.exit(0);
+    });
+  }
+})().catch(err => {
+  console.error(err);
+  process.exit(1);
+});

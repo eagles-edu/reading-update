@@ -890,10 +890,10 @@ p {
 }
 
 p.dialogue {
-	text-indent: .0in;
-	line-height: 210%;
-	padding: 1em 0;
+	line-height: 2em!important;
 	margin-bottom: 1em;
+	padding: 1em 0;
+	text-indent: .0in;
 }
 
 p.rghtagln,
