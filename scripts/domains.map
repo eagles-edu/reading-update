@@ -1,0 +1,63 @@
+# Domain/URL migrations for eagles sites
+# Format: OLD => NEW
+# Order: most specific → least specific (longest hostnames first)
+# Tip: Avoid double-changes by placing longer/with-www/with-subdomain before parents.
+
+# ========= Legacy → Canonical (eaglesvn.com → eagles.edu.vn) =========
+
+# thuvien + www first
+https://www.thuvien.eaglesvn.com => https://www.thuvien.eagles.edu.vn
+http://www.thuvien.eaglesvn.com  => https://www.thuvien.eagles.edu.vn
+
+# thuvien (no-www)
+https://thuvien.eaglesvn.com      => https://thuvien.eagles.edu.vn
+http://thuvien.eaglesvn.com       => https://thuvien.eagles.edu.vn
+
+# root + www
+https://www.eaglesvn.com          => https://www.eagles.edu.vn
+http://www.eaglesvn.com           => https://www.eagles.edu.vn
+
+# root (no-www)
+https://eaglesvn.com              => https://eagles.edu.vn
+http://eaglesvn.com               => https://eagles.edu.vn
+
+
+# ========= Enforce HTTPS on the NEW canonical hosts =========
+
+# thuvien enforce https
+http://www.thuvien.eagles.edu.vn  => https://www.thuvien.eagles.edu.vn
+http://thuvien.eagles.edu.vn      => https://thuvien.eagles.edu.vn
+
+# root enforce https
+http://www.eagles.edu.vn          => https://www.eagles.edu.vn
+http://eagles.edu.vn              => https://eagles.edu.vn
+
+
+# ========= Handle scheme-less //HOST references (put AFTER all http/https) =========
+
+# legacy scheme-less → canonical https
+//www.thuvien.eaglesvn.com        => https://www.thuvien.eagles.edu.vn
+//thuvien.eaglesvn.com            => https://thuvien.eagles.edu.vn
+//www.eaglesvn.com                => https://www.eagles.edu.vn
+//eaglesvn.com                    => https://eagles.edu.vn
+
+# canonical scheme-less → canonical https
+//www.thuvien.eagles.edu.vn       => https://www.thuvien.eagles.edu.vn
+//thuvien.eagles.edu.vn           => https://thuvien.eagles.edu.vn
+//www.eagles.edu.vn               => https://www.eagles.edu.vn
+//eagles.edu.vn                   => https://eagles.edu.vn
+
+
+# ========= Optional variants (leave commented unless you want them) =========
+
+# Force remove www (global canonicalization):
+# https://www.eagles.edu.vn        => https://eagles.edu.vn
+# https://www.thuvien.eagles.edu.vn => https://thuvien.eagles.edu.vn
+
+# Migrate thuvien to a new subdomain:
+# https://thuvien.eagles.edu.vn     => https://library.eagles.edu.vn
+# https://www.thuvien.eagles.edu.vn => https://library.eagles.edu.vn
+
+# CDN/static hosts:
+# http://cdn.eagles.edu.vn          => https://cdn.eagles.edu.vn
+# http://static.eagles.edu.vn       => https://static.eagles.edu.vn

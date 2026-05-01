@@ -27,6 +27,15 @@
       "runtimeArgs": [
         "--remote-debugging-port=9222"
       ]
+    },
+    {
+      "name": "Bash Debug: Current File",
+      "type": "bashdb",
+      "request": "launch",
+      "program": "${file}",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "terminalKind": "integrated"
     }
   ]
 }
