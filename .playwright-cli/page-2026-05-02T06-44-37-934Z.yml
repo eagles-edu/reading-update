@@ -1,0 +1,123 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "Eagles Club logo" [ref=e6] [cursor=pointer]:
+        - /url: https://thuvien.eagles.edu.vn
+        - img [ref=e7]
+      - generic [ref=e17]: The Eagles Club
+      - generic [ref=e18]:
+        - button "Switch to dark theme" [ref=e19] [cursor=pointer]:
+          - img [ref=e21]
+        - link "eagles.edu.vn" [ref=e26] [cursor=pointer]:
+          - /url: https://eagles.edu.vn
+  - main [ref=e27]:
+    - generic [ref=e29]:
+      - generic [ref=e31]:
+        - generic [ref=e32]: 📚 Reading practice for Pre-A1–B2 learners
+        - heading "Build English reading fluency" [level=1] [ref=e33]
+        - heading "...one story at a time" [level=2] [ref=e34]
+        - paragraph [ref=e35]: The Eagles American English Club, Ltd. gives students short leveled texts, useful vocabulary, audio support, comprehension checks, and teacher-friendly activities for class or self-study.
+      - region "CEFR© Reading levels" [ref=e37]:
+        - generic [ref=e38]:
+          - heading "CEFR© Reading levels" [level=2] [ref=e39]:
+            - text: CEFR
+            - superscript [ref=e40]: ©
+            - text: Reading levels
+          - paragraph [ref=e41]: Students can move step by step from simple daily texts to longer academic-style reading.
+        - generic [ref=e42]:
+          - link "Pre A1 Starter Readers Letters, sounds, simple words, pictures, and very short phrases." [ref=e43] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e44]:
+              - generic [ref=e45]: Pre
+              - generic [ref=e46]: A1
+            - heading "Starter Readers" [level=3] [ref=e47]
+            - paragraph [ref=e48]: Letters, sounds, simple words, pictures, and very short phrases.
+          - link "A1 First Readers Short texts, familiar words, pictures, and simple present tense." [ref=e49] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e50]: A1
+            - heading "First Readers" [level=3] [ref=e51]
+            - paragraph [ref=e52]: Short texts, familiar words, pictures, and simple present tense.
+          - link "A2 Everyday English Stories, messages, notices, routines, hobbies, and school topics." [ref=e53] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e54]: A2
+            - heading "Everyday English" [level=3] [ref=e55]
+            - paragraph [ref=e56]: Stories, messages, notices, routines, hobbies, and school topics.
+          - link "B1 Confident Readers Longer articles with opinions, reasons, examples, and paragraph structure." [ref=e57] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e58]: B1
+            - heading "Confident Readers" [level=3] [ref=e59]
+            - paragraph [ref=e60]: Longer articles with opinions, reasons, examples, and paragraph structure.
+          - link "B2 Exam Ready Academic vocabulary, inference questions, summaries, and discussion tasks." [ref=e61] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e62]: B2
+            - heading "Exam Ready" [level=3] [ref=e63]:
+              - text: Exam
+              - text: Ready
+            - paragraph [ref=e64]: Academic vocabulary, inference questions, summaries, and discussion tasks.
+    - region "A Market Morning" [ref=e65]:
+      - article "A Market Morning" [ref=e67]:
+        - generic [ref=e68]:
+          - generic [ref=e69]: A2 Reading
+          - generic [ref=e70]: ⏱ 6 min
+        - generic [ref=e71]:
+          - img [ref=e74]
+          - heading "A Market Morning" [level=2] [ref=e316]
+        - paragraph [ref=e317]: Linh goes to the market before school. She buys fresh fruit, asks the seller three questions, and learns a new word from an English sign near the shop.
+        - generic [ref=e318]:
+          - generic [ref=e319]:
+            - strong [ref=e320]: fresh
+            - text: new or recently made
+          - generic [ref=e321]:
+            - strong [ref=e322]: seller
+            - text: a person who sells things
+          - generic [ref=e323]:
+            - strong [ref=e324]: near
+            - text: not far away
+        - generic [ref=e325]:
+          - generic [ref=e326]:
+            - strong [ref=e327]: 250+
+            - text: texts
+          - generic [ref=e328]:
+            - strong [ref=e329]: "5"
+            - text: levels
+          - generic [ref=e330]:
+            - strong [ref=e331]: 10 min
+            - text: daily
+          - generic [ref=e332]:
+            - strong [ref=e333]: "100"
+            - generic [ref=e334]: visits
+    - generic [ref=e337]:
+      - generic [ref=e338]:
+        - heading "Explore the library" [level=2] [ref=e339]
+        - paragraph [ref=e340]: Browse by level, topic, skill focus, or lesson length. Perfect for homework, classroom warmups, and extra fluency practice.
+      - list [ref=e341]:
+        - listitem [ref=e342]: ✅ Daily life stories
+        - listitem [ref=e343]: ✅ Science and technology
+        - listitem [ref=e344]: ✅ Culture and travel
+        - listitem [ref=e345]: ✅ Exam-style practice
+    - generic [ref=e347]:
+      - generic [ref=e348]:
+        - heading "Designed for real reading growth." [level=2] [ref=e349]
+        - paragraph [ref=e350]: Each lesson helps learners understand the text, notice useful language, and speak or write about what they read.
+      - generic [ref=e351]:
+        - article [ref=e352]:
+          - img [ref=e354]
+          - heading "Read and listen" [level=3] [ref=e356]
+          - paragraph [ref=e357]: Students can read silently, listen for pronunciation, then read aloud for fluency.
+        - article [ref=e358]:
+          - img [ref=e360]
+          - heading "Check understanding" [level=3] [ref=e362]
+          - paragraph [ref=e363]: Quick comprehension questions help students prove they understood the main ideas.
+        - article [ref=e364]:
+          - img [ref=e366]
+          - heading "Use new words" [level=3] [ref=e368]
+          - paragraph [ref=e369]: Vocabulary boxes, example sentences, and review tasks turn reading into active learning.
+    - generic [ref=e372]:
+      - heading "Give every lesson a clear reading routine." [level=2] [ref=e373]
+      - paragraph [ref=e374]: Use one text for preview vocabulary, silent reading, audio shadowing, comprehension questions, and a final speaking task.
+      - link "Create a Free Teacher Account" [ref=e375] [cursor=pointer]:
+        - /url: "#"
+  - contentinfo [ref=e376]:
+    - generic [ref=e378]:
+      - generic [ref=e379]: © 2026 The Eagles Club
+      - generic [ref=e380]: Reading • Vocabulary • Fluency
