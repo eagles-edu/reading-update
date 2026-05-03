@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+      name="description"
+      content="A themed horizontal tabs demo that matches the Eagles reading site."
+    >
+    <title>The Eagles Club | Tabs</title>
+    <script>
+      (() => {
+        const storageKey = "theme";
+        const root = document.documentElement;
+
+        try {
+          const savedTheme = localStorage.getItem(storageKey);
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          const theme =
+            savedTheme === "light" || savedTheme === "dark"
+              ? savedTheme
+              : prefersDark
+                ? "dark"
+                : "light";
+
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+        } catch {
+          root.dataset.theme = "light";
+          root.style.colorScheme = "light";
+        }
+      })();
+    </script>
+    <style>
+      :root {
+        color-scheme: light;
+        --accent: #b50010;
+        --accent-contrast: #ffffff;
+        --accent-strong: #86000c;
+        --bg-accent: rgba(181, 0, 16, 0.08);
+        --bg-accent-2: rgba(0, 39, 134, 0.08);
+        --border: #8d929e;
+        --focus-ring: rgba(0, 39, 134, 0.32);
+        --feature-bg-end: #b50010;
+        --feature-bg-start: #002786;
+        --max-width: 1120px;
+        --muted: #5f6b82;
+        --page-bg: #d3d9e5;
+        --primary-color: #b50010;
+        --primary-dark: #86000c;
+        --secondary-color: #e4e9f2;
+        --shell-bg: rgba(255, 255, 255, 0.92);
+        --shell-shadow: 0 14px 34px rgba(0, 39, 134, 0.09);
+        --shadow: 0 18px 45px rgba(0, 39, 134, 0.12);
+        --surface: #ffffff;
+        --surface-soft: #f3f5ff;
+        --surface-strong: #ffffff;
+        --tertiary-color: #002786;
+        --text: #212121;
+        --theme-toggle-icon-bg: rgba(255, 255, 255, 0.78);
+        --theme-toggle-icon-bg-dark: rgba(255, 255, 255, 0.12);
+        --theme-toggle-ink: #172033;
+        --theme-toggle-ink-dark: #ffd76a;
+        --radius-base: 3.667px;
+        --radius-pill: 999px;
+        --radius-1: var(--radius-base);
+        --radius-2: calc(var(--radius-base) * 2);
+        --radius-3: calc(var(--radius-base) * 3);
+        --space-1: clamp(8px, 0.75vw, 10px);
+        --space-2: clamp(12px, 1.1vw, 14px);
+        --space-3: clamp(16px, 1.8vw, 20px);
+        --space-4: clamp(22px, 2.2vw, 28px);
+        --space-5: clamp(30px, 3vw, 40px);
+      }
+
+      html[data-theme="dark"] {
+        color-scheme: dark;
+        --accent: #bfbfbf;
+        --accent-contrast: #101010;
+        --accent-strong: #e8e8e8;
+        --bg-accent: rgba(255, 255, 255, 0.03);
+        --bg-accent-2: rgba(255, 255, 255, 0.015);
+        --border: #555555;
+        --focus-ring: rgba(235, 235, 235, 0.34);
+        --feature-bg-end: #323232;
+        --feature-bg-start: #161616;
+        --muted: #c2c2c2;
+        --page-bg: #050505;
+        --primary-color: #d9d9d9;
+        --primary-dark: #f0f0f0;
+        --secondary-color: #111111;
+        --shell-bg: rgba(22, 22, 22, 0.94);
+        --shell-shadow: 0 16px 34px rgba(0, 0, 0, 0.48);
+        --shadow: 0 18px 42px rgba(0, 0, 0, 0.5);
+        --surface: #262626;
+        --surface-soft: #333333;
+        --surface-strong: #141414;
+        --tertiary-color: #efefef;
+        --text: #f0f0f0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        color-scheme: light;
+      }
+
+      html[data-theme="dark"] {
+        color-scheme: dark;
+      }
+
+      body {
+        color: var(--text);
+        line-height: 1.6;
+        margin: 0;
+        isolation: isolate;
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        background:
+          radial-gradient(circle at top left, var(--bg-accent), transparent 32rem),
+          radial-gradient(
+            circle at top right,
+            var(--bg-accent-2),
+            transparent 34rem
+          ),
+          var(--page-bg);
+        min-height: 100vh;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: -20vh -10vw auto;
+        height: 55vh;
+        background:
+          radial-gradient(
+            circle at 22% 30%,
+            rgba(181, 0, 16, 0.12),
+            transparent 55%
+          ),
+          radial-gradient(
+            circle at 78% 38%,
+            rgba(0, 39, 134, 0.14),
+            transparent 50%
+          );
+        filter: blur(18px);
+        opacity: 0.82;
+        pointer-events: none;
+        z-index: -1;
+        animation: drift 18s ease-in-out infinite alternate;
+      }
+
+      @keyframes drift {
+        from {
+          transform: translate3d(-0.75rem, 0, 0);
+        }
+
+        to {
+          transform: translate3d(0.75rem, -0.4rem, 0);
+        }
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--focus-ring);
+        outline-offset: 3px;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .container {
+        margin-inline: auto;
+        width: min(100% - 32px, var(--max-width));
+      }
+
+      .shell {
+        background: var(--shell-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-3);
+        box-shadow: var(--shell-shadow);
+        overflow: hidden;
+      }
+
+      .section-shell {
+        display: grid;
+        gap: var(--space-3);
+        padding: var(--space-4);
+      }
+
+      .site-header {
+        padding: 12px 0 0;
+      }
+
+      .hub-banner {
+        align-items: center;
+        background: var(--primary-color);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: var(--radius-2);
+        color: var(--secondary-color);
+        display: flex;
+        font-size: 1.05rem;
+        font-weight: 800;
+        justify-content: space-between;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        margin-top: var(--space-2);
+        min-block-size: 18px;
+        padding-block: 8px;
+        padding-inline: calc(var(--space-2) * 1.9);
+        width: 100%;
+      }
+
+      .hub-banner a {
+        color: inherit;
+      }
+
+      .nav {
+        align-items: center;
+        display: flex;
+        gap: var(--space-3);
+        justify-content: space-between;
+        min-height: 56px;
+        padding: 10px 0;
+      }
+
+      .brand {
+        align-items: center;
+        color: var(--tertiary-color);
+        display: inline-flex;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .brand-mark {
+        background: linear-gradient(
+          180deg,
+          var(--surface-strong) 0%,
+          var(--surface-soft) 100%
+        );
+        border-radius: var(--radius-2);
+        box-shadow: var(--shadow);
+        display: grid;
+        height: 48px;
+        overflow: hidden;
+        place-items: center;
+        width: 48px;
+      }
+
+      .brand-copy {
+        display: grid;
+        gap: 2px;
+        min-width: 0;
+      }
+
+      .brand-title {
+        color: var(--tertiary-color);
+        font-size: 1.02rem;
+        font-variant-numeric: tabular-nums;
+        font-weight: 950;
+        letter-spacing: 0.01em;
+        line-height: 1.1;
+        white-space: nowrap;
+      }
+
+      .brand-subtitle {
+        color: var(--muted);
+        font-size: 0.86rem;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        line-height: 1.1;
+        white-space: nowrap;
+      }
+
+      .theme-toggle {
+        align-items: center;
+        appearance: none;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-pill);
+        color: var(--theme-toggle-ink);
+        cursor: pointer;
+        display: inline-flex;
+        justify-content: center;
+        min-height: 44px;
+        padding: 8px;
+        transition:
+          background-color 180ms ease,
+          border-color 180ms ease,
+          color 180ms ease,
+          transform 180ms ease;
+      }
+
+      .theme-toggle:hover {
+        border-color: rgba(15, 22, 41, 1);
+        transform: translateY(-1px);
+      }
+
+      .theme-toggle__icon {
+        align-items: center;
+        background: var(--theme-toggle-icon-bg);
+        border-radius: var(--radius-pill);
+        color: var(--theme-toggle-ink);
+        display: inline-flex;
+        height: 38px;
+        justify-content: center;
+        width: 38px;
+      }
+
+      .theme-toggle__icon svg {
+        display: none;
+        height: 100%;
+        width: 100%;
+      }
+
+      .theme-toggle__icon[data-theme-icon="moon"] .theme-toggle__icon-moon,
+      .theme-toggle__icon[data-theme-icon="sun"] .theme-toggle__icon-sun {
+        display: block;
+      }
+
+      html[data-theme="dark"] .theme-toggle {
+        color: var(--theme-toggle-ink-dark);
+      }
+
+      html[data-theme="dark"] .theme-toggle:hover {
+        border-color: rgba(255, 215, 106, 0.42);
+      }
+
+      html[data-theme="dark"] .theme-toggle__icon {
+        background: var(--theme-toggle-icon-bg-dark);
+        color: var(--theme-toggle-ink-dark);
+      }
+
+      .hero {
+        padding: var(--space-4) 0 var(--space-3);
+      }
+
+      .hero-panel {
+        background:
+          radial-gradient(circle at top left, var(--bg-accent), transparent 34%),
+          radial-gradient(
+            circle at bottom right,
+            var(--bg-accent-2),
+            transparent 36%
+          ),
+          var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-3);
+        box-shadow: var(--shell-shadow);
+        overflow: hidden;
+        padding: var(--space-4);
+        position: relative;
+      }
+
+      .eyebrow {
+        align-items: center;
+        background: var(--secondary-color);
+        border: 1px solid var(--tertiary-color);
+        border-radius: var(--radius-2);
+        color: var(--primary-color);
+        display: inline-flex;
+        font-size: 0.88rem;
+        font-weight: 900;
+        gap: var(--space-1);
+        margin-bottom: var(--space-2);
+        padding: 7px 12px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        color: var(--tertiary-color);
+        font-size: clamp(1.75rem, 4vw, 3.15rem);
+        letter-spacing: -0.04em;
+        line-height: 1.08;
+        max-width: 16ch;
+      }
+
+      .hero-copy {
+        color: var(--muted);
+        font-size: 1.06rem;
+        margin-top: var(--space-3);
+        max-width: 900px;
+      }
+
+      .tabs-shell {
+        position: relative;
+      }
+
+      .tabs-label {
+        color: var(--tertiary-color);
+        font-size: clamp(1.3rem, 2.9vw, 2.05rem);
+        letter-spacing: -0.04em;
+      }
+
+      .tabs-copy {
+        color: var(--muted);
+        max-width: 720px;
+      }
+
+      .tab-list {
+        align-items: flex-end;
+        border-bottom: 1px solid color-mix(in srgb, var(--border) 86%, #ffffff);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 0 8px;
+      }
+
+      .tab-button {
+        background: linear-gradient(180deg, var(--surface-soft), var(--surface));
+        border: 1px solid var(--border);
+        border-bottom: none;
+        border-radius: var(--radius-2) var(--radius-2) 0 0;
+        box-shadow: none;
+        color: var(--tertiary-color);
+        cursor: pointer;
+        display: inline-grid;
+        gap: 6px;
+        flex: 1 1 14rem;
+        margin-bottom: -1px;
+        min-width: 10rem;
+        overflow: hidden;
+        padding: 14px 16px;
+        position: relative;
+        text-align: left;
+        transition:
+          transform 220ms ease,
+          box-shadow 220ms ease,
+          border-color 220ms ease,
+          background-color 220ms ease;
+      }
+
+      .tab-button::before {
+        content: "";
+        inset: 0;
+        position: absolute;
+        background: linear-gradient(
+          125deg,
+          transparent 22%,
+          rgba(255, 255, 255, 0.2) 50%,
+          transparent 78%
+        );
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-38%) skewX(-14deg);
+        transition:
+          opacity 320ms ease,
+          transform 520ms ease;
+      }
+
+      .tab-button:hover,
+      .tab-button:focus-visible {
+        border-color: color-mix(
+          in srgb,
+          var(--primary-color) 45%,
+          var(--border)
+        );
+        box-shadow: 0 -8px 18px rgba(0, 39, 134, 0.08);
+        transform: translateY(-2px);
+      }
+
+      .tab-button:hover::before,
+      .tab-button:focus-visible::before,
+      .tab-button[aria-selected="true"]::before {
+        opacity: 1;
+        transform: translateX(38%) skewX(-14deg);
+      }
+
+      .tab-button[aria-selected="true"] {
+        background: var(--surface);
+        border-color: var(--border);
+        border-bottom-color: var(--surface);
+        box-shadow: 0 -12px 24px rgba(0, 39, 134, 0.1);
+        color: var(--primary-color);
+        z-index: 2;
+        transform: translateY(1px);
+      }
+
+      .tab-button[aria-selected="true"]::after {
+        background: linear-gradient(
+          90deg,
+          var(--feature-bg-start),
+          var(--feature-bg-end)
+        );
+        block-size: 4px;
+        content: "";
+        inset: 0 0 auto;
+        position: absolute;
+      }
+
+      .tab-button__label {
+        font-size: 1rem;
+        font-weight: 900;
+        letter-spacing: 0.01em;
+      }
+
+      .tab-button__range {
+        color: var(--muted);
+        font-size: 0.85rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .tab-button[aria-selected="true"] .tab-button__range {
+        color: var(--muted);
+      }
+
+      .tab-panels {
+        margin-top: -1px;
+      }
+
+      .tab-panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 0 0 var(--radius-3) var(--radius-3);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        padding: var(--space-3);
+      }
+
+      .tab-panel[hidden] {
+        display: none;
+      }
+
+      .panel-top {
+        align-items: end;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: space-between;
+        margin-bottom: var(--space-3);
+      }
+
+      .panel-top h3 {
+        color: var(--tertiary-color);
+        font-size: 1.2rem;
+        letter-spacing: -0.02em;
+      }
+
+      .panel-note {
+        color: var(--muted);
+        font-size: 0.94rem;
+        max-width: 56ch;
+      }
+
+      .panel-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .meta-chip {
+        background: var(--surface-soft);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-pill);
+        color: var(--tertiary-color);
+        font-size: 0.8rem;
+        font-weight: 900;
+        letter-spacing: 0.02em;
+        padding: 6px 10px;
+      }
+
+      .panel-body {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: 1fr;
+      }
+
+      .panel-card {
+        background:
+          radial-gradient(circle at top left, var(--bg-accent), transparent 30%),
+          var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-3);
+        overflow: hidden;
+        padding: 18px;
+        position: relative;
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      .panel-card:hover {
+        box-shadow: 0 18px 28px rgba(15, 23, 42, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .panel-card::before {
+        content: "";
+        inset: 0 0 auto;
+        height: 4px;
+        position: absolute;
+        background: linear-gradient(
+          90deg,
+          var(--feature-bg-start),
+          var(--feature-bg-end)
+        );
+        opacity: 0.85;
+      }
+
+      .panel-card h4 {
+        color: var(--primary-color);
+        font-size: 1rem;
+        margin-bottom: 8px;
+        padding-top: 4px;
+      }
+
+      .panel-card p {
+        color: var(--muted);
+      }
+
+      .sample-row {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 14px;
+      }
+
+      .sample-pill {
+        background: var(--surface-soft);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-pill);
+        color: var(--tertiary-color);
+        font-size: 0.84rem;
+        font-weight: 900;
+        padding: 10px 12px;
+        text-align: center;
+      }
+
+      .site-footer {
+        color: var(--muted);
+        font-size: 0.88rem;
+        padding: 0 0 32px;
+        text-align: center;
+      }
+
+      .site-footer a {
+        color: var(--tertiary-color);
+        font-weight: 800;
+      }
+
+      @media (min-width: 860px) {
+        .panel-body {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 720px) {
+        .nav {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .brand {
+          width: 100%;
+        }
+
+        .sample-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="hub-banner">
+        <a href="https://eagles.edu.vn" rel="noreferrer" target="_blank">
+          eagles.edu.vn
+        </a>
+        <span>Tabbed demo</span>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <div class="container shell section-shell">
+        <div class="nav">
+          <a class="brand" href="index.html" aria-label="Tabs demo home">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="tabsBrand" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#002786" />
+                    <stop offset="100%" stop-color="#b50010" />
+                  </linearGradient>
+                </defs>
+                <rect width="48" height="48" rx="10" fill="url(#tabsBrand)" />
+                <path d="M9 29L24 8l15 21-15-6z" fill="#ffffff" opacity="0.94" />
+                <circle cx="24" cy="22" r="3.4" fill="#ffd76a" />
+              </svg>
+            </span>
+            <span class="brand-copy">
+              <span class="brand-title">The Eagles Club</span>
+              <span class="brand-subtitle">Horizontal tabs</span>
+            </span>
+          </a>
+
+          <button
+            class="theme-toggle"
+            type="button"
+            data-theme-toggle
+            aria-pressed="false"
+            aria-label="Switch to dark theme"
+          >
+            <span
+              class="theme-toggle__icon"
+              aria-hidden="true"
+              data-theme-toggle-icon
+              data-theme-icon="moon"
+            >
+              <svg
+                class="theme-toggle__icon-moon"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <mask id="tabsMoonCutout">
+                    <rect width="24" height="24" fill="#fff" />
+                    <circle cx="12.95" cy="7.95" fill="#000" r="10.1" />
+                  </mask>
+                </defs>
+                <g fill="currentColor">
+                  <circle
+                    cx="10.8"
+                    cy="13.2"
+                    r="10.3"
+                    mask="url(#tabsMoonCutout)"
+                  />
+                  <path
+                    d="M17.65 3.75L18.62 6.68L21.7 6.68L19.21 8.49L20.16 11.42L17.65 9.6L15.14 11.42L16.09 8.49L13.6 6.68L16.68 6.68L17.65 3.75Z"
+                    opacity="0.95"
+                  />
+                </g>
+              </svg>
+              <svg
+                class="theme-toggle__icon-sun"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g stroke="currentColor" stroke-linecap="round" stroke-width="1.8">
+                  <path d="M12 1.75V4.25" />
+                  <path d="M12 19.75V22.25" />
+                  <path d="M1.75 12H4.25" />
+                  <path d="M19.75 12H22.25" />
+                  <path d="M4.75 4.75L6.52 6.52" />
+                  <path d="M17.48 17.48L19.25 19.25" />
+                  <path d="M17.48 6.52L19.25 4.75" />
+                  <path d="M4.75 19.25L6.52 17.48" />
+                </g>
+                <circle cx="12" cy="12" fill="currentColor" r="4.6" />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-panel">
+          <span class="eyebrow">Horizontal tabs, themed</span>
+          <h1>Tabs that match the site</h1>
+          <p class="hero-copy">
+            This page keeps the horizontal tab structure you want, but uses the
+            same Eagles palette, shell, and motion language as the reading
+            pages.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container shell section-shell tabs-shell">
+          <div>
+            <h2 class="tabs-label" id="tabs-demo-title">Choose a location</h2>
+            <p class="tabs-copy">
+              The tab strip sits above the panel, the active tab is highlighted,
+              and the panel animates when the selection changes.
+            </p>
+          </div>
+
+          <div
+            class="tab-list"
+            role="tablist"
+            aria-labelledby="tabs-demo-title"
+            aria-orientation="horizontal"
+          >
+            <button
+              id="tab-london"
+              class="tab-button"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="panel-london"
+              tabindex="0"
+              data-tab-target="panel-london"
+            >
+              <span class="tab-button__label">London</span>
+              <span class="tab-button__range">Active tab</span>
+            </button>
+            <button
+              id="tab-paris"
+              class="tab-button"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-paris"
+              tabindex="-1"
+              data-tab-target="panel-paris"
+            >
+              <span class="tab-button__label">Paris</span>
+              <span class="tab-button__range">Next tab</span>
+            </button>
+            <button
+              id="tab-tokyo"
+              class="tab-button"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-tokyo"
+              tabindex="-1"
+              data-tab-target="panel-tokyo"
+            >
+              <span class="tab-button__label">Tokyo</span>
+              <span class="tab-button__range">Next tab</span>
+            </button>
+          </div>
+
+          <div class="tab-panels">
+            <section
+              id="panel-london"
+              class="tab-panel"
+              role="tabpanel"
+              aria-labelledby="tab-london"
+              tabindex="0"
+            >
+              <div class="panel-top">
+                <div>
+                  <h3>London</h3>
+                  <p class="panel-note">
+                    A calm starting panel with the strongest accent in the strip.
+                  </p>
+                </div>
+                <div class="panel-meta" aria-hidden="true">
+                  <span class="meta-chip">Daily use</span>
+                  <span class="meta-chip">Readable</span>
+                </div>
+              </div>
+              <div class="panel-body">
+                <article class="panel-card">
+                  <h4>What the tab does</h4>
+                  <p>
+                    Clicking a tab shows one panel at a time, keeps the selected
+                    tab active, and uses a quick fade-plus-lift transition.
+                  </p>
+                </article>
+                <article class="panel-card">
+                  <h4>Theme match</h4>
+                  <p>
+                    The reds, blues, shell borders, and muted text all come from
+                    the reading homepage so this page feels native.
+                  </p>
+                </article>
+              </div>
+            </section>
+
+            <section
+              id="panel-paris"
+              class="tab-panel"
+              role="tabpanel"
+              aria-labelledby="tab-paris"
+              tabindex="0"
+              hidden
+            >
+              <div class="panel-top">
+                <div>
+                  <h3>Paris</h3>
+                  <p class="panel-note">
+                    This panel shows the same tab system with different content.
+                  </p>
+                </div>
+                <div class="panel-meta" aria-hidden="true">
+                  <span class="meta-chip">Hidden by default</span>
+                  <span class="meta-chip">ARIA tabs</span>
+                </div>
+              </div>
+              <div class="panel-body">
+                <article class="panel-card">
+                  <h4>Keyboard support</h4>
+                  <p>
+                    Left and right arrow keys move between tabs. Home and End
+                    jump to the first and last tab.
+                  </p>
+                </article>
+                <article class="panel-card">
+                  <h4>Animation</h4>
+                  <p>
+                    The panel switches with a short CSS animation so it feels
+                    alive without drifting into gimmick territory.
+                  </p>
+                </article>
+              </div>
+            </section>
+
+            <section
+              id="panel-tokyo"
+              class="tab-panel"
+              role="tabpanel"
+              aria-labelledby="tab-tokyo"
+              tabindex="0"
+              hidden
+            >
+              <div class="panel-top">
+                <div>
+                  <h3>Tokyo</h3>
+                  <p class="panel-note">
+                    The third panel gives you a visual target for the active
+                    state and spacing rhythm.
+                  </p>
+                </div>
+                <div class="panel-meta" aria-hidden="true">
+                  <span class="meta-chip">Reusable</span>
+                  <span class="meta-chip">Theme-safe</span>
+                </div>
+              </div>
+              <div class="panel-body">
+                <article class="panel-card">
+                  <h4>Recommendation</h4>
+                  <p>
+                    Use this structure for your real pages, then swap the demo
+                    copy for the reading content. Keep the tabs as buttons, not
+                    cards.
+                  </p>
+                </article>
+                <article class="panel-card">
+                  <h4>Visual rule</h4>
+                  <p>
+                    The active tab should connect into the panel below so the
+                    interface reads as a single tabbed surface.
+                  </p>
+                </article>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <a href="index.html">Home</a>
+      </div>
+    </footer>
+
+    <script>
+      (() => {
+        const storageKey = "theme";
+        const root = document.documentElement;
+        const themeToggle = document.querySelector("[data-theme-toggle]");
+        const themeIcon = document.querySelector("[data-theme-toggle-icon]");
+
+        const applyTheme = (theme) => {
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          if (themeToggle) {
+            themeToggle.setAttribute(
+              "aria-pressed",
+              String(theme === "dark"),
+            );
+            themeToggle.setAttribute(
+              "aria-label",
+              theme === "dark"
+                ? "Switch to light theme"
+                : "Switch to dark theme",
+            );
+          }
+          if (themeIcon) {
+            themeIcon.dataset.themeIcon = theme === "dark" ? "sun" : "moon";
+          }
+        };
+
+        if (themeToggle) {
+          themeToggle.addEventListener("click", () => {
+            const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
+            applyTheme(nextTheme);
+            try {
+              localStorage.setItem(storageKey, nextTheme);
+            } catch {
+              // Ignore storage failures.
+            }
+          });
+        }
+
+        applyTheme(root.dataset.theme === "dark" ? "dark" : "light");
+      })();
+
+      (() => {
+        const tabs = Array.from(document.querySelectorAll("[role='tab']"));
+        const panels = Array.from(document.querySelectorAll("[role='tabpanel']"));
+
+        const animatePanel = (panel) => {
+          panel.animate(
+            [
+              { opacity: 0, transform: "translateY(10px)" },
+              { opacity: 1, transform: "translateY(0)" },
+            ],
+            {
+              duration: 180,
+              easing: "ease-out",
+            },
+          );
+        };
+
+        const activateTab = (tabId, { focus = false } = {}) => {
+          const targetTab = tabs.find((tab) => tab.id === tabId);
+          const targetPanel = panels.find(
+            (panel) => panel.id === targetTab?.getAttribute("aria-controls"),
+          );
+
+          if (!targetTab || !targetPanel) {
+            return;
+          }
+
+          tabs.forEach((tab) => {
+            const isActive = tab === targetTab;
+            tab.setAttribute("aria-selected", String(isActive));
+            tab.tabIndex = isActive ? 0 : -1;
+          });
+
+          panels.forEach((panel) => {
+            const isActive = panel === targetPanel;
+            panel.hidden = !isActive;
+            if (isActive) {
+              animatePanel(panel);
+            }
+          });
+
+          if (focus) {
+            targetTab.focus({ preventScroll: true });
+          }
+        };
+
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            activateTab(tab.id, { focus: true });
+          });
+
+          tab.addEventListener("keydown", (event) => {
+            const currentIndex = tabs.indexOf(tab);
+            let nextIndex = -1;
+
+            switch (event.key) {
+              case "ArrowLeft":
+                event.preventDefault();
+                nextIndex = currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
+                break;
+              case "ArrowRight":
+                event.preventDefault();
+                nextIndex = currentIndex === tabs.length - 1 ? 0 : currentIndex + 1;
+                break;
+              case "Home":
+                event.preventDefault();
+                nextIndex = 0;
+                break;
+              case "End":
+                event.preventDefault();
+                nextIndex = tabs.length - 1;
+                break;
+              case "Enter":
+              case " ":
+                event.preventDefault();
+                activateTab(tab.id, { focus: true });
+                return;
+              default:
+                return;
+            }
+
+            if (nextIndex >= 0) {
+              activateTab(tabs[nextIndex].id, { focus: true });
+            }
+          });
+        });
+
+        activateTab("tab-london");
+      })();
+    </script>
+  </body>
+</html>

@@ -10,9 +10,15 @@ Only sync to live after the dev state is stable:
 
 Current sync set:
 
-- `index.html`
-- `favicon.ico`
-- `graded-reading/`
+- `index.html`, `favicon.ico`, `pics/`, and `images/` at the live webroot
+- the reading mirror under `efast/` via the exact rsync manifest helper
+
+Exact efast manifest:
+
+```bash
+bash ./scripts/efast-rsync-manifest.sh
+bash ./scripts/efast-rsync-manifest.sh --apply
+```
 
 Use the repo sync helper:
 

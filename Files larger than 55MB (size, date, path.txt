@@ -1,0 +1,194 @@
+Files larger than 55MB (size, date, path):
+851.0MB 2025-12-17 01:26 /home/eagles/.cache/trivy/db/trivy.db
+654.9MB 2026-04-17 20:02 /home/moodle.eagles.edu.vn/app/.git/objects/pack/pack-29ed5af3d226cf52d514fba740ac6691ac6b2b8d.pack
+612.7MB 2025-08-14 17:50 /home/eagles.edu.vn/public_html/administrator/components/com_akeebabackup/backup/site-eagles.edu.vn-20250814-174802+07-uK19vHQfjCOGNxV3.jpa
+496.0MB 2026-05-02 20:12 /home/eagles/.codeium/database/9c0694567290725d9dcba14ade58e297/3/MODEL_EMBED_6591/embedding_database.sqlite
+449.2MB 2025-03-04 16:40 /usr/local/cyberpanel/.git/objects/pack/pack-2ffbacf1ed37338b412e8e12eb0c4d7c60598d0f.pack
+449.1MB 2025-02-20 22:22 /usr/local/CyberCP/.git/objects/pack/pack-95c249e35eb6ab5a8f6d25046c7a53091badc86f.pack
+413.3MB 2026-04-26 00:06 /home/eagles/.codeium/ws-browser/chromium-1155/chrome-linux/chrome
+318.1MB 2026-04-21 22:44 /home/eagles/.config/Code/User/workspaceStorage/90721ecd9f5d217281b13bab03d409c2/state.vscdb.backup
+318.1MB 2026-04-20 17:29 /home/eagles/.config/Code/User/workspaceStorage/90721ecd9f5d217281b13bab03d409c2/state.vscdb
+276.3MB 2026-04-26 00:06 /home/eagles/.codeium/ws-browser/chromium_headless_shell-1155/chrome-linux/headless_shell
+241.1MB 2026-03-09 19:54 /home/eagles/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome
+233.3MB 2026-03-23 17:29 /home/eagles/dockerz/megs/node_modules/puppeteer/.local-chromium/linux-722234/chrome-linux/chrome
+218.9MB 2026-04-23 06:45 /home/eagles/.config/Code/CachedExtensionVSIXs/google.geminicodeassist-2.79.0
+216.2MB 2026-05-02 01:35 /home/eagles/.vscode/extensions/openai.chatgpt-26.429.30905-linux-x64/bin/linux-x86_64/codex
+208.4MB 2026-02-19 23:54 /home/eagles/dockerz/megs/.git/objects/pack/pack-ff2dd90e9ed3771d7e798276b6ee33b72ecbdd35.pack
+199.9MB 2026-04-29 11:38 /home/eagles/.vscode/extensions/openai.chatgpt-26.422.71525-linux-x64/bin/linux-x86_64/codex
+194.1MB 2026-04-23 06:45 /home/eagles/.vscode/extensions/google.geminicodeassist-2.79.0/cloudcode_cli.zip
+193.3MB 2025-07-04 03:31 /home/eagles/.config/google-chrome/component_crx_cache/75ee5d483ce66a72eeba7893ba9399ba6c46f0265e317087b335d0d1e72693a6
+183.3MB 2026-04-18 01:35 /usr/share/code/code
+178.7MB 2026-04-26 00:05 /home/eagles/.vscode/extensions/codeium.codeium-1.48.2/dist/e03af6ebc40b844314d448f947c80b636d093049/language_server_linux_x64
+170.1MB 2026-03-09 19:54 /home/eagles/.cache/puppeteer/chrome-headless-shell/linux-131.0.6778.204/chrome-headless-shell-linux64/chrome-headless-shell
+163.8MB 2026-04-26 14:20 /home/eagles/dockerz/sis/backups/full-system/sis-full-snapshot-20260426-141933-before-live-sync.tar.gz
+163.1MB 2026-04-26 15:31 /home/eagles/dockerz/sis/.git/objects/69/2296501fc2486d004f242bc44bb6d94f2f9df3
+153.9MB 2025-07-09 10:42 /var/lib/docker/overlay2/cf83c7d3ae9ff0d01fa7d744bbc746b3eb9067162639e58aa04c7d03d0eb9c9a/diff/usr/lib/libLLVM.so.19.1
+126.3MB 2026-03-13 22:10 /home/eagles/.cache/cloud-code/cloudcode_cli/cloudcode_cli/d079070/cloudcode_cli
+120.1MB 2026-05-02 21:35 /home/eagles/.config/google-chrome/component_crx_cache/180bf99a583805921a9c33e849b4d335c39bd393bc2c675111571c625831ca83
+118.6MB 2026-04-28 11:09 /home/eagles/.codex/sessions/2026/04/26/rollout-2026-04-26T16-35-36-019dc924-f6c7-7140-a262-093d26dbc45d.jsonl
+116.0MB 2025-07-31 15:42 /home/eagles/.nvm/versions/node/v22.18.0/bin/node
+115.2MB 2026-03-07 18:48 /home/eagles/.config/google-chrome/component_crx_cache/cdd64b8ad27b28cee5ea6ccce04e8d55d2ab70dc08d2a46c30b21be7f05c634e
+115.2MB 2026-03-07 18:48 /home/eagles/.config/google-chrome/SODA/1.2.5/SODAFiles/libsoda.so
+114.6MB 2025-09-25 17:18 /home/eagles/.cache/ms-playwright-go/1.50.1/node
+112.0MB 2023-08-10 07:22 /var/lib/snapd/seed/snaps/lxd_24322.snap
+109.0MB 2026-05-01 06:41 /boot/initrd.img-5.15.0-176-generic
+109.0MB 2026-05-02 00:56 /boot/initrd.img-5.15.0-177-generic
+108.0MB 2025-02-27 01:40 /var/lib/mysql/eagl_joo45db/mtayi_logstore_standard_log.ibd
+107.5MB 2026-05-02 01:35 /home/eagles/.config/Code/CachedExtensionVSIXs/openai.chatgpt-26.429.30905-linux-x64
+101.2MB 2026-04-29 11:38 /home/eagles/.config/Code/CachedExtensionVSIXs/openai.chatgpt-26.422.71525-linux-x64
+98.7MB 2026-05-02 23:20 /home/eagles/.codex/logs_2.sqlite
+96.0MB 2026-05-02 23:20 /var/lib/mysql/ib_logfile0
+95.3MB 2025-07-15 22:38 /home/eagles/node-v20.19.4-linux-x64/bin/node
+95.3MB 2025-07-15 22:38 /home/eagles/.nvm/versions/node/v20.19.4/bin/node
+95.3MB 2025-07-15 22:38 /home/eagles/.local/node-v20.19.4/bin/node
+94.9MB 2024-05-29 01:32 /var/lib/docker/overlay2/819b10e22727b9c70b8accb5faeb62494699d1dbcc08e82549b5041e11077015/diff/usr/local/bin/node
+94.8MB 2026-04-17 01:30 /home/eagles/Downloads/moodle-latest-501.zip
+94.0MB 2026-03-17 01:39 /home/test.eagles.edu.vn/sis/dev/tabulatorz/.git/objects/pack/pack-a824c193d729be255f88b59f3bac7c14da5bd480.pack
+94.0MB 2026-03-17 01:39 /home/eagles/dockerz/sis/dev/tabulatorz/.git/objects/pack/pack-a824c193d729be255f88b59f3bac7c14da5bd480.pack
+92.8MB 2026-04-23 16:04 /home/eagles/.vscode/extensions/deque-systems.vscode-axe-linter-4.11.1/dist/bin/LSP-server-4.11.1
+91.7MB 2026-04-10 09:15 /var/lib/snapd/snaps/lxd_38800.snap
+90.2MB 2026-04-27 00:52 /home/moodle.eagles.edu.vn/moodledata/filedir/81/e5/81e56789013288513d7459054d131fc7d20337e7
+90.2MB 2026-04-20 00:51 /home/moodle.eagles.edu.vn/moodledata/filedir/ed/65/ed6567666800503f41a5da610c05854d5107f31c
+90.0MB 2026-04-18 17:34 /home/eagles/Downloads/backup-moodle2-course-4-a2_flyer®-20260418-1730.mbz
+90.0MB 2026-04-18 17:33 /home/anhngu.eagles.edu.vn/moodledata/filedir/de/4d/de4d3ee4e438b884b42eb814e0ff8884d0c30a6e
+88.0MB 2026-05-02 20:50 /var/log/journal/d68569ff92df46ed867cc1beec26e94e/system@33e9241e2d584f81b017941b9b6221d8-000000000082dae9-000650c7662bb437.journal
+85.9MB 2025-08-06 01:54 /home/eagles/.cache/redisinsight-updater/pending/Redis-Insight-linux-amd64.deb
+81.4MB 2025-11-03 16:57 /var/lib/docker/overlay2/0a684ca31d1522bc088c21124cf84d09cbafc35114436eeab51be9c5d22ac8c1/diff/var/cache/apt/redis-stack/redisinsight-web-2.70.1.jammy.x86_64.deb
+80.3MB 2023-07-22 17:51 /home/eagles.edu.vn/public_html/images/lottie/lottie-player.tar
+76.4MB 2025-08-09 20:12 /home/eagles/dockerz/efast-copy/.git/objects/pack/pack-4732f86520a15dd417678c18775dd8e2e295eb19.pack
+76.2MB 2024-08-24 05:46 /home/eagles/.vscode/extensions/video-binaries/ffmpeg
+76.0MB 2026-05-02 21:23 /var/lib/mysql/ibdata1
+76.0MB 2025-02-27 01:39 /var/lib/mysql/eagl_joo45db/mtayi_question_attempt_steps.ibd
+76.0MB 2024-08-24 05:46 /home/eagles/.vscode/extensions/video-binaries/ffprobe
+73.5MB 2024-01-19 04:20 /home/eagles.edu.vn/public_html/audio/IELTS-practice-Listening-test1-part-1.wav
+70.3MB 2025-02-27 22:50 /usr/local/bin/docker-compose
+68.3MB 2024-01-19 04:24 /home/eagles.edu.vn/public_html/audio/IELTS-practice-Listening-test1-part-2.wav
+66.9MB 2026-03-31 20:27 /var/lib/snapd/snaps/core24_1587.snap
+63.8MB 2026-03-25 00:03 /var/lib/snapd/snaps/core20_2769.snap
+63.5MB 2023-08-10 07:22 /var/lib/snapd/seed/snaps/core20_1974.snap
+62.7MB 2019-03-24 15:49 /usr/local/lscp/modules/mod_security.so
+62.3MB 2026-04-17 15:15 /home/moodle.eagles.edu.vn/moodledata/geoip/GeoLite2-City.mmdb
+62.3MB 2026-04-17 15:15 /home/eagles/Downloads/GeoLite2-City.mmdb
+61.4MB 2022-04-21 23:16 /var/lib/apt/lists/vn.archive.ubuntu.com_ubuntu_dists_jammy_universe_binary-amd64_Packages
+59.8MB 2026-05-01 16:36 /home/eagles/.vscode/agent-plugins/github.com/github/awesome-copilot/.git/objects/pack/pack-5bdac5e9f4fb530eb19c93eb69785458ffbef549.pack
+56.4MB 2025-11-03 16:57 /var/lib/docker/overlay2/0a684ca31d1522bc088c21124cf84d09cbafc35114436eeab51be9c5d22ac8c1/diff/var/cache/apt/redis-stack/redis-stack-server-7.4.0-v8.jammy.x86_64.deb
+
+Directories 1GB or larger (size, path):
+75G	/
+42G	/home
+33G	/home/eagles
+14G	/root
+13G	/home/eagles/dockerz
+12G	/root/.local/share/Trash/files
+12G	/root/.local/share/Trash
+12G	/root/.local/share
+12G	/root/.local
+9.7G	/usr
+7.6G	/home/eagles/.config
+7.4G	/home/eagles/dockerz/efast-copy
+5.1G	/var
+4.6G	/var/lib
+4.6G	/home/eagles/.cache
+4.1G	/usr/lib
+3.9G	/home/eagles/.config/Code
+3.7G	/home/eagles/.config/google-chrome
+3.1G	/home/thuvien.eagles.edu.vn
+2.9G	/home/thuvien.eagles.edu.vn/public_html
+2.9G	/home/eagles/dockerz/efast-copy/.git
+2.8G	/usr/local
+2.6G	/home/eagles/.vscode
+2.5G	/home/thuvien.eagles.edu.vn/public_html/turn4js/flip
+2.5G	/home/thuvien.eagles.edu.vn/public_html/turn4js
+2.4G	/home/eagles/.vscode/extensions
+2.3G	/home/eagles/dockerz/sis
+2.2G	/var/lib/docker/overlay2
+2.2G	/var/lib/docker
+2.1G	/home/eagles/.cache/uv
+2.0G	/home/eagles/.cache/uv/archive-v0
+1.8G	/home/eagles/dockerz/megs
+1.7G	/usr/share
+1.7G	/home/moodle.eagles.edu.vn
+1.5G	/var/lib/mysql
+1.5G	/home/eagles/.nvm/versions/node
+1.5G	/home/eagles/.nvm/versions
+1.5G	/home/eagles/.nvm
+1.5G	/home/eagles/.config/google-chrome/Profile 3
+1.5G	/home/eagles.edu.vn/public_html
+1.5G	/home/eagles.edu.vn
+1.4G	/opt
+1.4G	/home/eagles/.codex
+1.4G	/home/eagles/.codeium
+1.3G	/usr/lib/x86_64-linux-gnu
+1.3G	/home/eagles/.codex/sessions
+1.3G	/home/admin.eagles.edu.vn
+1.2G	/usr/lib/firmware
+1.2G	/home/moodle.eagles.edu.vn/app
+1.2G	/home/eagles/dockerz/efast-copy/eslread
+1.2G	/home/eagles/.config/Code/WebStorage
+1.2G	/home/eagles/.codex/sessions/2026
+1.1G	/usr/local/CyberCP
+1.1G	/snap
+1.1G	/home/eagles/dockerz/sis/backups
+1.1G	/home/admin.eagles.edu.vn/sis
+
+VS Code configuration directory size (/home/eagles/.config/Code):
+3.9G	/home/eagles/.config/Code
+1.2G	/home/eagles/.config/Code/WebStorage
+919M	/home/eagles/.config/Code/User
+767M	/home/eagles/.config/Code/Cache
+529M	/home/eagles/.config/Code/CachedExtensionVSIXs
+278M	/home/eagles/.config/Code/Dictionaries
+194M	/home/eagles/.config/Code/CachedData
+44M	/home/eagles/.config/Code/logs
+10M	/home/eagles/.config/Code/Crashpad
+3.3M	/home/eagles/.config/Code/Partitions
+1.9M	/home/eagles/.config/Code/Local Storage
+1.4M	/home/eagles/.config/Code/Service Worker
+1.2M	/home/eagles/.config/Code/CachedProfilesData
+352K	/home/eagles/.config/Code/GPUCache
+296K	/home/eagles/.config/Code/DawnWebGPUCache
+296K	/home/eagles/.config/Code/DawnGraphiteCache
+52K	/home/eagles/.config/Code/Shared Dictionary
+40K	/home/eagles/.config/Code/shared_proto_db
+32K	/home/eagles/.config/Code/Session Storage
+16K	/home/eagles/.config/Code/Code Cache
+8.0K	/home/eagles/.config/Code/CachedConfigurations
+4.0K	/home/eagles/.config/Code/Backups
+0	/home/eagles/.config/Code/blob_storage
+0	/home/eagles/.config/Code/Workspaces
+0	/home/eagles/.config/Code/VideoDecodeStats
+
+Pruning VS Code History in /home/eagles/.config/Code/User/History...
+ - Deleting entries older than 30 days...
+
+=== Space reclaimed this run ===
+ - APT cache/autoremove                 0.0B
+ - Journal vacuum                    112.1MB
+ - Temp cleanup                         0.0B
+ - Old logs cleanup                     0.0B
+ - Snap cleanup                      552.0KB
+ - Flatpak cleanup                      0.0B
+ - Docker prune                         0.0B
+ - npm/yarn cache                    371.9MB
+ - Dev caches (npx/playwright/codacy)       43.6MB
+ - Downloads (older than 45d)           0.0B
+ - Logrotate force                    14.9MB
+ - VS Code history prune                0.0B
+ = TOTAL                             542.9MB
+================================
+Trimming SSD...
+/: 7.2 GiB (7684804608 bytes) trimmed on /dev/sda2
+Providing disk usage report...
+Filesystem      Size  Used Avail Use% Mounted on
+tmpfs           1.2G  1.8M  1.2G   1% /run
+/dev/sda2        80G   74G  6.6G  92% /
+tmpfs           5.9G  335M  5.6G   6% /dev/shm
+tmpfs           5.0M     0  5.0M   0% /run/lock
+overlay          80G   74G  6.6G  92% /var/lib/docker/overlay2/e0dcc6f2dc2b95ab02238600bf16f0fd962ba332b2b9440250c8acab8358610e/merged
+overlay          80G   74G  6.6G  92% /var/lib/docker/overlay2/a7c46797f5fd8ad09a2b1437f09f16ae5866a058d487728dcd165cd550b33145/merged
+overlay          80G   74G  6.6G  92% /var/lib/docker/overlay2/1dab16c8a8109470a2e7b1bdc5565ce77f0fdc3f9234800b13025e849bedb5c2/merged
+tmpfs           1.2G  100K  1.2G   1% /run/user/1002
+
+=== System cleanup complete! ===
+You have mail in /var/mail/root
+root@cloud:/home/eagles/Documents/utils#

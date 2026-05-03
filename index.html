@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta
       name="description"
-      content="A clean English reading homepage for learners with leveled texts, vocabulary support, quizzes, and teacher-friendly reading practice.">
+    content="1800+ short leveled texts, useful vocabulary, audio support, comprehension checks, and teacher-friendly activities for class or self-study.">
+    <meta name="keywords" content="ESL, IELTS, TOEIC, Cambridge, Young learners,English as a Second Language, easy dialogues, ESL, conversations, listening, speaking, reading, vovabulary, learn English, library">
+    <meta rel="canonical" href="https://thuvien.eagles.edu.vn">
     <script>
       (() => {
         const storageKey = "theme";
@@ -31,21 +33,25 @@
         }
       })();
     </script>
-    <link
-      href="favicon.ico"
-      rel="shortcut icon"
-      type="image/vnd.microsoft.icon"
-    >
+    <link href="favicon.ico?v=2" rel="shortcut icon" type="image/vnd.microsoft.icon">
     <title>The Eagles Club | Reading Practice for English Learners</title>
 
     <style>
       :root {
         color-scheme: light;
-        --accent: #b50010;
+        --accent: var(--brand-primary);
         --accent-contrast: #ffffff;
-        --accent-strong: #86000c;
+        --accent-strong: var(--brand-primary-dark);
         --bg-accent: rgba(181, 0, 16, 0.08);
         --bg-accent-2: rgba(0, 39, 134, 0.08);
+        --brand-primary: #b50010;
+        --brand-primary-dark: #86000c;
+        --brand-secondary: #f5f8ff;
+        --brand-tertiary: #002786;
+        --brand-primary-dm: #ff4a5f;
+        --brand-primary-dm-dark: #d93c52;
+        --brand-secondary-dm: #7da2ff;
+        --brand-secondary-dm-dark: #3b73ff;
         --badge-accent: rgba(181, 0, 16, 0.1);
         --badge-accent-2: rgba(0, 39, 134, 0.12);
         --border-pre-a1: #9aa0a6;
@@ -53,15 +59,15 @@
         --border-a2: #93d66b;
         --border-b1: #f3b55b;
         --border-b2: #f07c7c;
-        --cta-bg-end: #002786;
-        --cta-bg-start: #b50010;
+        --cta-bg-end: var(--brand-tertiary);
+        --cta-bg-start: var(--brand-primary);
         --border: #8d929e;
         --focus-ring: rgba(0, 39, 134, 0.32);
         --max-width: 1180px;
         --muted: #5f6b82;
         --page-bg: #d3d9e5;
         --primary-color: #b50010;
-        --primary-dark: #86000c;
+        --primary-dark: var(--brand-primary-dark);
         --primary: var(--primary-color);
         --space-1: clamp(8px, 0.75vw, 10px);
         --space-2: clamp(12px, 1.1vw, 14px);
@@ -77,10 +83,10 @@
         --radius-1: var(--radius-base);
         --radius-2: calc(var(--radius-base) * 2);
         --radius-3: calc(var(--radius-base) * 3);
-        --secondary-color: #e4e9f2;
+        --secondary-color: #f5f8ff;
         --shadow: 0 18px 45px rgba(0, 39, 134, 0.12);
-        --feature-bg-end: #b50010;
-        --feature-bg-start: #002786;
+        --feature-bg-end: var(--brand-primary);
+        --feature-bg-start: var(--brand-tertiary);
         --on-accent: #ffffff;
         --on-accent-muted: rgba(255, 255, 255, 0.78);
         --on-accent-soft: rgba(255, 255, 255, 0.82);
@@ -89,25 +95,28 @@
         --surface: #ffffff;
         --surface-soft: #f3f5ff;
         --surface-strong: #ffffff;
+        --footer-bg: var(--brand-tertiary);
+        --footer-border: rgba(255, 255, 255, 0.18);
+        --footer-text: #e4e9f2;
         --tertiary-color: #002786;
         --text: #212121;
       }
 
       html[data-theme="dark"] {
         color-scheme: dark;
-        --accent: #bfbfbf;
+        --accent: var(--brand-primary-dm);
         --accent-contrast: #101010;
-        --accent-strong: #e8e8e8;
-        --bg-accent: rgba(255, 255, 255, 0.03);
-        --bg-accent-2: rgba(255, 255, 255, 0.015);
+        --accent-strong: var(--brand-secondary-dm);
+        --bg-accent: rgba(255, 74, 95, 0.08);
+        --bg-accent-2: rgba(126, 163, 255, 0.03);
         --badge-accent: rgba(255, 255, 255, 0.08);
         --badge-accent-2: rgba(255, 255, 255, 0.14);
         --border: #555555;
-        --focus-ring: rgba(235, 235, 235, 0.34);
+        --focus-ring: rgba(126, 163, 255, 0.38);
         --muted: #c2c2c2;
         --page-bg: #050505;
-        --primary-color: #d9d9d9;
-        --primary-dark: #f0f0f0;
+        --primary-color: var(--brand-primary-dm);
+        --primary-dark: var(--brand-primary-dm-dark);
         --secondary-color: #111111;
         --shadow: 0 18px 42px rgba(0, 0, 0, 0.5);
         --feature-bg-end: #323232;
@@ -120,8 +129,11 @@
         --surface: #262626;
         --surface-soft: #333333;
         --surface-strong: #141414;
-        --tertiary-color: #efefef;
-        --text: #f0f0f0;
+        --footer-bg: var(--brand-tertiary);
+        --footer-border: rgba(255, 255, 255, 0.18);
+        --footer-text: #e4e9f2;
+        --tertiary-color: var(--brand-secondary-dm);
+        --text: var(--brand-secondary);
         --cta-bg-end: #3e3e3e;
         --cta-bg-start: #1f1f1f;
       }
@@ -230,21 +242,21 @@
         border-radius: var(--radius-2);
         color: var(--secondary-color);
         display: flex;
-        font-size: 0.85rem;
+        font-size: 1.25rem;
         font-weight: 700;
         justify-content: space-between;
         letter-spacing: 0.08em;
         line-height: 1;
         min-block-size: 18px;
         margin-top: var(--space-2);
-        padding-block: 6px;
+        padding-block: 8px;
         padding-inline: calc(var(--space-2) * 1.9);
         width: 100%;
       }
 
       .hub-banner a {
         color: inherit;
-        font-size: inherit;
+        font-size: 1.25rem;
         font-weight: inherit;
         text-decoration: none;
         transition: color 120ms ease, text-decoration-color 120ms ease;
@@ -254,7 +266,7 @@
       .hub-banner a:focus-visible {
         color: var(--accent-contrast);
         text-decoration: underline;
-        text-underline-offset: 3px;
+        text-underline-offset: 5px;
       }
 
       .nav {
@@ -278,17 +290,16 @@
         text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
       }
 
-      .brand-title {
-        color: var(--tertiary-color);
-        display: inline-block;
-        font-size: 1.08rem;
-        font-variant-numeric: tabular-nums;
-        font-weight: 950;
-        letter-spacing: 0.01em;
-        line-height: 1;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.58);
-        white-space: nowrap;
-      }
+        .brand-title {
+          color: var(--text);
+          display: inline-block;
+          font-size: clamp(0.98rem, 0.8vw + 0.72rem, 1.25rem);
+          font-variant-numeric: tabular-nums;
+          font-weight: 950;
+          letter-spacing: 0.01em;
+          line-height: 1;
+          white-space: nowrap;
+        }
 
       /* CHANGE: Header mark now uses the supplied logo as inline SVG, removing the external logo image dependency. */
       .brand-mark {
@@ -317,7 +328,7 @@
       }
 
       .nav-actions {
-        display: none;
+        display: flex;
       }
 
       .btn {
@@ -585,7 +596,8 @@
       }
 
       .sample-text {
-        color: var(--muted);
+        color: var(--text);
+        font-size: clamp(1rem, 0.35vw + 0.92rem, 1.04rem);
       }
 
       .vocab-row {
@@ -599,13 +611,20 @@
         background: var(--surface-soft);
         border-left: 4px solid var(--primary);
         border-radius: var(--radius-2);
-        font-size: 0.92rem;
+        font-size: clamp(1rem, 0.35vw + 0.92rem, 1.04rem);
         padding: 12px;
       }
 
       .vocab-card strong {
         color: var(--tertiary-color);
         display: block;
+        font-size: 1.45rem;
+        line-height: 1;
+      }
+
+      .vocab-card span {
+        color: var(--text);
+        font-size: inherit;
       }
 
       .stats {
@@ -630,10 +649,7 @@
 
       .stat strong.is-animating {
         opacity: 0.92;
-        transform: translateY(-1px) scale(1.02);
-        transition:
-          opacity 180ms ease,
-          transform 180ms ease;
+        transition: opacity 180ms ease;
       }
 
       .stat-counter strong {
@@ -717,6 +733,19 @@
       }
 
       html[data-theme="dark"] .icon {
+        background:
+          radial-gradient(
+            circle at top left,
+            color-mix(in srgb, var(--brand-primary-dm) 20%, transparent),
+            transparent 60%
+          ),
+          var(--surface-soft);
+        border-color: color-mix(
+          in srgb,
+          var(--brand-primary-dm) 26%,
+          var(--border)
+        );
+        color: var(--brand-primary-dm);
         box-shadow: 0 10px 22px rgba(0, 0, 0, 0.42);
       }
 
@@ -740,6 +769,7 @@
       }
 
       .level-card {
+        container-type: inline-size;
         background:
           radial-gradient(
             circle at top left,
@@ -901,6 +931,40 @@
         );
       }
 
+      html[data-theme="dark"] .hub-banner {
+        align-items: center;
+        background: var(--brand-primary-dark);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: var(--radius-2);
+        color: #e4e9f2;
+        display: flex;
+        font-size: 1.25rem;
+        font-weight: 700;
+        justify-content: space-between;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        min-block-size: 18px;
+        margin-top: var(--space-2);
+        padding-block: 8px;
+        padding-inline: calc(var(--space-2) * 1.9);
+        width: 100%;
+      }
+
+      html[data-theme="dark"] .hub-banner a {
+        color: inherit;
+        font-size: 1.25rem;
+        font-weight: inherit;
+        text-decoration: none;
+        transition: color 120ms ease, text-decoration-color 120ms ease;
+      }
+
+      html[data-theme="dark"] .hub-banner a:hover,
+      html[data-theme="dark"] .hub-banner a:focus-visible {
+        color: #e4e9f2;
+        text-decoration: underline;
+        text-underline-offset: 5px;
+      }
+
       .level-card > * {
         position: relative;
         z-index: 1;
@@ -1014,22 +1078,23 @@
 
       .level-card h3 {
         color: var(--tertiary-color);
-        font-size: 1.7rem;
+        font-size: clamp(1.08rem, 6.4cqi, 1.48rem);
         letter-spacing: -0.02em;
+        line-height: 1.08;
       }
 
       html[data-theme="dark"] .level-card h3 {
-        font-size: 1.8rem;
+        font-size: clamp(1.08rem, 6.4cqi, 1.52rem);
       }
 
       .level-card p {
-        font-size: 1.08rem;
-        line-height: 1.7;
+        font-size: clamp(0.93rem, 3.15cqi, 1.03rem);
+        line-height: 1.62;
         max-width: 24ch;
       }
 
       html[data-theme="dark"] .level-card p {
-        font-size: 1.1rem;
+        font-size: clamp(0.93rem, 3.15cqi, 1.05rem);
       }
 
       .feature-strip {
@@ -1086,14 +1151,14 @@
       }
 
       .site-footer {
-        color: var(--secondary-color);
+        color: var(--footer-text);
         margin-top: var(--space-4);
         margin-bottom: var(--space-4);
       }
 
       .site-footer .shell {
-        background: var(--tertiary-color);
-        border-color: color-mix(in srgb, var(--secondary-color) 16%, var(--tertiary-color));
+        background: var(--footer-bg);
+        border-color: var(--footer-border);
       }
 
       .site-footer .section-shell {
@@ -1163,29 +1228,20 @@
           display: none;
         }
 
-      .brand {
-        font-size: 1rem;
-        gap: 6px;
-      }
-
-      .brand-title {
-        font-size: 0.98rem;
-        letter-spacing: 0.01em;
-      }
+        .brand {
+          font-size: 1rem;
+          gap: 6px;
+        }
 
         .brand-mark {
           height: 40px;
           width: 40px;
         }
 
-      .brand-mark svg {
-        height: 32px;
-        width: 32px;
-      }
-
-      .brand-title {
-        font-size: 1.14rem;
-      }
+        .brand-mark svg {
+          height: 32px;
+          width: 32px;
+        }
 
         .hero {
           padding: 24px 0;
@@ -1482,9 +1538,7 @@
               <h1>Build English reading fluency</h1>
               <h2>...one story at a time</h2>
               <p class="hero-copy">
-                The Eagles American English Club, Ltd. gives students short
-                leveled texts, useful vocabulary, audio support, comprehension
-                checks, and teacher-friendly activities for class or self-study.
+                The Eagles American English Club, Ltd. gives students short leveled texts, useful vocabulary, audio support, comprehension checks, and teacher-friendly activities for class or self-study.
               </p>
               <div class="hero-actions" aria-hidden="true"></div>
             </div>
@@ -1535,8 +1589,7 @@
                 <a class="level-card b2" href="#">
                   <span class="level-icon b2">B2</span>
                   <h3>
-                    Exam<br>
-                    Ready
+                    Exam Ready
                   </h3>
                   <p>
                     Academic vocabulary, inference questions, summaries, and discussion tasks.
@@ -2526,19 +2579,19 @@
             </p>
             <div class="vocab-row">
               <div class="vocab-card">
-                <strong>fresh</strong>new or recently made
+                <strong>fresh</strong><span>new or recently made</span>
               </div>
               <div class="vocab-card">
-                <strong>seller</strong>a person who sells things
+                <strong>seller</strong><span>a person who sells things</span>
               </div>
               <div class="vocab-card">
-                <strong>near</strong>not far away
+                <strong>near</strong><span>not far away</span>
               </div>
             </div>
 
             <div class="stats">
               <div class="stat">
-                <strong data-count-target="250" data-count-suffix="+">0</strong>
+                <strong data-count-target="1844">0</strong>
                 texts
               </div>
               <div class="stat">
@@ -2597,7 +2650,9 @@
             <article class="card">
               <div class="icon" aria-hidden="true">
                 <svg viewBox="0 0 32 32">
-                  <use href="images/icons/icomoon/symbol-defs.svg#icon-headphones"></use>
+                  <path d="M9 18h-2v14h2c0.55 0 1-0.45 1-1v-12c0-0.55-0.45-1-1-1z"></path>
+                  <path d="M23 18c-0.55 0-1 0.45-1 1v12c0 0.55 0.45 1 1 1h2v-14h-2z"></path>
+                  <path d="M32 16c0-8.837-7.163-16-16-16s-16 7.163-16 16c0 1.919 0.338 3.759 0.958 5.464-0.609 1.038-0.958 2.246-0.958 3.536 0 3.526 2.608 6.443 6 6.929v-13.857c-0.997 0.143-1.927 0.495-2.742 1.012-0.168-0.835-0.258-1.699-0.258-2.584 0-7.18 5.82-13 13-13s13 5.82 13 13c0 0.885-0.088 1.749-0.257 2.584-0.816-0.517-1.745-0.87-2.743-1.013v13.858c3.392-0.485 6-3.402 6-6.929 0-1.29-0.349-2.498-0.958-3.536 0.62-1.705 0.958-3.545 0.958-5.465z"></path>
                 </svg>
               </div>
               <h3>Read and listen</h3>
@@ -2610,7 +2665,7 @@
             <article class="card">
               <div class="icon" aria-hidden="true">
                 <svg viewBox="0 0 32 32">
-                  <use href="images/icons/icomoon/symbol-defs.svg#icon-help"></use>
+                  <path d="M22.544 3.573c-1.824-1.315-4.115-1.973-6.874-1.973-2.098 0-3.869 0.462-5.307 1.389-2.283 1.45-3.496 3.912-3.643 7.384h5.291c0-1.013 0.296-1.984 0.885-2.925 0.59-0.938 1.592-1.406 3.005-1.406 1.437 0 2.427 0.381 2.966 1.141 0.542 0.763 0.813 1.606 0.813 2.531 0 0.806-0.403 1.544-0.891 2.213-0.267 0.39-0.619 0.75-1.058 1.078 0 0-2.869 1.84-4.128 3.318-0.73 0.856-0.795 2.141-0.861 3.981-0.003 0.131 0.046 0.403 0.504 0.403 0.459 0 3.706 0 4.114 0 0.41 0 0.494-0.302 0.499-0.438 0.029-0.669 0.102-1.013 0.226-1.4 0.23-0.731 0.861-1.368 1.566-1.918l1.456-1.003c1.315-1.026 2.363-1.866 2.827-2.525 0.79-1.082 1.347-2.416 1.347-4-0.002-2.584-0.914-4.531-2.738-5.85zM15.586 23.878c-1.822-0.056-3.326 1.206-3.384 3.184-0.056 1.974 1.373 3.282 3.197 3.334 1.902 0.056 3.366-1.163 3.426-3.141 0.054-1.978-1.334-3.322-3.238-3.378z"></path>
                 </svg>
               </div>
               <h3>Check understanding</h3>
@@ -2622,8 +2677,8 @@
 
             <article class="card">
               <div class="icon" aria-hidden="true">
-                <svg viewBox="0 0 32 32">
-                  <use href="images/icons/icomoon/symbol-defs.svg#icon-key"></use>
+                <svg viewBox="0 0 30 32">
+                  <path d="M14.857 9.143c0-1.893-1.536-3.429-3.429-3.429s-3.429 1.536-3.429 3.429c0 0.518 0.125 1.018 0.339 1.482-0.464-0.214-0.964-0.339-1.482-0.339-1.893 0-3.429 1.536-3.429 3.429s1.536 3.429 3.429 3.429 3.429-1.536 3.429-3.429c0-0.518-0.125-1.018-0.339-1.482 0.464 0.214 0.964 0.339 1.482 0.339 1.893 0 3.429-1.536 3.429-3.429zM30.054 21.714c0 0.411-1.643 2.054-2.054 2.054-0.464 0-1.911-1.679-2.286-2.054l-1.714 1.714 3.929 3.929c0.321 0.321 0.5 0.768 0.5 1.214 0 1-1.143 2.143-2.143 2.143-0.446 0-0.893-0.179-1.214-0.5l-11.982-11.982c-1.875 1.393-4.161 2.339-6.518 2.339-3.893 0-6.571-2.696-6.571-6.571 0-5.857 5.857-11.714 11.714-11.714 3.875 0 6.571 2.679 6.571 6.571 0 2.357-0.946 4.643-2.339 6.518l6.339 6.339 1.714-1.714c-0.375-0.375-2.054-1.821-2.054-2.286 0-0.411 1.643-2.054 2.054-2.054 0.143 0 0.304 0.071 0.411 0.179 0.661 0.661 5.643 5.357 5.643 5.875z"></path>
                 </svg>
               </div>
               <h3>Use new words</h3>
@@ -2662,6 +2717,9 @@
     <script>
       (() => {
         const storageKey = "theme";
+        const visitStorageKey = "visit-count";
+        const visitGuardCookie = "visit-count-guard";
+        const visitGuardSeconds = 60 * 60;
         const root = document.documentElement;
         const toggle = document.querySelector("[data-theme-toggle]");
         const icon = toggle?.querySelector("[data-theme-toggle-icon]");
@@ -2671,16 +2729,32 @@
           document.querySelectorAll("[data-count-target]"),
         );
 
+        const getCookieValue = (name) => {
+          const prefix = `${name}=`;
+          const entry = document.cookie
+            .split("; ")
+            .find((part) => part.startsWith(prefix));
+          return entry ? decodeURIComponent(entry.slice(prefix.length)) : "";
+        };
+
+        const setCookieValue = (name, value, maxAgeSeconds) => {
+          document.cookie = `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAgeSeconds}; SameSite=Lax`;
+        };
+
         if (yearNode) {
           yearNode.textContent = String(new Date().getFullYear());
         }
 
-        const runSpinCounter = (node, target, { suffix = "", duration = 1200 } = {}) => {
+        const runSpinCounter = (
+          node,
+          target,
+          { suffix = "", duration = 2200 } = {},
+        ) => {
           const start = performance.now();
           const startValue = 0;
           const animateFrame = (now) => {
             const elapsed = Math.min(1, (now - start) / duration);
-            const eased = 1 - Math.pow(1 - elapsed, 3);
+            const eased = 1 - Math.pow(2, -10 * elapsed);
             const value = Math.round(startValue + (target - startValue) * eased);
             node.textContent = `${value}${suffix}`;
 
@@ -2698,16 +2772,21 @@
 
         const getCounterTarget = async (node) => {
           if (node === visitCountNode) {
-            const counterUrl =
-              "https://api.countapi.xyz/hit/the-eagles-club/index";
-
             try {
-              const response = await fetch(counterUrl, { cache: "no-store" });
-              const data = await response.json();
-              const value = Number(data?.value);
-              return Number.isFinite(value) && value > 0 ? value : null;
+              const saved = Number(localStorage.getItem(visitStorageKey));
+              const guarded = getCookieValue(visitGuardCookie);
+
+              if (guarded) {
+                return Number.isFinite(saved) && saved >= 100 ? saved : 100;
+              }
+
+              const nextValue =
+                Number.isFinite(saved) && saved >= 100 ? saved + 1 : 100;
+              localStorage.setItem(visitStorageKey, String(nextValue));
+              setCookieValue(visitGuardCookie, "1", visitGuardSeconds);
+              return nextValue;
             } catch {
-              return null;
+              return 100;
             }
           }
 
@@ -2716,6 +2795,8 @@
         };
 
         const animateMetrics = async () => {
+          await new Promise((resolve) => window.setTimeout(resolve, 330));
+
           const jobs = metricNodes.map(async (node) => {
             const target = await getCounterTarget(node);
             if (target === null) {

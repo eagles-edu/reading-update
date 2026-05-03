@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Sync selected dev files to the live webroot only when the current tree is stable.
+# Sync the homepage plus the reading mirror into the live webroot.
 # Dry-run by default. Use --apply to write to the live target.
 
 set -Eeuo pipefail
@@ -10,11 +10,13 @@ SOURCE_ROOT="$REPO_ROOT"
 TARGET_ROOT="/home/thuvien.eagles.edu.vn/public_html"
 APPLY=0
 
-# Keep this list small and explicit so we do not ship orphaned or clutter files.
-SYNC_ITEMS=(
+# Keep the root sync explicit. The reading mirror is handled by the efast rsync
+# manifest helper so it can stay replacement-safe under the /efast/ target.
+ROOT_SYNC_ITEMS=(
   "index.html"
   "favicon.ico"
-  "graded-reading/"
+  "pics/"
+  "images/"
 )
 
 usage() {
@@ -25,7 +27,7 @@ Options:
   --apply         Copy to the target webroot.
   --source PATH   Override the dev root (default: repo root).
   --target PATH   Override the live webroot (default: $TARGET_ROOT).
-  --item PATH     Add an extra relative path to sync. Can be repeated.
+  --item PATH     Add an extra relative path to the root sync. Can be repeated.
   --help          Show this help.
 
 Workflow:
@@ -34,9 +36,9 @@ Workflow:
   3. Run with --apply only after the dev state is stable.
 
 Notes:
-  - The script uses rsync without --delete.
-  - Only the explicit paths above are synced.
-  - Add new live-worthy paths with --item or by editing SYNC_ITEMS.
+  - The root sync uses rsync with --delete so it replaces stale files.
+  - The reading mirror is synced into /efast/ through the manifest helper.
+  - Add new live-worthy root paths with --item or by editing ROOT_SYNC_ITEMS.
 EOF
 }
 
@@ -58,7 +60,7 @@ while (($#)); do
     --item)
       shift
       [[ $# -gt 0 ]] || { echo "ERROR: --item requires a path" >&2; exit 2; }
-      SYNC_ITEMS+=("$1")
+      ROOT_SYNC_ITEMS+=("$1")
       ;;
     --help|-h)
       usage
@@ -74,39 +76,64 @@ while (($#)); do
 done
 
 SOURCE_ROOT="$(cd -- "$SOURCE_ROOT" && pwd)"
-TARGET_ROOT="$(cd -- "$TARGET_ROOT" && pwd)"
+if command -v realpath >/dev/null 2>&1; then
+  TARGET_ROOT="$(realpath -m -- "$TARGET_ROOT")"
+else
+  TARGET_ROOT="${TARGET_ROOT%/}"
+fi
+EFast_TARGET="$TARGET_ROOT/efast"
+MANIFEST_HELPER="$SCRIPT_DIR/efast-rsync-manifest.sh"
+
+sync_root_item() {
+  local item="$1"
+  local rel="${item%/}"
+
+  if [[ ! -e "$rel" ]]; then
+    echo "SKIP missing: $rel"
+    return 0
+  fi
+
+  if [[ "$APPLY" -eq 1 && -d "$rel" ]]; then
+    sudo mkdir -p "$TARGET_ROOT/$rel"
+  fi
+
+  local rsync_args=(-a --delete --relative --itemize-changes)
+  if [[ "$APPLY" -eq 0 ]]; then
+    rsync_args+=(-n)
+  fi
+
+  echo "SYNC root $rel"
+  sudo rsync "${rsync_args[@]}" "$item" "$TARGET_ROOT/"
+}
+
+sync_efast_tree() {
+  echo "SYNC efast/"
+  if [[ "$APPLY" -eq 1 ]]; then
+    bash "$MANIFEST_HELPER" --source "$SOURCE_ROOT" --target "$EFast_TARGET" --apply
+  else
+    bash "$MANIFEST_HELPER" --source "$SOURCE_ROOT" --target "$EFast_TARGET"
+  fi
+}
 
 if [[ "$APPLY" -eq 1 ]]; then
-  mkdir -p "$TARGET_ROOT"
+  sudo mkdir -p "$TARGET_ROOT"
 fi
 
 echo "Mode: $([[ "$APPLY" -eq 1 ]] && printf 'APPLY' || printf 'DRY-RUN')"
 echo "Source: $SOURCE_ROOT"
 echo "Target: $TARGET_ROOT"
-echo "Items:"
-printf '  - %s\n' "${SYNC_ITEMS[@]}"
+echo "Efast target: $EFast_TARGET"
+echo "Root items:"
+printf '  - %s\n' "${ROOT_SYNC_ITEMS[@]}"
 echo
 
 pushd "$SOURCE_ROOT" >/dev/null
 
-for item in "${SYNC_ITEMS[@]}"; do
-  rel="${item%/}"
-  if [[ ! -e "$rel" ]]; then
-    echo "SKIP missing: $rel"
-    continue
-  fi
-
-  if [[ "$APPLY" -eq 1 && -d "$rel" ]]; then
-    mkdir -p "$TARGET_ROOT/$rel"
-  fi
-
-  rsync_args=(-a --relative --itemize-changes)
-  if [[ "$APPLY" -eq 0 ]]; then
-    rsync_args+=(-n)
-  fi
-
-  echo "SYNC $rel"
-  rsync "${rsync_args[@]}" "$item" "$TARGET_ROOT/"
+for item in "${ROOT_SYNC_ITEMS[@]}"; do
+  sync_root_item "$item"
 done
+
+echo
+sync_efast_tree
 
 popd >/dev/null

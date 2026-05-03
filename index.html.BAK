@@ -626,20 +626,13 @@
         color: var(--primary);
         display: block;
         font-size: 1.45rem;
-      }
-
-      .stat strong.is-animating {
-        opacity: 0.92;
-        transform: translateY(-1px) scale(1.02);
-        transition:
-          opacity 180ms ease,
-          transform 180ms ease;
+        font-variant-numeric: tabular-nums;
+        line-height: 1.1;
+        min-width: 4ch;
       }
 
       .stat-counter strong {
-        font-variant-numeric: tabular-nums;
-        font-size: 1.85rem;
-        line-height: 1;
+        font-size: 1.45rem;
       }
 
       .stat-counter span {
@@ -2662,6 +2655,8 @@
     <script>
       (() => {
         const storageKey = "theme";
+        const visitStorageKey = "visit-count";
+        const visitSessionKey = "visit-count-session";
         const root = document.documentElement;
         const toggle = document.querySelector("[data-theme-toggle]");
         const icon = toggle?.querySelector("[data-theme-toggle-icon]");
@@ -2675,39 +2670,57 @@
           yearNode.textContent = String(new Date().getFullYear());
         }
 
-        const runSpinCounter = (node, target, { suffix = "", duration = 1200 } = {}) => {
+        const getCookie = (name) => {
+          const prefix = `${name}=`;
+          return document.cookie
+            .split("; ")
+            .find((entry) => entry.startsWith(prefix))
+            ?.slice(prefix.length) || "";
+        };
+
+        const setSessionCookie = (name) => {
+          document.cookie = `${name}=1; path=/; Max-Age=3600; SameSite=Lax`;
+        };
+
+        const runSpinCounter = (
+          node,
+          target,
+          { suffix = "", duration = 2200 } = {},
+        ) => {
           const start = performance.now();
           const startValue = 0;
           const animateFrame = (now) => {
             const elapsed = Math.min(1, (now - start) / duration);
-            const eased = 1 - Math.pow(1 - elapsed, 3);
+            const eased = 1 - Math.pow(2, -10 * elapsed);
             const value = Math.round(startValue + (target - startValue) * eased);
             node.textContent = `${value}${suffix}`;
 
             if (elapsed < 1) {
               requestAnimationFrame(animateFrame);
             } else {
-              node.classList.remove("is-animating");
               node.textContent = `${target}${suffix}`;
             }
           };
-
-          node.classList.add("is-animating");
           requestAnimationFrame(animateFrame);
         };
 
         const getCounterTarget = async (node) => {
           if (node === visitCountNode) {
-            const counterUrl =
-              "https://api.countapi.xyz/hit/the-eagles-club/index";
-
             try {
-              const response = await fetch(counterUrl, { cache: "no-store" });
-              const data = await response.json();
-              const value = Number(data?.value);
-              return Number.isFinite(value) && value > 0 ? value : null;
+              const saved = Number(localStorage.getItem(visitStorageKey));
+              const currentValue =
+                Number.isFinite(saved) && saved >= 100 ? saved : 100;
+              const sessionSeen = Boolean(getCookie(visitSessionKey));
+              const nextValue = sessionSeen ? currentValue : currentValue + 1;
+
+              localStorage.setItem(visitStorageKey, String(nextValue));
+              if (!sessionSeen) {
+                setSessionCookie(visitSessionKey);
+              }
+
+              return nextValue;
             } catch {
-              return null;
+              return 100;
             }
           }
 
@@ -2716,6 +2729,8 @@
         };
 
         const animateMetrics = async () => {
+          await new Promise((resolve) => window.setTimeout(resolve, 330));
+
           const jobs = metricNodes.map(async (node) => {
             const target = await getCounterTarget(node);
             if (target === null) {

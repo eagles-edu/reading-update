@@ -1,4 +1,29 @@
 {
+  "name": "efast-copy",
+  "private": true,
+  "version": "0.2.2.2",
+  "description": "Static English reading site with deployment helpers and lint tooling.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eagles-edu/reading-update.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eagles-edu/reading-update/issues"
+  },
+  "homepage": "https://github.com/eagles-edu/reading-update#readme",
+  "engines": {
+    "node": "20.19.4"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "sweep:html": "node ./scripts/html-repo-sweep.cjs",
+    "sweep:html:apply": "node ./scripts/html-repo-sweep.cjs --apply",
+    "sync:live": "bash ./scripts/sync-dev-to-live.sh",
+    "sync:live:apply": "bash ./scripts/sync-dev-to-live.sh --apply",
+    "efast:manifest": "bash ./scripts/efast-rsync-manifest.sh",
+    "efast:manifest:apply": "bash ./scripts/efast-rsync-manifest.sh --apply"
+  },
   "devDependencies": {
     "@eslint/css": "^0.10.0",
     "@eslint/js": "^9.32.0",
@@ -7,9 +32,11 @@
     "archiver": "^7.0.1",
     "axe-core": "^4.11.4",
     "cheerio": "^1.1.2",
+    "dependency-cruiser": "^17.3.10",
     "eslint": "^9.32.0",
     "glob": "^7.2.3",
     "globals": "^16.3.0",
+    "parse5": "^7.3.0",
     "playwright": "^1.59.1"
   }
 }

@@ -1,97 +1,1856 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+      name="description"
+      content="My Reader: Stories 5 in a tabbed reading index with the same Eagles theme and a cleaner, animated layout."
+    >
+    <title>My Reader: Stories 5</title>
+    <link href="../favicon.ico?v=2" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <script>
+      (() => {
+        const storageKey = "theme";
+        const root = document.documentElement;
 
- <html lang="en">
+        try {
+          const savedTheme = localStorage.getItem(storageKey);
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          const theme =
+            savedTheme === "light" || savedTheme === "dark"
+              ? savedTheme
+              : prefersDark
+                ? "dark"
+                : "light";
 
-<head>
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+        } catch {
+          root.dataset.theme = "light";
+          root.style.colorScheme = "light";
+        }
+      })();
+    </script>
+    <style>
+      :root {
+        color-scheme: light;
+        --accent: var(--brand-primary);
+        --accent-contrast: #ffffff;
+        --accent-strong: var(--brand-primary-dark);
+        --bg-accent: rgba(181, 0, 16, 0.08);
+        --bg-accent-2: rgba(0, 39, 134, 0.08);
+        --brand-primary: #b50010;
+        --brand-primary-dark: #86000c;
+        --brand-secondary: #f5f8ff;
+        --brand-tertiary: #002786;
+        --brand-primary-dm: #ff4a5f;
+        --brand-primary-dm-dark: #d93c52;
+        --brand-secondary-dm: #7da2ff;
+        --brand-secondary-dm-dark: #3b73ff;
+        --border: #8d929e;
+        --focus-ring: rgba(0, 39, 134, 0.32);
+        --feature-bg-end: var(--brand-primary);
+        --feature-bg-start: var(--brand-tertiary);
+        --footer-bg: var(--brand-tertiary);
+        --footer-border: rgba(255, 255, 255, 0.18);
+        --footer-text: #e4e9f2;
+        --max-width: 1120px;
+        --muted: #5f6b82;
+        --on-accent: #ffffff;
+        --on-accent-muted: rgba(255, 255, 255, 0.78);
+        --page-bg: #d3d9e5;
+        --primary-color: #b50010;
+        --primary-dark: var(--brand-primary-dark);
+        --secondary-color: #f5f8ff;
+        --shell-bg: rgba(255, 255, 255, 0.92);
+        --shell-shadow: 0 14px 34px rgba(0, 39, 134, 0.09);
+        --shadow: 0 18px 45px rgba(0, 39, 134, 0.12);
+        --surface: #ffffff;
+        --surface-soft: #f3f5ff;
+        --surface-strong: #ffffff;
+        --tertiary-color: #002786;
+        --text: #212121;
+        --theme-toggle-icon-bg: rgba(255, 255, 255, 0.78);
+        --theme-toggle-icon-bg-dark: rgba(255, 255, 255, 0.12);
+        --theme-toggle-ink: #172033;
+        --theme-toggle-ink-dark: #ffd76a;
+        --radius-base: 3.667px;
+        --radius-pill: 999px;
+        --radius-1: var(--radius-base);
+        --radius-2: calc(var(--radius-base) * 2);
+        --radius-3: calc(var(--radius-base) * 3);
+        --space-1: clamp(8px, 0.75vw, 10px);
+        --space-2: clamp(12px, 1.1vw, 14px);
+        --space-3: clamp(16px, 1.8vw, 20px);
+        --space-4: clamp(22px, 2.2vw, 28px);
+        --space-5: clamp(30px, 3vw, 40px);
+      }
 
-<meta charset="utf-8">
+      html[data-theme="dark"] {
+        color-scheme: dark;
+        --accent: var(--brand-primary-dm);
+        --accent-contrast: #101010;
+        --accent-strong: var(--brand-secondary-dm);
+        --bg-accent: rgba(255, 74, 95, 0.08);
+        --bg-accent-2: rgba(126, 163, 255, 0.03);
+        --border: #555555;
+        --focus-ring: rgba(126, 163, 255, 0.38);
+        --feature-bg-end: #323232;
+        --feature-bg-start: #161616;
+        --footer-bg: var(--brand-tertiary);
+        --footer-border: rgba(255, 255, 255, 0.18);
+        --footer-text: #e4e9f2;
+        --muted: #c2c2c2;
+        --page-bg: #050505;
+        --primary-color: var(--brand-primary-dm);
+        --primary-dark: var(--brand-primary-dm-dark);
+        --secondary-color: #111111;
+        --shell-bg: rgba(22, 22, 22, 0.94);
+        --shell-shadow: 0 16px 34px rgba(0, 0, 0, 0.48);
+        --shadow: 0 18px 42px rgba(0, 0, 0, 0.5);
+        --surface: #262626;
+        --surface-soft: #333333;
+        --surface-strong: #141414;
+        --tertiary-color: var(--brand-secondary-dm);
+        --text: #f0f0f0;
+      }
 
-<meta name="keyWords" content="Free English learning, English as a Second Language, ESL, ESL Reading, Easy reading, English short Stories, ESL Stories, Easy Reading, Listening, Dictation, American culture, customs, Children English">
-<title>My Reader: Stories 5</title>
-<link rel="stylesheet" href="../style/style.css">
-<link rel="icon" href="../pics/favicon.png">
+      * {
+        box-sizing: border-box;
+      }
 
-<style>
-  a {
-    display: inline-block;
-    line-height: 1em !important;
-    margin-bottom: 1em;
-  }
-</style>
-</head>
+      html {
+        color-scheme: light;
+      }
 
-<body>
-<div id="content">
-<div style="margin:0 auto;" class="textres12">
-<h1> My Reader: Stories 5 </h1>
+      html[data-theme="dark"] {
+        color-scheme: dark;
+      }
 
-<br><hr class="new2">
-<div class="boxlist7 rowflex">
-  <div class="columnf50">
-<a href="b5/b5001.html">1. The Rich Uncle</a><br>
-<a href="b5/b5002.html">2. College Admissions</a><br>
-<a href="b5/b5003.html">3. She Has a Unibrow</a><br>
-<a href="b5/b5004.html">4. Losing a Loved One</a><br>
-<a href="b5/b5005.html">5. A Cheerleader's Dream</a><br>
-<a href="b5/b5006.html">6. An Undercover Superhero</a><br>
-<a href="b5/b5007.html">7. A Lucky Jacket</a><br>
-<a href="b5/b5008.html">8. Phone Invasion</a><br>
-<a href="b5/b5009.html">9. Life in Fear</a><br>
-<a href="b5/b5010.html">10. Pros and Cons</a><br>
-<a href="b5/b5011.html">11. Procrastination</a><br>
-<a href="b5/b5012.html">12. Not Going to Church</a><br>
-<a href="b5/b5013.html">13. Afraid to Cry</a><br>
-<a href="b5/b5014.html">14. The Missing Water Bottle</a><br>
-<a href="b5/b5015.html">15. Addicted to Coffee</a><br>
-<a href="b5/b5016.html">16. Letters of Recommendation</a><br>
-<a href="b5/b5017.html">17. Celebrity Idol</a><br>
-<a href="b5/b5018.html">18. The Cool Group Has Money</a><br>
-<a href="b5/b5019.html">19. Secret Relationship</a><br>
-<a href="b5/b5020.html">20. Twins Are Cheating</a><br>
-<a href="b5/b5021.html">21. The Transformation</a><br>
-<a href="b5/b5022.html">22. A Female Boxer</a><br>
-<a href="b5/b5023.html">23. Mom and Her Daughter</a><br>
-<a href="b5/b5024.html">24. An Interrupted Wedding</a><br>
-<a href="b5/b5025.html">25. Snoring</a><br>
-</div>
+      body {
+        color: var(--text);
+        line-height: 1.6;
+        margin: 0;
+        isolation: isolate;
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        background:
+          radial-gradient(circle at top left, var(--bg-accent), transparent 32rem),
+          radial-gradient(
+            circle at top right,
+            var(--bg-accent-2),
+            transparent 34rem
+          ),
+          var(--page-bg);
+        min-height: 100vh;
+      }
 
-<div class="columnf50">
-<a href="b5/b5026.html">26. School Mascot</a><br>
-<a href="b5/b5027.html">27. A Hero</a><br>
-<a href="b5/b5028.html">28. Life Seems Unfair</a><br>
-<a href="b5/b5029.html">29. The Acne Problem</a><br>
-<a href="b5/b5030.html">30. A Mystery Man</a><br>
-<a href="b5/b5031.html">31. Moving Schools</a><br>
-<a href="b5/b5032.html">32. A New Haircut</a><br>
-<a href="b5/b5033.html">33. Started From the Bottom</a><br>
-<a href="b5/b5034.html">34. No Vote, No Opinion</a><br>
-<a href="b5/b5035.html">35. The Addiction</a><br>
-<a href="b5/b5036.html">36. Writing an Essay</a><br>
-<a href="b5/b5037.html">37. Eyebrow Waxing</a><br>
-<a href="b5/b5038.html">38. A Yes-Man</a><br>
-<a href="b5/b5039.html">39. Christmas Spirit</a><br>
-<a href="b5/b5040.html">40. Valentine's Hater</a><br>
-<a href="b5/b5041.html">41. A Foreign Accent</a><br>
-<a href="b5/b5042.html">42. The Career Day</a><br>
-<a href="b5/b5043.html">43. Bad Guy Gone Good</a><br>
-<a href="b5/b5044.html">44. Taking Revenge</a><br>
-<a href="b5/b5045.html">45. Fireball Wings</a><br>
-<a href="b5/b5046.html">46. Friends Betrayal</a><br>
-<a href="b5/b5047.html">47. The Election Speech</a><br>
-<a href="b5/b5048.html">48. The Vote for Swim captain</a><br>
-<a href="b5/b5049.html">49. Mary and Natasha</a><br>
-<a href="b5/b5050.html">50. The Homecoming Dance</a><br>
-</div>
-</div>
-<hr class="new2">
-<div class="cenmar"><a href="#"> Home</a>&nbsp;&nbsp;&nbsp;
-<a href="index_a.html">51-100</a>&nbsp;&nbsp;&nbsp;
-<!-- <a href="../begin3/index.html"> Level 3</a>&nbsp;&nbsp;&nbsp;
-<a href="../begin4/index.html"> Level 4</a>&nbsp;&nbsp;&nbsp;
-<a href="../begin5/index.html"> Level 5</a>&nbsp;&nbsp;&nbsp;
-<a href="../begin6/index.html"> Level 6</a> --> </div>
-<br></div>
-</div>
-</body>
+      body::before {
+        content: "";
+        position: fixed;
+        inset: -20vh -10vw auto;
+        height: 55vh;
+        background:
+          radial-gradient(
+            circle at 22% 30%,
+            rgba(181, 0, 16, 0.12),
+            transparent 55%
+          ),
+          radial-gradient(
+            circle at 78% 38%,
+            rgba(0, 39, 134, 0.14),
+            transparent 50%
+          );
+        filter: blur(18px);
+        opacity: 0.82;
+        pointer-events: none;
+        z-index: -1;
+        animation: drift 18s ease-in-out infinite alternate;
+      }
+
+      @keyframes drift {
+        from {
+          transform: translate3d(-0.75rem, 0, 0);
+        }
+
+        to {
+          transform: translate3d(0.75rem, -0.4rem, 0);
+        }
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--focus-ring);
+        outline-offset: 3px;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+
+      .container {
+        margin-inline: auto;
+        width: min(100% - 32px, var(--max-width));
+      }
+
+      .sr-only {
+        border: 0;
+        clip: rect(0, 0, 0, 0);
+        clip-path: inset(50%);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+        white-space: nowrap;
+      }
+
+      .shell {
+        background: var(--shell-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-3);
+        box-shadow: var(--shell-shadow);
+        overflow: hidden;
+      }
+
+      .section-shell {
+        display: grid;
+        gap: var(--space-3);
+        padding: var(--space-2) var(--space-4);
+      }
+
+      .site-header {
+        background: transparent;
+        padding: 12px 0 0;
+        position: static;
+      }
+
+      .hub-banner {
+        align-items: center;
+        background: var(--primary-color);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: var(--radius-2);
+        color: var(--secondary-color);
+        display: flex;
+        font-size: 1.25rem;
+        font-weight: 700;
+        justify-content: space-between;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        min-block-size: 18px;
+        margin-top: var(--space-2);
+        padding-block: 8px;
+        padding-inline: calc(var(--space-2) * 1.9);
+        width: 100%;
+      }
+
+      .hub-banner a {
+        color: inherit;
+        font-size: 1.25rem;
+        font-weight: inherit;
+        text-decoration: none;
+        transition: color 120ms ease, text-decoration-color 120ms ease;
+      }
+
+      .hub-banner a:hover,
+      .hub-banner a:focus-visible {
+        color: var(--accent-contrast);
+        text-decoration: underline;
+        text-underline-offset: 5px;
+      }
+
+      .nav {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-3);
+        justify-content: flex-start;
+        min-height: 56px;
+        padding: 10px 0;
+      }
+
+      .brand {
+        align-items: center;
+        color: var(--tertiary-color);
+        display: inline-flex;
+        font-size: 1.14rem;
+        font-weight: 950;
+        gap: 10px;
+        letter-spacing: 0.02em;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+        min-width: 0;
+      }
+
+      .brand-title {
+        color: var(--text);
+        display: inline-block;
+        font-size: clamp(0.98rem, 0.8vw + 0.72rem, 1.25rem);
+        font-variant-numeric: tabular-nums;
+        font-weight: 950;
+        letter-spacing: 0.01em;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      /* CHANGE: Header mark now uses the supplied logo as inline SVG, removing the external logo image dependency. */
+      .brand-mark {
+        background: linear-gradient(
+          180deg,
+          var(--surface-strong) 0%,
+          var(--surface-soft) 100%
+        );
+        border-radius: var(--radius-1);
+        box-shadow: var(--shadow);
+        display: grid;
+        height: 44px;
+        overflow: hidden;
+        place-items: center;
+        width: 44px;
+      }
+
+      .brand-mark svg {
+        display: block;
+        height: 36px;
+        width: 36px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-actions {
+        display: flex;
+      }
+
+      .btn {
+        align-items: center;
+        border: 1px solid transparent;
+        border-radius: var(--radius-2);
+        cursor: pointer;
+        display: inline-flex;
+        font-weight: 800;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 18px;
+        transition:
+          transform 160ms ease,
+          box-shadow 160ms ease,
+          background 160ms ease,
+          border-color 160ms ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        box-shadow: var(--shadow);
+        color: var(--accent-contrast);
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+      }
+
+      .btn-ghost {
+        background: var(--surface);
+        border-color: var(--border);
+        color: var(--tertiary-color);
+      }
+
+      .btn-ghost:hover {
+        border-color: var(--accent);
+      }
+
+      .header-link {
+        align-items: center;
+        color: var(--tertiary-color);
+        display: inline-flex;
+        font-size: 0.95rem;
+        font-weight: 800;
+        justify-content: center;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .header-link:hover,
+      .header-link:focus-visible {
+        color: var(--primary);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .theme-toggle {
+        align-items: center;
+        appearance: none;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-pill);
+        color: var(--theme-toggle-ink);
+        cursor: pointer;
+        display: inline-flex;
+        justify-content: center;
+        justify-self: end;
+        min-height: 44px;
+        padding: 8px;
+        position: relative;
+        transition:
+          background-color 180ms ease,
+          border-color 180ms ease,
+          color 180ms ease,
+          transform 180ms ease;
+      }
+
+      .theme-toggle:hover {
+        border-color: rgba(15, 22, 41, 1);
+        transform: translateY(-1px);
+      }
+
+      .theme-toggle__icon {
+        align-items: center;
+        background: var(--theme-toggle-icon-bg);
+        border-radius: var(--radius-pill);
+        color: var(--theme-toggle-ink);
+        display: inline-flex;
+        flex: 0 0 auto;
+        height: 38px;
+        justify-content: center;
+        width: 38px;
+      }
+
+      .theme-toggle__icon svg {
+        color: inherit;
+        display: none;
+        height: 100%;
+        width: 100%;
+      }
+
+      .theme-toggle__icon[data-theme-icon="moon"] .theme-toggle__icon-moon,
+      .theme-toggle__icon[data-theme-icon="sun"] .theme-toggle__icon-sun {
+        display: block;
+      }
+
+      html[data-theme="dark"] .theme-toggle {
+        background: transparent;
+        border-color: transparent;
+        color: var(--theme-toggle-ink-dark);
+      }
+
+      html[data-theme="dark"] .theme-toggle:hover {
+        border-color: rgba(255, 215, 106, 0.42);
+      }
+
+      html[data-theme="dark"] .theme-toggle__icon {
+        background: var(--theme-toggle-icon-bg-dark);
+        color: var(--theme-toggle-ink-dark);
+      }
+
+      html[data-theme="dark"] .brand {
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.28);
+      }
+
+      html[data-theme="dark"] .hub-banner {
+        align-items: center;
+        background: var(--brand-primary-dark);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: var(--radius-2);
+        color: #e4e9f2;
+        display: flex;
+        font-size: 1.25rem;
+        font-weight: 700;
+        justify-content: space-between;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        min-block-size: 18px;
+        margin-top: var(--space-2);
+        padding-block: 8px;
+        padding-inline: calc(var(--space-2) * 1.9);
+        width: 100%;
+      }
+
+      html[data-theme="dark"] .hub-banner a {
+        color: inherit;
+        font-size: 1.25rem;
+        font-weight: inherit;
+        text-decoration: none;
+        transition: color 120ms ease, text-decoration-color 120ms ease;
+      }
+
+      html[data-theme="dark"] .hub-banner a:hover,
+      html[data-theme="dark"] .hub-banner a:focus-visible {
+        color: #e4e9f2;
+        text-decoration: underline;
+        text-underline-offset: 5px;
+      }
+
+      html[data-theme="dark"] .hero-panel {
+        background: #161616;
+        border-color: rgba(255, 255, 255, 0.14);
+        box-shadow:
+          0 18px 38px rgba(0, 0, 0, 0.42),
+          0 0 0 1px color-mix(in srgb, var(--brand-primary-dm) 26%, transparent) inset,
+          0 1px 0 rgba(255, 255, 255, 0.05) inset;
+      }
+
+      html[data-theme="dark"] .stat-chip {
+        background: #262626;
+        border-color: rgba(255, 255, 255, 0.14);
+        box-shadow:
+          0 12px 24px rgba(0, 0, 0, 0.34),
+          0 0 0 1px color-mix(in srgb, var(--brand-primary-dm) 22%, transparent) inset,
+          0 1px 0 rgba(255, 255, 255, 0.08) inset;
+      }
+
+      html[data-theme="dark"] .stat-chip strong {
+        color: var(--primary-color);
+      }
+
+      html[data-theme="dark"] .tab-button {
+        background: linear-gradient(180deg, #333333, #262626);
+        border-color: rgba(255, 255, 255, 0.14);
+        box-shadow:
+          0 -1px 0 rgba(255, 255, 255, 0.04) inset,
+          0 0 0 1px color-mix(in srgb, var(--brand-primary-dm) 22%, transparent) inset;
+      }
+
+      html[data-theme="dark"] .tab-button[aria-selected="true"] {
+        background: linear-gradient(180deg, #262626, #1f1f1f);
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.18);
+        box-shadow:
+          0 -1px 0 rgba(255, 255, 255, 0.08) inset,
+          0 0 0 1px color-mix(in srgb, var(--brand-primary-dm) 34%, transparent) inset,
+          0 10px 16px rgba(0, 0, 0, 0.26);
+      }
+
+      html[data-theme="dark"] .tab-panels {
+        background: #161616;
+        border-color: rgba(255, 255, 255, 0.14);
+        box-shadow:
+          0 18px 38px rgba(0, 0, 0, 0.42),
+          0 0 0 1px color-mix(in srgb, var(--brand-secondary-dm) 18%, transparent) inset,
+          0 1px 0 rgba(255, 255, 255, 0.05) inset;
+      }
+
+      .theme-toggle:focus-visible {
+        box-shadow: 0 0 0 3px rgba(47, 91, 227, 0.2);
+        outline: none;
+      }
+
+      .hero {
+        padding: var(--space-4) 0 var(--space-3);
+      }
+
+      .hero-panel {
+        background:
+          radial-gradient(circle at top left, var(--bg-accent), transparent 34%),
+          radial-gradient(
+            circle at bottom right,
+            var(--bg-accent-2),
+            transparent 36%
+          ),
+          var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-3);
+        box-shadow: var(--shell-shadow);
+        overflow: hidden;
+        padding: var(--space-4);
+        position: relative;
+      }
+
+      .hero-panel::before,
+      .hero-panel::after {
+        content: "";
+        position: absolute;
+        border-radius: var(--radius-pill);
+        pointer-events: none;
+      }
+
+      .hero-panel::before {
+        inset: auto auto 1rem -2rem;
+        width: 8rem;
+        height: 8rem;
+        background: radial-gradient(
+          circle,
+          color-mix(in srgb, var(--primary-color) 30%, transparent),
+          transparent 72%
+        );
+        opacity: 0.5;
+      }
+
+      .hero-panel::after {
+        inset: 1rem -1rem auto auto;
+        width: 6rem;
+        height: 6rem;
+        background: radial-gradient(
+          circle,
+          color-mix(in srgb, var(--tertiary-color) 30%, transparent),
+          transparent 70%
+        );
+        opacity: 0.42;
+      }
+
+      .eyebrow {
+        align-items: center;
+        background: var(--secondary-color);
+        border: 1px solid var(--tertiary-color);
+        border-radius: var(--radius-2);
+        color: var(--primary-color);
+        display: inline-flex;
+        font-size: 0.88rem;
+        font-weight: 900;
+        gap: var(--space-1);
+        margin-bottom: var(--space-2);
+        padding: 7px 12px;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        color: var(--tertiary-color);
+        font-size: clamp(1.62rem, 2.8vw, 2.72rem);
+        letter-spacing: -0.035em;
+        line-height: 1.04;
+        max-width: 16ch;
+      }
+
+      html[data-theme="dark"] h1 {
+        color: var(--on-accent-soft);
+      }
+
+      .hero-copy {
+        color: var(--muted);
+        font-size: clamp(0.98rem, 0.95vw + 0.72rem, 1.02rem);
+        line-height: 1.48;
+        margin-top: var(--space-3);
+        max-width: 900px;
+      }
+
+      .hero-stats {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin-top: var(--space-3);
+        position: relative;
+        z-index: 1;
+      }
+
+      .stat-chip {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-3);
+        box-shadow:
+          0 10px 22px rgba(0, 39, 134, 0.08),
+          inset 0 1px 0 rgba(255, 255, 255, 0.45);
+        padding: 16px 14px;
+      }
+
+      .stat-chip strong {
+        color: var(--primary-color);
+        display: block;
+        font-variant-numeric: tabular-nums;
+        font-size: clamp(1.18rem, 1.05vw + 0.7rem, 1.34rem);
+        line-height: 1.1;
+      }
+
+      .stat-chip strong.is-animating {
+        opacity: 0.92;
+        transition: opacity 180ms ease;
+      }
+
+      .stat-counter strong {
+        font-variant-numeric: tabular-nums;
+      }
+
+      .stat-chip span {
+        color: var(--muted);
+        display: block;
+        font-size: clamp(0.82rem, 0.45vw + 0.66rem, 0.88rem);
+        font-weight: 700;
+        margin-top: 2px;
+      }
+
+      .tabs-shell {
+        position: relative;
+      }
+
+      .tabbed-shell {
+        display: grid;
+        gap: 0;
+      }
+
+      .tab-list {
+        align-items: flex-end;
+        border-bottom: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+        justify-content: flex-start;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding: 0;
+        -ms-overflow-style: none;
+      }
+
+      .tab-list::-webkit-scrollbar {
+        display: none;
+      }
+
+      .tab-button {
+        background: linear-gradient(180deg, var(--surface-soft), var(--surface));
+        border: 1px solid var(--border);
+        border-bottom: none;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.42) inset;
+        color: var(--tertiary-color);
+        cursor: pointer;
+        display: inline-grid;
+        gap: 6px;
+        flex: 0 0 auto;
+        margin-bottom: -1px;
+        min-width: 12.25rem;
+        overflow: hidden;
+        padding: 13px 30px 12px 20px;
+        position: relative;
+        text-align: left;
+        transition:
+          transform 220ms ease,
+          box-shadow 220ms ease,
+          border-color 220ms ease,
+          background-color 220ms ease;
+        clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 100%, 0 100%);
+      }
+
+      .tab-button:not(:first-child) {
+        margin-left: -8px;
+      }
+
+      .tab-button::before {
+        content: "";
+        inset: 0;
+        position: absolute;
+        background: linear-gradient(125deg, transparent 20%, rgba(255, 255, 255, 0.18) 50%, transparent 80%);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-34%) skewX(-16deg);
+        transition:
+          opacity 320ms ease,
+          transform 520ms ease;
+      }
+
+      .tab-button:hover,
+      .tab-button:focus-visible {
+        border-color: color-mix(
+          in srgb,
+          var(--primary-color) 45%,
+          var(--border)
+        );
+        box-shadow: 0 -8px 18px color-mix(in srgb, var(--tertiary-color) 14%, transparent);
+        transform: translateY(-2px);
+      }
+
+      .tab-button:hover::before,
+      .tab-button:focus-visible::before,
+      .tab-button[aria-selected="true"]::before {
+        opacity: 1;
+        transform: translateX(36%) skewX(-16deg);
+      }
+
+      .tab-button[aria-selected="true"] {
+        background: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) 94%, #ffffff));
+        border-color: color-mix(in srgb, var(--primary-color) 28%, var(--border));
+        border-bottom-color: var(--surface);
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.6) inset,
+          0 0 0 1px rgba(255, 255, 255, 0.34) inset,
+          0 12px 18px rgba(0, 39, 134, 0.22);
+        color: var(--primary-color);
+        filter: none;
+        z-index: 5;
+        transform: none;
+      }
+
+      .tab-button[aria-selected="true"]::after {
+        background: var(--primary-color);
+        block-size: 5px;
+        content: "";
+        inset: 0 0 auto;
+        position: absolute;
+      }
+
+      .tab-button:not([aria-selected="true"]) {
+        background: linear-gradient(180deg, var(--surface-soft), color-mix(in srgb, var(--surface) 92%, var(--surface-soft)));
+        z-index: 1;
+      }
+
+      .tab-button:not([aria-selected="true"])::after {
+        background: var(--tertiary-color);
+        block-size: 3px;
+        content: "";
+        inset: 0 0 auto;
+        position: absolute;
+        opacity: 0.85;
+      }
+
+      .tab-button__label {
+        font-size: 1rem;
+        font-weight: 900;
+        letter-spacing: 0.01em;
+      }
+
+      .tab-button__range {
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .tab-button[aria-selected="true"] .tab-button__range {
+        color: var(--muted);
+      }
+
+      .tab-panels {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 0 22px 22px 22px;
+        box-shadow: var(--shadow);
+        margin-top: -1px;
+        padding: 18px;
+      }
+
+      .tab-panel {
+        position: relative;
+      }
+
+      .tab-panel[hidden] {
+        display: none;
+      }
+
+      .story-grid {
+        column-count: 1;
+        column-gap: 10px;
+      }
+
+      .story-item {
+        align-items: center;
+        background: linear-gradient(
+          180deg,
+          color-mix(in srgb, var(--surface-soft) 92%, #F3F5FF),
+          color-mix(in srgb, var(--surface) 84%, #ffffff)
+        );
+        border: 1px solid color-mix(in srgb, var(--primary-color) 50%, var(--border));
+        border-radius: 18px;
+        box-shadow:
+          0 10px 22px color-mix(in srgb, var(--tertiary-color) 12%, transparent),
+          0 1px 0 rgba(255, 255, 255, 0.55) inset;
+        display: grid;
+        gap: 12px;
+        grid-template-columns: auto 1fr auto;
+        padding: 13px 14px;
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 180ms ease,
+          background-color 150ms ease,
+          border-color 150ms ease,
+          box-shadow 180ms ease,
+          filter 180ms ease;
+        break-inside: avoid;
+        display: inline-grid;
+        width: 100%;
+        margin: 0 0 10px;
+      }
+
+      .story-item::before {
+        content: "";
+        inset: 0;
+        position: absolute;
+        background: linear-gradient(
+          115deg,
+          transparent 28%,
+          color-mix(in srgb, var(--tertiary-color) 24%, rgba(255, 255, 255, 0.76)) 50%,
+          transparent 72%
+        );
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-38%) skewX(-18deg);
+        transition:
+          opacity 320ms ease,
+          transform 520ms ease;
+      }
+
+      @keyframes story-hover-pop {
+        0% {
+          transform: translateY(0);
+        }
+
+        45% {
+          transform: translateY(-6px);
+        }
+
+        100% {
+          transform: translateY(-5px);
+        }
+      }
+
+      @keyframes story-hover-sheen {
+        0% {
+          opacity: 0;
+          transform: translateX(-40%) skewX(-18deg);
+        }
+
+        100% {
+          opacity: 1;
+          transform: translateX(40%) skewX(-18deg);
+        }
+      }
+
+      .story-item:hover,
+      .story-item:focus-visible {
+        background: linear-gradient(
+          180deg,
+          #f7f9ff,
+          #eef3ff
+        );
+        border-color: color-mix(
+          in srgb,
+          var(--primary-color) 30%,
+          rgba(255, 255, 255, 0.36)
+        );
+        box-shadow:
+          0 18px 36px rgba(0, 39, 134, 0.14),
+          0 0 0 1px rgba(255, 255, 255, 0.18) inset;
+        filter: saturate(1.02);
+      
+        transform: translateY(-5px);
+        animation: story-hover-pop 220ms ease-out;
+      }
+
+      .story-item:hover::before,
+      .story-item:focus-visible::before {
+        opacity: 1;
+        transform: translateX(38%) skewX(-18deg);
+        animation: story-hover-sheen 360ms ease-out;
+      }
+
+      .story-number {
+        align-items: center;
+        background: linear-gradient(180deg, var(--primary-color), color-mix(in srgb, var(--primary-dark) 86%, #000));
+        box-shadow:
+          0 2px 5px rgba(0, 0, 0, 0.12),
+          0 0 0 1px rgba(255, 255, 255, 0.16) inset;
+        border-radius: var(--radius-pill);
+        color: var(--accent-contrast);
+        display: inline-flex;
+        font-size: clamp(0.84rem, 0.55vw + 0.62rem, 0.92rem);
+        font-variant-numeric: tabular-nums;
+        font-weight: 950;
+        justify-content: center;
+        min-height: 2.3rem;
+        min-width: 3.75rem;
+        padding: 0 12px;
+        white-space: nowrap;
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease,
+          background-color 180ms ease;
+      }
+
+      .story-title {
+        color: var(--tertiary-color);
+        font-size: clamp(0.94rem, 0.55vw + 0.76rem, 0.99rem);
+        font-weight: 900;
+        letter-spacing: 0.01em;
+        line-height: 1.18;
+      }
+
+      html[data-theme="dark"] .story-title {
+        color: var(--on-accent-soft);
+      }
+
+      .story-arrow {
+        align-items: center;
+        color: var(--muted);
+        display: inline-flex;
+        font-size: clamp(0.95rem, 0.45vw + 0.82rem, 1rem);
+        font-weight: 700;
+        justify-content: center;
+        line-height: 1;
+        transition: transform 150ms ease, color 150ms ease;
+      }
+
+      .story-item:hover .story-arrow,
+      .story-item:focus-visible .story-arrow {
+        color: var(--tertiary-color);
+        transform: translateX(2px);
+      }
+
+      .story-item:hover .story-number,
+      .story-item:focus-visible .story-number {
+        box-shadow:
+          0 10px 18px rgba(0, 0, 0, 0.28),
+          0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+        transform: translateY(-1px) scale(1.04);
+      }
+
+      html[data-theme="dark"] .story-item {
+        background: #262626;
+        border-color: rgba(255, 255, 255, 0.12);
+        box-shadow:
+          0 12px 24px rgba(0, 0, 0, 0.34),
+          0 0 0 1px color-mix(in srgb, var(--brand-primary-dm) 24%, transparent) inset,
+          0 1px 0 rgba(255, 255, 255, 0.08) inset;
+      }
+
+      html[data-theme="dark"] .story-item::before {
+        background: linear-gradient(
+          115deg,
+          transparent 28%,
+          rgba(255, 255, 255, 0.82) 50%,
+          transparent 72%
+        );
+      }
+
+      html[data-theme="dark"] .story-item:hover,
+      html[data-theme="dark"] .story-item:focus-visible {
+        background: linear-gradient(
+          180deg,
+          color-mix(in srgb, #333333 56%, var(--brand-secondary-dm) 44%),
+          color-mix(in srgb, #262626 48%, var(--brand-secondary-dm) 52%)
+        );
+        border-color: color-mix(in srgb, var(--brand-primary-dm) 52%, rgba(255, 255, 255, 0.16));
+        box-shadow:
+          0 18px 36px rgba(0, 0, 0, 0.46),
+          0 0 0 1px color-mix(in srgb, var(--brand-primary-dm) 30%, rgba(255, 255, 255, 0.1)) inset,
+          0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      }
+
+      html[data-theme="dark"] .story-item:hover .story-number,
+      html[data-theme="dark"] .story-item:focus-visible .story-number {
+        box-shadow:
+          0 10px 18px rgba(0, 0, 0, 0.28),
+          0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+      }
+
+      html[data-theme="dark"] .site-footer .shell {
+        background: var(--footer-bg);
+        border-color: rgba(255, 255, 255, 0.18);
+        box-shadow:
+          0 0 0 1px color-mix(in srgb, var(--brand-primary-dm) 20%, transparent) inset,
+          0 1px 0 rgba(255, 255, 255, 0.06) inset;
+      }
+
+      .page-note {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-top: 6px;
+      }
+
+      .site-footer {
+        color: var(--footer-text);
+        margin-top: var(--space-4);
+        margin-bottom: var(--space-4);
+      }
+
+      .site-footer .shell {
+        background: var(--footer-bg);
+        border-color: var(--footer-border);
+      }
+
+      .site-footer .section-shell {
+        padding: var(--space-3) var(--space-4);
+      }
+
+      .footer-row {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        justify-content: space-between;
+        padding-top: 0;
+      }
+
+      @media (min-width: 760px) {
+        .story-grid {
+          column-count: 2;
+        }
+      }
+
+      @media (min-width: 900px) {
+        .story-grid {
+          column-gap: 12px;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .hero-stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (min-width: 1180px) {
+        .story-grid {
+          column-gap: 12px;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .hero-stats {
+          grid-template-columns: 1fr;
+        }
+
+        :root {
+          --space-1: 8px;
+          --space-2: 10px;
+          --space-3: 14px;
+          --space-4: 18px;
+          --space-5: 24px;
+        }
+
+        .container {
+          width: min(100% - 20px, var(--max-width));
+        }
+
+        .section-shell {
+          gap: var(--space-3);
+          padding: 10px 14px;
+        }
+
+        .nav {
+          gap: 8px;
+          min-height: 48px;
+          padding: 8px 0;
+        }
+
+        .nav-actions {
+          align-items: center;
+          display: flex;
+          flex: 0 0 auto;
+          justify-content: flex-end;
+          margin-left: auto;
+        }
+
+        .nav-links,
+        .nav-actions .header-link {
+          display: none;
+        }
+
+        .brand {
+          font-size: 1rem;
+          gap: 6px;
+        }
+
+
+      @media (min-width: 901px) {
+        .nav {
+          justify-content: space-between;
+          flex-direction: row;
+          gap: var(--space-4);
+          padding: 0;
+        }
+
+        .brand {
+          font-size: 1.26rem;
+          letter-spacing: 0.02em;
+        }
+
+        .nav-actions {
+          align-items: center;
+          display: flex;
+          flex-direction: row;
+          gap: var(--space-3);
+          margin-left: auto;
+          width: auto;
+        }
+
+        .theme-toggle,
+        .nav-actions .header-link {
+          width: auto;
+        }
+
+        .hero {
+          padding: var(--space-4) 0 var(--space-3);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+      <div class="container">
+      <div class="hub-banner">
+        <a
+          class="header-link"
+          href="https://eagles.edu.vn/lien-he/lien-he-va-ban-do"
+          target="_blank"
+          rel="noreferrer"
+          >0937 667 818</a
+        >
+        <a href="https://eagles.edu.vn" rel="noreferrer" target="_blank">
+          eagles.edu.vn
+        </a>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <div class="container shell section-shell">
+        <div class="nav">
+          <span class="brand-mark">
+            <!-- CHANGE: Inline SVG logo replaces the external header aria-hidden="true" image path for portable single-file HTML. -->
+            <a
+              class="brand"
+              href="https://thuvien.eagles.edu.vn"
+              rel="noreferrer"
+              target="_self"
+              aria-label="Eagles Club logo"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2400 2400"><defs><clipPath id="a"><rect width="2400" height="2400" fill="none"/></clipPath></defs><g clip-path="url(#a)"><rect y="0.71" width="1199.65" height="2399.29" fill="#002786"/><path d="M.71.71H1199.65V2400H.71ZM0,2400H1200.35V0H0Z"/><rect x="1199.65" width="1200.35" height="2400" fill="#e0162b"/><g clip-path="url(#a)"><path d="M142.17,271.23c90-24,181.13-45.85,274.24-52,45.8,0,91.6-4.95,137-.63,48.83,2.9,99.29,14.82,138.26,45.29C784.21,340,874,419.63,967.81,493.84a184.92,184.92,0,0,0,47,26.36c4.58,1.22,14.16,6.66,15.39-1.49,6.41-19.94-13.45-34.31-21.67-50.35,20.48.32,41.5,2.63,59.91,12.14a666,666,0,0,1,130.22,85.29c26.52,23.15,52.49,47.48,73.28,76.07,69.76,107.44,120.54,225.21,181.09,337.6,10.71,21.12,21.48,42.47,37,60.68,22.58-53.83,44.93-110.11,87.38-152.07a365.14,365.14,0,0,1,105.66-67.61c11.22-5.39,23.44-9.06,33.62-16.58,7.07-9.38,6.77-22.3,13.73-31.73,20.15-26.77,55.46-39.74,70.25-70.91,12.37-25.28-4.57-52.79-21.23-71.59-33.45-37.69-81.15-56.37-122.36-83.36,42.58-30.95,96.76-34.4,147.47-38.93,64.61-3,128.55,11.11,193.12,9.38-7.08-27.82-32.29-47-36.64-75.85,15.21,0,30.82-.5,45.48,4.53,70.39,21.56,142.26,48.8,195.88,100.91,36,33.8,74.31,71.87,82.1,122.62,6.78,32.26-16.85,58.91-32.88,84.33-69.71,104.94-142.52,208.43-224.41,304.09-15.16,18.13-32.06,34.75-45.8,53.83-45.3,60-90.86,121.31-119.4,191.27-7.87,18.49,3.07,37.65,14,52.37,36,51.25,93.15,83.19,129.24,134.4,26.06,35.93,53.86,73.22,62.56,117.54,3.2,37.11,2.7,75.45-9.8,111-8.75,25.15,1.42,52.84-7.92,77.71-13.74,24.38-44,29.54-68.7,37.07,7.79-9.56,19.46-18.13,21.11-30.95-.83-18.81-16.21-33.9-33.71-39.16-13.09,4.54-24.63,19.94-17.49,33.9,1.28,6.37,6.14,21.75-4.95,20.67-45.8-25-58.26-82.66-102.36-109.62-19.23-12.32-48.59-11.64-63.43,7.12-27.2,33.48-29,82.47-10.62,120.44,20.48,39.74,64.53,61.44,83.22,102.49-19.56,8.25-41.5,7.21-60.92,15.58a183.87,183.87,0,0,1,32.84,56.91c26.47-2.45,52.72-11.29,79.55-6.3,32.74,5.62,67.55,29.5,68.7,65.2,1.78,28.78-21.85,49.85-44.59,63.44,1.93-22.38,3.85-47.22-12.18-65.43-10.35,16.59-11.54,36.75-20.33,54.1-9.16-13.59-20-27.19-35.72-34.12-1.56,23-2.06,46.67,6.59,68.51a70,70,0,0,1-55.42-39.33c-9.15-15.63,0-33.44,4.58-48.94-47.71-15.94-68.69-66.65-112.06-88.63,0,16.5.59,33,.82,49.39-28.35-17.17-37.73-50.95-60.16-73.6-4.58-5.21-12.68-3.94-18.87-3.76-30.09,3.08-53.53,24.38-73.73,44.77,52.07,16.9,108.54,22.16,156.63,49.84,19.82,10.92,35.39,32.09,32.61,55.42.27,34.68-27.71,58.91-50.38,81.56,5-29.67,20.79-69.24-8.75-91.35-9.16,21.89-19,44.23-35.54,61.81a412.48,412.48,0,0,0-12.69-53.74c-27.89,17.81-34.07,55.28-20.65,83.92-32.06-.71-60.16-27.74-59.53-59.68-2-27.73,28.94-41.42,33.06-67.33-29.41-11.56-60-19.58-90-29.46a157.8,157.8,0,0,0-67.45,73.82q6.18,12,12,24.06c-36-13.32-62.74-42.19-82.43-73.86-25.15,3.62-51,8.49-76.4,2.54-27.47-6.26-59.54-14.78-74.09-41.33,31.14-7.52,65.48-13,89.44-36,17.4-15,13.73-41.15,6.78-60.41-17.7-44-62.56-68.32-103.51-87.67-56.56-25.48-119.85-43.28-163.72-89.41,16.53.23,33.11.41,49.68,0-41.21-55.78-109-83.74-152-137.71-17.32-23.24-24.37-56.32-53-69.6-65.82-30.26-126.81-72.49-198.12-89.71,37.41-67.24,123.19-94.89,196.52-79.16a389.87,389.87,0,0,1,13-37.44c61.57,13.6,88.06,82.2,147.69,99.42,49.74,13.6,103.09,2.68,148.71-19.26-7.38-10.87-12.74-26.89-27.75-29-164.1-34.53-301-143-407.19-267.35C674.5,1011.2,604.47,902.08,570,780c-7.69-25.65-6.28-52.66-6.41-79.07-54.5-40-104.24-88.36-136.94-147.27-15.75-24.88-8-55.42-17.63-82.1-12.82-38.74-41.44-70.46-75.47-93.12C281,341.34,217.12,325.3,155.29,309.53a162.36,162.36,0,0,1-41.58-18.13c8-8.49,16.28-18.07,28.44-20.16" fill="#fff"/><path d="M365.2,1389.88c17.82,49.84,32.93,101,49.87,151.46,53.79-.28,107.49,0,161.26-1.27-42.82,32.08-87,62.17-130.71,93.3,17.27,50.66,32.79,102,51.89,152C453.36,1754.31,410,1722,366,1690.73c-44,31.7-87.65,63.73-131.71,95.14,18.86-50.21,34.68-101.55,51.7-152.43-43.74-30.86-87.71-61.45-131-93,53.13.71,106.29.55,159.42.82l2.42-1.54c16.45-49.85,32.84-99.74,48.37-149.85" fill="#fff"/><path d="M740.16,1937.21q23.36-75.72,48.77-150.75c15.89,50.61,32.84,100.86,48.83,151.46,53.79.71,107.58-.91,161.37-.71-42.68,31.31-86.34,61-129,92.22l-.82,2.83c16,49.84,33.57,99.19,49.6,149-43.23-31.22-86.7-62.13-129.61-93.84-43.55,31.39-87.05,62.66-130.34,94.61,15.39-51.12,34.35-101.14,49.88-152.21q-65.91-45.3-130.48-92.39c54-.19,107.85,1.36,161.8-.19" fill="#fff"/></g></g></svg>
+            </a>
+          </span>
+          <span class="brand-title">The Eagles Club</span>
+
+          <div class="nav-actions">
+            <nav class="nav-links" aria-label="Primary links">
+              <a href="#levels">Levels</a>
+              <a href="#features">Features</a>
+              <a href="#library">Library</a>
+              <a href="#teachers">Teachers</a>
+            </nav>
+
+            <button
+              class="theme-toggle"
+              type="button"
+              data-theme-toggle
+              aria-pressed="false"
+              aria-label="Switch to dark theme"
+            >
+              <span
+                class="theme-toggle__icon"
+                aria-hidden="true"
+                data-theme-toggle-icon
+                data-theme-icon="moon"
+              >
+                <svg
+                  class="theme-toggle__icon-moon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <mask id="theme_moon_cutout">
+                      <rect width="24" height="24" fill="#fff" />
+                      <circle cx="12.95" cy="7.95" fill="#000" r="10.1" />
+                    </mask>
+                  </defs>
+                  <g fill="currentColor">
+                    <circle
+                      cx="10.8"
+                      cy="13.2"
+                      r="10.3"
+                      mask="url(#theme_moon_cutout)"
+                    >
+                      <animateTransform
+                        attributeName="transform"
+                        dur="4.8s"
+                        repeatCount="indefinite"
+                        type="rotate"
+                        values="-2 12 12;2 12 12;-2 12 12"
+                      />
+                    </circle>
+                    <path
+                      d="M17.65 3.75L18.62 6.68L21.7 6.68L19.21 8.49L20.16 11.42L17.65 9.6L15.14 11.42L16.09 8.49L13.6 6.68L16.68 6.68L17.65 3.75Z"
+                      opacity="0.95"
+                    >
+                      <animate
+                        attributeName="opacity"
+                        dur="1.8s"
+                        repeatCount="indefinite"
+                        values="0.3;0.92;0.3"
+                      />
+                    </path>
+                    <path
+                      d="M9.95 8L10.62 10.02L12.75 10.02L11.03 11.27L11.69 13.28L9.95 12.02L8.22 13.28L8.88 11.27L7.15 10.02L9.28 10.02L9.95 8Z"
+                      opacity="0.78"
+                    >
+                      <animate
+                        attributeName="opacity"
+                        begin="0.35s"
+                        dur="2.2s"
+                        repeatCount="indefinite"
+                        values="0.24;0.82;0.24"
+                      />
+                    </path>
+                  </g>
+                </svg>
+                <svg
+                  class="theme-toggle__icon-sun"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g stroke="currentColor" stroke-linecap="round" stroke-width="1.8">
+                    <path d="M12 1.75V4.25" />
+                    <path d="M12 19.75V22.25" />
+                    <path d="M1.75 12H4.25" />
+                    <path d="M19.75 12H22.25" />
+                    <path d="M4.75 4.75L6.52 6.52" />
+                    <path d="M17.48 17.48L19.25 19.25" />
+                    <path d="M17.48 6.52L19.25 4.75" />
+                    <path d="M4.75 19.25L6.52 17.48" />
+                  </g>
+                  <circle cx="12" cy="12" fill="currentColor" r="4.6" />
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-panel">
+          <span class="eyebrow">Tabbed reading path.</span>
+          <h1>My Reader: Stories 5</h1>
+          <p class="hero-copy">
+            The reading list stays compact in tabs while keeping the original Eagles theme and navigation.
+          </p>
+          <div class="hero-stats">
+            <div class="stat-chip">
+              <strong data-count-target="50">0</strong>
+              <span>Stories 5</span>
+            </div>
+            <div class="stat-chip">
+              <strong data-count-target="50">0</strong>
+              <span>Stories 5a</span>
+            </div>
+            <div class="stat-chip">
+              <strong data-count-target="100">0</strong>
+              <span>Total stories</span>
+            </div>
+            <div class="stat-chip stat-counter">
+              <strong
+                data-visit-count
+                data-count-target="0"
+                aria-live="polite"
+              >--</strong>
+              <span>Visits</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="stories-shell-title">
+        <div class="container tabs-shell">
+          <h2 id="stories-shell-title" class="sr-only">Stories</h2>
+
+          <div class="tabbed-shell">
+            <div
+              class="tab-list"
+              role="tablist"
+              aria-labelledby="stories-shell-title"
+              aria-orientation="horizontal"
+            >
+              <button
+                id="tab-stories-1"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="true"
+                aria-controls="stories-1"
+                tabindex="0"
+                data-tab-target="stories-1"
+              >
+                <span class="tab-button__label">Stories 5</span>
+                <span class="tab-button__range">1 - 50</span>
+              </button>
+              <button
+                id="tab-stories-2"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="stories-2"
+                tabindex="-1"
+                data-tab-target="stories-2"
+              >
+                <span class="tab-button__label">Stories 5a</span>
+                <span class="tab-button__range">51 - 100</span>
+              </button>
+            </div>
+
+            <div class="tab-panels">
+              <section
+                id="stories-1"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-stories-1"
+                data-start="1"
+                
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+              <section
+                id="stories-2"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-stories-2"
+                data-start="51"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container shell section-shell">
+        <div class="footer-row">
+          <span>© <span data-current-year></span> The Eagles Club</span>
+          <span>Reading • Vocabulary • Fluency</span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (() => {
+        const storageKey = "theme";
+        const root = document.documentElement;
+        const themeToggle = document.querySelector("[data-theme-toggle]");
+        const themeIcon = document.querySelector("[data-theme-toggle-icon]");
+
+        const applyTheme = (theme) => {
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          if (themeToggle) {
+            themeToggle.setAttribute(
+              "aria-pressed",
+              String(theme === "dark"),
+            );
+            themeToggle.setAttribute(
+              "aria-label",
+              theme === "dark"
+                ? "Switch to light theme"
+                : "Switch to dark theme",
+            );
+          }
+          if (themeIcon) {
+            themeIcon.dataset.themeIcon = theme === "dark" ? "sun" : "moon";
+          }
+        };
+
+        if (themeToggle) {
+          themeToggle.addEventListener("click", () => {
+            const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
+            applyTheme(nextTheme);
+            try {
+              localStorage.setItem(storageKey, nextTheme);
+            } catch {
+              // Ignore storage failures.
+            }
+          });
+        }
+
+        applyTheme(root.dataset.theme === "dark" ? "dark" : "light");
+      })();
+
+      (() => {
+        const visitStorageKey = "visit-count";
+        const visitGuardCookie = "visit-count-guard";
+        const visitGuardSeconds = 60 * 60;
+        const yearNode = document.querySelector("[data-current-year]");
+        const visitCountNode = document.querySelector("[data-visit-count]");
+        const metricNodes = Array.from(
+          document.querySelectorAll("[data-count-target]"),
+        );
+
+        const getCookieValue = (name) => {
+          const prefix = `${name}=`;
+          const entry = document.cookie
+            .split("; ")
+            .find((part) => part.startsWith(prefix));
+          return entry ? decodeURIComponent(entry.slice(prefix.length)) : "";
+        };
+
+        const setCookieValue = (name, value, maxAgeSeconds) => {
+          document.cookie = `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAgeSeconds}; SameSite=Lax`;
+        };
+
+        if (yearNode) {
+          yearNode.textContent = String(new Date().getFullYear());
+        }
+
+        const runSpinCounter = (
+          node,
+          target,
+          { suffix = "", duration = 2200 } = {},
+        ) => {
+          const start = performance.now();
+          const startValue = 0;
+          const animateFrame = (now) => {
+            const elapsed = Math.min(1, (now - start) / duration);
+            const eased = 1 - Math.pow(2, -10 * elapsed);
+            const value = Math.round(startValue + (target - startValue) * eased);
+            node.textContent = `${value}${suffix}`;
+
+            if (elapsed < 1) {
+              requestAnimationFrame(animateFrame);
+            } else {
+              node.classList.remove("is-animating");
+              node.textContent = `${target}${suffix}`;
+            }
+          };
+
+          node.classList.add("is-animating");
+          requestAnimationFrame(animateFrame);
+        };
+
+        const getCounterTarget = async (node) => {
+          if (node === visitCountNode) {
+            try {
+              const saved = Number(localStorage.getItem(visitStorageKey));
+              const guarded = getCookieValue(visitGuardCookie);
+
+              if (guarded) {
+                return Number.isFinite(saved) && saved >= 100 ? saved : 100;
+              }
+
+              const nextValue =
+                Number.isFinite(saved) && saved >= 100 ? saved + 1 : 100;
+              localStorage.setItem(visitStorageKey, String(nextValue));
+              setCookieValue(visitGuardCookie, "1", visitGuardSeconds);
+              return nextValue;
+            } catch {
+              return 100;
+            }
+          }
+
+          const value = Number(node.dataset.countTarget);
+          return Number.isFinite(value) ? value : null;
+        };
+
+        const animateMetrics = async () => {
+          await new Promise((resolve) => window.setTimeout(resolve, 330));
+
+          const jobs = metricNodes.map(async (node) => {
+            const target = await getCounterTarget(node);
+            if (target === null) {
+              node.textContent = "—";
+              return;
+            }
+
+            const suffix = node.dataset.countSuffix || "";
+            node.textContent = "0";
+            runSpinCounter(node, target, { suffix });
+          });
+
+          await Promise.all(jobs);
+        };
+
+        const statsRow = document.querySelector(".hero-stats");
+        let countersStarted = false;
+        const startCountersOnce = () => {
+          if (countersStarted) {
+            return;
+          }
+
+          countersStarted = true;
+          animateMetrics();
+        };
+
+        if (statsRow && "IntersectionObserver" in window) {
+          const observer = new IntersectionObserver(
+            (entries, io) => {
+              if (entries.some((entry) => entry.isIntersecting)) {
+                io.disconnect();
+                startCountersOnce();
+              }
+            },
+            { threshold: 0.35 },
+          );
+
+          observer.observe(statsRow);
+        } else {
+          startCountersOnce();
+        }
+      })();
+
+      (() => {
+        const storySets = {
+          "stories-1": [
+            ["b5/b5001.html", "The Rich Uncle"],
+            ["b5/b5002.html", "College Admissions"],
+            ["b5/b5003.html", "She Has a Unibrow"],
+            ["b5/b5004.html", "Losing a Loved One"],
+            ["b5/b5005.html", "A Cheerleader's Dream"],
+            ["b5/b5006.html", "An Undercover Superhero"],
+            ["b5/b5007.html", "A Lucky Jacket"],
+            ["b5/b5008.html", "Phone Invasion"],
+            ["b5/b5009.html", "Life in Fear"],
+            ["b5/b5010.html", "Pros and Cons"],
+            ["b5/b5011.html", "Procrastination"],
+            ["b5/b5012.html", "Not Going to Church"],
+            ["b5/b5013.html", "Afraid to Cry"],
+            ["b5/b5014.html", "The Missing Water Bottle"],
+            ["b5/b5015.html", "Addicted to Coffee"],
+            ["b5/b5016.html", "Letters of Recommendation"],
+            ["b5/b5017.html", "Celebrity Idol"],
+            ["b5/b5018.html", "The Cool Group Has Money"],
+            ["b5/b5019.html", "Secret Relationship"],
+            ["b5/b5020.html", "Twins Are Cheating"],
+            ["b5/b5021.html", "The Transformation"],
+            ["b5/b5022.html", "A Female Boxer"],
+            ["b5/b5023.html", "Mom and Her Daughter"],
+            ["b5/b5024.html", "An Interrupted Wedding"],
+            ["b5/b5025.html", "Snoring"],
+            ["b5/b5026.html", "School Mascot"],
+            ["b5/b5027.html", "A Hero"],
+            ["b5/b5028.html", "Life Seems Unfair"],
+            ["b5/b5029.html", "The Acne Problem"],
+            ["b5/b5030.html", "A Mystery Man"],
+            ["b5/b5031.html", "Moving Schools"],
+            ["b5/b5032.html", "A New Haircut"],
+            ["b5/b5033.html", "Started From the Bottom"],
+            ["b5/b5034.html", "No Vote, No Opinion"],
+            ["b5/b5035.html", "The Addiction"],
+            ["b5/b5036.html", "Writing an Essay"],
+            ["b5/b5037.html", "Eyebrow Waxing"],
+            ["b5/b5038.html", "A Yes-Man"],
+            ["b5/b5039.html", "Christmas Spirit"],
+            ["b5/b5040.html", "Valentine's Hater"],
+            ["b5/b5041.html", "A Foreign Accent"],
+            ["b5/b5042.html", "The Career Day"],
+            ["b5/b5043.html", "Bad Guy Gone Good"],
+            ["b5/b5044.html", "Taking Revenge"],
+            ["b5/b5045.html", "Fireball Wings"],
+            ["b5/b5046.html", "Friends Betrayal"],
+            ["b5/b5047.html", "The Election Speech"],
+            ["b5/b5048.html", "The Vote for Swim captain"],
+            ["b5/b5049.html", "Mary and Natasha"],
+            ["b5/b5050.html", "The Homecoming Dance"]
+          ],
+          "stories-2": [
+            ["b5/b5051.html", "Textbooks"],
+            ["b5/b5052.html", "Late Registration Appointment"],
+            ["b5/b5053.html", "Stage Fright"],
+            ["b5/b5054.html", "The One Who Stayed Behind"],
+            ["b5/b5055.html", "Flip Flop Danger"],
+            ["b5/b5056.html", "Most Likeable Girl"],
+            ["b5/b5057.html", "Soccer Tryouts"],
+            ["b5/b5058.html", "Trouble with the Captain"],
+            ["b5/b5059.html", "Strengths and Weaknesses"],
+            ["b5/b5060.html", "A Homeless Man's Past"],
+            ["b5/b5061.html", "Meeting Boyfriend's Parents"],
+            ["b5/b5062.html", "Being Home Alone"],
+            ["b5/b5063.html", "The Best Donut on Earth"],
+            ["b5/b5064.html", "A Terrible Teacher"],
+            ["b5/b5065.html", "Taking a Break"],
+            ["b5/b5066.html", "Vegetarian Family"],
+            ["b5/b5067.html", "Food from Outside"],
+            ["b5/b5068.html", "A Hot Risk"],
+            ["b5/b5069.html", "Every Day is Your Last"],
+            ["b5/b5070.html", "Planning a Surprise Party"],
+            ["b5/b5071.html", "A New Look"],
+            ["b5/b5072.html", "Making the Boss Angry"],
+            ["b5/b5073.html", "Cash Only"],
+            ["b5/b5074.html", "First Day as a Tutor"],
+            ["b5/b5075.html", "No Need to Help Others"],
+            ["b5/b5076.html", "Pay Me Back"],
+            ["b5/b5077.html", "Washing Dishes"],
+            ["b5/b5078.html", "Doing Something Good Can..."],
+            ["b5/b5079.html", "Facing a Setback"],
+            ["b5/b5080.html", "July 4th Plans"],
+            ["b5/b5081.html", "Body Image Problems"],
+            ["b5/b5082.html", "Picking a Team"],
+            ["b5/b5083.html", "Fighting Friends"],
+            ["b5/b5084.html", "Shopping Addiction"],
+            ["b5/b5085.html", "The Hard Truth"],
+            ["b5/b5086.html", "No Internet Connection"],
+            ["b5/b5087.html", "A Stolen Bike"],
+            ["b5/b5088.html", "Pretty and Dumb"],
+            ["b5/b5089.html", "Too Cute"],
+            ["b5/b5090.html", "A Pet Mouse"],
+            ["b5/b5091.html", "A Scary Story for the Night"],
+            ["b5/b5092.html", "Singing Competition (1)"],
+            ["b5/b5093.html", "Singing Competition (2)"],
+            ["b5/b5094.html", "A Jealous Girlfriend"],
+            ["b5/b5095.html", "First Time at Disneyland"],
+            ["b5/b5096.html", "Eye Problems"],
+            ["b5/b5097.html", "Ralph's App"],
+            ["b5/b5098.html", "A Stay-at-home Dad"],
+            ["b5/b5099.html", "A Sweepstakes Winner"],
+            ["b5/b5100.html", "Name Change"]
+          ]
+        };
+
+        const buttons = Array.from(document.querySelectorAll("[data-tab-target]"));
+        const panels = Array.from(document.querySelectorAll("[role='tabpanel']"));
+        const gridMap = new Map(
+          panels.map((panel) => [panel.id, panel.querySelector("[data-story-grid]")]),
+        );
+
+        const animatePanel = (panel) => {
+          panel.animate(
+            [
+              { opacity: 0, transform: "translateY(8px)" },
+              { opacity: 1, transform: "translateY(0)" },
+            ],
+            {
+              duration: 200,
+              easing: "ease-out",
+            },
+          );
+        };
+
+        const renderGrid = (panel) => {
+          const items = storySets[panel.id] || [];
+          const grid = gridMap.get(panel.id);
+
+          if (!grid || grid.dataset.rendered === "true") {
+            return;
+          }
+
+          const startNumber = Number(panel.dataset.start || "1");
+
+          grid.textContent = "";
+
+          items.forEach(([href, title], index) => {
+            const number = startNumber + index;
+            const link = document.createElement("a");
+            link.className = "story-item";
+            link.href = href;
+            link.setAttribute("aria-label", `${number}. ${title}`);
+            link.innerHTML = `
+              <span class="story-number">${number}.</span>
+              <span class="story-title">${title}</span>
+              <span class="story-arrow" aria-hidden="true">→</span>
+            `;
+            grid.appendChild(link);
+          });
+
+          grid.dataset.rendered = "true";
+        };
+
+        const activateTab = (tabId, { updateHash = true, focus = false } = {}) => {
+          const targetButton = buttons.find(
+            (button) => button.dataset.tabTarget === tabId,
+          );
+          const targetPanel = panels.find((panel) => panel.id === tabId);
+
+          if (!targetButton || !targetPanel) {
+            return;
+          }
+
+          buttons.forEach((button) => {
+            const isActive = button === targetButton;
+            button.setAttribute("aria-selected", String(isActive));
+            button.tabIndex = isActive ? 0 : -1;
+          });
+
+          panels.forEach((panel) => {
+            const isActive = panel === targetPanel;
+            panel.hidden = !isActive;
+            if (isActive) {
+              renderGrid(panel);
+              animatePanel(panel);
+            }
+          });
+
+          if (focus) {
+            targetButton.focus({ preventScroll: true });
+          }
+
+          if (updateHash) {
+            history.replaceState(null, "", `#${tabId}`);
+          }
+        };
+
+        buttons.forEach((button) => {
+          button.addEventListener("click", () => {
+            activateTab(button.dataset.tabTarget, { focus: true });
+          });
+
+          button.addEventListener("keydown", (event) => {
+            const currentIndex = buttons.indexOf(button);
+            let nextIndex = -1;
+
+            switch (event.key) {
+              case "ArrowLeft":
+                event.preventDefault();
+                nextIndex =
+                  currentIndex === 0 ? buttons.length - 1 : currentIndex - 1;
+                break;
+              case "ArrowRight":
+                event.preventDefault();
+                nextIndex =
+                  currentIndex === buttons.length - 1 ? 0 : currentIndex + 1;
+                break;
+              case "Home":
+                event.preventDefault();
+                nextIndex = 0;
+                break;
+              case "End":
+                event.preventDefault();
+                nextIndex = buttons.length - 1;
+                break;
+              case "Enter":
+              case " ":
+                event.preventDefault();
+                activateTab(button.dataset.tabTarget, { focus: true });
+                return;
+              default:
+                return;
+            }
+
+            if (nextIndex >= 0) {
+              activateTab(buttons[nextIndex].dataset.tabTarget, { focus: true });
+            }
+          });
+        });
+
+        const initialTab = storySets[location.hash.slice(1)]
+          ? location.hash.slice(1)
+          : "stories-1";
+
+        activateTab(initialTab, { updateHash: false });
+      })();
+    </script>
+  </body>
 </html>
-

@@ -1,216 +1,2128 @@
 <!DOCTYPE html>
-
 <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+      name="description"
+      content="Advanced Short Stories I in a tabbed reading index with the same Eagles theme and a cleaner, animated layout."
+    >
+    <title>Advanced Short Stories I</title>
+    <link href="../favicon.ico?v=2" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <script>
+      (() => {
+        const storageKey = "theme";
+        const root = document.documentElement;
 
-<head>
+        try {
+          const savedTheme = localStorage.getItem(storageKey);
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          const theme =
+            savedTheme === "light" || savedTheme === "dark"
+              ? savedTheme
+              : prefersDark
+                ? "dark"
+                : "light";
 
-  <meta charset="utf-8">
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+        } catch {
+          root.dataset.theme = "light";
+          root.style.colorScheme = "light";
+        }
+      })();
+    </script>
+    <style>
+      :root {
+        color-scheme: light;
+        --accent: var(--brand-primary);
+        --accent-contrast: #ffffff;
+        --accent-strong: var(--brand-primary-dark);
+        --bg-accent: rgba(181, 0, 16, 0.08);
+        --bg-accent-2: rgba(0, 39, 134, 0.08);
+        --brand-primary: #b50010;
+        --brand-primary-dark: #86000c;
+        --brand-secondary: #f5f8ff;
+        --brand-tertiary: #002786;
+        --brand-primary-dm: #ff4a5f;
+        --brand-primary-dm-dark: #d93c52;
+        --brand-secondary-dm: #7da2ff;
+        --brand-secondary-dm-dark: #3b73ff;
+        --border: #8d929e;
+        --focus-ring: rgba(0, 39, 134, 0.32);
+        --feature-bg-end: var(--brand-primary);
+        --feature-bg-start: var(--brand-tertiary);
+        --footer-bg: var(--brand-tertiary);
+        --footer-border: rgba(255, 255, 255, 0.18);
+        --footer-text: #e4e9f2;
+        --max-width: 1120px;
+        --muted: #5f6b82;
+        --on-accent: #ffffff;
+        --on-accent-muted: rgba(255, 255, 255, 0.78);
+        --page-bg: #d3d9e5;
+        --primary-color: #b50010;
+        --primary-dark: var(--brand-primary-dark);
+        --secondary-color: #f5f8ff;
+        --shell-bg: rgba(255, 255, 255, 0.92);
+        --shell-shadow: 0 14px 34px rgba(0, 39, 134, 0.09);
+        --shadow: 0 18px 45px rgba(0, 39, 134, 0.12);
+        --surface: #ffffff;
+        --surface-soft: #f3f5ff;
+        --surface-strong: #ffffff;
+        --tertiary-color: #002786;
+        --text: #212121;
+        --theme-toggle-icon-bg: rgba(255, 255, 255, 0.78);
+        --theme-toggle-icon-bg-dark: rgba(255, 255, 255, 0.12);
+        --theme-toggle-ink: #172033;
+        --theme-toggle-ink-dark: #ffd76a;
+        --radius-base: 3.667px;
+        --radius-pill: 999px;
+        --radius-1: var(--radius-base);
+        --radius-2: calc(var(--radius-base) * 2);
+        --radius-3: calc(var(--radius-base) * 3);
+        --space-1: clamp(8px, 0.75vw, 10px);
+        --space-2: clamp(12px, 1.1vw, 14px);
+        --space-3: clamp(16px, 1.8vw, 20px);
+        --space-4: clamp(22px, 2.2vw, 28px);
+        --space-5: clamp(30px, 3vw, 40px);
+      }
 
-  <meta name="keyWords"
-    content="Free English learning, English as a Second Language, ESL, ESL Reading, Easy reading, English short Stories, ESL Stories, Easy Reading, Listening, Dictation, American culture, customs, Children English">
-  <title>English Level 2</title>
-  <link href="../style/style.css" rel="stylesheet" type="text/css">
-  <link rel="icon" href="../pics/favicon.png">
+      html[data-theme="dark"] {
+        color-scheme: dark;
+        --accent: var(--brand-primary-dm);
+        --accent-contrast: #101010;
+        --accent-strong: var(--brand-secondary-dm);
+        --bg-accent: rgba(255, 74, 95, 0.08);
+        --bg-accent-2: rgba(126, 163, 255, 0.03);
+        --border: #555555;
+        --focus-ring: rgba(126, 163, 255, 0.38);
+        --feature-bg-end: #323232;
+        --feature-bg-start: #161616;
+        --footer-bg: var(--brand-tertiary);
+        --footer-border: rgba(255, 255, 255, 0.18);
+        --footer-text: #e4e9f2;
+        --muted: #c2c2c2;
+        --page-bg: #050505;
+        --primary-color: var(--brand-primary-dm);
+        --primary-dark: var(--brand-primary-dm-dark);
+        --secondary-color: #111111;
+        --shell-bg: rgba(22, 22, 22, 0.94);
+        --shell-shadow: 0 16px 34px rgba(0, 0, 0, 0.48);
+        --shadow: 0 18px 42px rgba(0, 0, 0, 0.5);
+        --surface: #262626;
+        --surface-soft: #333333;
+        --surface-strong: #141414;
+        --tertiary-color: var(--brand-secondary-dm);
+        --text: #f0f0f0;
+      }
 
-  <style>
-    a {
-      display: inline-block;
-      line-height: 1em !important;
-      margin-bottom: 1em;
-    }
-  </style>
+      * {
+        box-sizing: border-box;
+      }
 
+      html {
+        color-scheme: light;
+      }
+
+      html[data-theme="dark"] {
+        color-scheme: dark;
+      }
+
+      body {
+        color: var(--text);
+        line-height: 1.6;
+        margin: 0;
+        isolation: isolate;
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        background:
+          radial-gradient(circle at top left, var(--bg-accent), transparent 32rem),
+          radial-gradient(
+            circle at top right,
+            var(--bg-accent-2),
+            transparent 34rem
+          ),
+          var(--page-bg);
+        min-height: 100vh;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: -20vh -10vw auto;
+        height: 55vh;
+        background:
+          radial-gradient(
+            circle at 22% 30%,
+            rgba(181, 0, 16, 0.12),
+            transparent 55%
+          ),
+          radial-gradient(
+            circle at 78% 38%,
+            rgba(0, 39, 134, 0.14),
+            transparent 50%
+          );
+        filter: blur(18px);
+        opacity: 0.82;
+        pointer-events: none;
+        z-index: -1;
+        animation: drift 18s ease-in-out infinite alternate;
+      }
+
+      @keyframes drift {
+        from {
+          transform: translate3d(-0.75rem, 0, 0);
+        }
+
+        to {
+          transform: translate3d(0.75rem, -0.4rem, 0);
+        }
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--focus-ring);
+        outline-offset: 3px;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+
+      .container {
+        margin-inline: auto;
+        width: min(100% - 32px, var(--max-width));
+      }
+
+      .sr-only {
+        border: 0;
+        clip: rect(0, 0, 0, 0);
+        clip-path: inset(50%);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+        white-space: nowrap;
+      }
+
+      .shell {
+        background: var(--shell-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-3);
+        box-shadow: var(--shell-shadow);
+        overflow: hidden;
+      }
+
+      .section-shell {
+        display: grid;
+        gap: var(--space-3);
+        padding: var(--space-2) var(--space-4);
+      }
+
+      .site-header {
+        background: transparent;
+        padding: 12px 0 0;
+        position: static;
+      }
+
+      .hub-banner {
+        align-items: center;
+        background: var(--primary-color);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: var(--radius-2);
+        color: var(--secondary-color);
+        display: flex;
+        font-size: 1.25rem;
+        font-weight: 700;
+        justify-content: space-between;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        min-block-size: 18px;
+        margin-top: var(--space-2);
+        padding-block: 8px;
+        padding-inline: calc(var(--space-2) * 1.9);
+        width: 100%;
+      }
+
+      .hub-banner a {
+        color: inherit;
+        font-size: 1.25rem;
+        font-weight: inherit;
+        text-decoration: none;
+        transition: color 120ms ease, text-decoration-color 120ms ease;
+      }
+
+      .hub-banner a:hover,
+      .hub-banner a:focus-visible {
+        color: var(--accent-contrast);
+        text-decoration: underline;
+        text-underline-offset: 5px;
+      }
+
+      .nav {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-3);
+        justify-content: flex-start;
+        min-height: 56px;
+        padding: 10px 0;
+      }
+
+      .brand {
+        align-items: center;
+        color: var(--tertiary-color);
+        display: inline-flex;
+        font-size: 1.14rem;
+        font-weight: 950;
+        gap: 10px;
+        letter-spacing: 0.02em;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+        min-width: 0;
+      }
+
+      .brand-title {
+        color: var(--text);
+        display: inline-block;
+        font-size: clamp(0.98rem, 0.8vw + 0.72rem, 1.25rem);
+        font-variant-numeric: tabular-nums;
+        font-weight: 950;
+        letter-spacing: 0.01em;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      /* CHANGE: Header mark now uses the supplied logo as inline SVG, removing the external logo image dependency. */
+      .brand-mark {
+        background: linear-gradient(
+          180deg,
+          var(--surface-strong) 0%,
+          var(--surface-soft) 100%
+        );
+        border-radius: var(--radius-1);
+        box-shadow: var(--shadow);
+        display: grid;
+        height: 44px;
+        overflow: hidden;
+        place-items: center;
+        width: 44px;
+      }
+
+      .brand-mark svg {
+        display: block;
+        height: 36px;
+        width: 36px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-actions {
+        display: flex;
+      }
+
+      .btn {
+        align-items: center;
+        border: 1px solid transparent;
+        border-radius: var(--radius-2);
+        cursor: pointer;
+        display: inline-flex;
+        font-weight: 800;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 18px;
+        transition:
+          transform 160ms ease,
+          box-shadow 160ms ease,
+          background 160ms ease,
+          border-color 160ms ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        box-shadow: var(--shadow);
+        color: var(--accent-contrast);
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+      }
+
+      .btn-ghost {
+        background: var(--surface);
+        border-color: var(--border);
+        color: var(--tertiary-color);
+      }
+
+      .btn-ghost:hover {
+        border-color: var(--accent);
+      }
+
+      .header-link {
+        align-items: center;
+        color: var(--tertiary-color);
+        display: inline-flex;
+        font-size: 0.95rem;
+        font-weight: 800;
+        justify-content: center;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .header-link:hover,
+      .header-link:focus-visible {
+        color: var(--primary);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .theme-toggle {
+        align-items: center;
+        appearance: none;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-pill);
+        color: var(--theme-toggle-ink);
+        cursor: pointer;
+        display: inline-flex;
+        justify-content: center;
+        justify-self: end;
+        min-height: 44px;
+        padding: 8px;
+        position: relative;
+        transition:
+          background-color 180ms ease,
+          border-color 180ms ease,
+          color 180ms ease,
+          transform 180ms ease;
+      }
+
+      .theme-toggle:hover {
+        border-color: rgba(15, 22, 41, 1);
+        transform: translateY(-1px);
+      }
+
+      .theme-toggle__icon {
+        align-items: center;
+        background: var(--theme-toggle-icon-bg);
+        border-radius: var(--radius-pill);
+        color: var(--theme-toggle-ink);
+        display: inline-flex;
+        flex: 0 0 auto;
+        height: 38px;
+        justify-content: center;
+        width: 38px;
+      }
+
+      .theme-toggle__icon svg {
+        color: inherit;
+        display: none;
+        height: 100%;
+        width: 100%;
+      }
+
+      .theme-toggle__icon[data-theme-icon="moon"] .theme-toggle__icon-moon,
+      .theme-toggle__icon[data-theme-icon="sun"] .theme-toggle__icon-sun {
+        display: block;
+      }
+
+      html[data-theme="dark"] .theme-toggle {
+        background: transparent;
+        border-color: transparent;
+        color: var(--theme-toggle-ink-dark);
+      }
+
+      html[data-theme="dark"] .theme-toggle:hover {
+        border-color: rgba(255, 215, 106, 0.42);
+      }
+
+      html[data-theme="dark"] .theme-toggle__icon {
+        background: var(--theme-toggle-icon-bg-dark);
+        color: var(--theme-toggle-ink-dark);
+      }
+
+      html[data-theme="dark"] .brand {
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.28);
+      }
+
+      html[data-theme="dark"] .hub-banner {
+        align-items: center;
+        background: var(--brand-primary-dark);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: var(--radius-2);
+        color: #e4e9f2;
+        display: flex;
+        font-size: 1.25rem;
+        font-weight: 700;
+        justify-content: space-between;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        min-block-size: 18px;
+        margin-top: var(--space-2);
+        padding-block: 8px;
+        padding-inline: calc(var(--space-2) * 1.9);
+        width: 100%;
+      }
+
+      html[data-theme="dark"] .hub-banner a {
+        color: inherit;
+        font-size: 1.25rem;
+        font-weight: inherit;
+        text-decoration: none;
+        transition: color 120ms ease, text-decoration-color 120ms ease;
+      }
+
+      html[data-theme="dark"] .hub-banner a:hover,
+      html[data-theme="dark"] .hub-banner a:focus-visible {
+        color: #e4e9f2;
+        text-decoration: underline;
+        text-underline-offset: 5px;
+      }
+
+      html[data-theme="dark"] .hero-panel {
+        background: #161616;
+        border-color: rgba(255, 255, 255, 0.14);
+        box-shadow:
+          0 18px 38px rgba(0, 0, 0, 0.42),
+          0 0 0 1px color-mix(in srgb, var(--brand-primary-dm) 26%, transparent) inset,
+          0 1px 0 rgba(255, 255, 255, 0.05) inset;
+      }
+
+      html[data-theme="dark"] .stat-chip {
+        background: #262626;
+        border-color: rgba(255, 255, 255, 0.14);
+        box-shadow:
+          0 12px 24px rgba(0, 0, 0, 0.34),
+          0 0 0 1px color-mix(in srgb, var(--brand-primary-dm) 22%, transparent) inset,
+          0 1px 0 rgba(255, 255, 255, 0.08) inset;
+      }
+
+      html[data-theme="dark"] .stat-chip strong {
+        color: var(--primary-color);
+      }
+
+      html[data-theme="dark"] .tab-button {
+        background: linear-gradient(180deg, #333333, #262626);
+        border-color: rgba(255, 255, 255, 0.14);
+        box-shadow:
+          0 -1px 0 rgba(255, 255, 255, 0.04) inset,
+          0 0 0 1px color-mix(in srgb, var(--brand-primary-dm) 22%, transparent) inset;
+      }
+
+      html[data-theme="dark"] .tab-button[aria-selected="true"] {
+        background: linear-gradient(180deg, #262626, #1f1f1f);
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.18);
+        box-shadow:
+          0 -1px 0 rgba(255, 255, 255, 0.08) inset,
+          0 0 0 1px color-mix(in srgb, var(--brand-primary-dm) 34%, transparent) inset,
+          0 10px 16px rgba(0, 0, 0, 0.26);
+      }
+
+      html[data-theme="dark"] .tab-panels {
+        background: #161616;
+        border-color: rgba(255, 255, 255, 0.14);
+        box-shadow:
+          0 18px 38px rgba(0, 0, 0, 0.42),
+          0 0 0 1px color-mix(in srgb, var(--brand-secondary-dm) 18%, transparent) inset,
+          0 1px 0 rgba(255, 255, 255, 0.05) inset;
+      }
+
+      .theme-toggle:focus-visible {
+        box-shadow: 0 0 0 3px rgba(47, 91, 227, 0.2);
+        outline: none;
+      }
+
+      .hero {
+        padding: var(--space-4) 0 var(--space-3);
+      }
+
+      .hero-panel {
+        background:
+          radial-gradient(circle at top left, var(--bg-accent), transparent 34%),
+          radial-gradient(
+            circle at bottom right,
+            var(--bg-accent-2),
+            transparent 36%
+          ),
+          var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-3);
+        box-shadow: var(--shell-shadow);
+        overflow: hidden;
+        padding: var(--space-4);
+        position: relative;
+      }
+
+      .hero-panel::before,
+      .hero-panel::after {
+        content: "";
+        position: absolute;
+        border-radius: var(--radius-pill);
+        pointer-events: none;
+      }
+
+      .hero-panel::before {
+        inset: auto auto 1rem -2rem;
+        width: 8rem;
+        height: 8rem;
+        background: radial-gradient(
+          circle,
+          color-mix(in srgb, var(--primary-color) 30%, transparent),
+          transparent 72%
+        );
+        opacity: 0.5;
+      }
+
+      .hero-panel::after {
+        inset: 1rem -1rem auto auto;
+        width: 6rem;
+        height: 6rem;
+        background: radial-gradient(
+          circle,
+          color-mix(in srgb, var(--tertiary-color) 30%, transparent),
+          transparent 70%
+        );
+        opacity: 0.42;
+      }
+
+      .eyebrow {
+        align-items: center;
+        background: var(--secondary-color);
+        border: 1px solid var(--tertiary-color);
+        border-radius: var(--radius-2);
+        color: var(--primary-color);
+        display: inline-flex;
+        font-size: 0.88rem;
+        font-weight: 900;
+        gap: var(--space-1);
+        margin-bottom: var(--space-2);
+        padding: 7px 12px;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        color: var(--tertiary-color);
+        font-size: clamp(1.62rem, 2.8vw, 2.72rem);
+        letter-spacing: -0.035em;
+        line-height: 1.04;
+        max-width: 16ch;
+      }
+
+      html[data-theme="dark"] h1 {
+        color: var(--on-accent-soft);
+      }
+
+      .hero-copy {
+        color: var(--muted);
+        font-size: clamp(0.98rem, 0.95vw + 0.72rem, 1.02rem);
+        line-height: 1.48;
+        margin-top: var(--space-3);
+        max-width: 900px;
+      }
+
+      .hero-stats {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin-top: var(--space-3);
+        position: relative;
+        z-index: 1;
+      }
+
+      .stat-chip {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-3);
+        box-shadow:
+          0 10px 22px rgba(0, 39, 134, 0.08),
+          inset 0 1px 0 rgba(255, 255, 255, 0.45);
+        padding: 16px 14px;
+      }
+
+      .stat-chip strong {
+        color: var(--primary-color);
+        display: block;
+        font-variant-numeric: tabular-nums;
+        font-size: clamp(1.18rem, 1.05vw + 0.7rem, 1.34rem);
+        line-height: 1.1;
+      }
+
+      .stat-chip strong.is-animating {
+        opacity: 0.92;
+        transition: opacity 180ms ease;
+      }
+
+      .stat-counter strong {
+        font-variant-numeric: tabular-nums;
+      }
+
+      .stat-chip span {
+        color: var(--muted);
+        display: block;
+        font-size: clamp(0.82rem, 0.45vw + 0.66rem, 0.88rem);
+        font-weight: 700;
+        margin-top: 2px;
+      }
+
+      .tabs-shell {
+        position: relative;
+      }
+
+      .tabbed-shell {
+        display: grid;
+        gap: 0;
+      }
+
+      .tab-list {
+        align-items: flex-end;
+        border-bottom: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+        justify-content: flex-start;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding: 0;
+        -ms-overflow-style: none;
+      }
+
+      .tab-list::-webkit-scrollbar {
+        display: none;
+      }
+
+      .tab-button {
+        background: linear-gradient(180deg, var(--surface-soft), var(--surface));
+        border: 1px solid var(--border);
+        border-bottom: none;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.42) inset;
+        color: var(--tertiary-color);
+        cursor: pointer;
+        display: inline-grid;
+        gap: 6px;
+        flex: 0 0 auto;
+        margin-bottom: -1px;
+        min-width: 12.25rem;
+        overflow: hidden;
+        padding: 13px 30px 12px 20px;
+        position: relative;
+        text-align: left;
+        transition:
+          transform 220ms ease,
+          box-shadow 220ms ease,
+          border-color 220ms ease,
+          background-color 220ms ease;
+        clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 100%, 0 100%);
+      }
+
+      .tab-button:not(:first-child) {
+        margin-left: -8px;
+      }
+
+      .tab-button::before {
+        content: "";
+        inset: 0;
+        position: absolute;
+        background: linear-gradient(125deg, transparent 20%, rgba(255, 255, 255, 0.18) 50%, transparent 80%);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-34%) skewX(-16deg);
+        transition:
+          opacity 320ms ease,
+          transform 520ms ease;
+      }
+
+      .tab-button:hover,
+      .tab-button:focus-visible {
+        border-color: color-mix(
+          in srgb,
+          var(--primary-color) 45%,
+          var(--border)
+        );
+        box-shadow: 0 -8px 18px color-mix(in srgb, var(--tertiary-color) 14%, transparent);
+        transform: translateY(-2px);
+      }
+
+      .tab-button:hover::before,
+      .tab-button:focus-visible::before,
+      .tab-button[aria-selected="true"]::before {
+        opacity: 1;
+        transform: translateX(36%) skewX(-16deg);
+      }
+
+      .tab-button[aria-selected="true"] {
+        background: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) 94%, #ffffff));
+        border-color: color-mix(in srgb, var(--primary-color) 28%, var(--border));
+        border-bottom-color: var(--surface);
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.6) inset,
+          0 0 0 1px rgba(255, 255, 255, 0.34) inset,
+          0 12px 18px rgba(0, 39, 134, 0.22);
+        color: var(--primary-color);
+        filter: none;
+        z-index: 5;
+        transform: none;
+      }
+
+      .tab-button[aria-selected="true"]::after {
+        background: var(--primary-color);
+        block-size: 5px;
+        content: "";
+        inset: 0 0 auto;
+        position: absolute;
+      }
+
+      .tab-button:not([aria-selected="true"]) {
+        background: linear-gradient(180deg, var(--surface-soft), color-mix(in srgb, var(--surface) 92%, var(--surface-soft)));
+        z-index: 1;
+      }
+
+      .tab-button:not([aria-selected="true"])::after {
+        background: var(--tertiary-color);
+        block-size: 3px;
+        content: "";
+        inset: 0 0 auto;
+        position: absolute;
+        opacity: 0.85;
+      }
+
+      .tab-button__label {
+        font-size: 1rem;
+        font-weight: 900;
+        letter-spacing: 0.01em;
+      }
+
+      .tab-button__range {
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .tab-button[aria-selected="true"] .tab-button__range {
+        color: var(--muted);
+      }
+
+      .tab-panels {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 0 22px 22px 22px;
+        box-shadow: var(--shadow);
+        margin-top: -1px;
+        padding: 18px;
+      }
+
+      .tab-panel {
+        position: relative;
+      }
+
+      .tab-panel[hidden] {
+        display: none;
+      }
+
+      .story-grid {
+        column-count: 1;
+        column-gap: 10px;
+      }
+
+      .story-item {
+        align-items: center;
+        background: linear-gradient(
+          180deg,
+          color-mix(in srgb, var(--surface-soft) 92%, #F3F5FF),
+          color-mix(in srgb, var(--surface) 84%, #ffffff)
+        );
+        border: 1px solid color-mix(in srgb, var(--primary-color) 50%, var(--border));
+        border-radius: 18px;
+        box-shadow:
+          0 10px 22px color-mix(in srgb, var(--tertiary-color) 12%, transparent),
+          0 1px 0 rgba(255, 255, 255, 0.55) inset;
+        display: grid;
+        gap: 12px;
+        grid-template-columns: auto 1fr auto;
+        padding: 13px 14px;
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 180ms ease,
+          background-color 150ms ease,
+          border-color 150ms ease,
+          box-shadow 180ms ease,
+          filter 180ms ease;
+        break-inside: avoid;
+        display: inline-grid;
+        width: 100%;
+        margin: 0 0 10px;
+      }
+
+      .story-item::before {
+        content: "";
+        inset: 0;
+        position: absolute;
+        background: linear-gradient(
+          115deg,
+          transparent 28%,
+          color-mix(in srgb, var(--tertiary-color) 24%, rgba(255, 255, 255, 0.76)) 50%,
+          transparent 72%
+        );
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-38%) skewX(-18deg);
+        transition:
+          opacity 320ms ease,
+          transform 520ms ease;
+      }
+
+      @keyframes story-hover-pop {
+        0% {
+          transform: translateY(0);
+        }
+
+        45% {
+          transform: translateY(-6px);
+        }
+
+        100% {
+          transform: translateY(-5px);
+        }
+      }
+
+      @keyframes story-hover-sheen {
+        0% {
+          opacity: 0;
+          transform: translateX(-40%) skewX(-18deg);
+        }
+
+        100% {
+          opacity: 1;
+          transform: translateX(40%) skewX(-18deg);
+        }
+      }
+
+      .story-item:hover,
+      .story-item:focus-visible {
+        background: linear-gradient(
+          180deg,
+          #f7f9ff,
+          #eef3ff
+        );
+        border-color: color-mix(
+          in srgb,
+          var(--primary-color) 30%,
+          rgba(255, 255, 255, 0.36)
+        );
+        box-shadow:
+          0 18px 36px rgba(0, 39, 134, 0.14),
+          0 0 0 1px rgba(255, 255, 255, 0.18) inset;
+        filter: saturate(1.02);
+      
+        transform: translateY(-5px);
+        animation: story-hover-pop 220ms ease-out;
+      }
+
+      .story-item:hover::before,
+      .story-item:focus-visible::before {
+        opacity: 1;
+        transform: translateX(38%) skewX(-18deg);
+        animation: story-hover-sheen 360ms ease-out;
+      }
+
+      .story-number {
+        align-items: center;
+        background: linear-gradient(180deg, var(--primary-color), color-mix(in srgb, var(--primary-dark) 86%, #000));
+        box-shadow:
+          0 2px 5px rgba(0, 0, 0, 0.12),
+          0 0 0 1px rgba(255, 255, 255, 0.16) inset;
+        border-radius: var(--radius-pill);
+        color: var(--accent-contrast);
+        display: inline-flex;
+        font-size: clamp(0.84rem, 0.55vw + 0.62rem, 0.92rem);
+        font-variant-numeric: tabular-nums;
+        font-weight: 950;
+        justify-content: center;
+        min-height: 2.3rem;
+        min-width: 3.75rem;
+        padding: 0 12px;
+        white-space: nowrap;
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease,
+          background-color 180ms ease;
+      }
+
+      .story-title {
+        color: var(--tertiary-color);
+        font-size: clamp(0.94rem, 0.55vw + 0.76rem, 0.99rem);
+        font-weight: 900;
+        letter-spacing: 0.01em;
+        line-height: 1.18;
+      }
+
+      html[data-theme="dark"] .story-title {
+        color: var(--on-accent-soft);
+      }
+
+      .story-arrow {
+        align-items: center;
+        color: var(--muted);
+        display: inline-flex;
+        font-size: clamp(0.95rem, 0.45vw + 0.82rem, 1rem);
+        font-weight: 700;
+        justify-content: center;
+        line-height: 1;
+        transition: transform 150ms ease, color 150ms ease;
+      }
+
+      .story-item:hover .story-arrow,
+      .story-item:focus-visible .story-arrow {
+        color: var(--tertiary-color);
+        transform: translateX(2px);
+      }
+
+      .story-item:hover .story-number,
+      .story-item:focus-visible .story-number {
+        box-shadow:
+          0 10px 18px rgba(0, 0, 0, 0.28),
+          0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+        transform: translateY(-1px) scale(1.04);
+      }
+
+      html[data-theme="dark"] .story-item {
+        background: #262626;
+        border-color: rgba(255, 255, 255, 0.12);
+        box-shadow:
+          0 12px 24px rgba(0, 0, 0, 0.34),
+          0 0 0 1px color-mix(in srgb, var(--brand-primary-dm) 24%, transparent) inset,
+          0 1px 0 rgba(255, 255, 255, 0.08) inset;
+      }
+
+      html[data-theme="dark"] .story-item::before {
+        background: linear-gradient(
+          115deg,
+          transparent 28%,
+          rgba(255, 255, 255, 0.82) 50%,
+          transparent 72%
+        );
+      }
+
+      html[data-theme="dark"] .story-item:hover,
+      html[data-theme="dark"] .story-item:focus-visible {
+        background: linear-gradient(
+          180deg,
+          color-mix(in srgb, #333333 56%, var(--brand-secondary-dm) 44%),
+          color-mix(in srgb, #262626 48%, var(--brand-secondary-dm) 52%)
+        );
+        border-color: color-mix(in srgb, var(--brand-primary-dm) 52%, rgba(255, 255, 255, 0.16));
+        box-shadow:
+          0 18px 36px rgba(0, 0, 0, 0.46),
+          0 0 0 1px color-mix(in srgb, var(--brand-primary-dm) 30%, rgba(255, 255, 255, 0.1)) inset,
+          0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      }
+
+      html[data-theme="dark"] .story-item:hover .story-number,
+      html[data-theme="dark"] .story-item:focus-visible .story-number {
+        box-shadow:
+          0 10px 18px rgba(0, 0, 0, 0.28),
+          0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+      }
+
+      html[data-theme="dark"] .site-footer .shell {
+        background: var(--footer-bg);
+        border-color: rgba(255, 255, 255, 0.18);
+        box-shadow:
+          0 0 0 1px color-mix(in srgb, var(--brand-primary-dm) 20%, transparent) inset,
+          0 1px 0 rgba(255, 255, 255, 0.06) inset;
+      }
+
+      .page-note {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-top: 6px;
+      }
+
+      .site-footer {
+        color: var(--footer-text);
+        margin-top: var(--space-4);
+        margin-bottom: var(--space-4);
+      }
+
+      .site-footer .shell {
+        background: var(--footer-bg);
+        border-color: var(--footer-border);
+      }
+
+      .site-footer .section-shell {
+        padding: var(--space-3) var(--space-4);
+      }
+
+      .footer-row {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        justify-content: space-between;
+        padding-top: 0;
+      }
+
+      @media (min-width: 760px) {
+        .story-grid {
+          column-count: 2;
+        }
+      }
+
+      @media (min-width: 900px) {
+        .story-grid {
+          column-gap: 12px;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .hero-stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (min-width: 1180px) {
+        .story-grid {
+          column-gap: 12px;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .hero-stats {
+          grid-template-columns: 1fr;
+        }
+
+        :root {
+          --space-1: 8px;
+          --space-2: 10px;
+          --space-3: 14px;
+          --space-4: 18px;
+          --space-5: 24px;
+        }
+
+        .container {
+          width: min(100% - 20px, var(--max-width));
+        }
+
+        .section-shell {
+          gap: var(--space-3);
+          padding: 10px 14px;
+        }
+
+        .nav {
+          gap: 8px;
+          min-height: 48px;
+          padding: 8px 0;
+        }
+
+        .nav-actions {
+          align-items: center;
+          display: flex;
+          flex: 0 0 auto;
+          justify-content: flex-end;
+          margin-left: auto;
+        }
+
+        .nav-links,
+        .nav-actions .header-link {
+          display: none;
+        }
+
+        .brand {
+          font-size: 1rem;
+          gap: 6px;
+        }
+
+
+      @media (min-width: 901px) {
+        .nav {
+          justify-content: space-between;
+          flex-direction: row;
+          gap: var(--space-4);
+          padding: 0;
+        }
+
+        .brand {
+          font-size: 1.26rem;
+          letter-spacing: 0.02em;
+        }
+
+        .nav-actions {
+          align-items: center;
+          display: flex;
+          flex-direction: row;
+          gap: var(--space-3);
+          margin-left: auto;
+          width: auto;
+        }
+
+        .theme-toggle,
+        .nav-actions .header-link {
+          width: auto;
+        }
+
+        .hero {
+          padding: var(--space-4) 0 var(--space-3);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
   </head>
+  <body>
+      <div class="container">
+      <div class="hub-banner">
+        <a
+          class="header-link"
+          href="https://eagles.edu.vn/lien-he/lien-he-va-ban-do"
+          target="_blank"
+          rel="noreferrer"
+          >0937 667 818</a
+        >
+        <a href="https://eagles.edu.vn" rel="noreferrer" target="_blank">
+          eagles.edu.vn
+        </a>
+      </div>
+    </div>
 
-<body>
-  <div id="content">
-    <div class="textres12" style="margin: 0 auto;">
-      <h1> Advanced &nbsp;Short Stories I</h1>
-      <div class="cenmar tm3"><hr class="new2">
-        <a href="#">Home</a>&nbsp;&nbsp;&nbsp;Part 1&nbsp;&nbsp;&nbsp;
-        <a href="index_2.html">Part 2</a>&nbsp;&nbsp;&nbsp;
-        <a href="index_3.html">Part 3</a>&nbsp;&nbsp;&nbsp;
-       <hr class="new2"></div>
+    <header class="site-header">
+      <div class="container shell section-shell">
+        <div class="nav">
+          <span class="brand-mark">
+            <!-- CHANGE: Inline SVG logo replaces the external header aria-hidden="true" image path for portable single-file HTML. -->
+            <a
+              class="brand"
+              href="https://thuvien.eagles.edu.vn"
+              rel="noreferrer"
+              target="_self"
+              aria-label="Eagles Club logo"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2400 2400"><defs><clipPath id="a"><rect width="2400" height="2400" fill="none"/></clipPath></defs><g clip-path="url(#a)"><rect y="0.71" width="1199.65" height="2399.29" fill="#002786"/><path d="M.71.71H1199.65V2400H.71ZM0,2400H1200.35V0H0Z"/><rect x="1199.65" width="1200.35" height="2400" fill="#e0162b"/><g clip-path="url(#a)"><path d="M142.17,271.23c90-24,181.13-45.85,274.24-52,45.8,0,91.6-4.95,137-.63,48.83,2.9,99.29,14.82,138.26,45.29C784.21,340,874,419.63,967.81,493.84a184.92,184.92,0,0,0,47,26.36c4.58,1.22,14.16,6.66,15.39-1.49,6.41-19.94-13.45-34.31-21.67-50.35,20.48.32,41.5,2.63,59.91,12.14a666,666,0,0,1,130.22,85.29c26.52,23.15,52.49,47.48,73.28,76.07,69.76,107.44,120.54,225.21,181.09,337.6,10.71,21.12,21.48,42.47,37,60.68,22.58-53.83,44.93-110.11,87.38-152.07a365.14,365.14,0,0,1,105.66-67.61c11.22-5.39,23.44-9.06,33.62-16.58,7.07-9.38,6.77-22.3,13.73-31.73,20.15-26.77,55.46-39.74,70.25-70.91,12.37-25.28-4.57-52.79-21.23-71.59-33.45-37.69-81.15-56.37-122.36-83.36,42.58-30.95,96.76-34.4,147.47-38.93,64.61-3,128.55,11.11,193.12,9.38-7.08-27.82-32.29-47-36.64-75.85,15.21,0,30.82-.5,45.48,4.53,70.39,21.56,142.26,48.8,195.88,100.91,36,33.8,74.31,71.87,82.1,122.62,6.78,32.26-16.85,58.91-32.88,84.33-69.71,104.94-142.52,208.43-224.41,304.09-15.16,18.13-32.06,34.75-45.8,53.83-45.3,60-90.86,121.31-119.4,191.27-7.87,18.49,3.07,37.65,14,52.37,36,51.25,93.15,83.19,129.24,134.4,26.06,35.93,53.86,73.22,62.56,117.54,3.2,37.11,2.7,75.45-9.8,111-8.75,25.15,1.42,52.84-7.92,77.71-13.74,24.38-44,29.54-68.7,37.07,7.79-9.56,19.46-18.13,21.11-30.95-.83-18.81-16.21-33.9-33.71-39.16-13.09,4.54-24.63,19.94-17.49,33.9,1.28,6.37,6.14,21.75-4.95,20.67-45.8-25-58.26-82.66-102.36-109.62-19.23-12.32-48.59-11.64-63.43,7.12-27.2,33.48-29,82.47-10.62,120.44,20.48,39.74,64.53,61.44,83.22,102.49-19.56,8.25-41.5,7.21-60.92,15.58a183.87,183.87,0,0,1,32.84,56.91c26.47-2.45,52.72-11.29,79.55-6.3,32.74,5.62,67.55,29.5,68.7,65.2,1.78,28.78-21.85,49.85-44.59,63.44,1.93-22.38,3.85-47.22-12.18-65.43-10.35,16.59-11.54,36.75-20.33,54.1-9.16-13.59-20-27.19-35.72-34.12-1.56,23-2.06,46.67,6.59,68.51a70,70,0,0,1-55.42-39.33c-9.15-15.63,0-33.44,4.58-48.94-47.71-15.94-68.69-66.65-112.06-88.63,0,16.5.59,33,.82,49.39-28.35-17.17-37.73-50.95-60.16-73.6-4.58-5.21-12.68-3.94-18.87-3.76-30.09,3.08-53.53,24.38-73.73,44.77,52.07,16.9,108.54,22.16,156.63,49.84,19.82,10.92,35.39,32.09,32.61,55.42.27,34.68-27.71,58.91-50.38,81.56,5-29.67,20.79-69.24-8.75-91.35-9.16,21.89-19,44.23-35.54,61.81a412.48,412.48,0,0,0-12.69-53.74c-27.89,17.81-34.07,55.28-20.65,83.92-32.06-.71-60.16-27.74-59.53-59.68-2-27.73,28.94-41.42,33.06-67.33-29.41-11.56-60-19.58-90-29.46a157.8,157.8,0,0,0-67.45,73.82q6.18,12,12,24.06c-36-13.32-62.74-42.19-82.43-73.86-25.15,3.62-51,8.49-76.4,2.54-27.47-6.26-59.54-14.78-74.09-41.33,31.14-7.52,65.48-13,89.44-36,17.4-15,13.73-41.15,6.78-60.41-17.7-44-62.56-68.32-103.51-87.67-56.56-25.48-119.85-43.28-163.72-89.41,16.53.23,33.11.41,49.68,0-41.21-55.78-109-83.74-152-137.71-17.32-23.24-24.37-56.32-53-69.6-65.82-30.26-126.81-72.49-198.12-89.71,37.41-67.24,123.19-94.89,196.52-79.16a389.87,389.87,0,0,1,13-37.44c61.57,13.6,88.06,82.2,147.69,99.42,49.74,13.6,103.09,2.68,148.71-19.26-7.38-10.87-12.74-26.89-27.75-29-164.1-34.53-301-143-407.19-267.35C674.5,1011.2,604.47,902.08,570,780c-7.69-25.65-6.28-52.66-6.41-79.07-54.5-40-104.24-88.36-136.94-147.27-15.75-24.88-8-55.42-17.63-82.1-12.82-38.74-41.44-70.46-75.47-93.12C281,341.34,217.12,325.3,155.29,309.53a162.36,162.36,0,0,1-41.58-18.13c8-8.49,16.28-18.07,28.44-20.16" fill="#fff"/><path d="M365.2,1389.88c17.82,49.84,32.93,101,49.87,151.46,53.79-.28,107.49,0,161.26-1.27-42.82,32.08-87,62.17-130.71,93.3,17.27,50.66,32.79,102,51.89,152C453.36,1754.31,410,1722,366,1690.73c-44,31.7-87.65,63.73-131.71,95.14,18.86-50.21,34.68-101.55,51.7-152.43-43.74-30.86-87.71-61.45-131-93,53.13.71,106.29.55,159.42.82l2.42-1.54c16.45-49.85,32.84-99.74,48.37-149.85" fill="#fff"/><path d="M740.16,1937.21q23.36-75.72,48.77-150.75c15.89,50.61,32.84,100.86,48.83,151.46,53.79.71,107.58-.91,161.37-.71-42.68,31.31-86.34,61-129,92.22l-.82,2.83c16,49.84,33.57,99.19,49.6,149-43.23-31.22-86.7-62.13-129.61-93.84-43.55,31.39-87.05,62.66-130.34,94.61,15.39-51.12,34.35-101.14,49.88-152.21q-65.91-45.3-130.48-92.39c54-.19,107.85,1.36,161.8-.19" fill="#fff"/></g></g></svg>
+            </a>
+          </span>
+          <span class="brand-title">The Eagles Club</span>
 
+          <div class="nav-actions">
+            <nav class="nav-links" aria-label="Primary links">
+              <a href="#levels">Levels</a>
+              <a href="#features">Features</a>
+              <a href="#library">Library</a>
+              <a href="#teachers">Teachers</a>
+            </nav>
 
-      <div class="boxlist5 rowflex">
-        <div class="columnf50">
-          <a href="ss/s001.html">1. America: Land of Opportunity</a><br>
-          <a href="ss/s002.html">2. The Fourth of July</a><br>
-          <a href="ss/s003.html">3. The U.S. Federal Government</a><br>
-          <a href="ss/s004.html">4. Christmas - A Holiday of Traditions</a><br>
-          <a href="ss/s005.html">5. New Year's Day - A Holiday of...</a><br>
-          <a href="ss/s006.html">6. Martin Luther King Jr. Day - To ...</a><br>
-          <a href="ss/s007.html">7. Valentine's Day - A Holiday of Love...</a><br>
-          <a href="ss/s008.html">8. St. Patrick's Day - A Holiday to...</a><br>
-          <a href="ss/s009.html">9. Passover - A Jewish Holiday of...</a><br>
-          <a href="ss/s010.html">10. Easter - An Important Christian Holiday</a><br>
-          <a href="ss/s011.html">11. Mother's Day - A Holiday to Honor...</a><br>
-          <a href="ss/s012.html">12. Father's Day - A Holiday to Honor...</a><br>
-          <a href="ss/s013.html">13. Memorial Day - A Holiday to...</a><br>
-
-          <a href="ss/s014.html">14. Labor Day - A Holiday to Honor Workers</a><br>
-          <a href="ss/s015.html">15. Columbus Day - A Holiday to...</a><br>
-          <a href="ss/s016.html">16. Halloween - A Holiday for Costumes...</a><br>
-          <a href="ss/s017.html">17. Veterans Day - A Holiday Honoring...</a><br>
-          <a href="ss/s018.html">18. Chanukah - A Holiday of Lights</a><br>
-          <a href="ss/s019.html">19. Thanksgiving - Families Coming...</a><br>
-          <a href="ss/s020.html">20. Lottery - A Chance at Millions</a><br>
-          <a href="ss/s021.html">21. One Country, Many Taxes</a><br>
-          <a href="ss/s022.html">22. Medical Insurance - Making it Easier to...</a><br>
-          <a href="ss/s023.html">23. Immigration - A Broken System</a><br>
-          <a href="ss/s024.html">24. Community Colleges (1)</a><br>
-          <a href="ss/s025.html">25. Community Colleges (2)</a><br>
-          <a href="ss/s026.html">26. Elementary Schools in the U.S.</a><br>
-          <a href="ss/s027.html">27. Middle Schools in the U.S.</a><br>
-          <a href="ss/s028.html">28. High School in the U.S.</a><br>
-          <a href="ss/s029.html">29. Homeschooling</a><br>
-          <a href="ss/s030.html">30. Parent-Teacher Conferences</a><br>
-          <a href="ss/s031.html">31. Private Schools: An Expensive...</a><br>
-          <a href="ss/s032.html">32. The California College and University...</a><br>
-          <a href="ss/s033.html">33. Driving in the United States</a><br>
-          <a href="ss/s034.html">34. Pasadena Rose Parade</a><br>
-          <a href="ss/s035.html">35. Selfies</a><br>
-          <a href="ss/s036.html">36. Apartment Pets</a><br>
-          <a href="ss/s037.html">37. Non-traditional Wakes</a><br>
-          <a href="ss/s038.html">38. Homelessness in Los Angeles</a><br>
-          <a href="ss/s039.html">39. Paramedics</a><br>
-          <a href="ss/s040.html">40. September 11th</a><br>
-          <a href="ss/s041.html">41. The California Redwoods and Giant...</a><br>
-          <a href="ss/s042.html">42. The California Highway Patrol</a><br>
-          <a href="ss/s043.html">43. The Golden Gate Bridge</a><br>
-          <a href="ss/s044.html">44. The San Francisco Cable Cars</a><br>
-          <a href="ss/s045.html">45. Car Chase Television</a><br>
-          <a href="ss/s046.html">46. Los Angeles Coroner's Office</a><br>
-          <a href="ss/s047.html">47. Museum Mile in New York City</a><br>
-          <a href="ss/s048.html">48. A Building for the Empire State</a><br>
-          <a href="ss/s049.html">49. The Statue of Liberty Enlightening...</a><br>
-          <a href="ss/s050.html">50. Rockefeller Center - Top of the Rock</a><br>
-          <a href="ss/s051.html">51. Manhattan, New York City</a><br>
-          <a href="ss/s052.html">52. Las Vegas, Nevada</a><br>
-          <a href="ss/s053.html">53. Mr. Rogers' Neighborhood</a><br>
-          <a href="ss/s054.html">54. The Cinco de Mayo Celebration</a><br>
-          <a href="ss/s055.html">55. The Attack on Pearl Harbor</a><br>
-          <a href="ss/s056.html">56. Funeral Customs in the U.S.A</a><br>
-          <a href="ss/s057.html">57. The John F. Kennedy Assassination</a><br>
-          <a href="ss/s058.html">58. Social Class in the United States</a><br>
-          <a href="ss/s059.html">59. Rosa Parks - Civil Rights Movement</a><br>
-          <a href="ss/s060.html">60. Chicago - The Windy City</a><br>
-          <a href="ss/s061.html">61. Boston - A Revolutionary City</a><br>
-          <a href="ss/s062.html">62. A Nation is Born</a><br>
-          <a href="ss/s063.html">63. The American Civil War</a><br>
-          <a href="ss/s064.html">64. Fires that Changed Cities</a><br>
-          <a href="ss/s065.html">65. A Bewitched City</a><br>
-          <a href="ss/s066.html">66. The U.N. in New York City</a><br>
-          <a href="ss/s067.html">67. New York City - The Big Apple</a><br>
-          <a href="ss/s068.html">68. The World Trade Center</a><br>
-          <a href="ss/s069.html">69. Central Park</a><br>
-          <a href="ss/s070.html">70. The Marlboro Man</a><br>
-          <a href="ss/s071.html">71. The Beatles</a><br>
-          <a href="ss/s072.html">72. The Griffith Observatory</a><br>
-          <a href="ss/s073.html">73. One Country, Many Religions</a><br>
-          <a href="ss/s074.html">74. Woodstock: Defining a Generation</a><br>
-          <a href="ss/s075.html">75. The Veteran's Administration</a><br>
-          <a href="ss/s076.html">76. Married With Children</a><br>
-          <a href="ss/s077.html">77. Facebook</a><br>
-          <a href="ss/s078.html">78. Don't be Tardy to the Party</a><br>
-          <a href="ss/s079.html">79. A Bridal Shower</a><br>
-          <a href="ss/s080.html">80. A Baby Shower</a><br>
-        </div>
-
-        <div class="columnf50">
-          <a href="ss/s081.html">81. A Housewarming Party</a><br>
-          <a href="ss/s082.html">82. The Wedding Reception (1)</a><br>
-          <a href="ss/s083.html">83. The Wedding Reception (2)</a><br>
-          <a href="ss/s084.html">84. Bride and Groom Traditions</a><br>
-          <a href="ss/s085.html">85. Theme Parties</a><br>
-          <a href="ss/s086.html">86. Helicopter versus Free Range Moms</a><br>
-          <a href="ss/s087.html">87. Attachment Parenting</a><br>
-          <a href="ss/s088.html">88. A Kid's Party for Adults</a><br>
-          <a href="ss/s089.html">89. When a Kid Becomes an Adult</a><br>
-          <a href="ss/s090.html">90. Who Will Take Care of Mom and Dad</a><br>
-          <a href="ss/s091.html">91. Vacation Time</a><br>
-          <a href="ss/s092.html">92. Camping</a><br>
-          <a href="ss/s093.html">93. Renting an Apartment (1)</a><br>
-          <a href="ss/s094.html">94. Renting an Apartment (2)</a><br>
-          <a href="ss/s095.html">95. What is in a Lease (1)</a><br>
-          <a href="ss/s096.html">96. What is in a Lease (2)</a><br>
-          <a href="ss/s097.html">97. Public Housing</a><br>
-          <a href="ss/s098.html">98. Applying for Public Housing</a><br>
-          <a href="ss/s099.html">99. Section 8</a><br>
-          <a href="ss/s100.html">100. Baseball: The National Pastime</a><br>
-          <a href="ss/s101.html">101. Leaving for Work</a><br>
-          <a href="ss/s102.html">102. Shopping at the Supermarket</a><br>
-          <a href="ss/s103.html">103. Sunday Afternoons</a><br>
-          <a href="ss/s104.html">104. Julie Joins Facebook</a><br>
-          <a href="ss/s105.html">105. Bowling Night</a><br>
-          <a href="ss/s106.html">106. The Haunted Warehouse</a><br>
-          <a href="ss/s107.html">107. Moving to Arizona</a><br>
-          <a href="ss/s108.html">108. Working at a Bookstore</a><br>
-          <a href="ss/s109.html">109. Joel Learns to Drive</a><br>
-          <a href="ss/s110.html">110. Ghost in the Hall</a><br>
-          <a href="ss/s111.html">111. Bobby the Fat Boy</a><br>
-          <a href="ss/s112.html">112. Fifth Grade Dance Competition (1)</a><br>
-          <a href="ss/s113.html">113. Fifth Grade Dance Competition (2)</a><br>
-          <a href="ss/s114.html">114. Camping Trip</a><br>
-          <a href="ss/s115.html">115. Painting a Mural</a><br>
-          <a href="ss/s116.html">116. New York, New York</a><br>
-          <a href="ss/s117.html">117. Not-so-happy Meals</a><br>
-          <a href="ss/s118.html">118. The Bad News</a><br>
-          <a href="ss/s119.html">119. The Big Move</a><br>
-          <a href="ss/s120.html">120. The Dentist Will See You Now</a><br>
-          <a href="ss/s121.html">121. The Lottery Ticket</a><br>
-          <a href="ss/s122.html">122. A New "Alarm Clock"</a><br>
-          <a href="ss/s123.html">123. The Unlikely Reunion</a><br>
-          <a href="ss/s124.html">124. Thrift Store Treasures</a><br>
-          <a href="ss/s125.html">125. Winter Time</a><br>
-          <a href="ss/s126.html">126. No Smoking</a><br>
-          <a href="ss/s127.html">127. Composting</a><br>
-          <a href="ss/s128.html">128. Giving a Hand</a><br>
-          <a href="ss/s129.html">129. Arrested Twice in One Day</a><br>
-          <a href="ss/s130.html">130. What's Good for the Goose</a><br>
-          <a href="ss/s131.html">131. No Such Thing as Free Lunch</a><br>
-          <a href="ss/s132.html">132. Paying to Win</a><br>
-          <a href="ss/s133.html">133. A Night in Las Vegas</a><br>
-          <a href="ss/s134.html">134. The Girl Next Door</a><br>
-          <a href="ss/s135.html">135. My Best Friend</a><br>
-          <a href="ss/s136.html">136. A Day in the Park</a><br>
-          <a href="ss/s137.html">137. Going out to the Movies</a><br>
-          <a href="ss/s138.html">138. Water Balloon War</a><br>
-          <a href="ss/s139.html">139. Summer Job</a><br>
-          <a href="ss/s140.html">140. The Divorce</a><br>
-          <a href="ss/s141.html">141. The Last Drink</a><br>
-          <a href="ss/s142.html">142. Christopher the Reporter</a><br>
-          <a href="ss/s143.html">143. Richard's Father</a><br>
-          <a href="ss/s144.html">144. The Bartender</a><br>
-          <a href="ss/s145.html">145. A Trip to Hawaii</a><br>
-          <a href="ss/s146.html">146. Family Reunion</a><br>
-          <a href="ss/s147.html">147. Losing My Dog</a><br>
-          <a href="ss/s148.html">148. A Big City and a Small Town</a><br>
-          <a href="ss/s149.html">149. Looking for a Job</a><br>
-          <a href="ss/s150.html">150. Superstore</a><br>
-          <a href="ss/s151.html">151. Getting my License</a><br>
-          <a href="ss/s152.html">152. Going to Disneyland</a><br>
-          <a href="ss/s153.html">153. The Artist, the Poor Man, and...</a><br>
-          <a href="ss/s154.html">154.The Evils of Technology</a><br>
-          <a href="ss/s155.html">155. Anthony's First Day at Disneyland</a><br>
-          <a href="ss/s156.html">156. Woken up by Fireworks</a><br>
-          <a href="ss/s157.html">157. Come over anytime, but not really</a><br>
-          <a href="ss/s158.html">158. Finding Your Own Apartment</a><br>
-          <a href="ss/s159.html">159. Trick or Treat</a><br>
-          <a href="ss/s160.html">160. Leaving a Tip</a><br>
+            <button
+              class="theme-toggle"
+              type="button"
+              data-theme-toggle
+              aria-pressed="false"
+              aria-label="Switch to dark theme"
+            >
+              <span
+                class="theme-toggle__icon"
+                aria-hidden="true"
+                data-theme-toggle-icon
+                data-theme-icon="moon"
+              >
+                <svg
+                  class="theme-toggle__icon-moon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <mask id="theme_moon_cutout">
+                      <rect width="24" height="24" fill="#fff" />
+                      <circle cx="12.95" cy="7.95" fill="#000" r="10.1" />
+                    </mask>
+                  </defs>
+                  <g fill="currentColor">
+                    <circle
+                      cx="10.8"
+                      cy="13.2"
+                      r="10.3"
+                      mask="url(#theme_moon_cutout)"
+                    >
+                      <animateTransform
+                        attributeName="transform"
+                        dur="4.8s"
+                        repeatCount="indefinite"
+                        type="rotate"
+                        values="-2 12 12;2 12 12;-2 12 12"
+                      />
+                    </circle>
+                    <path
+                      d="M17.65 3.75L18.62 6.68L21.7 6.68L19.21 8.49L20.16 11.42L17.65 9.6L15.14 11.42L16.09 8.49L13.6 6.68L16.68 6.68L17.65 3.75Z"
+                      opacity="0.95"
+                    >
+                      <animate
+                        attributeName="opacity"
+                        dur="1.8s"
+                        repeatCount="indefinite"
+                        values="0.3;0.92;0.3"
+                      />
+                    </path>
+                    <path
+                      d="M9.95 8L10.62 10.02L12.75 10.02L11.03 11.27L11.69 13.28L9.95 12.02L8.22 13.28L8.88 11.27L7.15 10.02L9.28 10.02L9.95 8Z"
+                      opacity="0.78"
+                    >
+                      <animate
+                        attributeName="opacity"
+                        begin="0.35s"
+                        dur="2.2s"
+                        repeatCount="indefinite"
+                        values="0.24;0.82;0.24"
+                      />
+                    </path>
+                  </g>
+                </svg>
+                <svg
+                  class="theme-toggle__icon-sun"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g stroke="currentColor" stroke-linecap="round" stroke-width="1.8">
+                    <path d="M12 1.75V4.25" />
+                    <path d="M12 19.75V22.25" />
+                    <path d="M1.75 12H4.25" />
+                    <path d="M19.75 12H22.25" />
+                    <path d="M4.75 4.75L6.52 6.52" />
+                    <path d="M17.48 17.48L19.25 19.25" />
+                    <path d="M17.48 6.52L19.25 4.75" />
+                    <path d="M4.75 19.25L6.52 17.48" />
+                  </g>
+                  <circle cx="12" cy="12" fill="currentColor" r="4.6" />
+                </svg>
+              </span>
+            </button>
+          </div>
         </div>
       </div>
+    </header>
 
-      <div class="cenmar"> <hr class="new2">
-        <a href="#"> Home</a>&nbsp;&nbsp;&nbsp;
-        Part 1&nbsp;&nbsp;&nbsp;
-        <a href="index_2.html">Part 2</a>&nbsp;&nbsp;&nbsp;
-        <a href="index_3.html">Part 3</a>&nbsp;&nbsp;&nbsp;
-      <hr class="new2">
-      </div><br><br>
-    </div>
-  </div>
-</body>
+    <main>
+      <section class="hero">
+        <div class="container hero-panel">
+          <span class="eyebrow">Tabbed reading path.</span>
+          <h1>Advanced Short Stories I</h1>
+          <p class="hero-copy">
+            The reading list stays compact in tabs while keeping the original Eagles theme and navigation.
+          </p>
+          <div class="hero-stats">
+            <div class="stat-chip">
+              <strong data-count-target="160">0</strong>
+              <span>Part 1</span>
+            </div>
+            <div class="stat-chip">
+              <strong data-count-target="120">0</strong>
+              <span>Part 2</span>
+            </div>
+            <div class="stat-chip">
+              <strong data-count-target="65">0</strong>
+              <span>Part 3</span>
+            </div>
+            <div class="stat-chip">
+              <strong data-count-target="345">0</strong>
+              <span>Total stories</span>
+            </div>
+            <div class="stat-chip stat-counter">
+              <strong
+                data-visit-count
+                data-count-target="0"
+                aria-live="polite"
+              >--</strong>
+              <span>Visits</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section" aria-labelledby="stories-shell-title">
+        <div class="container tabs-shell">
+          <h2 id="stories-shell-title" class="sr-only">Stories</h2>
 
+          <div class="tabbed-shell">
+            <div
+              class="tab-list"
+              role="tablist"
+              aria-labelledby="stories-shell-title"
+              aria-orientation="horizontal"
+            >
+              <button
+                id="tab-stories-1"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="true"
+                aria-controls="stories-1"
+                tabindex="0"
+                data-tab-target="stories-1"
+              >
+                <span class="tab-button__label">Part 1</span>
+                <span class="tab-button__range">1 - 160</span>
+              </button>
+              <button
+                id="tab-stories-2"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="stories-2"
+                tabindex="-1"
+                data-tab-target="stories-2"
+              >
+                <span class="tab-button__label">Part 2</span>
+                <span class="tab-button__range">161 - 280</span>
+              </button>
+              <button
+                id="tab-stories-3"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="stories-3"
+                tabindex="-1"
+                data-tab-target="stories-3"
+              >
+                <span class="tab-button__label">Part 3</span>
+                <span class="tab-button__range">281 - 345</span>
+              </button>
+            </div>
+
+            <div class="tab-panels">
+              <section
+                id="stories-1"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-stories-1"
+                data-start="1"
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+              <section
+                id="stories-2"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-stories-2"
+                data-start="161"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+              <section
+                id="stories-3"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-stories-3"
+                data-start="281"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container shell section-shell">
+        <div class="footer-row">
+          <span>© <span data-current-year></span> The Eagles Club</span>
+          <span>Reading • Vocabulary • Fluency</span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (() => {
+        const storageKey = "theme";
+        const root = document.documentElement;
+        const themeToggle = document.querySelector("[data-theme-toggle]");
+        const themeIcon = document.querySelector("[data-theme-toggle-icon]");
+
+        const applyTheme = (theme) => {
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          if (themeToggle) {
+            themeToggle.setAttribute(
+              "aria-pressed",
+              String(theme === "dark"),
+            );
+            themeToggle.setAttribute(
+              "aria-label",
+              theme === "dark"
+                ? "Switch to light theme"
+                : "Switch to dark theme",
+            );
+          }
+          if (themeIcon) {
+            themeIcon.dataset.themeIcon = theme === "dark" ? "sun" : "moon";
+          }
+        };
+
+        if (themeToggle) {
+          themeToggle.addEventListener("click", () => {
+            const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
+            applyTheme(nextTheme);
+            try {
+              localStorage.setItem(storageKey, nextTheme);
+            } catch {
+              // Ignore storage failures.
+            }
+          });
+        }
+
+        applyTheme(root.dataset.theme === "dark" ? "dark" : "light");
+      })();
+
+      (() => {
+        const visitStorageKey = "visit-count";
+        const visitGuardCookie = "visit-count-guard";
+        const visitGuardSeconds = 60 * 60;
+        const yearNode = document.querySelector("[data-current-year]");
+        const visitCountNode = document.querySelector("[data-visit-count]");
+        const metricNodes = Array.from(
+          document.querySelectorAll("[data-count-target]"),
+        );
+
+        const getCookieValue = (name) => {
+          const prefix = `${name}=`;
+          const entry = document.cookie
+            .split("; ")
+            .find((part) => part.startsWith(prefix));
+          return entry ? decodeURIComponent(entry.slice(prefix.length)) : "";
+        };
+
+        const setCookieValue = (name, value, maxAgeSeconds) => {
+          document.cookie = `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAgeSeconds}; SameSite=Lax`;
+        };
+
+        if (yearNode) {
+          yearNode.textContent = String(new Date().getFullYear());
+        }
+
+        const runSpinCounter = (
+          node,
+          target,
+          { suffix = "", duration = 2200 } = {},
+        ) => {
+          const start = performance.now();
+          const startValue = 0;
+          const animateFrame = (now) => {
+            const elapsed = Math.min(1, (now - start) / duration);
+            const eased = 1 - Math.pow(2, -10 * elapsed);
+            const value = Math.round(startValue + (target - startValue) * eased);
+            node.textContent = `${value}${suffix}`;
+
+            if (elapsed < 1) {
+              requestAnimationFrame(animateFrame);
+            } else {
+              node.classList.remove("is-animating");
+              node.textContent = `${target}${suffix}`;
+            }
+          };
+
+          node.classList.add("is-animating");
+          requestAnimationFrame(animateFrame);
+        };
+
+        const getCounterTarget = async (node) => {
+          if (node === visitCountNode) {
+            try {
+              const saved = Number(localStorage.getItem(visitStorageKey));
+              const guarded = getCookieValue(visitGuardCookie);
+
+              if (guarded) {
+                return Number.isFinite(saved) && saved >= 100 ? saved : 100;
+              }
+
+              const nextValue =
+                Number.isFinite(saved) && saved >= 100 ? saved + 1 : 100;
+              localStorage.setItem(visitStorageKey, String(nextValue));
+              setCookieValue(visitGuardCookie, "1", visitGuardSeconds);
+              return nextValue;
+            } catch {
+              return 100;
+            }
+          }
+
+          const value = Number(node.dataset.countTarget);
+          return Number.isFinite(value) ? value : null;
+        };
+
+        const animateMetrics = async () => {
+          await new Promise((resolve) => window.setTimeout(resolve, 330));
+
+          const jobs = metricNodes.map(async (node) => {
+            const target = await getCounterTarget(node);
+            if (target === null) {
+              node.textContent = "—";
+              return;
+            }
+
+            const suffix = node.dataset.countSuffix || "";
+            node.textContent = "0";
+            runSpinCounter(node, target, { suffix });
+          });
+
+          await Promise.all(jobs);
+        };
+
+        const statsRow = document.querySelector(".hero-stats");
+        let countersStarted = false;
+        const startCountersOnce = () => {
+          if (countersStarted) {
+            return;
+          }
+
+          countersStarted = true;
+          animateMetrics();
+        };
+
+        if (statsRow && "IntersectionObserver" in window) {
+          const observer = new IntersectionObserver(
+            (entries, io) => {
+              if (entries.some((entry) => entry.isIntersecting)) {
+                io.disconnect();
+                startCountersOnce();
+              }
+            },
+            { threshold: 0.35 },
+          );
+
+          observer.observe(statsRow);
+        } else {
+          startCountersOnce();
+        }
+      })();
+
+      (() => {
+        const storySets = {
+          "stories-1": [
+            ["ss/s001.html", "America: Land of Opportunity"],
+            ["ss/s002.html", "The Fourth of July"],
+            ["ss/s003.html", "The U.S. Federal Government"],
+            ["ss/s004.html", "Christmas - A Holiday of Traditions"],
+            ["ss/s005.html", "New Year's Day - A Holiday of..."],
+            ["ss/s006.html", "Martin Luther King Jr. Day - To ..."],
+            ["ss/s007.html", "Valentine's Day - A Holiday of Love..."],
+            ["ss/s008.html", "St. Patrick's Day - A Holiday to..."],
+            ["ss/s009.html", "Passover - A Jewish Holiday of..."],
+            ["ss/s010.html", "Easter - An Important Christian Holiday"],
+            ["ss/s011.html", "Mother's Day - A Holiday to Honor..."],
+            ["ss/s012.html", "Father's Day - A Holiday to Honor..."],
+            ["ss/s013.html", "Memorial Day - A Holiday to..."],
+            ["ss/s014.html", "Labor Day - A Holiday to Honor Workers"],
+            ["ss/s015.html", "Columbus Day - A Holiday to..."],
+            ["ss/s016.html", "Halloween - A Holiday for Costumes..."],
+            ["ss/s017.html", "Veterans Day - A Holiday Honoring..."],
+            ["ss/s018.html", "Chanukah - A Holiday of Lights"],
+            ["ss/s019.html", "Thanksgiving - Families Coming..."],
+            ["ss/s020.html", "Lottery - A Chance at Millions"],
+            ["ss/s021.html", "One Country, Many Taxes"],
+            ["ss/s022.html", "Medical Insurance - Making it Easier to..."],
+            ["ss/s023.html", "Immigration - A Broken System"],
+            ["ss/s024.html", "Community Colleges (1)"],
+            ["ss/s025.html", "Community Colleges (2)"],
+            ["ss/s026.html", "Elementary Schools in the U.S."],
+            ["ss/s027.html", "Middle Schools in the U.S."],
+            ["ss/s028.html", "High School in the U.S."],
+            ["ss/s029.html", "Homeschooling"],
+            ["ss/s030.html", "Parent-Teacher Conferences"],
+            ["ss/s031.html", "Private Schools: An Expensive..."],
+            ["ss/s032.html", "The California College and University..."],
+            ["ss/s033.html", "Driving in the United States"],
+            ["ss/s034.html", "Pasadena Rose Parade"],
+            ["ss/s035.html", "Selfies"],
+            ["ss/s036.html", "Apartment Pets"],
+            ["ss/s037.html", "Non-traditional Wakes"],
+            ["ss/s038.html", "Homelessness in Los Angeles"],
+            ["ss/s039.html", "Paramedics"],
+            ["ss/s040.html", "September 11th"],
+            ["ss/s041.html", "The California Redwoods and Giant..."],
+            ["ss/s042.html", "The California Highway Patrol"],
+            ["ss/s043.html", "The Golden Gate Bridge"],
+            ["ss/s044.html", "The San Francisco Cable Cars"],
+            ["ss/s045.html", "Car Chase Television"],
+            ["ss/s046.html", "Los Angeles Coroner's Office"],
+            ["ss/s047.html", "Museum Mile in New York City"],
+            ["ss/s048.html", "A Building for the Empire State"],
+            ["ss/s049.html", "The Statue of Liberty Enlightening..."],
+            ["ss/s050.html", "Rockefeller Center - Top of the Rock"],
+            ["ss/s051.html", "Manhattan, New York City"],
+            ["ss/s052.html", "Las Vegas, Nevada"],
+            ["ss/s053.html", "Mr. Rogers' Neighborhood"],
+            ["ss/s054.html", "The Cinco de Mayo Celebration"],
+            ["ss/s055.html", "The Attack on Pearl Harbor"],
+            ["ss/s056.html", "Funeral Customs in the U.S.A"],
+            ["ss/s057.html", "The John F. Kennedy Assassination"],
+            ["ss/s058.html", "Social Class in the United States"],
+            ["ss/s059.html", "Rosa Parks - Civil Rights Movement"],
+            ["ss/s060.html", "Chicago - The Windy City"],
+            ["ss/s061.html", "Boston - A Revolutionary City"],
+            ["ss/s062.html", "A Nation is Born"],
+            ["ss/s063.html", "The American Civil War"],
+            ["ss/s064.html", "Fires that Changed Cities"],
+            ["ss/s065.html", "A Bewitched City"],
+            ["ss/s066.html", "The U.N. in New York City"],
+            ["ss/s067.html", "New York City - The Big Apple"],
+            ["ss/s068.html", "The World Trade Center"],
+            ["ss/s069.html", "Central Park"],
+            ["ss/s070.html", "The Marlboro Man"],
+            ["ss/s071.html", "The Beatles"],
+            ["ss/s072.html", "The Griffith Observatory"],
+            ["ss/s073.html", "One Country, Many Religions"],
+            ["ss/s074.html", "Woodstock: Defining a Generation"],
+            ["ss/s075.html", "The Veteran's Administration"],
+            ["ss/s076.html", "Married With Children"],
+            ["ss/s077.html", "Facebook"],
+            ["ss/s078.html", "Don't be Tardy to the Party"],
+            ["ss/s079.html", "A Bridal Shower"],
+            ["ss/s080.html", "A Baby Shower"],
+            ["ss/s081.html", "A Housewarming Party"],
+            ["ss/s082.html", "The Wedding Reception (1)"],
+            ["ss/s083.html", "The Wedding Reception (2)"],
+            ["ss/s084.html", "Bride and Groom Traditions"],
+            ["ss/s085.html", "Theme Parties"],
+            ["ss/s086.html", "Helicopter versus Free Range Moms"],
+            ["ss/s087.html", "Attachment Parenting"],
+            ["ss/s088.html", "A Kid's Party for Adults"],
+            ["ss/s089.html", "When a Kid Becomes an Adult"],
+            ["ss/s090.html", "Who Will Take Care of Mom and Dad"],
+            ["ss/s091.html", "Vacation Time"],
+            ["ss/s092.html", "Camping"],
+            ["ss/s093.html", "Renting an Apartment (1)"],
+            ["ss/s094.html", "Renting an Apartment (2)"],
+            ["ss/s095.html", "What is in a Lease (1)"],
+            ["ss/s096.html", "What is in a Lease (2)"],
+            ["ss/s097.html", "Public Housing"],
+            ["ss/s098.html", "Applying for Public Housing"],
+            ["ss/s099.html", "Section 8"],
+            ["ss/s100.html", "Baseball: The National Pastime"],
+            ["ss/s101.html", "Leaving for Work"],
+            ["ss/s102.html", "Shopping at the Supermarket"],
+            ["ss/s103.html", "Sunday Afternoons"],
+            ["ss/s104.html", "Julie Joins Facebook"],
+            ["ss/s105.html", "Bowling Night"],
+            ["ss/s106.html", "The Haunted Warehouse"],
+            ["ss/s107.html", "Moving to Arizona"],
+            ["ss/s108.html", "Working at a Bookstore"],
+            ["ss/s109.html", "Joel Learns to Drive"],
+            ["ss/s110.html", "Ghost in the Hall"],
+            ["ss/s111.html", "Bobby the Fat Boy"],
+            ["ss/s112.html", "Fifth Grade Dance Competition (1)"],
+            ["ss/s113.html", "Fifth Grade Dance Competition (2)"],
+            ["ss/s114.html", "Camping Trip"],
+            ["ss/s115.html", "Painting a Mural"],
+            ["ss/s116.html", "New York, New York"],
+            ["ss/s117.html", "Not-so-happy Meals"],
+            ["ss/s118.html", "The Bad News"],
+            ["ss/s119.html", "The Big Move"],
+            ["ss/s120.html", "The Dentist Will See You Now"],
+            ["ss/s121.html", "The Lottery Ticket"],
+            ["ss/s122.html", "A New \"Alarm Clock\""],
+            ["ss/s123.html", "The Unlikely Reunion"],
+            ["ss/s124.html", "Thrift Store Treasures"],
+            ["ss/s125.html", "Winter Time"],
+            ["ss/s126.html", "No Smoking"],
+            ["ss/s127.html", "Composting"],
+            ["ss/s128.html", "Giving a Hand"],
+            ["ss/s129.html", "Arrested Twice in One Day"],
+            ["ss/s130.html", "What's Good for the Goose"],
+            ["ss/s131.html", "No Such Thing as Free Lunch"],
+            ["ss/s132.html", "Paying to Win"],
+            ["ss/s133.html", "A Night in Las Vegas"],
+            ["ss/s134.html", "The Girl Next Door"],
+            ["ss/s135.html", "My Best Friend"],
+            ["ss/s136.html", "A Day in the Park"],
+            ["ss/s137.html", "Going out to the Movies"],
+            ["ss/s138.html", "Water Balloon War"],
+            ["ss/s139.html", "Summer Job"],
+            ["ss/s140.html", "The Divorce"],
+            ["ss/s141.html", "The Last Drink"],
+            ["ss/s142.html", "Christopher the Reporter"],
+            ["ss/s143.html", "Richard's Father"],
+            ["ss/s144.html", "The Bartender"],
+            ["ss/s145.html", "A Trip to Hawaii"],
+            ["ss/s146.html", "Family Reunion"],
+            ["ss/s147.html", "Losing My Dog"],
+            ["ss/s148.html", "A Big City and a Small Town"],
+            ["ss/s149.html", "Looking for a Job"],
+            ["ss/s150.html", "Superstore"],
+            ["ss/s151.html", "Getting my License"],
+            ["ss/s152.html", "Going to Disneyland"],
+            ["ss/s153.html", "The Artist, the Poor Man, and..."],
+            ["ss/s154.html", "The Evils of Technology"],
+            ["ss/s155.html", "Anthony's First Day at Disneyland"],
+            ["ss/s156.html", "Woken up by Fireworks"],
+            ["ss/s157.html", "Come over anytime, but not really"],
+            ["ss/s158.html", "Finding Your Own Apartment"],
+            ["ss/s159.html", "Trick or Treat"],
+            ["ss/s160.html", "Leaving a Tip"]
+          ],
+          "stories-2": [
+            ["ss/s161.html", "Not Sold Over the Counter"],
+            ["ss/s162.html", "Seeing the Entire United States"],
+            ["ss/s163.html", "Grocery Shopping"],
+            ["ss/s164.html", "Sales Tax"],
+            ["ss/s165.html", "\"Oh Really?\""],
+            ["ss/s166.html", "More than Sports"],
+            ["ss/s167.html", "Time-out"],
+            ["ss/s168.html", "Saving a Pigeon"],
+            ["ss/s169.html", "Not Just for the Old and Homeless"],
+            ["ss/s170.html", "The Facebook Message"],
+            ["ss/s171.html", "Paintballing in the City Streets"],
+            ["ss/s172.html", "Increasing the Home Value"],
+            ["ss/s173.html", "Growing up Playing Baseball"],
+            ["ss/s174.html", "My Day on the Ocean"],
+            ["ss/s175.html", "Green Hair, Don't Care"],
+            ["ss/s176.html", "Hospice Care"],
+            ["ss/s177.html", "Diving at the Swimming Pool"],
+            ["ss/s178.html", "Watching Three Movies at the Theater"],
+            ["ss/s179.html", "I Hate Summer"],
+            ["ss/s180.html", "Jumping Over Fireworks"],
+            ["ss/s181.html", "A Problem with Online Dating"],
+            ["ss/s182.html", "What are Friends?"],
+            ["ss/s183.html", "After the Death of a Music Collector"],
+            ["ss/s184.html", "My first Road Trip"],
+            ["ss/s185.html", "Don't Drink and Drive"],
+            ["ss/s186.html", "Seeing a Midnight Screening"],
+            ["ss/s187.html", "Going to the Beach"],
+            ["ss/s188.html", "My Worst Birthday"],
+            ["ss/s189.html", "My Embarrassing Family"],
+            ["ss/s190.html", "A new Addition to the Family"],
+            ["ss/s191.html", "Marriage Is the End"],
+            ["ss/s192.html", "Running a Mile"],
+            ["ss/s193.html", "Baseball Tryouts"],
+            ["ss/s194.html", "The School Dance"],
+            ["ss/s195.html", "A Jealous Girlfriend"],
+            ["ss/s196.html", "Skating for Glory"],
+            ["ss/s197.html", "The Dog Sandy"],
+            ["ss/s198.html", "Decorating the Christmas Tree"],
+            ["ss/s199.html", "Cruising the Boulevard"],
+            ["ss/s200.html", "A Day at the Beach"],
+            ["ss/s201.html", "A Social Media Fast"],
+            ["ss/s202.html", "The Parade"],
+            ["ss/s203.html", "The Queen Mary"],
+            ["ss/s204.html", "A Garage Band"],
+            ["ss/s205.html", "Memorial Day and Veterans Day"],
+            ["ss/s206.html", "The Challenger Disaster"],
+            ["ss/s207.html", "Marching for Safer Streets"],
+            ["ss/s208.html", "Amber Alert"],
+            ["ss/s209.html", "Childhood Friends"],
+            ["ss/s210.html", "Board Game Night"],
+            ["ss/s211.html", "Celebrating a Win"],
+            ["ss/s212.html", "Have Points, Will Travel"],
+            ["ss/s213.html", "Long Distance Relationship"],
+            ["ss/s214.html", "Summer School"],
+            ["ss/s215.html", "At Father's Day"],
+            ["ss/s216.html", "Black Friday"],
+            ["ss/s217.html", "Election Day"],
+            ["ss/s218.html", "Prom Night"],
+            ["ss/s219.html", "Need to Learn How to Drive"],
+            ["ss/s220.html", "T-Ball"],
+            ["ss/s241.html", "A Hot Summer Day"],
+            ["ss/s242.html", "Hungry Abel"],
+            ["ss/s243.html", "Joel's Job Search"],
+            ["ss/s244.html", "Valery's Bus Trip"],
+            ["ss/s245.html", "Studying for the Big Test"],
+            ["ss/s246.html", "Jenny's First Pets (1)"],
+            ["ss/s247.html", "Jenny's First Pets (2)"],
+            ["ss/s248.html", "Surfing"],
+            ["ss/s249.html", "Jane the Living Doll"],
+            ["ss/s250.html", "An Emergency"],
+            ["ss/s251.html", "Disappearance of a Lego"],
+            ["ss/s252.html", "Drought-Resistant Plants"],
+            ["ss/s253.html", "Facebook Friends"],
+            ["ss/s254.html", "Service Animals"],
+            ["ss/s255.html", "Underground Music"],
+            ["ss/s256.html", "Summer Programs for Kids"],
+            ["ss/s257.html", "Special Education"],
+            ["ss/s258.html", "Stay-at-Home Dad"],
+            ["ss/s259.html", "A time for Family"],
+            ["ss/s260.html", "Shopping on Black Friday"],
+            ["ss/s261.html", "Vinyl Hunting"],
+            ["ss/s262.html", "No-Hitter"],
+            ["ss/s263.html", "Helping the Needy"],
+            ["ss/s264.html", "A Visit to Statue of Liberty"],
+            ["ss/s265.html", "A Homeless Man"],
+            ["ss/s266.html", "Being Charged with Arson"],
+            ["ss/s267.html", "A Baby Girl"],
+            ["ss/s268.html", "An Easter Bunny"],
+            ["ss/s269.html", "The Most Beautiful Girl in the World"],
+            ["ss/s270.html", "Josh's First Girlfriend"],
+            ["ss/s271.html", "Hide and Seek"],
+            ["ss/s272.html", "A Night at the Drive-In"],
+            ["ss/s273.html", "Hello Dolly!"],
+            ["ss/s274.html", "Dodgers vs. Giants"],
+            ["ss/s275.html", "Halloween Costume Party"],
+            ["ss/s276.html", "The Coke Bottles"],
+            ["ss/s277.html", "Going to College"],
+            ["ss/s278.html", "Driving up Pacific Coast Highway"],
+            ["ss/s279.html", "Mary, Tom, and Buddy (1)"],
+            ["ss/s280.html", "Mary, Tom, and Buddy (2)"],
+            ["ss/s281.html", "Always Safety First"],
+            ["ss/s282.html", "Eddie and Jake Form a Rock Band"],
+            ["ss/s283.html", "Learning Spanish"],
+            ["ss/s284.html", "Going Back to School"],
+            ["ss/s285.html", "Johnny's Long Hair (1)"],
+            ["ss/s286.html", "Johnny's Long Hair (2)"],
+            ["ss/s287.html", "The Friendship"],
+            ["ss/s288.html", "A New Friend"],
+            ["ss/s289.html", "Fingerprinting"],
+            ["ss/s290.html", "Getting Cable"],
+            ["ss/s291.html", "Trash Days"],
+            ["ss/s292.html", "Seeing a Dermatologist"],
+            ["ss/s293.html", "Happy Hour"],
+            ["ss/s294.html", "Learning to Drive"],
+            ["ss/s295.html", "Playing Football"],
+            ["ss/s296.html", "Food Trucks"],
+            ["ss/s297.html", "The Great Nelson Mandela"],
+            ["ss/s298.html", "Charles Darwin"],
+            ["ss/s299.html", "Online Classes"],
+            ["ss/s300.html", "The Titanic"]
+          ],
+          "stories-3": [
+            ["ss/s301.html", "George Washington:The..."],
+            ["ss/s302.html", "Henry Ford:The Founder..."],
+            ["ss/s303.html", "Martin Luther King Jr..."],
+            ["ss/s304.html", "Bill Gates:The Man..."],
+            ["ss/s305.html", "Michael Jordan:A Famous..."],
+            ["ss/s306.html", "Babe Ruth:The Greatest..."],
+            ["ss/s307.html", "Kobe Bryant:The Incredible..."],
+            ["ss/s308.html", "Tiger Woods:A Great..."],
+            ["ss/s309.html", "Jesse Owens:The Man Who..."],
+            ["ss/s310.html", "Steven Spielberg:Hollywood..."],
+            ["ss/s311.html", "Michael Jackson: Pop Star"],
+            ["ss/s312.html", "Mickey Mouse:The World..."],
+            ["ss/s313.html", "Jackie Robinson:Breaking..."],
+            ["ss/s314.html", "Van Halen:From Garage Band..."],
+            ["ss/s315.html", "Jane Fonda:American Patriot..."],
+            ["ss/s316.html", "Barry Bonds:Cheater or..."],
+            ["ss/s317.html", "Mike Tyson:The Youngest..."],
+            ["ss/s318.html", "Barack Obama:America's..."],
+            ["ss/s319.html", "Yao Ming:Bigger than Life"],
+            ["ss/s320.html", "Oprah Winfrey:Her Incredible..."],
+            ["ss/s321.html", "Abraham Lincoln:America's..."],
+            ["ss/s322.html", "Muhammad Ali:The Greatest..."],
+            ["ss/s323.html", "Carl Sagan:Visionary..."],
+            ["ss/s324.html", "Beyonce Knowles:Beauty..."],
+            ["ss/s325.html", "Jack Kevorkian:Hero or..."],
+            ["ss/s326.html", "Amelia Earhart:America's Lost..."],
+            ["ss/s327.html", "Charles Lindbergh:A Super..."],
+            ["ss/s328.html", "Susan B. Anthony:The First..."],
+            ["ss/s329.html", "Bill Clinton:Popular Modern..."],
+            ["ss/s330.html", "Forrest Gump:An American..."],
+            ["ss/s331.html", "Lance Armstrong:American..."],
+            ["ss/s332.html", "Thomas Jefferson:An..."],
+            ["ss/s333.html", "Russell Crowe:A Great..."],
+            ["ss/s334.html", "Arnold Schwarzenegger:From...."],
+            ["ss/s335.html", "Johnny Depp:An Unusual Talent"],
+            ["ss/s336.html", "Donald Sterling:The..."],
+            ["ss/s337.html", "Magic Johnson:...Superstar..."],
+            ["ss/s338.html", "Phil Jackson:Winning at..."],
+            ["ss/s339.html", "Jerry Springer:The Man..."],
+            ["ss/s340.html", "The Wright Brothers:The..."],
+            ["ss/s341.html", "John Lennon:A Founding..."],
+            ["ss/s342.html", "D.B. Cooper:The Infamous..."],
+            ["ss/s343.html", "O.J. Simpson:American Hero..."],
+            ["ss/s344.html", "Billie Jean King:An Advocate..."],
+            ["ss/s345.html", "Madonna:A Musical Legend"],
+            ["ss/s346.html", "Neil Armstrong:The Man who..."],
+            ["ss/s347.html", "Mark Twain:A Great American..."],
+            ["ss/s348.html", "Christopher Reeve:A Real-Life..."],
+            ["ss/s349.html", "Richard M. Nixon:A Presidency.."],
+            ["ss/s350.html", "Clint Eastwood:A Filmmaker..."],
+            ["ss/s351.html", "Michael Moore:Exposing..."],
+            ["ss/s352.html", "Bill Maher:Mr. Liberal"],
+            ["ss/s353.html", "Cesar Chavez:The Voice..."],
+            ["ss/s354.html", "Hugh Hefner: ...Playboy"],
+            ["ss/s355.html", "Tom Hanks:A Great American..."],
+            ["ss/s356.html", "Johnny Carson:The Late..."],
+            ["ss/s357.html", "Helen Keller:Overcoming..."],
+            ["ss/s358.html", "Elvis Presley:The King of..."],
+            ["ss/s359.html", "Frederick Douglass: ...Slave..."],
+            ["ss/s360.html", "Audie Murphy:An American..."],
+            ["ss/s361.html", "Jonas Salk:The Man who..."],
+            ["ss/s362.html", "Chuck Yeager:Faster than..."],
+            ["ss/s363.html", "Steve Jobs:The Man and His..."],
+            ["ss/s364.html", "Meg Whitman:CEO and..."],
+            ["ss/s365.html", "Mark Zuckerberg:The Social..."]
+          ]
+        };
+
+        const buttons = Array.from(document.querySelectorAll("[data-tab-target]"));
+        const panels = Array.from(document.querySelectorAll("[role='tabpanel']"));
+        const gridMap = new Map(
+          panels.map((panel) => [panel.id, panel.querySelector("[data-story-grid]")]),
+        );
+
+        const animatePanel = (panel) => {
+          panel.animate(
+            [
+              { opacity: 0, transform: "translateY(8px)" },
+              { opacity: 1, transform: "translateY(0)" },
+            ],
+            {
+              duration: 200,
+              easing: "ease-out",
+            },
+          );
+        };
+
+        const renderGrid = (panel) => {
+          const items = storySets[panel.id] || [];
+          const grid = gridMap.get(panel.id);
+
+          if (!grid || grid.dataset.rendered === "true") {
+            return;
+          }
+
+          const startNumber = Number(panel.dataset.start || "1");
+
+          grid.textContent = "";
+
+          items.forEach(([href, title], index) => {
+            const number = startNumber + index;
+            const link = document.createElement("a");
+            link.className = "story-item";
+            link.href = href;
+            link.setAttribute("aria-label", `${number}. ${title}`);
+            link.innerHTML = `
+              <span class="story-number">${number}.</span>
+              <span class="story-title">${title}</span>
+              <span class="story-arrow" aria-hidden="true">→</span>
+            `;
+            grid.appendChild(link);
+          });
+
+          grid.dataset.rendered = "true";
+        };
+
+        const activateTab = (tabId, { updateHash = true, focus = false } = {}) => {
+          const targetButton = buttons.find(
+            (button) => button.dataset.tabTarget === tabId,
+          );
+          const targetPanel = panels.find((panel) => panel.id === tabId);
+
+          if (!targetButton || !targetPanel) {
+            return;
+          }
+
+          buttons.forEach((button) => {
+            const isActive = button === targetButton;
+            button.setAttribute("aria-selected", String(isActive));
+            button.tabIndex = isActive ? 0 : -1;
+          });
+
+          panels.forEach((panel) => {
+            const isActive = panel === targetPanel;
+            panel.hidden = !isActive;
+            if (isActive) {
+              renderGrid(panel);
+              animatePanel(panel);
+            }
+          });
+
+          if (focus) {
+            targetButton.focus({ preventScroll: true });
+          }
+
+          if (updateHash) {
+            history.replaceState(null, "", `#${tabId}`);
+          }
+        };
+
+        buttons.forEach((button) => {
+          button.addEventListener("click", () => {
+            activateTab(button.dataset.tabTarget, { focus: true });
+          });
+
+          button.addEventListener("keydown", (event) => {
+            const currentIndex = buttons.indexOf(button);
+            let nextIndex = -1;
+
+            switch (event.key) {
+              case "ArrowLeft":
+                event.preventDefault();
+                nextIndex =
+                  currentIndex === 0 ? buttons.length - 1 : currentIndex - 1;
+                break;
+              case "ArrowRight":
+                event.preventDefault();
+                nextIndex =
+                  currentIndex === buttons.length - 1 ? 0 : currentIndex + 1;
+                break;
+              case "Home":
+                event.preventDefault();
+                nextIndex = 0;
+                break;
+              case "End":
+                event.preventDefault();
+                nextIndex = buttons.length - 1;
+                break;
+              case "Enter":
+              case " ":
+                event.preventDefault();
+                activateTab(button.dataset.tabTarget, { focus: true });
+                return;
+              default:
+                return;
+            }
+
+            if (nextIndex >= 0) {
+              activateTab(buttons[nextIndex].dataset.tabTarget, { focus: true });
+            }
+          });
+        });
+
+        const initialTab = storySets[location.hash.slice(1)]
+          ? location.hash.slice(1)
+          : "stories-1";
+
+        activateTab(initialTab, { updateHash: false });
+      })();
+    </script>
+  </body>
 </html>
