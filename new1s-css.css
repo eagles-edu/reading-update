@@ -1,7 +1,7 @@
 <div id="Instructions" class="instruct">
 
 :root {
-    --strFontFace: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --strFontFace: var(--font-base);
 	--strFontSize: inherit;
 	--strTextColor: #000000;
 	--strTextColorHov: #ffffff;

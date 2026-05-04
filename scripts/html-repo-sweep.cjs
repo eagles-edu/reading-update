@@ -132,6 +132,10 @@ function applyEdits(source, edits) {
   return next;
 }
 
+function stripTrailingWhitespace(source) {
+  return source.replace(/[ \t]+$/gm, '');
+}
+
 function main() {
   let args;
   try {
@@ -185,7 +189,7 @@ function main() {
     console.log(`${path.relative(args.root, file)}\t${edits.length} change(s)`);
 
     if (args.apply) {
-      const updated = applyEdits(source, edits);
+      const updated = stripTrailingWhitespace(applyEdits(source, edits));
       if (updated !== source) {
         fs.writeFileSync(file, updated);
       }

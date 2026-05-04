@@ -1,0 +1,248 @@
+/* eslint-disable css/no-invalid-properties */
+/* eslint-disable css/no-important */
+body#TheBody {
+  color: #161616;
+  margin: 0;
+  padding: 0.75rem;
+
+background:
+    radial-gradient(circle at top left, rgba(181, 0, 16, 0.08), transparent 24rem),
+    radial-gradient(circle at top right, rgba(0, 39, 134, 0.09), transparent 26rem),
+    #d3d9e5;
+}
+
+body#TheBody,
+body#TheBody button,
+body#TheBody input,
+body#TheBody textarea {
+  font-family: var(
+    --font-base,
+    system-ui,
+    -apple-system,
+    blinkmacsystemfont,
+    "Segoe UI Variable",
+    "Segoe UI",
+    roboto,
+    "Noto Sans",
+    ubuntu,
+    cantarell,
+    "Liberation Sans",
+    "DejaVu Sans",
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Noto Color Emoji",
+    sans-serif
+  );
+}
+
+body#TheBody *,
+body#TheBody *::before,
+body#TheBody *::after {
+  box-sizing: border-box;
+}
+
+body#TheBody .wrapfit {
+  margin: 0 auto;
+  width: min(100%, 920px);
+}
+
+body#TheBody .sis-cloze-shell {
+  display: grid;
+  gap: 0.85rem;
+}
+
+body#TheBody .sis-cloze-region {
+  display: grid;
+  gap: 0.75rem;
+}
+
+body#TheBody .Titles,
+body#TheBody #InstructionsDiv,
+body#TheBody #MainDiv,
+body#TheBody .sis-cloze-panel {
+  margin-left: auto;
+  margin-right: auto;
+  width: min(100%, 920px);
+}
+
+body#TheBody .Titles {
+  margin-bottom: 0;
+}
+
+body#TheBody .ExerciseTitle {
+  font-size: clamp(1.4rem, 2.1vw, 2rem);
+  line-height: 1.2;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+body#TheBody #InstructionsDiv,
+body#TheBody #MainDiv,
+body#TheBody .sis-cloze-panel {
+  border-radius: 1rem;
+  box-shadow: 0 16px 36px rgba(0, 39, 134, 0.12);
+}
+
+body#TheBody #InstructionsDiv,
+body#TheBody #MainDiv {
+  background: rgba(255, 255, 255, 0.96);
+}
+
+body#TheBody #InstructionsDiv {
+  border: 1px solid rgba(141, 146, 158, 0.75);
+  margin-bottom: 0.75rem;
+}
+
+body#TheBody #Instructions {
+  font-size: clamp(1rem, 0.94rem + 0.45vw, 1.12rem);
+  font-weight: 700;
+  line-height: 1.55;
+  margin-inline: auto;
+  max-width: 60ch;
+  padding: 1rem 1rem 0.65rem;
+  text-indent: 0;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--primary-color, #b50010);
+  margin: 1rem;
+}
+
+body#TheBody #MainDiv {
+  border: 1px solid var(--tertiary-color, #002786);
+  padding: 0.5rem;
+}
+
+body#TheBody .ClozeBody {
+  line-height: 1.8;
+  padding: 0.75rem;
+  text-indent: 0;
+}
+
+body#TheBody .GapBox {
+  background: #ffffff;
+  border: 1px solid #94a3b8;
+  border-radius: 0.75rem;
+  color: #161616;
+  min-height: 2.5rem;
+  min-width: 5.8ch;
+  padding: 0.35rem 0.55rem;
+}
+
+body#TheBody .FuncButton,
+body#TheBody .FuncButtonUp,
+body#TheBody .FuncButtonDown,
+body#TheBody .NavButton,
+body#TheBody .NavButtonUp,
+body#TheBody .NavButtonDown {
+  border-radius: 999px;
+  min-height: 2.75rem;
+  padding: 0.7rem 1rem;
+}
+
+body#TheBody #MainDiv > .FuncButton,
+body#TheBody #MainDiv .FuncButton {
+  display: block;
+  margin: 0.45rem 0;
+  max-width: none;
+  width: 100%;
+}
+
+body#TheBody .Feedback {
+  border-radius: 1rem;
+  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.2);
+  inset-inline: 0.75rem;
+  left: 0 !important;
+  margin: 0 auto;
+  max-width: 36rem;
+  position: fixed;
+  right: 0 !important;
+  top: 10vh !important;
+  width: auto !important;
+}
+
+body#TheBody .sis-cloze-region--feedback {
+  margin-inline: auto;
+  width: min(100%, 920px);
+}
+
+.sis-cloze-panel {
+  background: var(--secondary-color, #f5f8ff);
+  border: 1px solid var(--tertiary-color, #002786);
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+}
+
+.sis-cloze-panel__instruction {
+  color: #334155;
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.45;
+  margin: 0;
+  padding-bottom: 0.85rem;
+}
+
+.sis-cloze-panel__grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.sis-cloze-field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.sis-cloze-field__label {
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.sis-cloze-field input {
+  background: #ffffff;
+  border: 1px solid var(--border, #6d717a);
+  border-radius: 0.85rem;
+  box-sizing: border-box;
+  color: var(--text, #8d929e);
+  font-size: 1rem;
+  min-height: 2.9rem;
+  padding: 0.75rem 0.9rem;
+  width: 100%;
+}
+
+.sis-cloze-field input:focus {
+  box-shadow: 0 0 0 3px rgba(0, 39, 134, 0.22);
+}
+
+.sis-cloze-status {
+  color: #002786;
+  font-weight: 600;
+  margin: 0.8rem 0 0;
+  /* min-height: 1.5rem; */
+}
+
+.sis-cloze-status--error {
+  color: #b50010;
+}
+
+.sis-cloze-status--success {
+  color: #0f766e;
+}
+
+@media (min-width: 720px) {
+  body#TheBody .sis-cloze-shell {
+    gap: 1rem;
+  }
+
+  body#TheBody .sis-cloze-panel__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  body#TheBody #MainDiv > .FuncButton,
+  body#TheBody #MainDiv .FuncButton {
+    display: inline-block;
+    margin-right: 0.5rem;
+    width: auto;
+  }
+}

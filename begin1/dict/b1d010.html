@@ -5,7 +5,9 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to ron.">
+	<link rel="preload" href="../../style/font-stack.css" as="style">
+<link rel="stylesheet" href="../../style/font-stack.css">
+<meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to ron.">
 	<meta name="keywords" content="Hot Potatoes, Hot Potatoes, Half-Baked Software, Windows, University of Victoria">
 
 	<link rel="schema.DC" href="../../../purl.org/dc/elements/1.1/index.html">
@@ -28,7 +30,7 @@
 		/* Made with executable version 6.3 Release 0 Build 5 */
 
 		:root {
-			--strFontFace: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			--strFontFace: var(--font-base);
 			--strFontSize: inherit;
 			--strTextColor: #000000;
 			--strTitleColor: #000000;
@@ -146,7 +148,7 @@
 			text-align: right;
 			font-size: 150%;
 			direction: rtl;
-			font-family: Geneva, Arial, sans-serif;
+			font-family: var(--font-base);
 		}
 
 		.Guess {
@@ -211,7 +213,7 @@ span.CorrectMark{
 
 		input,
 		textarea {
-			font-family: Geneva, Arial, sans-serif;
+			font-family: var(--font-base);
 			font-size: 120%;
 		}
 
@@ -432,7 +434,7 @@ span.CorrectMark{
 		}
 
 		div.Keypad button {
-			font-family: Geneva, Arial, sans-serif;
+			font-family: var(--font-base);
 			font-size: 120%;
 			background-color: #ffffff;
 			color: #000000;
@@ -452,7 +454,7 @@ span.CorrectMark{
 		}
 
 		textarea {
-			font-family: Geneva, Arial, sans-serif;
+			font-family: var(--font-base);
 		}
 
 		.QuestionText {
@@ -634,7 +636,7 @@ span.CorrectMark{
 
 		div.CardStyle {
 			position: absolute;
-			font-family: Geneva, Arial, sans-serif;
+			font-family: var(--font-base);
 			font-size: 100%;
 			padding: 5px;
 			border-style: solid;

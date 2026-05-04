@@ -260,7 +260,7 @@ hr.new2{
 body {
 	background-color: #C0C0C0;
 	color: #000000;
-	font-family: 'Open Sans', 'Segoe UI', Geneva, Verdana, Tahoma, Arial, sans-serif !important;
+	font-family: var(--font-base);
 	font-size: inherit;
 	line-height: inherit;
 	margin: 0 auto;

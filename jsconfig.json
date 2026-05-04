@@ -1,40 +1,23 @@
 {
   "$schema": "https://json.schemastore.org/jsconfig.json",
   "compilerOptions": {
-    // language + module
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
-
-    // allow JS files, but no TS checking
     "allowJs": true,
     "checkJs": false,
-
-    // strictness for JS (optional: keeps null-safety checks in editor)
     "strictNullChecks": true,
     "strictFunctionTypes": true,
-
-    // import & module support
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-
-    // editor-only—no emit
     "noEmit": true,
     "skipLibCheck": true,
-
-    // built‑ins
     "lib": ["ES2022", "DOM"],
-
-    // base for absolute imports
-    "baseUrl": "."
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0"
   },
-
-  // only JS sources in this workspace
   "include": ["**/*.js"],
-
-  // ignore deps & build output
   "exclude": ["node_modules", "dist", "build", "**/*.d.ts"]
 }
-

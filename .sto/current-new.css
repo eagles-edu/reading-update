@@ -1,6 +1,6 @@
 
 :root {
-    --strFontFace: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --strFontFace: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Liberation Sans", "DejaVu Sans", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
 	--strFontSize: inherit;
 	--strTextColor: #000000;
 	--strTextColorHov: #ffffff;

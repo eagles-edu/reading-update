@@ -4,6 +4,8 @@
 <!-- ecloze/ecloze195.htm, Mon, 03 Jul 2017 07:34:51 GMT -->
 <head>
 <meta charset="utf-8">
+<link rel="preload" href="../../style/font-stack.css" as="style">
+<link rel="stylesheet" href="../../style/font-stack.css">
 <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="ESL, cloze exercises">
 
 <link rel="schema.DC" href="../../../purl.org/dc/elements/1.1/index.html">
@@ -43,7 +45,7 @@
 body {
 	background-color: #C0C0C0;
 	color: #000000;
-	font-family: "Open Sans", Geneva, Arial, sans-serif !important;
+	font-family: var(--font-base);
 	font-size: inherit;
 	line-height: inherit;
 	margin-right: 5%;
@@ -69,7 +71,7 @@ div.Titles{
 }
 
 button{
-	font-family: Geneva,Arial,sans-serif;
+	font-family: var(--font-base);
 	font-size: 100%;
 	display: inline;
 }
@@ -119,7 +121,7 @@ button p.RTLText{
 	text-align: right;
 	font-size: 150%;
 	direction: rtl;
-	font-family: Geneva, Arial, sans-serif;
+	font-family: var(--font-base);
 }
 
 .Guess{
@@ -180,7 +182,7 @@ span.CorrectMark{
 */
 
 input, textarea{
-	font-family: Geneva,Arial,sans-serif;
+	font-family: var(--font-base);
 	font-size: 120%;
 }
 
@@ -397,7 +399,7 @@ div.Keypad{
 }
 
 div.Keypad button{
-	font-family: Geneva,Arial,sans-serif;
+	font-family: var(--font-base);
 	font-size: 120%;
 	background-color: #ffffff;
 	color: #000000;
@@ -417,7 +419,7 @@ div.QuestionNavigation{
 }
 
 textarea{
-	font-family: Geneva,Arial,sans-serif;
+	font-family: var(--font-base);
 }
 
 .QuestionText{
@@ -593,7 +595,7 @@ a:hover{
 
 div.CardStyle {
 	position: absolute;
-	font-family: Geneva,Arial,sans-serif;
+	font-family: var(--font-base);
 	font-size: 100%;
 	padding: 5px;
 	border-style: solid;

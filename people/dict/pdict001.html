@@ -4,6 +4,8 @@
 <!-- /people/dict/pdict001.htm, Sun, 02 Jul 2017 22:57:10 GMT -->
 <head>
 <meta charset="utf-8">
+<link rel="preload" href="../../style/font-stack.css" as="style">
+<link rel="stylesheet" href="../../style/font-stack.css">
 <meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to Ron."><meta name="keywords" content="Hot Potatoes, Hot Potatoes, Half-Baked Software, Windows, University of Victoria">
 
 <link rel="schema.DC" href="../../../purl.org/dc/elements/1.1/index.html">
@@ -69,7 +71,7 @@ p.leftalgn,
 
 
 :root {
-    --strFontFace: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --strFontFace: var(--font-base);
     --strFontSize: inherit;
     --strTextColor: #000000;
     --strTextColorHov: #ffffff;
@@ -182,7 +184,7 @@ button p.RTLText{
 	text-align: right;
 	font-size: 150%;
 	direction: rtl;
-	font-family: Geneva, Arial, sans-serif;
+	font-family: var(--font-base);
 }
 
 .Guess{
@@ -241,7 +243,7 @@ span.CorrectMark{
 */
 
 input, textarea{
-	font-family: Geneva,Arial,sans-serif;
+	font-family: var(--font-base);
 	font-size: 120%;
 }
 
@@ -463,7 +465,7 @@ div.Keypad{
 }
 
 div.Keypad button{
-	font-family: Geneva,Arial,sans-serif;
+	font-family: var(--font-base);
 	font-size: 120%;
 	background-color: #ffffff;
 	color: #000000;
@@ -483,7 +485,7 @@ div.QuestionNavigation{
 }
 
 textarea{
-	font-family: Geneva,Arial,sans-serif;
+	font-family: var(--font-base);
 }
 
 .QuestionText{
@@ -661,7 +663,7 @@ a:hover{
 
 div.CardStyle {
 	position: absolute;
-	font-family: Geneva,Arial,sans-serif;
+	font-family: var(--font-base);
 	font-size: 100%;
 	padding: 5px;
 	border-style: solid;

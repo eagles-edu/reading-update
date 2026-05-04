@@ -19,6 +19,8 @@
     "lint:fix": "eslint . --fix",
     "sweep:html": "node ./scripts/html-repo-sweep.cjs",
     "sweep:html:apply": "node ./scripts/html-repo-sweep.cjs --apply",
+    "format:html": "node ./scripts/html-repo-sweep.cjs",
+    "format:html:apply": "node ./scripts/html-repo-sweep.cjs --apply",
     "sync:live": "bash ./scripts/sync-dev-to-live.sh",
     "sync:live:apply": "bash ./scripts/sync-dev-to-live.sh --apply",
     "efast:manifest": "bash ./scripts/efast-rsync-manifest.sh",

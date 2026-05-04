@@ -4,6 +4,8 @@
 <!-- dict/er_d087.htm, Mon, 03 Jul 2017 07:14:32 GMT -->
 <head>
 <meta charset="utf-8">
+<link rel="preload" href="../../style/font-stack.css" as="style">
+<link rel="stylesheet" href="../../style/font-stack.css">
 <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="ESL, dictation" >
 
 <link rel="schema.DC" href="../../../purl.org/dc/elements/1.1/index.html">
@@ -34,7 +36,7 @@
 
 
 :root {
-    --strFontFace: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --strFontFace: var(--font-base);
     --strFontSize: inherit;
     --strTextColor: #000000;
     --strTextColorHov: #ffffff;
@@ -146,7 +148,7 @@ button p.RTLText{
 	text-align: right;
 	font-size: 150%;
 	direction: rtl;
-	font-family: Geneva, Arial, sans-serif;
+	font-family: var(--font-base);
 }
 
 .Guess{
@@ -212,7 +214,7 @@ span.CorrectMark{
 */
 
 input, textarea{
-	font-family: Geneva,Arial,sans-serif;
+	font-family: var(--font-base);
 	font-size: 120%;
 }
 
@@ -434,7 +436,7 @@ div.Keypad{
 }
 
 div.Keypad button{
-	font-family: Geneva,Arial,sans-serif;
+	font-family: var(--font-base);
 	font-size: 120%;
 	background-color: #ffffff;
 	color: #000000;
@@ -454,7 +456,7 @@ div.QuestionNavigation{
 }
 
 textarea{
-	font-family: Geneva,Arial,sans-serif;
+	font-family: var(--font-base);
 }
 
 .QuestionText{
@@ -632,7 +634,7 @@ a:hover{
 
 div.CardStyle {
 	position: absolute;
-	font-family: Geneva,Arial,sans-serif;
+	font-family: var(--font-base);
 	font-size: 100%;
 	padding: 5px;
 	border-style: solid;
