@@ -1,0 +1,85 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "REMOVE: SELF-CLOSE FILE DRY",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "remove:self-close-file:dry", "--", "${file}"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "REMOVE: SELF-CLOSE FILE APPLY",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "remove:self-close-file:apply", "--", "${file}"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "REMOVE: SELF-CLOSE ROOT DRY",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "remove:self-close-root:dry"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "REMOVE: SELF-CLOSE ROOT APPLY",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "remove:self-close-root:apply"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "FORMAT HTML FILE + SELF-CLS REMOVAL DRY",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "format:html:file+self-close:dry", "--", "${file}"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "FORMAT HTML FILE + SELF-CLS REMOVAL APPLY",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "format:html:file+self-close:apply", "--", "${file}"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "FORMAT HTML ROOT + SELF-CLS REMOVAL DRY",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "format:html:root+self-close:dry"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "FORMAT HTML ROOT + SELF-CLS REMOVAL APPLY",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "format:html:root+self-close:apply"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

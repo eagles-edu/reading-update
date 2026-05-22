@@ -150,18 +150,23 @@ function updateHead(source, file, root) {
     if (injected.changed) changes.push("theme");
   }
 
-  const jsTag = `<script defer src="${jsHref}"></script>`;
-  const escapedJsTag = jsTag.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const misplacedJsRe = new RegExp(`</head>\\s*(${escapedJsTag})`, "i");
-  const jsTagRe = new RegExp(escapedJsTag, "i");
-
-  if (misplacedJsRe.test(next)) {
-    next = next.replace(misplacedJsRe, `$1\n</head>`);
-    changes.push("js");
-  } else if (!jsTagRe.test(next)) {
-    const injected = injectBeforeFirst(next, /<\/head>/i, `${jsTag}\n\n`);
-    next = injected.source;
-    if (injected.changed) changes.push("js");
+  if (!/sis-cloze-submit\.js/i.test(next)) {
+    const misplacedJsRe = new RegExp(
+      `</head>\\s*(<script\\b[^>]*src="${jsHref.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"[^>]*><\\/script>)`,
+      "i"
+    );
+    if (misplacedJsRe.test(next)) {
+      next = next.replace(misplacedJsRe, `$1\n</head>`);
+      changes.push("js");
+    } else {
+      const injected = injectBeforeFirst(
+        next,
+        /<\/head>/i,
+        `<script defer src="${jsHref}"></script>\n\n`
+      );
+      next = injected.source;
+      if (injected.changed) changes.push("js");
+    }
   }
 
   const schemaRe = /\s*<link\b[^>]*rel="schema\.DC"[^>]*>\s*/i;

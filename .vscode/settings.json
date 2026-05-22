@@ -48,5 +48,21 @@
   "css.autoValidation": "Never",
   "css.styleSheets": [
     "style.css"
+  ],
+  "cSpell.words": [
+    "Chk",
+    "dblock",
+    "dinlineblk",
+    "fieldlabel",
+    "fieldlabelid",
+    "fieldtype",
+    "flextxtcen",
+    "Frm",
+    "HOTPOTNET",
+    "HPN",
+    "hpnetresult",
+    "JCLOZE",
+    "wrapfit",
+    "wrapit"
   ]
 }

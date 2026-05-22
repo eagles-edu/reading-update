@@ -1,0 +1,205 @@
+#!/usr/bin/env node
+
+const fs = require("node:fs");
+const path = require("node:path");
+
+const glob = require("glob");
+const parse5 = require("parse5");
+
+const VOID_TAGS = new Set([
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr",
+]);
+
+const SCRIPT_DIR = __dirname;
+const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
+
+function printUsage() {
+  console.log(`Usage: ${path.basename(process.argv[1])} [--apply] [--root PATH] [FILE...]
+
+HTML-only self-closing cleanup:
+  - strip XHTML-style slashes from HTML void elements
+
+Options:
+  --apply     Write changes back to disk.
+  --root PATH Scan a different repository root.
+  --help      Show this help.
+
+Arguments:
+  FILE...     Optional explicit HTML/HTM files to process instead of scanning a tree.
+`);
+}
+
+function parseArgs(argv) {
+  const args = {
+    apply: false,
+    root: DEFAULT_ROOT,
+    files: [],
+  };
+
+  for (let i = 0; i < argv.length; i += 1) {
+    const arg = argv[i];
+    if (arg === "--apply") {
+      args.apply = true;
+      continue;
+    }
+    if (arg === "--root") {
+      i += 1;
+      if (i >= argv.length) {
+        throw new Error("--root requires a path");
+      }
+      args.root = path.resolve(argv[i]);
+      continue;
+    }
+    if (arg === "--help" || arg === "-h") {
+      args.help = true;
+      continue;
+    }
+    if (arg.startsWith("-")) {
+      throw new Error(`Unknown option: ${arg}`);
+    }
+    args.files.push(path.resolve(arg));
+    continue;
+  }
+
+  return args;
+}
+
+function readTargets(args) {
+  if (args.files.length > 0) {
+    return args.files;
+  }
+
+  return glob.sync("**/*.{html,htm}", {
+    absolute: true,
+    cwd: args.root,
+    dot: true,
+    ignore: [
+      "**/.git/**",
+      "**/node_modules/**",
+      "**/.playwright-cli/**",
+      "**/.sto/**",
+    ],
+  });
+}
+
+function collectEdits(source) {
+  const edits = [];
+  const document = parse5.parse(source, { sourceCodeLocationInfo: true });
+
+  const visit = (node) => {
+    if (
+      node.tagName &&
+      VOID_TAGS.has(node.tagName) &&
+      node.sourceCodeLocation?.startTag
+    ) {
+      const { startOffset, endOffset } = node.sourceCodeLocation.startTag;
+      const raw = source.slice(startOffset, endOffset);
+      if (raw.trimEnd().endsWith("/>")) {
+        edits.push({
+          kind: "void-slash",
+          start: startOffset,
+          end: endOffset,
+          replacement: raw.replace(/\s*\/>\s*$/, ">"),
+        });
+      }
+    }
+
+    if (node.childNodes) {
+      for (const child of node.childNodes) {
+        visit(child);
+      }
+    }
+
+    if (node.content?.childNodes) {
+      for (const child of node.content.childNodes) {
+        visit(child);
+      }
+    }
+  };
+
+  visit(document);
+  edits.sort((a, b) => b.start - a.start || b.end - a.end);
+  return edits;
+}
+
+function applyEdits(source, edits) {
+  let next = source;
+  for (const edit of edits) {
+    next = `${next.slice(0, edit.start)}${edit.replacement}${next.slice(edit.end)}`;
+  }
+  return next;
+}
+
+function stripTrailingWhitespace(source) {
+  return source.replace(/[ \t]+$/gm, "");
+}
+
+function main() {
+  let args;
+  try {
+    args = parseArgs(process.argv.slice(2));
+  } catch (error) {
+    console.error(`ERROR: ${error.message}`);
+    printUsage();
+    return 2;
+  }
+
+  if (args.help) {
+    printUsage();
+    return 0;
+  }
+
+  const files = readTargets(args);
+
+  let scanned = 0;
+  let changed = 0;
+  let voidSlashChanges = 0;
+
+  console.log(`Mode: ${args.apply ? "APPLY" : "DRY-RUN"}`);
+  console.log(`Root: ${args.root}`);
+  console.log(`Files: ${files.length}`);
+  console.log();
+
+  for (const file of files) {
+    scanned += 1;
+    const source = fs.readFileSync(file, "utf8");
+    const edits = collectEdits(source);
+
+    if (edits.length === 0) {
+      continue;
+    }
+
+    changed += 1;
+    voidSlashChanges += edits.length;
+
+    console.log(`${path.relative(args.root, file)}\t${edits.length} change(s)`);
+
+    if (args.apply) {
+      const updated = stripTrailingWhitespace(applyEdits(source, edits));
+      if (updated !== source) {
+        fs.writeFileSync(file, updated);
+      }
+    }
+  }
+
+  console.log();
+  console.log(`Scanned: ${scanned}`);
+  console.log(`Changed: ${changed}`);
+  console.log(`Void-tag slash fixes: ${voidSlashChanges}`);
+  return 0;
+}
+
+process.exitCode = main();
