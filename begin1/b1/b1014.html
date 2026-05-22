@@ -47,7 +47,7 @@ audio, #audio {
 <h1>14. A New Shirt</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1014i.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1014i.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">She goes to the mall. There are many stores at the mall. She sees a clothing store. She goes inside. There are many different shirts. Some shirts have flowers. Other shirts have stripes. She gets a flowered shirt. It is pink and white. She tries it on. She looks in the mirror. The shirt looks great.
 

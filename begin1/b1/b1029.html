@@ -47,7 +47,7 @@ audio, #audio {
 <h1>29. Stage Fright</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1029n.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1029n.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">It is time for the show. He plays a doctor in the play. He is nervous. He goes on the stage. He looks at his audience. There are so many people. They are all staring at him. He is about to speak. He forgets his lines. He goes back.
 

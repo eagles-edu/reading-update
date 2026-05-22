@@ -47,7 +47,7 @@ audio, #audio {
 <h1>102. Vending Machine</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1102e2.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1102e2.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">He is hungry. All of the restaurants nearby are closed. He finds a vending machine. There are many snacks inside. There are drinks, too. He puts one dollar in. He wants a bag of chips. He pushes the button for the chips. He puts his hand in the machine. He gets his chips.
 

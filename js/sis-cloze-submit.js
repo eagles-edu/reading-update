@@ -8,6 +8,9 @@
   var ATTEMPT_KEY_PREFIX = STORAGE_PREFIX + ":attempt:"
   var IDENTITY_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365 * 2
   var PROTOTYPE_STYLE = "current"
+  var TEST_EXERCISE_SUBMIT_HOST = "test.eagles.edu.vn"
+  // Change this back to 8787 when the local/test backend moves back to that port.
+  var EXERCISE_SUBMIT_PORT = 8786
   var EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   var EAGLES_ID_PATTERN = /^[a-z]+\d{3}$/
 
@@ -154,7 +157,18 @@
       location.host === "localhost:5500" ||
       location.host === "127.0.0.1:5500"
     ) {
-      return "http://127.0.0.1:8787/api/exercise-submission"
+      return "http://127.0.0.1:" + String(EXERCISE_SUBMIT_PORT) + "/api/exercise-submission"
+    }
+
+    if (location.host === TEST_EXERCISE_SUBMIT_HOST) {
+      return (
+        location.protocol +
+        "//" +
+        TEST_EXERCISE_SUBMIT_HOST +
+        ":" +
+        String(EXERCISE_SUBMIT_PORT) +
+        "/api/exercise-submission"
+      )
     }
 
     return location.origin + "/api/exercise-submission"

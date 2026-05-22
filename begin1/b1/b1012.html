@@ -47,7 +47,7 @@ audio, #audio {
 <h1>12. Fruit Shop</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1012i.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1012i.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">Carol walks to the store. The store sells fruits. The fruits are colorful. Strawberries and apples are red. Tangerines and pumpkins are orange. Lemons are yellow. Limes are green. Blueberries are blue. Grapes and plums are purple. Carol's favorite color is purple. She buys a plum. She leaves the store. She bites the plum. It is tasty.
 

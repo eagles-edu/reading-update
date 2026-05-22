@@ -47,7 +47,7 @@ audio, #audio {
 <h1>30. Lost and Found</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1030n.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1030n.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">Steven walks around his town. He trips over something. He looks down. It is a wallet. There are $500 cash, credit cards, and a driver's license in the wallet. Steven needs to return this to the owner. He takes the wallet to his town's lost and found center. Now, the owner can find it.
 

@@ -47,7 +47,7 @@ audio, #audio {
 <h1>64. Happy People, Sad People</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1064v8.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1064v8.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">Mary does well on her test. She smiles. Patricia wins the drawing contest. She smiles. David watches a great movie. He smiles. Mary, Patricia, and David are happy. Linda breaks her leg. She goes to the hospital. Barbara gets last place in the race. Jeff does bad on his test. Linda, Barbara, and Jeff are sad.
 

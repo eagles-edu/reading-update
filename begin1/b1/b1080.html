@@ -47,7 +47,7 @@ audio, #audio {
 <h1>80. The Apple Tree</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1080y6.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1080y6.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">He likes apples. His neighbor has an apple tree. He walks to his neighbor's house. He knocks on the door. Ms. Parker opens it. She says hello. He asks her if he could get some apples. She lets him. He picks the best apples. He tastes one. It is sweet.
 

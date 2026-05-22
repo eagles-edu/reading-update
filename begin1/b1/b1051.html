@@ -47,7 +47,7 @@ audio, #audio {
 <h1>51. Milk Gone Bad</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1051u2.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1051u2.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">She pours the cereal into a bowl. She needs milk. She goes to the refrigerator. She gets the milk. She pours the milk into the bowl. She tastes it. Yuck! It tastes bad. She checks the milk carton. The expiration date was last week. She throws it away. No one should drink it.
 

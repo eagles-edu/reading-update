@@ -47,7 +47,7 @@ audio, #audio {
 <h1>20. The Race</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1020i.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1020i.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">She stands at the starting line. She wishes her competitors good luck. They are racing to see who is the fastest. She is nervous. Her hands are already sweating. The whistle goes off. She starts to run. She starts slowly for a few minutes. Later, she speeds up. Her competitors are slow. They are tired. She reaches the finish line. She wins.
 

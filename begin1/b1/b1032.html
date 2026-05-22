@@ -47,7 +47,7 @@ audio, #audio {
 <h1>32. What Do They Do on a Friday Night?</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1032p.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1032p.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">David, Jennifer, and Susan try to find something to do. David wants to eat at a restaurant. Jennifer and Susan already ate. Jennifer wants to sing at a karaoke. David and Susan have sore throats. Susan wants to play tennis. David and Jennifer are lazy. What do they do now?
 

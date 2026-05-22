@@ -47,7 +47,7 @@ audio, #audio {
 <h1>11. A New Vision</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1011h.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1011h.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">Sandra cannot see. A bird looks like a pillow. A pillow looks like a marshmallow. A marshmallow looks like a tree. A tree looks like a bee. Sandra goes to a doctor. The doctor gives her glasses. She puts them on. She can see the doctor. His eyes are blue. Everything is clear.
 

@@ -47,7 +47,7 @@ audio, #audio {
 <h1>71. Peanut Butter Sandwich</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1071w3.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1071w3.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">She wants to make a peanut butter sandwich. It is easy to make. She goes to the market. She buys what she needs. She goes back home. She goes to the kitchen. She takes out a knife, and puts it in the peanut butter jar. She spreads the peanut butter on two slices of bread. She puts the slices together, and takes a bite.
 

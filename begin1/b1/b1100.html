@@ -47,7 +47,7 @@ audio, #audio {
 <h1>100. Different T.V. Shows</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1100d7.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1100d7.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">She turns on the T.V. The news is playing. She thinks the news is boring. She goes to the next channel. A cooking show is playing. The chef is making a cake. She does not like cake. She goes to the next channel. A cartoon show is playing. It is about an elephant and a mouse. It looks funny. She puts the remote control down. She watches.
 

@@ -47,7 +47,7 @@ audio, #audio {
 <h1>38. The Hair Stylist</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1038r1.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1038r1.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">The hair stylist loves his job. He provides many services. He cuts people's hair shorter. It's very easy for him to do. He charges only $5. He straightens hair. This is hard for him to do. He charges $100. He dyes customers' hair. He lets customers pick any color. He charges $50. People think his prices are fair.
 

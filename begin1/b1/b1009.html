@@ -39,7 +39,7 @@
                 <div class="cenmar"><audio id="audio" src="../audio/b1009g.mp3" controls
                                                 oncontextmenu="return false;"></audio>
                                         <script> function toggleLoop(checkbox) { var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") { audio.loop = true; } else { audio.addEventListener("ended", function () { this.currentTime = 0; this.play(); }, false); } } </script>
-                                        <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;
                 </div>
                 <p class="textres12">Mary goes to the store. The
                         store is very big. The store sells bakery goods. Mary sees a carrot cake. She does not like

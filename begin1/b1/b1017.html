@@ -47,7 +47,7 @@ audio, #audio {
 <h1>17. A Beautiful Garden</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1017h.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1017h.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">The garden is beautiful. The garden is big. There are many flowers. There are pink flowers. There are purple flowers. There are small flowers. There are big flowers. The gardener plants more flowers. There is also a fountain. Kids sit next to it. Kids throw coins into it. Their parents smile.
 

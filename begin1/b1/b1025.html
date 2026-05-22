@@ -47,7 +47,7 @@ audio, #audio {
 <h1>25. Biking with Grandma</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1025m.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1025m.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">Lisa and her grandma go to the beach. They ride their bikes. Grandma still rides like a young girl. She is very fast. Lisa is slow, but she is willing to practice. The two ride their bikes for four hours. They decide to relax. Lisa gives her grandma a hug.
 

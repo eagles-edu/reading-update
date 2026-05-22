@@ -34,17 +34,17 @@
   },
   "devDependencies": {
     "@eslint/css": "^0.10.0",
-    "@eslint/js": "^9.32.0",
-    "@eslint/json": "^0.13.1",
-    "@eslint/markdown": "^7.1.0",
+    "@eslint/js": "^9.39.4",
+    "@eslint/json": "^0.13.2",
+    "@eslint/markdown": "^7.5.1",
     "archiver": "^7.0.1",
     "axe-core": "^4.11.4",
-    "cheerio": "^1.1.2",
-    "dependency-cruiser": "^17.3.10",
-    "eslint": "^9.32.0",
+    "cheerio": "^1.2.0",
+    "dependency-cruiser": "^17.4.0",
+    "eslint": "^9.39.4",
     "glob": "^7.2.3",
-    "globals": "^16.3.0",
+    "globals": "^16.5.0",
     "parse5": "^7.3.0",
-    "playwright": "^1.59.1"
+    "playwright": "^1.60.0"
   }
 }

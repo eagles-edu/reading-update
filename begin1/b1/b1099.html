@@ -47,7 +47,7 @@ audio, #audio {
 <h1>99. Going to a Concert</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1099d6.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1099d6.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">Margaret is at a concert. There are so many people. It is completely dark. Her favorite band is on stage. The guitarist starts strumming. Colorful lights start to appear on stage. The lead singer sings Margaret's favorite song. She cheers for the band. She puts her hands up in the air.
 

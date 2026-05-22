@@ -47,7 +47,7 @@ audio, #audio {
 <h1>26. The Newspaper is Interesting</h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b1026m.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;&nbsp;&nbsp;</div>
+<audio id="audio" src="../audio/b1026m.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio playback">Repeat &nbsp;&nbsp;&nbsp;</div>
 
 <p class="textres12">He hears a sound from outside. He looks out his window. The newspaper has arrived! He loves the newspaper. It's just so interesting. He reads the cover story. It is about a homeless man who won the lottery. Then, he looks at the cartoons. They are so funny. He loves the newspaper.
 
