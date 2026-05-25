@@ -1,0 +1,56 @@
+- main "Cloze exercise" [ref=e2]:
+  - heading "39. Talking" [level=2] [ref=e5]
+  - region "Exercise submission details" [ref=e6]:
+    - region "Exercise submission details" [ref=e7]:
+      - paragraph [ref=e8]: Enter your details before checking answers.
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]: Email
+          - textbox "Email" [ref=e12]:
+            - /placeholder: name@example.com
+        - generic [ref=e13]:
+          - generic [ref=e14]: Eagles ID
+          - textbox "Eagles ID" [ref=e15]:
+            - /placeholder: tammy001
+      - paragraph [ref=e16]: Enter your email and Eagles ID to unlock Check and Hint.
+  - region "Exercise content" [ref=e17]:
+    - generic [ref=e18]:
+      - generic [ref=e21]:
+        - text: She liked to talk. Talking was easy
+        - textbox [ref=e23]
+        - text: "her. She talked to friends: \"Hello, how"
+        - textbox [ref=e25]
+        - text: "you?\" Her friends replied: \"I am fine.\""
+        - textbox [ref=e27]
+        - text: was always polite. "Bless you," she would
+        - textbox [ref=e29]
+        - text: when someone sneezed. "Have a nice day,"
+        - textbox [ref=e31]
+        - text: would say after saying goodbye. She was
+        - textbox [ref=e33]
+        - text: good talker. She was skilled at talking.
+        - textbox [ref=e35]
+        - text: talked all the time. She talked over
+        - textbox [ref=e37]
+        - text: phone. She talked during class. She talked
+        - textbox [ref=e39]
+        - text: work. Her job was to talk. She
+        - textbox [ref=e41]
+        - text: customers buy things. "Can I help you,
+        - textbox [ref=e43]
+        - text: "?\" she would ask. Every day she talked"
+        - textbox [ref=e45]
+        - text: customers. She was always helpful. "Thank you
+        - textbox [ref=e47]
+        - text: taking the time to talk to me,"
+        - textbox [ref=e49]
+        - text: customer said one day. "You are very
+        - textbox [ref=e51]
+        - text: ",\" she said and smiled. Talking is a"
+        - textbox [ref=e53]
+        - text: skill to have. She practiced it every
+        - textbox [ref=e55]
+        - text: .
+      - button "Check" [disabled] [ref=e56] [cursor=pointer]
+      - button "Hint" [ref=e57] [cursor=pointer]
+  - region "Exercise feedback"

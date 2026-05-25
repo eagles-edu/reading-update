@@ -1,0 +1,56 @@
+- main "Cloze exercise" [ref=e2]:
+  - heading "9. Making Scrambled Eggs" [level=2] [ref=e5]
+  - region "Exercise submission details" [ref=e6]:
+    - region "Exercise submission details" [ref=e7]:
+      - paragraph [ref=e8]: Enter your details before checking answers.
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]: Email
+          - textbox "Email" [ref=e12]:
+            - /placeholder: name@example.com
+        - generic [ref=e13]:
+          - generic [ref=e14]: Eagles ID
+          - textbox "Eagles ID" [ref=e15]:
+            - /placeholder: tammy001
+      - paragraph [ref=e16]: Enter your email and Eagles ID to unlock Check and Hint.
+  - region "Exercise content" [ref=e17]:
+    - generic [ref=e18]:
+      - generic [ref=e21]:
+        - text: She woke up one morning and felt
+        - textbox [ref=e23]
+        - text: . She did not eat anything last night.
+        - textbox [ref=e25]
+        - text: got out of bed, and walked into
+        - textbox [ref=e27]
+        - text: kitchen. The kitchen was clean. She thought
+        - textbox [ref=e29]
+        - text: what to eat for breakfast. She opened
+        - textbox [ref=e31]
+        - text: refrigerator and took out a carton of
+        - textbox [ref=e33]
+        - text: . She opened her cabinet, and reached for
+        - textbox [ref=e35]
+        - text: bowl. She cracked four eggs into the
+        - textbox [ref=e37]
+        - text: . She stirred the eggs with a spoon.
+        - textbox [ref=e39]
+        - text: turned on the stove, and placed a
+        - textbox [ref=e41]
+        - text: on the stove. She turned the knob
+        - textbox [ref=e43]
+        - text: the stove. The fire was lit. She
+        - textbox [ref=e45]
+        - text: a stick of butter from the fridge.
+        - textbox [ref=e47]
+        - text: tossed the butter on the hot pan.
+        - textbox [ref=e49]
+        - text: grabbed the bowl of eggs and threw
+        - textbox [ref=e51]
+        - text: on the pan. She scrambled them with
+        - textbox [ref=e53]
+        - text: spatula. The eggs cooked in minutes. They
+        - textbox [ref=e55]
+        - text: delicious.
+      - button "Check" [disabled] [ref=e56] [cursor=pointer]
+      - button "Hint" [ref=e57] [cursor=pointer]
+  - region "Exercise feedback"

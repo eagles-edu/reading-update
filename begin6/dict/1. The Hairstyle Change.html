@@ -2502,12 +2502,7 @@
 
                             $( this ).removeAttr( 'href' );
                             $( this ).attr( 'href', new_url );
-                        } );
-                        if ( ( res.memb_status == 1 ) ) {
-                            $( 'div[class^="ads-"]' ).remove(); setTimeout( function () { $( '.google-auto-placed' ).hide(); $( '.google-auto-placed' ).remove(); $( '.adsbygoogle' ).remove(); }, 1000 );
-
-                        }
-                    } else {
+                        } );} else {
                         $( '.after_login' ).hide();
                         $( '.before_login' ).show();
                     }

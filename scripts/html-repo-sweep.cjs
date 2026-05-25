@@ -23,6 +23,12 @@ const VOID_TAGS = new Set([
   'wbr',
 ]);
 
+const FLASH_PLAYER_RE =
+  /\s*<script>\s*var so = new SWFObject\(\s*"playerSingle\.swf"\s*,\s*"mymovie"\s*,\s*"192"\s*,\s*"67"\s*,\s*"7"\s*,\s*"#FFFFFF"\s*\);\s*so\.addVariable\("autoPlay"\s*,\s*"no"\s*\);\s*so\.addVariable\("soundPath"\s*,\s*"[^"]+"\s*\);\s*so\.write\("flashPlayer"\);\s*<\/script>\s*(?:<br\s*\/?>\s*)?/gi;
+
+const GOOGLE_AD_RE =
+  /\s*if\s*\(\s*\(\s*res\.memb_status\s*==\s*1\s*\)\s*\)\s*\{\s*\$\(\s*'div\[class\^="ads-"\]'\s*\)\.remove\(\);\s*setTimeout\(\s*function\s*\(\s*\)\s*\{\s*\$\(\s*'\.google-auto-placed'\s*\)\.hide\(\);\s*\$\(\s*'\.google-auto-placed'\s*\)\.remove\(\);\s*\$\(\s*'\.adsbygoogle'\s*\)\.remove\(\);\s*\},\s*1000\s*\);\s*\}\s*/gi;
+
 const SCRIPT_DIR = __dirname;
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, '..');
 
@@ -120,6 +126,25 @@ function collectEdits(source) {
   };
 
   visit(document);
+
+  for (const match of source.matchAll(FLASH_PLAYER_RE)) {
+    edits.push({
+      kind: 'flash-player',
+      start: match.index,
+      end: match.index + match[0].length,
+      replacement: '',
+    });
+  }
+
+  for (const match of source.matchAll(GOOGLE_AD_RE)) {
+    edits.push({
+      kind: 'google-ads',
+      start: match.index,
+      end: match.index + match[0].length,
+      replacement: '',
+    });
+  }
+
   edits.sort((a, b) => b.start - a.start || b.end - a.end);
   return edits;
 }
@@ -167,6 +192,8 @@ function main() {
   let changed = 0;
   let doctypeChanges = 0;
   let voidChanges = 0;
+  let flashPlayerChanges = 0;
+  let googleAdChanges = 0;
 
   console.log(`Mode: ${args.apply ? 'APPLY' : 'DRY-RUN'}`);
   console.log(`Root: ${args.root}`);
@@ -185,6 +212,8 @@ function main() {
     changed += 1;
     doctypeChanges += edits.filter((edit) => edit.kind === 'doctype').length;
     voidChanges += edits.filter((edit) => edit.kind === 'void').length;
+    flashPlayerChanges += edits.filter((edit) => edit.kind === 'flash-player').length;
+    googleAdChanges += edits.filter((edit) => edit.kind === 'google-ads').length;
 
     console.log(`${path.relative(args.root, file)}\t${edits.length} change(s)`);
 
@@ -201,6 +230,8 @@ function main() {
   console.log(`Changed: ${changed}`);
   console.log(`Doctype fixes: ${doctypeChanges}`);
   console.log(`Void-tag fixes: ${voidChanges}`);
+  console.log(`Flash-player removals: ${flashPlayerChanges}`);
+  console.log(`Google-ad removals: ${googleAdChanges}`);
   return 0;
 }
 

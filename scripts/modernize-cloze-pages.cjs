@@ -2,28 +2,36 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const readline = require("node:readline/promises");
+const { stdin, stdout } = require("node:process");
 
 const glob = require("glob");
 
 const SCRIPT_DIR = __dirname;
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
-const CLOZE_GLOB = "begin1/cloze/*.html";
+const DEFAULT_CLOZE_DIR = "begin1/cloze";
+const CACHE_RELATIVE_PATH = path.join(".cache", "modernize-cloze-pages.json");
 const VIEWPORT_TAG = '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
 const FONT_STACK_CSS = "style/font-stack.css";
 const THEME_JS = "js/theme-selector.js";
 const CLOZE_CSS = "css/sis-cloze-submit.css";
 const CLOZE_JS = "js/sis-cloze-submit.js";
 const PROTOTYPE_META = '<meta name="sis-cloze-prototype" content="current">';
+const LEGACY_CHARSET_META =
+  /\s*<meta[^>]*http-equiv="Content-Type"[^>]*content="text\/html;\s*charset=utf-8"[^>]*>\s*/i;
 
 function printUsage() {
-  console.log(`Usage: ${path.basename(process.argv[1])} [--dry-run|--apply] [--root PATH]
+  console.log(`Usage: ${path.basename(process.argv[1])} [--dry-run|--apply] [--root PATH] [--cloze-dir PATH] [--prompt]
 
-Modernize the begin1 cloze pages in a bulk, mobile-first pass.
+Modernize cloze pages in a bulk, mobile-first pass.
 
 Options:
   --dry-run   Report what would change without writing files. This is the default.
   --apply     Write changes back to disk.
   --root PATH Scan a different repository root.
+  --cloze-dir PATH
+              Scan a different cloze directory under --root. Defaults to begin1/cloze.
+  --prompt    Ask for root, cloze dir, and mode interactively before running.
   --help      Show this help.
 `);
 }
@@ -31,7 +39,11 @@ Options:
 function parseArgs(argv) {
   const args = {
     apply: false,
+    clozeDir: DEFAULT_CLOZE_DIR,
+    clozeDirExplicit: false,
     root: DEFAULT_ROOT,
+    rootExplicit: false,
+    prompt: false,
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -50,6 +62,20 @@ function parseArgs(argv) {
         throw new Error("--root requires a path");
       }
       args.root = path.resolve(argv[i]);
+      args.rootExplicit = true;
+      continue;
+    }
+    if (arg === "--cloze-dir") {
+      i += 1;
+      if (i >= argv.length) {
+        throw new Error("--cloze-dir requires a path");
+      }
+      args.clozeDir = argv[i];
+      args.clozeDirExplicit = true;
+      continue;
+    }
+    if (arg === "--prompt" || arg === "-p") {
+      args.prompt = true;
       continue;
     }
     if (arg === "--help" || arg === "-h") {
@@ -57,6 +83,78 @@ function parseArgs(argv) {
       continue;
     }
     throw new Error(`Unknown option: ${arg}`);
+  }
+
+  return args;
+}
+
+function cacheFilePath(root) {
+  return path.resolve(root, CACHE_RELATIVE_PATH);
+}
+
+function loadCache(root) {
+  try {
+    const contents = fs.readFileSync(cacheFilePath(root), "utf8");
+    const parsed = JSON.parse(contents);
+    if (parsed && typeof parsed.clozeDir === "string" && parsed.clozeDir.trim()) {
+      return { clozeDir: parsed.clozeDir.trim() };
+    }
+  } catch {
+    // Ignore missing or malformed cache data.
+  }
+  return {};
+}
+
+function saveCache(root, clozeDir) {
+  const cachePath = cacheFilePath(root);
+  fs.mkdirSync(path.dirname(cachePath), { recursive: true });
+  fs.writeFileSync(cachePath, `${JSON.stringify({ clozeDir }, null, 2)}\n`);
+}
+
+async function promptForOptions(args) {
+  if (!args.prompt) {
+    return args;
+  }
+
+  const rl = readline.createInterface({ input: stdin, output: stdout });
+
+  try {
+    console.log("Modernize cloze pages");
+
+    for (;;) {
+      const rootAnswer = await rl.question(`Repository root (absolute path) [${args.root}]: `);
+      const rootInput = rootAnswer.trim();
+      if (!rootInput) {
+        break;
+      }
+      if (!path.isAbsolute(rootInput)) {
+        console.log("Please enter an absolute path, or press Enter to keep the default.");
+        continue;
+      }
+      args.root = rootInput;
+      break;
+    }
+
+    const cache = loadCache(args.root);
+    if (!args.clozeDirExplicit && cache.clozeDir) {
+      args.clozeDir = cache.clozeDir;
+    }
+
+    const clozeAnswer = await rl.question(`Cloze directory [${args.clozeDir}]: `);
+    if (clozeAnswer.trim()) {
+      args.clozeDir = clozeAnswer.trim();
+    }
+
+    const modeDefault = args.apply ? "apply" : "dry-run";
+    const modeAnswer = await rl.question(`Mode [dry-run/apply] [${modeDefault}]: `);
+    const mode = modeAnswer.trim().toLowerCase();
+    if (mode === "apply") {
+      args.apply = true;
+    } else if (mode === "dry-run" || mode === "dry") {
+      args.apply = false;
+    }
+  } finally {
+    rl.close();
   }
 
   return args;
@@ -99,6 +197,12 @@ function updateHead(source, file, root) {
   const themeJsHref = relAsset(file, path.resolve(root, THEME_JS));
   const jsHref = relAsset(file, path.resolve(root, CLOZE_JS));
   const iconHref = relAsset(file, path.resolve(root, "favicon.ico"));
+
+  if (!/<meta[^>]*charset="utf-8"/i.test(next) && LEGACY_CHARSET_META.test(next)) {
+    next = next.replace(LEGACY_CHARSET_META, "");
+    next = next.replace(/<head>\s*/i, (match) => `${match}<meta charset="utf-8">\n`);
+    changes.push("charset");
+  }
 
   if (!/<meta[^>]*name="viewport"/i.test(next)) {
     const injected = injectAfterFirst(
@@ -198,13 +302,21 @@ function updateHead(source, file, root) {
     changes.push("legacy-ie");
   }
 
+  const fontFamilyRe = /^[ \t]*font-family:\s*var\(--font-(?:base|header)\);\s*\r?\n?/gm;
+  if (fontFamilyRe.test(next)) {
+    fontFamilyRe.lastIndex = 0;
+    next = next.replace(fontFamilyRe, "");
+    changes.push("font-family");
+  }
+
   return { source: next, changes };
 }
 
-function main() {
+async function main() {
   let args;
   try {
     args = parseArgs(process.argv.slice(2));
+    args = await promptForOptions(args);
   } catch (error) {
     console.error(`ERROR: ${error.message}`);
     printUsage();
@@ -216,9 +328,9 @@ function main() {
     return 0;
   }
 
-  const files = glob.sync(CLOZE_GLOB, {
+  const clozeDir = path.resolve(args.root, args.clozeDir);
+  const files = glob.sync(path.join(clozeDir, "*.html"), {
     absolute: true,
-    cwd: args.root,
     dot: true,
     ignore: [
       "**/.git/**",
@@ -234,6 +346,7 @@ function main() {
 
   console.log(`Mode: ${args.apply ? "APPLY" : "DRY-RUN"}`);
   console.log(`Root: ${args.root}`);
+  console.log(`Cloze dir: ${clozeDir}`);
   console.log(`Files: ${files.length}`);
   console.log();
 
@@ -262,7 +375,16 @@ function main() {
   for (const [category, count] of categoryCounts.entries()) {
     console.log(`${category}: ${count}`);
   }
+
+  saveCache(args.root, args.clozeDir);
   return 0;
 }
 
-process.exitCode = main();
+main()
+  .then((code) => {
+    process.exitCode = code;
+  })
+  .catch((error) => {
+    console.error(`ERROR: ${error.message}`);
+    process.exitCode = 1;
+  });

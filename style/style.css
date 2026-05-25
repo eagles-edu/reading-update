@@ -118,6 +118,7 @@ body {
   background-color: var(--strPageBGColor);
   background-size: auto;
   color: var(--strTextColor);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Liberation Sans", "DejaVu Sans", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
   font-size: var(--strFontSize);
   line-height: inherit;
   margin: 0 auto;
