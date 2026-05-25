@@ -50,7 +50,7 @@ audio, #audio {
 
 
 <div class="cenmar">
-<audio controls oncontextmenu="return false;"><source src="../audio/s076.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat</div> <br>
+<audio controls oncontextmenu="return false;"><source src="../audio/s076.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">Repeat</div> <br>
 <p class="textres12">One of the most impactful television series ever to run on American TV was Married, with Children. The show aired on the FOX Channel for 11 years, and many believe it was responsible for keeping the news station alive during the early years.</p>
 
 

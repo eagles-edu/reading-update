@@ -52,7 +52,7 @@ audio, #audio {
 
 
 <div class="cenmar">
-<audio id="audio" src="../audio/ke2058c.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">&nbsp;Repeat<br>
+<audio id="audio" src="../audio/ke2058c.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">&nbsp;Repeat<br>
 
 <p class="textres12">She has to be awake for the whole night. She cannot sleep. She decides to buy coffee. Coffee helps people stay awake. She buys four cups of coffee. There are four different flavors. She adds two pack of sugar in each cup. She takes a sip of coffee. It is hot and good.</p>
 

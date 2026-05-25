@@ -52,7 +52,7 @@ audio, #audio {
 
 
 <div class="cenmar">
-<audio id="audio" src="../audio/ke2009i.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">&nbsp;Repeat<br>
+<audio id="audio" src="../audio/ke2009i.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">&nbsp;Repeat<br>
 
 <p class="textres12">She is taking an English class. She has to write an essay. The essay is on penguins. She finds information on penguins from the Internet. She finds information on penguins from books. Her first sentence is a riddle about penguins. Her last sentence is the answer to the riddle.</p>
 

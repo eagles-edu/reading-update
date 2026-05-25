@@ -52,7 +52,7 @@ audio, #audio {
 
 
 <div class="cenmar">
-<audio id="audio" src="../audio/ke2070p.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">&nbsp;Repeat<br>
+<audio id="audio" src="../audio/ke2070p.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">&nbsp;Repeat<br>
 
 <p class="textres12">He opens the refridgerator. He looks inside. There is only soy sauce. What is he going to do? He has no car. There are no markets close by. Then, he sees a bag of rice. He cooks the rice with a rice cooker. Rice only takes 15 minutes to be ready. He puts some rice in a bowl. He pours soy sauce on it.</p>
 

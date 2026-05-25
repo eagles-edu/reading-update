@@ -50,7 +50,7 @@ audio, #audio {
 
 
 <div class="cenmar">
-<audio controls="controls" oncontextmenu="return false;"><source src="../audio/s014r.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat</div> <br>
+<audio controls="controls" oncontextmenu="return false;"><source src="../audio/s014r.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">Repeat</div> <br>
 <p class="textres12">Labor Day is observed on the first Monday of September. It is a holiday meant to honor the contributions, both economic and social, of U.S. workers. It has been an official federal holiday since 1894, meaning that government offices including post offices and schools are closed.</p>
 
 

@@ -50,7 +50,7 @@ audio, #audio {
 
 
 <div class="cenmar">
-<audio controls="controls" oncontextmenu="return false;"><source src="../audio/s029p.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat</div> <br>
+<audio controls="controls" oncontextmenu="return false;"><source src="../audio/s029p.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">Repeat</div> <br>
 <p class="textres12">Not every parent looks forward to the day when their child goes off to school. In fact some parents are not sending their students to school at all. Instead they are choosing to teach their children at home. This is called homeschooling. Parents, caregivers, or private tutors educate children individually at home instead of sending them off to be formally educated in public or private schools. In the U.S. only about three percent of children are homeschooled.</p>
 
 

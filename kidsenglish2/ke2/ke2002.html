@@ -51,7 +51,7 @@ audio, #audio {
 <h1> 2. A Nice Teacher </h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/ke2002l.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">&nbsp;Repeat<br>
+<audio id="audio" src="../audio/ke2002l.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">&nbsp;Repeat<br>
 
 <p class="textres12">She is a teacher. She teaches third graders. She says "good morning" every day. She asks her students how they are doing. The students love her. She is good at her job. She does not get a lot of money. Teachers should get more money. They work so hard.</p>
 

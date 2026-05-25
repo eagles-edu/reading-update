@@ -46,7 +46,7 @@ audio, #audio {
 
 
 <div class="cenmar">
-<audio id="audio" src="../audio/b2076.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat &nbsp;</div><div class="nodisplay"><!-- <script src="../audio/audio-player.js"></script>
+<audio id="audio" src="../audio/b2076.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">Repeat &nbsp;</div><div class="nodisplay"><!-- <script src="../audio/audio-player.js"></script>
 <object class="nodisplay" type="application/x-shockwave-flash" data="../audio/player.swf" id="audioplayer2" height="24" width="290">
 <param name="movie" value="../audio/player.swf">
 <param name="FlashVars" value="playerID=audioplayer1&soundFile=../audio/b2076.mp3">

@@ -52,7 +52,7 @@ audio, #audio {
 
 
 <div class="cenmar">
-<audio id="audio" src="../audio/ke2018p.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">&nbsp;Repeat<br>
+<audio id="audio" src="../audio/ke2018p.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">&nbsp;Repeat<br>
 
 <p class="textres12">He is hungry. He smells something good. It is coming from the kitchen. He leaves the living-room. He goes to the kitchen. He sees a plate of chicken. It is hot. He gets a fork and knife. He cuts a piece of chicken. He sticks the fork in it. He eats the chicken.</p>
 

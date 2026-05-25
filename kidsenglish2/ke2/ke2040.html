@@ -52,7 +52,7 @@ audio, #audio {
 
 
 <div class="cenmar">
-<audio id="audio" src="../audio/ke2040c.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">&nbsp;Repeat<br>
+<audio id="audio" src="../audio/ke2040c.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">&nbsp;Repeat<br>
 
 <p class="textres12">Jason blows a balloon. He wants to give it to his mom. Larry pops it with a pen. The sound scares Jason. Jason screams. He is mad at Larry. Larry laughs. Jason punches Larry. Larry falls down. Jason laughs. Larry gets up and punches Jason. The two get in trouble for fighting.</p>
 

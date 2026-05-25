@@ -42,7 +42,7 @@ audio, #audio {
 <h1> 5. Picking a Book </h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/ke2005e.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">&nbsp;Repeat<br>
+<audio id="audio" src="../audio/ke2005e.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">&nbsp;Repeat<br>
 
 <p class="textres12">She goes to the library. She looks at the shelves. She pulls out a book. She opens the book. She reads the first page. She laughs. The book is funny. She goes to the checkout desk. She gives the book to the librarian. She takes out her library card. She gives it to the librarian. The librarian gives her back the card and the book.
 </p>

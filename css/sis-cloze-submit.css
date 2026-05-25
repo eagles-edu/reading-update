@@ -15,6 +15,7 @@ body#TheBody,
 body#TheBody button,
 body#TheBody input,
 body#TheBody textarea {
+
   font-family: var(
     --font-base,
     system-ui,
@@ -115,17 +116,20 @@ body#TheBody #MainDiv {
 }
 
 body#TheBody .ClozeBody {
-  line-height: 1.8;
-  padding: 0.75rem;
+  line-height: 2;
+  padding: 1.25rem;
   text-indent: 0;
 }
 
 body#TheBody .GapBox {
   background: #ffffff;
   border: 1px solid #94a3b8;
-  border-radius: 0.75rem;
+  box-sizing: border-box;
+  border-radius: .78rem;
   color: #161616;
-  min-height: 2.5rem;
+  line-height: 1.8;
+  max-height: 2.25rem;
+  min-height: 2.25rem;
   min-width: 5.8ch;
   padding: 0.35rem 0.55rem;
 }
@@ -200,14 +204,16 @@ body#TheBody .sis-cloze-region--feedback {
 }
 
 .sis-cloze-field input {
-  background: #ffffff;
-  border: 1px solid var(--border, #6d717a);
-  border-radius: 0.85rem;
+  background-color: #ffffff;
+  border: 1px solid #94a3b8;
+  border-radius: 0.75rem;
   box-sizing: border-box;
-  color: var(--text, #8d929e);
+  caret-color: #161616;
+  color: #161616;
+  font-family: var(--font-base);
   font-size: 1rem;
-  min-height: 2.9rem;
-  padding: 0.75rem 0.9rem;
+  min-height: 2.5rem;
+  padding: 0.35rem 0.55rem;
   width: 100%;
 }
 
@@ -215,10 +221,23 @@ body#TheBody .sis-cloze-region--feedback {
   box-shadow: 0 0 0 3px rgba(0, 39, 134, 0.22);
 }
 
+.sis-cloze-field input:-webkit-autofill,
+.sis-cloze-field input:-webkit-autofill:hover,
+.sis-cloze-field input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #161616;
+  box-shadow: 0 0 0 1000px #ffffff inset;
+}
+
+.sis-cloze-field input::placeholder {
+  color: #8d929e;
+  opacity: 1;
+}
+
 .sis-cloze-status {
   color: #002786;
   font-weight: 600;
   margin: 0.8rem 0 0;
+
   /* min-height: 1.5rem; */
 }
 

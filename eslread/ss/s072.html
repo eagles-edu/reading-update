@@ -50,7 +50,7 @@ audio, #audio {
 
 
 <div class="cenmar">
-<audio controls="controls" oncontextmenu="return false;"><source src="../audio/s072.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat</div> <br>
+<audio controls="controls" oncontextmenu="return false;"><source src="../audio/s072.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">Repeat</div> <br>
 <p class="textres12">The Griffith Observatory is a planetarium, and an exhibit hall located in Los Angeles's Griffith Park. It features several astronomical displays and telescopes in the Hollywood Hills in the Los Feliz district of the city. The Observatory was built on land donated by Griffith J. Griffith in 1896. Griffith was a Welsh-born philanthropist and mining tycoon, who wanted to give the public access to a state-of-the-art observatory, so it was free of charge to visitors. He felt common people should be able to enjoy the wonders of the universe, and not be solely for the scientific community.</p>
 
 

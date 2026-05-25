@@ -50,7 +50,7 @@ audio, #audio {
 
 
 <div class="cenmar">
-<audio controls oncontextmenu="return false;"><source src="../audio/s005r.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat</div> <br>
+<audio controls oncontextmenu="return false;"><source src="../audio/s005r.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">Repeat</div> <br>
 <p class="textres12">New Year's Day officially begins as soon as people yell "Happy New Year" at midnight. Most people continue partying well after midnight into the wee hours of the first day of the new year. In fact, many New Year's parties include breakfast or brunch. Sometimes at the stroke of midnight there will be fireworks and couples often kiss. One of the most famous New Year's celebrations takes place in New York City's Time Square, where a huge cut crystal ball drops at midnight in front of millions of people standing in the cold. Many more millions watch on television. Some groups, called Polar Bear Clubs, jump into the cold ocean water on New Year's Day as a literal way to start the new year fresh.</p>
 
 

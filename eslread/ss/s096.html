@@ -50,7 +50,7 @@ audio, #audio {
 
 
 <div class="cenmar">
-<audio controls="controls" oncontextmenu="return false;"><source src="../audio/s096.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat</div> <br>
+<audio controls="controls" oncontextmenu="return false;"><source src="../audio/s096.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">Repeat</div> <br>
 <p class="textres12">When you rent an apartment, you need to check the lease for rules and responsibilities. For example, some landlords do not want you to have guests spend the night. This is because the landlord doesn't know who your guests are. If they damage the apartment in any way, you will be responsible. Also sometimes a friend who wants to crash on your couch ends up staying for a really long time, and ends up becoming another tenant.</p>
 
 

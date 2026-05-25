@@ -18,7 +18,7 @@ width: 100%; background-color: #87CEFA; background-color: rgba(135, 206, 250, .5
 <body><div class="wrapit">
 
 <h1>41. A Black Screen</h1><br>
-<div class="cenmar"><audio id="audio" src="../audio/dailylife041.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat <br>&nbsp;&nbsp;</div>
+<div class="cenmar"><audio id="audio" src="../audio/dailylife041.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">Repeat <br>&nbsp;&nbsp;</div>
 <br>
 
 <table class="textres12" ><tr>

@@ -47,7 +47,7 @@ audio, #audio {
 <h1>1. America: Land of Opportunity</h1><br>
 
 <div class="cenmar">
-<audio controls oncontextmenu="return false;"><source src="../audio/s001c.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat</div> <br>
+<audio controls oncontextmenu="return false;"><source src="../audio/s001c.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">Repeat</div> <br>
 
 
 <p class="textres12">America is known as the land of opportunity, where one could achieve anything they put their mind to, no matter who they are. Thousands of people immigrate to the United States every year from different parts of the world to have access to these kinds of opportunities. This is what is known as "the American dream". One of the many reasons America is such a great country is the diversity you see all around. America is one big melting pot of citizens from different backgrounds.</p>

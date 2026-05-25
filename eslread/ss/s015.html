@@ -50,7 +50,7 @@ audio, #audio {
 
 
 <div class="cenmar">
-<audio controls="controls" oncontextmenu="return false;"><source src="../audio/s015i.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">Repeat</div> <br>
+<audio controls="controls" oncontextmenu="return false;"><source src="../audio/s015i.mp3" type="audio/mp3"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">Repeat</div> <br>
 <p class="textres12">Columbus Day is observed on the second Monday of October in the United States, and in some other countries around the world. For a long time it was observed on a specific date, October 12. It is named after Christopher Columbus, the Italian sailor who led three Spanish ships to claim new lands in 1492. There is even a child's poem remembering the date. It reads, " In 1492, Columbus sailed the ocean blue". Some people say Columbus "discovered" North America, although not everyone agrees with this interpretation. For example, Columbus never landed on North America proper. He only got as far as to the islands in the Caribbean Sea.</p>
 
 

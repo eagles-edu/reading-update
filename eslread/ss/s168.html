@@ -56,16 +56,16 @@ audio, #audio {
                         <source src="../audio/s168.mp3" type="audio/mp3">
                                             </audio>
                     <script> function toggleLoop(checkbox) { var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") { audio.loop = true; } else { audio.addEventListener("ended", function () { this.currentTime = 0; this.play(); }, false); } } </script>
-                    <input type="checkbox" onclick="toggleLoop(this)">Repeat&nbsp;
+                    <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">Repeat&nbsp;
                 </td>
 
             </tr>
         </table>
         <br>
-        <p style="text-indent: .35in; line-height: 150%;">When Julia left for school in the morning, she noticed a pigeon sitting very closely to the front door of her apartment building. Usually pigeons flew away whenever someone got too close to them, but this pigeon didn't seem to care. Julia didn't think too much of it though. When she got back home from school that afternoon, she noticed the pigeon was in the same exact place. It seemed the pigeon hadn't moved at all. Julia moved closer.  She noticed the pigeon had a wound on its wing.  She was worried that a dog or a cat would eat the injured animal. Julie ran upstairs to her apartment and told her mom about the pigeon.
+        <p class="textres12">When Julia left for school in the morning, she noticed a pigeon sitting very closely to the front door of her apartment building. Usually pigeons flew away whenever someone got too close to them, but this pigeon didn't seem to care. Julia didn't think too much of it though. When she got back home from school that afternoon, she noticed the pigeon was in the same exact place. It seemed the pigeon hadn't moved at all. Julia moved closer.  She noticed the pigeon had a wound on its wing.  She was worried that a dog or a cat would eat the injured animal. Julie ran upstairs to her apartment and told her mom about the pigeon.
 </p>
 
-<p style="text-indent: .35in; line-height: 150%;">
+<p class="textres12">
             "We have to help it!" Julie insisted. Julie's mom made a disgusted face. "I don't want to. Pigeons have
             diseases," she said. Julie began to cry. This made Julie's mom feel bad. She gave in, but she gave Julie
             some rules. The pigeon had to stay in the kitchen in a storage bin. Julie's mom didn't want to have to touch
@@ -87,7 +87,7 @@ audio, #audio {
         </p>
 
 
-        <div class="cenmar" style="font-weight: 500;">
+        <div class="cenmar fw500">
                 <hr>
                 <a href="../words/w168.html" target="_self">Vocabulary</a>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

@@ -51,7 +51,7 @@ audio, #audio {
 <h1> 37. She Likes Running </h1><br>
 
 <div class="cenmar">
-<audio id="audio" src="../audio/ke2037o.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)">&nbsp;Repeat<br>
+<audio id="audio" src="../audio/ke2037o.mp3" controls oncontextmenu="return false;"></audio><script> function toggleLoop(checkbox) {var audio = document.getElementById("audio"); var loop = checkbox.checked; if (typeof audio.loop == "boolean") {audio.loop = true;} else {audio.addEventListener("ended", function() {this.currentTime = 0; this.play(); }, false); } } </script> <input type="checkbox" onclick="toggleLoop(this)" aria-label="loop audio">&nbsp;Repeat<br>
 
 <p class="textres12">She puts her running shoes on. She leaves her apartment. She runs to her school. She likes to look at other houses. She likes the feeling of the wind on her face. She gets to the school. She sees her teacher. She does not like that teacher. She runs back home.</p>
 

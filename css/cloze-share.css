@@ -1,0 +1,42 @@
+
+		.FuncButton {
+			text-align: center;
+			border-style: solid;
+			border-left-color: #dfdfdf;
+			border-top-color: #dfdfdf;
+			border-right-color: #7f7f7f;
+			border-bottom-color: #7f7f7f;
+			color: #fff;
+			background-color: #002786;
+			border-width: 2px;
+			padding: 3px 6px 3px 6px;
+			cursor: pointer;
+		}
+
+		.FuncButtonUp {
+			color: #FFFFFF;
+			text-align: center;
+			border-style: solid;
+			border-left-color: #7f7f7f;
+			border-top-color: #7f7f7f;
+			border-right-color: #dfdfdf;
+			border-bottom-color: #dfdfdf;
+			background-color: #aa0009;
+			border-width: 2px;
+			padding: 3px 6px 3px 6px;
+			cursor: pointer;
+		}
+
+		.FuncButtonDown {
+			color: #FFFFFF;
+			text-align: center;
+			border-style: solid;
+			border-left-color: #dfdfdf;
+			border-top-color: #dfdfdf;
+			border-right-color: #7f7f7f;
+			border-bottom-color: #7f7f7f;
+			background-color: #009200;
+			border-width: 2px;
+			padding: 3px 6px 3px 6px;
+			cursor: pointer;
+		}
