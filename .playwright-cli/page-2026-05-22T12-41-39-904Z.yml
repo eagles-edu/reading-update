@@ -1,0 +1,34 @@
+- main "Cloze exercise" [ref=e2]:
+  - heading "3. Water on the Floor" [level=2] [ref=e5]
+  - region "Exercise submission details" [ref=e6]:
+    - region "Exercise submission details" [ref=e7]:
+      - paragraph [ref=e8]: Enter your details before checking answers.
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]: Email
+          - textbox "Email" [ref=e12]:
+            - /placeholder: name@example.com
+        - generic [ref=e13]:
+          - generic [ref=e14]: Eagles ID
+          - textbox "Eagles ID" [ref=e15]:
+            - /placeholder: tammy001
+      - paragraph [ref=e16]: Enter your email and Eagles ID to unlock Check and Hint.
+  - region "Exercise content" [ref=e17]:
+    - generic [ref=e18]:
+      - generic [ref=e21]:
+        - text: She is thirsty. She gets a glass
+        - textbox [ref=e23]
+        - text: water. She begins to walk. She drops
+        - textbox [ref=e25]
+        - text: glass. There is water on the floor.
+        - textbox [ref=e27]
+        - text: puddle is big. She gets a mop.
+        - textbox [ref=e29]
+        - text: wipes the water off. The floor is
+        - textbox [ref=e31]
+        - text: . She gets another glass of water. She
+        - textbox [ref=e33]
+        - text: it. She is happy.
+      - button "Check" [disabled] [ref=e34] [cursor=pointer]
+      - button "Hint" [ref=e35] [cursor=pointer]
+  - region "Exercise feedback"

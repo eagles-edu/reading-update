@@ -1,6 +1,7 @@
 @charset "utf-8";
 
 :root {
+  --strFontFace: var(--font-base);
   --font-base:
   system-ui,
   -apple-system,

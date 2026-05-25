@@ -1,0 +1,58 @@
+- main "Cloze exercise" [ref=e2]:
+  - heading "1. Getting Ready for Work" [level=2] [ref=e5]
+  - region "Exercise submission details" [ref=e6]:
+    - region "Exercise submission details" [ref=e7]:
+      - paragraph [ref=e8]: Enter your details before checking answers.
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]: Email
+          - textbox "Email" [ref=e12]:
+            - /placeholder: name@example.com
+        - generic [ref=e13]:
+          - generic [ref=e14]: Eagles ID
+          - textbox "Eagles ID" [ref=e15]:
+            - /placeholder: tammy001
+      - paragraph [ref=e16]: Enter your email and Eagles ID to unlock Check and Hint.
+  - region "Exercise content" [ref=e17]:
+    - generic [ref=e18]:
+      - generic [ref=e21]:
+        - text: He woke up. He got out of
+        - textbox [ref=e23]
+        - text: . He went to the restroom and took
+        - textbox [ref=e25]
+        - text: shower. The water was cold at first.
+        - textbox [ref=e27]
+        - text: made it warm. He took ten minutes
+        - textbox [ref=e29]
+        - text: shower. He stepped out of the shower.
+        - textbox [ref=e31]
+        - text: floor became wet. He grabbed a towel.
+        - textbox [ref=e33]
+        - text: wrapped it all around him. He went
+        - textbox [ref=e35]
+        - text: his bathroom mirror. He saw his reflection.
+        - textbox [ref=e37]
+        - text: looked handsome. He had grown facial hair.
+        - textbox [ref=e39]
+        - text: was time for him to shave it.
+        - textbox [ref=e41]
+        - text: grabbed the shaving cream and poured some
+        - textbox [ref=e43]
+        - text: his hand. He spread the shaving cream
+        - textbox [ref=e45]
+        - text: his face. He grabbed the razor and
+        - textbox [ref=e47]
+        - text: shaving. He cut himself by accident. It
+        - textbox [ref=e49]
+        - text: bleeding. He was not hurt. He washed
+        - textbox [ref=e51]
+        - text: face and applied aftershave. He put a
+        - textbox [ref=e53]
+        - text: "-aide on his cut. The cut stung him"
+        - textbox [ref=e55]
+        - text: little. He dried himself, and started getting
+        - textbox [ref=e57]
+        - text: for work.
+      - button "Check" [disabled] [ref=e58] [cursor=pointer]
+      - button "Hint" [ref=e59] [cursor=pointer]
+  - region "Exercise feedback"

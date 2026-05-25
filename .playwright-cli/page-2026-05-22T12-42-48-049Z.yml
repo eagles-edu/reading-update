@@ -1,0 +1,28 @@
+- main "Cloze exercise" [ref=e2]:
+  - heading "3. Water on the Floor" [level=2] [ref=e5]
+  - region "Exercise submission details" [ref=e6]:
+    - region "Exercise submission details" [ref=e7]:
+      - paragraph [ref=e8]: Enter your details before checking answers.
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]: Email
+          - textbox "Email" [ref=e12]:
+            - /placeholder: name@example.com
+            - text: test@example.com
+        - generic [ref=e13]:
+          - generic [ref=e14]: Eagles ID
+          - textbox "Eagles ID" [ref=e15]:
+            - /placeholder: tammy001
+            - text: tammy001
+      - paragraph [ref=e16]: Submitted. A receipt has been emailed to test@example.com.
+  - region "Exercise content" [ref=e17]:
+    - generic [ref=e18]:
+      - generic [ref=e21]: She is thirsty. She gets a glass of water. She begins to walk. She drops the glass. There is water on the floor. The puddle is big. She gets a mop. She wipes the water off. The floor is clean. She gets another glass of water. She drinks it. She is happy.
+      - button "Check" [disabled] [ref=e34] [cursor=pointer]
+      - button "Hint" [ref=e35] [cursor=pointer]
+  - region "Exercise feedback":
+    - dialog [ref=e36]:
+      - generic [ref=e37]:
+        - text: Correct! Well done.
+        - text: Your score is 100%.
+      - button "Retry" [active] [ref=e38] [cursor=pointer]

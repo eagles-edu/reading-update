@@ -1,5 +1,5 @@
 @charset "utf-8";
-
+/* font-stack.css supplies the canonical font tokens and font-family defaults */
 /* eslint-disable css/no-important */
 
 :root {
@@ -8,7 +8,6 @@
   --strButtBGColor: #FFEBCD;
   --strButtBGColorHov: #3c63ff;
   --strExBGColor: #FFFFFF;
-  --strFontFace: var(--font-base);
   --strFontSize: inherit;
   --strFuncLightColor: #ffffff;
   --strFuncShadeColor: #b5b5b5;
@@ -97,7 +96,7 @@ video {
   border: 0;
   font: inherit;
   margin: 0;
-  padding: 0;
+  padding: 0 0 1.85rem 0;
   vertical-align: baseline;
 }
 
@@ -119,7 +118,6 @@ body {
   background-color: var(--strPageBGColor);
   background-size: auto;
   color: var(--strTextColor);
-  font-family: var(--font-base);
   font-size: var(--strFontSize);
   line-height: inherit;
   margin: 0 auto;
@@ -173,17 +171,7 @@ pre samp {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  font-family: var(--font-base);
   margin: 0 auto 1em auto;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-header);
 }
 
 caption,
@@ -302,7 +290,6 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-header);
   letter-spacing: 1px;
   padding-bottom: 5px;
 }
