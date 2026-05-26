@@ -15,16 +15,14 @@
     "node": "20.19.4"
   },
   "scripts": {
+    "format": "prettier --write .htmlvalidate.json .prettierrc.json package.json && npm run html:fix:apply",
+    "format:check": "prettier --check .htmlvalidate.json .prettierrc.json package.json && npm run html:fix",
+    "html:check": "html-validate -c ./.htmlvalidate.json --ext html,htm .",
+    "html:check:file": "html-validate -c ./.htmlvalidate.json --ext html,htm",
+    "html:fix": "node ./scripts/html-repo-sweep.cjs",
+    "html:fix:apply": "node ./scripts/html-repo-sweep.cjs --apply",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "remove:self-close-file:dry": "node ./scripts/clean-html-selfclosing.cjs",
-    "remove:self-close-file:apply": "node ./scripts/clean-html-selfclosing.cjs --apply",
-    "remove:self-close-root:dry": "node ./scripts/clean-html-selfclosing.cjs",
-    "remove:self-close-root:apply": "node ./scripts/clean-html-selfclosing.cjs --apply",
-    "format:html:file+self-close:dry": "node ./scripts/html-repo-sweep.cjs && node ./scripts/clean-html-selfclosing.cjs",
-    "format:html:file+self-close:apply": "node ./scripts/html-repo-sweep.cjs --apply && node ./scripts/clean-html-selfclosing.cjs --apply",
-    "format:html:root+self-close:dry": "node ./scripts/html-repo-sweep.cjs && node ./scripts/clean-html-selfclosing.cjs",
-    "format:html:root+self-close:apply": "node ./scripts/html-repo-sweep.cjs --apply && node ./scripts/clean-html-selfclosing.cjs --apply",
     "modernize:cloze:dry": "node ./scripts/modernize-cloze-pages.cjs --dry-run",
     "modernize:cloze:apply": "node ./scripts/modernize-cloze-pages.cjs --apply",
     "modernize:cloze:prompt": "node ./scripts/modernize-cloze-pages.cjs --prompt",
@@ -47,7 +45,9 @@
     "eslint": "^9.39.4",
     "glob": "^7.2.3",
     "globals": "^16.5.0",
+    "html-validate": "^10.17.0",
     "parse5": "^7.3.0",
-    "playwright": "^1.60.0"
+    "playwright": "^1.60.0",
+    "prettier": "^3.8.3"
   }
 }

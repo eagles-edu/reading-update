@@ -33,7 +33,7 @@ const SCRIPT_DIR = __dirname;
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, '..');
 
 function printUsage() {
-  console.log(`Usage: ${path.basename(process.argv[1])} [--apply] [--root PATH]
+  console.log(`Usage: ${path.basename(process.argv[1])} [--apply] [--root PATH] [FILE...]
 
 Normalize HTML files only:
   - normalize doctypes to <!DOCTYPE html>
@@ -43,6 +43,9 @@ Options:
   --apply     Write changes back to disk.
   --root PATH Scan a different repository root.
   --help      Show this help.
+
+Arguments:
+  FILE...     Optional explicit HTML/HTM files to process instead of scanning a tree.
 `);
 }
 
@@ -50,6 +53,7 @@ function parseArgs(argv) {
   const args = {
     apply: false,
     root: DEFAULT_ROOT,
+    files: [],
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -70,10 +74,31 @@ function parseArgs(argv) {
       args.help = true;
       continue;
     }
-    throw new Error(`Unknown option: ${arg}`);
+    if (arg.startsWith('-')) {
+      throw new Error(`Unknown option: ${arg}`);
+    }
+    args.files.push(path.resolve(arg));
   }
 
   return args;
+}
+
+function readTargets(args) {
+  if (args.files.length > 0) {
+    return args.files;
+  }
+
+  return glob.sync('**/*.{html,htm}', {
+    absolute: true,
+    cwd: args.root,
+    dot: true,
+    ignore: [
+      '**/.git/**',
+      '**/node_modules/**',
+      '**/.playwright-cli/**',
+      '**/.sto/**',
+    ],
+  });
 }
 
 function collectEdits(source) {
@@ -176,17 +201,7 @@ function main() {
     return 0;
   }
 
-  const files = glob.sync('**/*.{html,htm}', {
-    absolute: true,
-    cwd: args.root,
-    dot: true,
-    ignore: [
-      '**/.git/**',
-      '**/node_modules/**',
-      '**/.playwright-cli/**',
-      '**/.sto/**',
-    ],
-  });
+  const files = readTargets(args);
 
   let scanned = 0;
   let changed = 0;

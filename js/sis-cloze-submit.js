@@ -303,9 +303,9 @@
   function ensureIdentityPanel() {
     if (document.querySelector(".sis-cloze-panel")) return
 
-    var instructions = document.getElementById("InstructionsDiv")
-    var titles = document.querySelector(".Titles")
-    if (!instructions || !instructions.parentNode) return
+    var cloze = document.getElementById("ClozeDiv")
+    var main = document.getElementById("MainDiv")
+    if (!cloze || !cloze.parentNode) return
 
     var panel = document.createElement("section")
     panel.className = "sis-cloze-panel"
@@ -324,10 +324,10 @@
       "</div>" +
       '<p id="sis-cloze-status" class="sis-cloze-status" data-sis-cloze-status aria-live="polite"></p>'
 
-    if (titles && titles.parentNode === instructions.parentNode) {
-      titles.parentNode.insertBefore(panel, instructions)
+    if (main) {
+      main.insertBefore(panel, cloze)
     } else {
-      instructions.parentNode.insertBefore(panel, instructions)
+      cloze.parentNode.insertBefore(panel, cloze)
     }
 
     state.emailInput = panel.querySelector("[data-sis-cloze-email]")
@@ -343,6 +343,7 @@
     if (!wrapfit || wrapfit.dataset.sisShellBuilt === "true") return
 
     var titles = wrapfit.querySelector(".Titles")
+    var instructions = document.getElementById("InstructionsDiv")
     var main = wrapfit.querySelector("#MainDiv")
     var feedback = wrapfit.querySelector("#FeedbackDiv")
     var identityPanel = document.querySelector(".sis-cloze-panel")
@@ -355,6 +356,9 @@
     header.className = "sis-cloze-region sis-cloze-region--header"
     if (titles) {
       header.appendChild(titles)
+    }
+    if (instructions && instructions.parentNode) {
+      header.appendChild(instructions)
     }
 
     var identityRegion = document.createElement("section")

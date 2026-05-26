@@ -191,7 +191,7 @@ hr.new2, hr {
 
 
 
-@charset "utf-8";
+
 
 :root {
   --content-width: 80%;

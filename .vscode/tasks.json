@@ -2,80 +2,40 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "REMOVE: SELF-CLOSE FILE DRY",
+      "label": "HTML CHECK FILE",
       "type": "shell",
       "command": "npm",
-      "args": ["run", "remove:self-close-file:dry", "--", "${file}"],
+      "args": ["run", "html:check:file", "--", "${file}"],
       "options": {
         "cwd": "${workspaceFolder}"
       },
       "problemMatcher": []
     },
     {
-      "label": "REMOVE: SELF-CLOSE FILE APPLY",
+      "label": "HTML FIX FILE",
       "type": "shell",
       "command": "npm",
-      "args": ["run", "remove:self-close-file:apply", "--", "${file}"],
+      "args": ["run", "html:fix:apply", "--", "${file}"],
       "options": {
         "cwd": "${workspaceFolder}"
       },
       "problemMatcher": []
     },
     {
-      "label": "REMOVE: SELF-CLOSE ROOT DRY",
+      "label": "HTML CHECK ROOT",
       "type": "shell",
       "command": "npm",
-      "args": ["run", "remove:self-close-root:dry"],
+      "args": ["run", "html:check"],
       "options": {
         "cwd": "${workspaceFolder}"
       },
       "problemMatcher": []
     },
     {
-      "label": "REMOVE: SELF-CLOSE ROOT APPLY",
+      "label": "HTML FIX ROOT",
       "type": "shell",
       "command": "npm",
-      "args": ["run", "remove:self-close-root:apply"],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "FORMAT HTML FILE + SELF-CLS REMOVAL DRY",
-      "type": "shell",
-      "command": "npm",
-      "args": ["run", "format:html:file+self-close:dry", "--", "${file}"],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "FORMAT HTML FILE + SELF-CLS REMOVAL APPLY",
-      "type": "shell",
-      "command": "npm",
-      "args": ["run", "format:html:file+self-close:apply", "--", "${file}"],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "FORMAT HTML ROOT + SELF-CLS REMOVAL DRY",
-      "type": "shell",
-      "command": "npm",
-      "args": ["run", "format:html:root+self-close:dry"],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "FORMAT HTML ROOT + SELF-CLS REMOVAL APPLY",
-      "type": "shell",
-      "command": "npm",
-      "args": ["run", "format:html:root+self-close:apply"],
+      "args": ["run", "html:fix:apply"],
       "options": {
         "cwd": "${workspaceFolder}"
       },

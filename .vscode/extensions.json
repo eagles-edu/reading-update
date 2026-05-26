@@ -1,6 +1,7 @@
 {
-    "recommendations": [
-        "ecmel.vscode-html-css",
-        "neusandez.inline-css-to-file-extractor"
-    ]
+  "recommendations": [
+    "html-validate.vscode-html-validate",
+    "ecmel.vscode-html-css",
+    "neusandez.inline-css-to-file-extractor"
+  ]
 }

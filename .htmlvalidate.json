@@ -1,10 +1,23 @@
 {
-    "$schema": "https://html-validate.org/schemas/config.json",
-    "extends": [
-        "html-validate:recommended"
-    ],
-    "rules": {
-        "prefer-tbody": "off",
-        "no-inline-scripts": "off"
-    }
+  "$schema": "https://html-validate.org/schemas/config.json",
+  "extends": [
+    "html-validate:recommended",
+    "html-validate:document",
+    "html-validate:prettier"
+  ],
+  "rules": {
+    "prefer-tbody": "off",
+    "no-inline-scripts": "off",
+    "doctype-style": "error",
+    "doctype-html": "error",
+    "missing-doctype": "error",
+    "no-implicit-close": "error",
+    "no-self-closing": "error",
+    "void-style": [
+      "error",
+      {
+        "style": "omit"
+      }
+    ]
+  }
 }

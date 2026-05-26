@@ -31,7 +31,7 @@ Options:
   --root PATH Scan a different repository root.
   --cloze-dir PATH
               Scan a different cloze directory under --root. Defaults to begin1/cloze.
-  --prompt    Ask for root, cloze dir, and mode interactively before running.
+  --prompt    Ask for root, cloze dir, file selection, and mode interactively before running.
   --help      Show this help.
 `);
 }
@@ -44,6 +44,7 @@ function parseArgs(argv) {
     root: DEFAULT_ROOT,
     rootExplicit: false,
     prompt: false,
+    selection: "r",
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -145,6 +146,17 @@ async function promptForOptions(args) {
       args.clozeDir = clozeAnswer.trim();
     }
 
+    const selectionDefault = args.selection === "a" ? "a" : "r";
+    const selectionAnswer = await rl.question(
+      `Files to convert [r=random 3 / a=all HTML in cloze dir] [${selectionDefault}]: `
+    );
+    const selection = selectionAnswer.trim().toLowerCase();
+    if (selection === "a" || selection === "all") {
+      args.selection = "a";
+    } else if (selection === "r" || selection === "random" || selection === "random 3") {
+      args.selection = "r";
+    }
+
     const modeDefault = args.apply ? "apply" : "dry-run";
     const modeAnswer = await rl.question(`Mode [dry-run/apply] [${modeDefault}]: `);
     const mode = modeAnswer.trim().toLowerCase();
@@ -158,6 +170,15 @@ async function promptForOptions(args) {
   }
 
   return args;
+}
+
+function pickRandomFiles(files, count) {
+  const pool = [...files];
+  for (let i = pool.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, Math.min(count, pool.length));
 }
 
 function relAsset(file, assetRoot) {
@@ -329,7 +350,7 @@ async function main() {
   }
 
   const clozeDir = path.resolve(args.root, args.clozeDir);
-  const files = glob.sync(path.join(clozeDir, "*.html"), {
+  const allFiles = glob.sync(path.join(clozeDir, "*.html"), {
     absolute: true,
     dot: true,
     ignore: [
@@ -339,6 +360,7 @@ async function main() {
       "**/.sto/**",
     ],
   });
+  const files = args.selection === "a" ? allFiles : pickRandomFiles(allFiles, 3);
 
   let scanned = 0;
   let changed = 0;
@@ -347,6 +369,7 @@ async function main() {
   console.log(`Mode: ${args.apply ? "APPLY" : "DRY-RUN"}`);
   console.log(`Root: ${args.root}`);
   console.log(`Cloze dir: ${clozeDir}`);
+  console.log(`Selection: ${args.selection === "a" ? "all HTML in cloze dir" : "random 3 files"}`);
   console.log(`Files: ${files.length}`);
   console.log();
 

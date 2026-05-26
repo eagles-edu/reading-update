@@ -3,7 +3,7 @@
 /* eslint-disable css/no-important */
 
 :root {
-  --content-max: 1075px;
+  --content-max: 920px;
   --content-width: 80%;
   --strButtBGColor: #FFEBCD;
   --strButtBGColorHov: #3c63ff;
@@ -882,7 +882,7 @@ p {
 }
 
 p {
-  line-height: 1.5 !important;
+  line-height: 2 !important;
   margin: 0 0 1em 0;
   text-align: left;
   text-indent: .35in;
@@ -916,6 +916,7 @@ p.leftagln,
 
 .wrapfit {
   margin: 0 auto;
+  max-width: var(--content-max);
   width: fit-content !important;
 }
 
@@ -963,4 +964,9 @@ ol.QuizQuestions,
 
 .colorblack {
   color: var(--strTextColor);
+}
+
+hr, .w100pct {
+  width: 100%;
+  max-width: var(--content-max);
 }

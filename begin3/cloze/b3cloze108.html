@@ -4,17 +4,14 @@
 <!-- /begin3/cloze/b3cloze108.htm, Mon, 03 Jul 2017 05:40:38 GMT -->
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="sis-cloze-prototype" content="current">
 <link rel="preload" href="../../style/font-stack.css" as="style">
 <link rel="stylesheet" href="../../style/font-stack.css">
+<link rel="preload" href="../../js/theme-selector.js" as="script">
+<script src="../../js/theme-selector.js"></script>
 <meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to ron."><meta name="keywords" content="Hot Potatoes, Hot Potatoes, Half-Baked Software, Windows, University of Victoria">
-
-<link rel="schema.DC" href="../../../purl.org/dc/elements/1.1/index.html">
-<link rel="icon" href="../../pics/favicon.png">
-<meta name="DC:Creator" content="ron">
-<meta name="DC:Title" content="108. Too Old For Children">
-
-
-
+<link rel="icon" href="../../favicon.ico">
 
 <title>K3 Cloze - 108. Too Old For Children
 </title>
@@ -23,10 +20,7 @@
 
 <!-- The following insertion allows you to add your own code directly to this head tag from the configuration screen -->
 
-
-
 <style>
-
 
 /* This is the CSS stylesheet used in the exercise. */
 /* Elements in square brackets are replaced by data based on configuration settings when the exercise is built. */
@@ -34,18 +28,10 @@
 /* BeginCorePageCSS */
 
 /* Made with executable version 6.3 Release 0 Build 5 */
-
-
-/* Hack to hide a nested Quicktime player from IE, which can't handle it. */
-* html object.MediaPlayerNotForIE {
-	display: none;
-}
-
 body {
 	background-color: #C0C0C0;
 	color: #000000;
-	font-family: var(--font-base);
-	font-size: inherit;
+font-size: inherit;
 	line-height: inherit;
 	margin-right: 5%;
 	margin-left: 5%;
@@ -70,8 +56,7 @@ div.Titles{
 }
 
 button{
-	font-family: var(--font-base);
-	font-size: 100%;
+font-size: 100%;
 	display: inline;
 }
 
@@ -121,7 +106,6 @@ button p.RTLText{
 	text-align: right;
 	font-size: 150%;
 	direction: rtl;
-	font-family: var(--font-base);
 }
 
 .Guess{
@@ -182,8 +166,7 @@ span.CorrectMark{
 */
 
 input, textarea{
-	font-family: var(--font-base);
-	font-size: 120%;
+font-size: 120%;
 }
 
 select{
@@ -205,9 +188,6 @@ div.Feedback {
 	display: none;
 	font-size: 100%;
 }
-
-
-
 
 div.ExerciseDiv{
 	color: #000000;
@@ -399,8 +379,7 @@ div.Keypad{
 }
 
 div.Keypad button{
-	font-family: var(--font-base);
-	font-size: 120%;
+font-size: 120%;
 	background-color: #ffffff;
 	color: #000000;
 	width: 2em;
@@ -419,7 +398,6 @@ div.QuestionNavigation{
 }
 
 textarea{
-	font-family: var(--font-base);
 }
 
 .QuestionText{
@@ -595,8 +573,7 @@ a:hover{
 
 div.CardStyle {
 	position: absolute;
-	font-family: var(--font-base);
-	font-size: 100%;
+font-size: 100%;
 	padding: 5px;
 	border-style: solid;
 	border-width: 1px;
@@ -661,7 +638,6 @@ padding-top: 1em;
 
     /* for cloze */
 
-
 /*   new clamp sys*/
 
 /* Shared interpolation: (100vw - 300px) / 1300  ==>  0 at 300px viewport, 1 at 1600px viewport */
@@ -719,16 +695,17 @@ p {
      you could add a max-width breakpoint tweak, but usually clamp alone suffices. */
 
 .wrapfit {
-   width: fit-content;
-   margin: 0 auto;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .wrapit {
-   margin: 0 auto;
+    margin: 0 auto;
 }
 
 </style>
 
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css">
 
 <script>
 
@@ -789,8 +766,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -832,9 +807,6 @@ function FocusAButton(){
 		}
 	}
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -906,8 +878,6 @@ function ShowElements(Show, TagName, ContainerToReverse){
 	}
 }
 
-
-
 function HideFeedback(){
 	document.getElementById('FeedbackDiv').style.display = 'none';
 	ShowElements(true, 'input');
@@ -917,7 +887,6 @@ function HideFeedback(){
 		Finish();
 	}
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -1057,9 +1026,6 @@ function WriteToInstructions(Feedback) {
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString){
 	return InString.replace(/"/g, '&quot;')
 }
@@ -1147,9 +1113,6 @@ function RemoveBottomNavBarForIE(){
 	}
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1167,10 +1130,6 @@ function Finish(){
 		Frm.submit();
 	}
 }
-
-
-
-
 
 //JCLOZE CORE JAVASCRIPT CODE
 
@@ -1289,7 +1248,6 @@ I[14][1][0] = new Array();
 I[14][1][0][0] = '\u0074\u0068\u0065\u006D';
 I[14][2]='';
 
-
 State = new Array();
 
 function StartUp(){
@@ -1299,12 +1257,6 @@ function StartUp(){
 		document.getElementById('CharacterKeypad').style.display = 'block';
 	}
 
-
-
-
-
-
-
 	var i = 0;
 
 	State.length = 0;
@@ -1313,8 +1265,6 @@ function StartUp(){
 	}
 
 	ClearTextBoxes();
-
-
 
 }
 
@@ -1409,8 +1359,6 @@ function CheckAnswers(){
 	CompileGuesses();
 
 	if ((AllCorrect == true)||(Finished == true)){
-
-
 
 		TimeOver = true;
 		Locked = true;
@@ -1582,12 +1530,11 @@ function TypeChars(Chars){
 	}
 }
 
-
-
 // End of script
 
 </script>
 
+<script defer src="../../js/sis-cloze-submit.js"></script>
 
 </head>
 
@@ -1595,28 +1542,15 @@ function TypeChars(Chars){
 
  <!-- BeginTopNavButtons -->
 
-
-
 <!-- EndTopNavButtons -->
 
 <div class="Titles">
 	<h3 class="ExerciseTitle">108. Too Old For Children</h3>
 
-
-
-
-
 </div>
-
-
-
 
 	<div id="Instructions"></div>
 </div>
-
-
-
-
 
 <div id="MainDiv" class="StdDiv">
 
@@ -1624,9 +1558,7 @@ function TypeChars(Chars){
 <!--
 <button id="CheckButton1" class="FuncButton" type="submit"  onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;
 
-
 <button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
-
 
  -->
 
@@ -1638,17 +1570,11 @@ Mrs. Jones was a kindergarten teacher. <span class="GapSpan" id="GapSpan0"><inpu
 </form>
 </div>
 
-
-
 <button id="CheckButton2" class="FuncButton" type="submit" form="Cloze" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;
-
 
 <button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
 
-
 </div>
-
-
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
@@ -1657,14 +1583,11 @@ Mrs. Jones was a kindergarten teacher. <span class="GapSpan" id="GapSpan0"><inpu
 
 <!-- BeginBottomNavButtons -->
 
-
-
 <!-- EndBottomNavButtons -->
 
 <!-- BeginSubmissionForm -->
 
 <!-- EndSubmissionForm --><hr><div class="cenmar"><a href="JavaScript:window.close()">CLOSE</a><br><br></div></body>
-
 
 <!-- /begin3/cloze/b3cloze108.htm, Mon, 03 Jul 2017 05:40:38 GMT -->
 </html>
