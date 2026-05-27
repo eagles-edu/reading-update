@@ -5,6 +5,8 @@ const path = require("node:path");
 
 const glob = require("glob");
 
+const { rehashHtmlSource } = require("./sri-rehash.cjs");
+
 const SCRIPT_DIR = __dirname;
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
 const THEME_JS = "js/theme-selector.js";
@@ -128,6 +130,7 @@ function main() {
   let scanned = 0;
   let changed = 0;
   const categoryCounts = new Map();
+  const digestCache = new Map();
 
   console.log(`Mode: ${args.apply ? "APPLY" : "DRY-RUN"}`);
   console.log(`Root: ${args.root}`);
@@ -138,8 +141,14 @@ function main() {
     scanned += 1;
     const source = fs.readFileSync(file, "utf8");
     const updated = updateHtml(source, file, args.root);
-
     if (updated.changes.length === 0) continue;
+
+    let nextSource = updated.source;
+    const sriUpdate = rehashHtmlSource(nextSource, file, args.root, { digestCache });
+    if (sriUpdate.changes.length > 0) {
+      nextSource = sriUpdate.source;
+      updated.changes.push(...sriUpdate.changes);
+    }
 
     changed += 1;
     for (const change of updated.changes) {
@@ -148,8 +157,8 @@ function main() {
 
     console.log(`${path.relative(args.root, file)}\t${updated.changes.join(", ")}`);
 
-    if (args.apply && updated.source !== source) {
-      fs.writeFileSync(file, updated.source);
+    if (args.apply && nextSource !== source) {
+      fs.writeFileSync(file, nextSource);
     }
   }
 

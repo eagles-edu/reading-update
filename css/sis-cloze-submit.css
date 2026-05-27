@@ -42,6 +42,19 @@ body#TheBody *::after {
   box-sizing: border-box;
 }
 
+body#TheBody .sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
 body#TheBody .wrapfit {
   margin: 0 auto;
   width: min(100%, 920px);

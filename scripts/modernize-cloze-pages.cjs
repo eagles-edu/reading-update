@@ -6,6 +6,9 @@ const readline = require("node:readline/promises");
 const { stdin, stdout } = require("node:process");
 
 const glob = require("glob");
+const parse5 = require("parse5");
+
+const { rehashHtmlSource } = require("./sri-rehash.cjs");
 
 const SCRIPT_DIR = __dirname;
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
@@ -16,12 +19,14 @@ const FONT_STACK_CSS = "style/font-stack.css";
 const THEME_JS = "js/theme-selector.js";
 const CLOZE_CSS = "css/sis-cloze-submit.css";
 const CLOZE_JS = "js/sis-cloze-submit.js";
+const CLOZE_LABEL_CLASS = "sr-only";
+const CLOZE_LABEL_PREFIX = "Blank ";
 const PROTOTYPE_META = '<meta name="sis-cloze-prototype" content="current">';
 const LEGACY_CHARSET_META =
   /\s*<meta[^>]*http-equiv="Content-Type"[^>]*content="text\/html;\s*charset=utf-8"[^>]*>\s*/i;
 
 function printUsage() {
-  console.log(`Usage: ${path.basename(process.argv[1])} [--dry-run|--apply] [--root PATH] [--cloze-dir PATH] [--prompt]
+  console.log(`Usage: ${path.basename(process.argv[1])} [--dry-run|--apply] [--root PATH] [--cloze-dir PATH] [--all|--prompt]
 
 Modernize cloze pages in a bulk, mobile-first pass.
 
@@ -31,6 +36,7 @@ Options:
   --root PATH Scan a different repository root.
   --cloze-dir PATH
               Scan a different cloze directory under --root. Defaults to begin1/cloze.
+  --all       Process every HTML file in the cloze directory.
   --prompt    Ask for root, cloze dir, file selection, and mode interactively before running.
   --help      Show this help.
 `);
@@ -77,6 +83,10 @@ function parseArgs(argv) {
     }
     if (arg === "--prompt" || arg === "-p") {
       args.prompt = true;
+      continue;
+    }
+    if (arg === "--all") {
+      args.selection = "a";
       continue;
     }
     if (arg === "--help" || arg === "-h") {
@@ -209,7 +219,170 @@ function injectBeforeFirst(source, matcher, insertion) {
   };
 }
 
-function updateHead(source, file, root) {
+function hasClass(node, className) {
+  const classAttr = node.attrs?.find((attr) => attr.name.toLowerCase() === "class");
+  if (!classAttr) return false;
+  return classAttr.value.split(/\s+/).some((value) => value.trim() === className);
+}
+
+function getAttr(node, name) {
+  const attr = node.attrs?.find((candidate) => candidate.name.toLowerCase() === name);
+  return attr ? attr.value : "";
+}
+
+function collectClozeLabelEdits(source) {
+  const edits = [];
+  const document = parse5.parse(source, { sourceCodeLocationInfo: true });
+
+  const visit = (node, ancestors) => {
+    const nextAncestors = ancestors.concat(node);
+
+    if (node.tagName === "input" && node.sourceCodeLocation?.startTag) {
+      const inputType = getAttr(node, "type").trim().toLowerCase();
+      const inputClass = getAttr(node, "class");
+      const inputId = getAttr(node, "id");
+      const isGapInput =
+        inputType === "text" &&
+        inputClass.split(/\s+/).some((value) => value.trim() === "GapBox") &&
+        /^Gap\d+$/.test(inputId);
+
+      if (isGapInput) {
+        const clozeBodyAncestor = [...ancestors]
+          .reverse()
+          .find((ancestor) => ancestor.tagName === "div" && hasClass(ancestor, "ClozeBody"));
+        const gapSpanAncestor = [...ancestors]
+          .reverse()
+          .find((ancestor) => ancestor.tagName === "span" && hasClass(ancestor, "GapSpan"));
+
+        if (clozeBodyAncestor && gapSpanAncestor?.sourceCodeLocation?.startTag) {
+          const spanStart = gapSpanAncestor.sourceCodeLocation.startTag.endOffset;
+          const inputStart = node.sourceCodeLocation.startTag.startOffset;
+          const between = source.slice(spanStart, inputStart);
+          const labelPattern = new RegExp(`\\bfor=["']${inputId}["']`, "i");
+
+          if (
+            between.trim() === "" &&
+            !/<label\b/i.test(between) &&
+            !labelPattern.test(source) &&
+            !/aria-label\s*=/i.test(source.slice(inputStart, node.sourceCodeLocation.startTag.endOffset))
+          ) {
+            const gapNumber = Number.parseInt(inputId.slice(3), 10);
+            const labelText = Number.isFinite(gapNumber)
+              ? `${CLOZE_LABEL_PREFIX}${gapNumber + 1}`
+              : `${CLOZE_LABEL_PREFIX}input`;
+            edits.push({
+              end: spanStart,
+              replacement: `<label class="${CLOZE_LABEL_CLASS}" for="${inputId}">${labelText}</label>`,
+              start: spanStart,
+            });
+          }
+        }
+      }
+    }
+
+    if (node.childNodes) {
+      for (const child of node.childNodes) {
+        visit(child, nextAncestors);
+      }
+    }
+
+    if (node.content?.childNodes) {
+      for (const child of node.content.childNodes) {
+        visit(child, nextAncestors);
+      }
+    }
+  };
+
+  visit(document, []);
+  edits.sort((a, b) => b.start - a.start || b.end - a.end);
+  return edits;
+}
+
+function applyEdits(source, edits) {
+  let next = source;
+  for (const edit of edits) {
+    next = `${next.slice(0, edit.start)}${edit.replacement}${next.slice(edit.end)}`;
+  }
+  return next;
+}
+
+function normalizeBlankLines(source) {
+  return source.replace(/(\r?\n)(?:[ \t]*\r?\n){2,}/g, "$1$1");
+}
+
+function updateClozeInputs(source) {
+  const edits = collectClozeLabelEdits(source);
+  if (edits.length === 0) {
+    return { source, changes: [] };
+  }
+
+  return {
+    source: applyEdits(source, edits),
+    changes: edits.map(() => "cloze-label"),
+  };
+}
+
+function updateHeadingLevel(source) {
+  const edits = [];
+  const document = parse5.parse(source, { sourceCodeLocationInfo: true });
+  let hasH1ExerciseTitle = false;
+
+  const visit = (node) => {
+    if (node.tagName === "h1" && hasClass(node, "ExerciseTitle")) {
+      hasH1ExerciseTitle = true;
+    }
+
+    if (
+      node.tagName === "h2" &&
+      hasClass(node, "ExerciseTitle") &&
+      node.sourceCodeLocation?.startTag &&
+      node.sourceCodeLocation?.endTag
+    ) {
+      const { startOffset: startStart, endOffset: startEnd } = node.sourceCodeLocation.startTag;
+      const { startOffset: endStart, endOffset: endEnd } = node.sourceCodeLocation.endTag;
+      const startTag = source.slice(startStart, startEnd).replace(/^<h2\b/i, "<h1");
+      const endTag = source.slice(endStart, endEnd).replace(/^<\/h2\b/i, "</h1");
+      edits.push(
+        {
+          start: startStart,
+          end: startEnd,
+          replacement: startTag,
+        },
+        {
+          start: endStart,
+          end: endEnd,
+          replacement: endTag,
+        }
+      );
+    }
+
+    if (node.childNodes) {
+      for (const child of node.childNodes) {
+        visit(child);
+      }
+    }
+
+    if (node.content?.childNodes) {
+      for (const child of node.content.childNodes) {
+        visit(child);
+      }
+    }
+  };
+
+  visit(document);
+
+  if (hasH1ExerciseTitle || edits.length === 0) {
+    return { source, changes: [] };
+  }
+
+  edits.sort((a, b) => b.start - a.start || b.end - a.end);
+  return {
+    source: applyEdits(source, edits),
+    changes: edits.map(() => "heading-level"),
+  };
+}
+
+function updateHead(source, file, root, digestCache) {
   const changes = [];
   let next = source;
 
@@ -330,6 +503,32 @@ function updateHead(source, file, root) {
     changes.push("font-family");
   }
 
+  const headingUpdate = updateHeadingLevel(next);
+  if (headingUpdate.changes.length > 0) {
+    next = headingUpdate.source;
+    changes.push(...headingUpdate.changes);
+  }
+
+  const clozeLabelUpdate = updateClozeInputs(next);
+  if (clozeLabelUpdate.changes.length > 0) {
+    next = clozeLabelUpdate.source;
+    changes.push(...clozeLabelUpdate.changes);
+  }
+
+  if (changes.length > 0) {
+    const sriUpdate = rehashHtmlSource(next, file, root, { digestCache });
+    if (sriUpdate.changes.length > 0) {
+      next = sriUpdate.source;
+      changes.push(...sriUpdate.changes);
+    }
+  }
+
+  const compacted = normalizeBlankLines(next);
+  if (compacted !== next) {
+    next = compacted;
+    changes.push("blank-lines");
+  }
+
   return { source: next, changes };
 }
 
@@ -365,6 +564,7 @@ async function main() {
   let scanned = 0;
   let changed = 0;
   const categoryCounts = new Map();
+  const digestCache = new Map();
 
   console.log(`Mode: ${args.apply ? "APPLY" : "DRY-RUN"}`);
   console.log(`Root: ${args.root}`);
@@ -376,7 +576,7 @@ async function main() {
   for (const file of files) {
     scanned += 1;
     const source = fs.readFileSync(file, "utf8");
-    const updated = updateHead(source, file, args.root);
+    const updated = updateHead(source, file, args.root, digestCache);
 
     if (updated.changes.length === 0) continue;
 

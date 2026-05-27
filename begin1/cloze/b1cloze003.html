@@ -4,10 +4,10 @@
 <!-- /begin1/cloze/b1cloze003.htm, Sun, 02 Jul 2017 04:39:43 GMT -->
 <head>
 <meta charset="utf-8">
-<link rel="preload" href="../../style/font-stack.css" as="style">
-<link rel="stylesheet" href="../../style/font-stack.css">
-<link rel="preload" href="../../js/theme-selector.js" as="script">
-<script src="../../js/theme-selector.js"></script>
+<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
+<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
+<link rel="preload" href="../../js/theme-selector.js" as="script" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty">
+<script src="../../js/theme-selector.js" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="sis-cloze-prototype" content="current">
 <meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to ron."><meta name="keywords" content="Hot Potatoes, Hot Potatoes, Half-Baked Software, Windows, University of Victoria">
@@ -29,8 +29,7 @@
 
 /* Made with executable version 6.3 Release 0 Build 5 */
 body{
-	font-family: var(--font-base);
-	background-color: #C0C0C0;
+background-color: #C0C0C0;
 	color: #000000;
 	margin-right: 5%;
 	margin-left: 5%;
@@ -56,8 +55,7 @@ div.Titles{
 }
 
 button{
-	font-family: var(--font-base);
-	font-size: 100%;
+font-size: 100%;
 	display: inline;
 }
 .ExerciseTitle {
@@ -106,7 +104,6 @@ button p.RTLText{
 	text-align: right;
 	font-size: 150%;
 	direction: rtl;
-	font-family: var(--font-base);
 }
 
 .Guess{
@@ -167,8 +164,7 @@ span.CorrectMark{
 */
 
 input, textarea{
-	font-family: var(--font-base);
-	font-size: 120%;
+font-size: 120%;
 }
 
 select{
@@ -381,8 +377,7 @@ div.Keypad{
 }
 
 div.Keypad button{
-	font-family: var(--font-base);
-	font-size: 120%;
+font-size: 120%;
 	background-color: #ffffff;
 	color: #000000;
 	width: 2em;
@@ -401,7 +396,6 @@ div.QuestionNavigation{
 }
 
 textarea{
-	font-family: var(--font-base);
 }
 
 .QuestionText{
@@ -577,8 +571,7 @@ a:hover{
 
 div.CardStyle {
 	position: absolute;
-	font-family: var(--font-base);
-	font-size: 100%;
+font-size: 100%;
 	padding: 5px;
 	border-style: solid;
 	border-width: 1px;
@@ -695,7 +688,7 @@ p {
 
 </style>
 
-<link rel="stylesheet" href="../../css/sis-cloze-submit.css">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-sYE/rcmXpLtym3F+roi+q4B7NOkdp2I9TYm17ltKwJFbYGC4rK3YONvyskx0qmu/">
 
 <script>
 
@@ -1471,7 +1464,9 @@ function TypeChars(Chars){
 </script>
 
 <link rel="icon" href="../../favicon.ico">
-<script defer src="../../js/sis-cloze-submit.js"></script>
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
+
 </head>
 
 <body onload="StartUp()" id="TheBody"><div class="wrapfit">
@@ -1480,12 +1475,12 @@ function TypeChars(Chars){
 <!-- EndTopNavButtons -->
 
 <div class="Titles">
-	<h2 class="ExerciseTitle">3. Water on the Floor</h2>
+	<h1 class="ExerciseTitle">3. Water on the Floor</h1>
 
 </div>
 
 <div id="InstructionsDiv" class="StdDiv">
-	<div id="Instructions">Review the vocabulary, read the story, then fill in each blank. Click CHECK to see if your answers are correct.</div>
+	<div id="Instructions">1: Study the new words. 2: Listen to the story. 3: Read the story out loud. 4: Fill-in the	blanks below. 5: Check your answers.</div>
 </div>
 
 <div id="MainDiv" class="StdDiv">
@@ -1501,7 +1496,7 @@ function TypeChars(Chars){
 <div id="ClozeDiv">
 <form id="Cloze" method="post" action="#" onsubmit="return false;">
 <div class="ClozeBody">
-She is thirsty. She gets a glass <span class="GapSpan" id="GapSpan0"><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="6"></span> water. She begins to walk. She drops <span class="GapSpan" id="GapSpan1"><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6"></span> glass. There is water on the floor. <span class="GapSpan" id="GapSpan2"><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6"></span> puddle is big. She gets a mop. <span class="GapSpan" id="GapSpan3"><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6"></span> wipes the water off. The floor is <span class="GapSpan" id="GapSpan4"><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="6"></span>. She gets another glass of water. She <span class="GapSpan" id="GapSpan5"><input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="6"></span> it. She is happy.
+She is thirsty. She gets a glass <span class="GapSpan" id="GapSpan0"><label class="sr-only" for="Gap0">Blank 1</label><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="6"></span> water. She begins to walk. She drops <span class="GapSpan" id="GapSpan1"><label class="sr-only" for="Gap1">Blank 2</label><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6"></span> glass. There is water on the floor. <span class="GapSpan" id="GapSpan2"><label class="sr-only" for="Gap2">Blank 3</label><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6"></span> puddle is big. She gets a mop. <span class="GapSpan" id="GapSpan3"><label class="sr-only" for="Gap3">Blank 4</label><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6"></span> wipes the water off. The floor is <span class="GapSpan" id="GapSpan4"><label class="sr-only" for="Gap4">Blank 5</label><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="6"></span>. She gets another glass of water. She <span class="GapSpan" id="GapSpan5"><label class="sr-only" for="Gap5">Blank 6</label><input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="6"></span> it. She is happy.
 </div>
 </form>
 </div>

@@ -6,10 +6,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="sis-cloze-prototype" content="current">
-    <link rel="preload" href="../../style/font-stack.css" as="style">
-    <link rel="stylesheet" href="../../style/font-stack.css">
-    <link rel="preload" href="../../js/theme-selector.js" as="script">
-    <script src="../../js/theme-selector.js"></script>
+    <link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
+    <link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
+    <link rel="preload" href="../../js/theme-selector.js" as="script" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty">
+    <script src="../../js/theme-selector.js" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
     <meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to ron.">
     <meta name="keywords" content="Hot Potatoes, Hot Potatoes, Half-Baked Software, Windows, University of Victoria">
     <link rel="icon" href="../../favicon.ico">
@@ -683,7 +683,7 @@ span.CorrectMark{
         margin: 0 auto;
       }
     </style>
-    <link rel="stylesheet" href="../../css/sis-cloze-submit.css">
+    <link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-sYE/rcmXpLtym3F+roi+q4B7NOkdp2I9TYm17ltKwJFbYGC4rK3YONvyskx0qmu/">
     <script>
       // Start of script
       function Client() {
@@ -1435,8 +1435,10 @@ span.CorrectMark{
       }
       // End of script
     </script>
-    <script defer src="../../js/sis-cloze-submit.js"></script>
-  </head>
+    <script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
+  <script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
+
+</head>
   <body onload="StartUp()" id="TheBody">
     <div class="wrapfit">
       <!-- BeginTopNavButtons -->
@@ -1454,32 +1456,32 @@ span.CorrectMark{
 -->
       <div id="ClozeDiv">
         <form id="Cloze" method="post" action="#" onsubmit="return false;">
-          <div class="ClozeBody"> Michael lived in Minnesota. He was <span class="GapSpan" id="GapSpan0">
+          <div class="ClozeBody"> Michael lived in Minnesota. He was <span class="GapSpan" id="GapSpan0"><label class="sr-only" for="Gap0">Blank 1</label>
               <input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="8">
-            </span> the West Coast. His friends were going <span class="GapSpan" id="GapSpan1">
+            </span> the West Coast. His friends were going <span class="GapSpan" id="GapSpan1"><label class="sr-only" for="Gap1">Blank 2</label>
               <input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6">
-            </span> show him around. "I just want to <span class="GapSpan" id="GapSpan2">
+            </span> show him around. "I just want to <span class="GapSpan" id="GapSpan2"><label class="sr-only" for="Gap2">Blank 3</label>
               <input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6">
-            </span> Las Vegas!" said Michael. "Are you sure?" <span class="GapSpan" id="GapSpan3">
+            </span> Las Vegas!" said Michael. "Are you sure?" <span class="GapSpan" id="GapSpan3"><label class="sr-only" for="Gap3">Blank 4</label>
               <input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6">
-            </span> his friends. Michael insisted. He had always <span class="GapSpan" id="GapSpan4">
+            </span> his friends. Michael insisted. He had always <span class="GapSpan" id="GapSpan4"><label class="sr-only" for="Gap4">Blank 5</label>
               <input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="6">
-            </span> to go to Las Vegas. Michael had <span class="GapSpan" id="GapSpan5">
+            </span> to go to Las Vegas. Michael had <span class="GapSpan" id="GapSpan5"><label class="sr-only" for="Gap5">Blank 6</label>
               <input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="6">
-            </span> a lot of movies about Vegas. Everything <span class="GapSpan" id="GapSpan6">
+            </span> a lot of movies about Vegas. Everything <span class="GapSpan" id="GapSpan6"><label class="sr-only" for="Gap6">Blank 7</label>
               <input type="text" id="Gap6" onfocus="TrackFocus(6)" onblur="LeaveGap()" class="GapBox" size="6">
-            </span> very bright and fancy. He couldn't wait <span class="GapSpan" id="GapSpan7">
+            </span> very bright and fancy. He couldn't wait <span class="GapSpan" id="GapSpan7"><label class="sr-only" for="Gap7">Blank 8</label>
               <input type="text" id="Gap7" onfocus="TrackFocus(7)" onblur="LeaveGap()" class="GapBox" size="6">
             </span> see it. <br>
-            <br>When they arrived, Michael was <span class="GapSpan" id="GapSpan8">
+            <br>When they arrived, Michael was <span class="GapSpan" id="GapSpan8"><label class="sr-only" for="Gap8">Blank 9</label>
               <input type="text" id="Gap8" onfocus="TrackFocus(8)" onblur="LeaveGap()" class="GapBox" size="8">
-            </span>. The streets all looked dirty and old. <span class="GapSpan" id="GapSpan9">
+            </span>. The streets all looked dirty and old. <span class="GapSpan" id="GapSpan9"><label class="sr-only" for="Gap9">Blank 10</label>
               <input type="text" id="Gap9" onfocus="TrackFocus(9)" onblur="LeaveGap()" class="GapBox" size="6">
-            </span> the movies, everyone looked happy. In reality, <span class="GapSpan" id="GapSpan10">
+            </span> the movies, everyone looked happy. In reality, <span class="GapSpan" id="GapSpan10"><label class="sr-only" for="Gap10">Blank 11</label>
               <input type="text" id="Gap10" onfocus="TrackFocus(10)" onblur="LeaveGap()" class="GapBox" size="6">
-            </span> of the people were drunk. The other <span class="GapSpan" id="GapSpan11">
+            </span> of the people were drunk. The other <span class="GapSpan" id="GapSpan11"><label class="sr-only" for="Gap11">Blank 12</label>
               <input type="text" id="Gap11" onfocus="TrackFocus(11)" onblur="LeaveGap()" class="GapBox" size="6">
-            </span> was angry from losing money in casinos. " <span class="GapSpan" id="GapSpan12">
+            </span> was angry from losing money in casinos. " <span class="GapSpan" id="GapSpan12"><label class="sr-only" for="Gap12">Blank 13</label>
               <input type="text" id="Gap12" onfocus="TrackFocus(12)" onblur="LeaveGap()" class="GapBox" size="6">
             </span> isn't what I pictured," said Michael. <br>
           </div>

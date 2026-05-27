@@ -4,10 +4,10 @@
 <!-- /begin1/cloze/b1cloze104.htm, Mon, 03 Jul 2017 04:59:06 GMT -->
 <head>
 <meta charset="utf-8">
-<link rel="preload" href="../../style/font-stack.css" as="style">
-<link rel="stylesheet" href="../../style/font-stack.css">
-<link rel="preload" href="../../js/theme-selector.js" as="script">
-<script src="../../js/theme-selector.js"></script>
+<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
+<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
+<link rel="preload" href="../../js/theme-selector.js" as="script" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty">
+<script src="../../js/theme-selector.js" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="sis-cloze-prototype" content="current">
 <meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to ron."><meta name="keywords" content="Hot Potatoes, Hot Potatoes, Half-Baked Software, Windows, University of Victoria">
@@ -20,10 +20,7 @@
 
 <!-- The following insertion allows you to add your own code directly to this head tag from the configuration screen -->
 
-
-
 <style>
-
 
 /* This is the CSS stylesheet used in the exercise. */
 /* Elements in square brackets are replaced by data based on configuration settings when the exercise is built. */
@@ -32,8 +29,7 @@
 
 /* Made with executable version 6.3 Release 0 Build 5 */
 body{
-	font-family: var(--font-base);
-	background-color: #C0C0C0;
+background-color: #C0C0C0;
 	color: #000000;
 	margin-right: 5%;
 	margin-left: 5%;
@@ -59,8 +55,7 @@ div.Titles{
 }
 
 button{
-	font-family: var(--font-base);
-	font-size: 100%;
+font-size: 100%;
 	display: inline;
 }
 .ExerciseTitle {
@@ -109,7 +104,6 @@ button p.RTLText{
 	text-align: right;
 	font-size: 150%;
 	direction: rtl;
-	font-family: var(--font-base);
 }
 
 .Guess{
@@ -170,8 +164,7 @@ span.CorrectMark{
 */
 
 input, textarea{
-	font-family: var(--font-base);
-	font-size: 120%;
+font-size: 120%;
 }
 
 select{
@@ -193,9 +186,6 @@ div.Feedback {
 	display: none;
 	font-size: 100%;
 }
-
-
-
 
 div.ExerciseDiv{
 	color: #000000;
@@ -387,8 +377,7 @@ div.Keypad{
 }
 
 div.Keypad button{
-	font-family: var(--font-base);
-	font-size: 120%;
+font-size: 120%;
 	background-color: #ffffff;
 	color: #000000;
 	width: 2em;
@@ -407,7 +396,6 @@ div.QuestionNavigation{
 }
 
 textarea{
-	font-family: var(--font-base);
 }
 
 .QuestionText{
@@ -583,8 +571,7 @@ a:hover{
 
 div.CardStyle {
 	position: absolute;
-	font-family: var(--font-base);
-	font-size: 100%;
+font-size: 100%;
 	padding: 5px;
 	border-style: solid;
 	border-width: 1px;
@@ -599,8 +586,6 @@ div.CardStyle {
 	text-align: right;
 	font-size: 140%;
 }
-
-
 
 .GapBox {
   /* Example style */
@@ -635,7 +620,6 @@ display: block;
 }
 
  /* for cloze */
-
 
 /*   new clamp sys*/
 
@@ -704,8 +688,7 @@ p {
 
 </style>
 
-
-<link rel="stylesheet" href="../../css/sis-cloze-submit.css">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-sYE/rcmXpLtym3F+roi+q4B7NOkdp2I9TYm17ltKwJFbYGC4rK3YONvyskx0qmu/">
 
 <script>
 
@@ -766,8 +749,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -809,9 +790,6 @@ function FocusAButton(){
 		}
 	}
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -883,8 +861,6 @@ function ShowElements(Show, TagName, ContainerToReverse){
 	}
 }
 
-
-
 function HideFeedback(){
 	document.getElementById('FeedbackDiv').style.display = 'none';
 	ShowElements(true, 'input');
@@ -894,7 +870,6 @@ function HideFeedback(){
 		Finish();
 	}
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -1034,9 +1009,6 @@ function WriteToInstructions(Feedback) {
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString){
 	return InString.replace(/"/g, '&quot;')
 }
@@ -1124,9 +1096,6 @@ function RemoveBottomNavBarForIE(){
 	}
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1144,10 +1113,6 @@ function Finish(){
 		Frm.submit();
 	}
 }
-
-
-
-
 
 //JCLOZE CORE JAVASCRIPT CODE
 
@@ -1206,7 +1171,6 @@ I[4][1][0] = new Array();
 I[4][1][0][0] = '\u0074\u006F';
 I[4][2]='';
 
-
 State = new Array();
 
 function StartUp(){
@@ -1216,12 +1180,6 @@ function StartUp(){
 		document.getElementById('CharacterKeypad').style.display = 'block';
 	}
 
-
-
-
-
-
-
 	var i = 0;
 
 	State.length = 0;
@@ -1230,8 +1188,6 @@ function StartUp(){
 	}
 
 	ClearTextBoxes();
-
-
 
 }
 
@@ -1326,8 +1282,6 @@ function CheckAnswers(){
 	CompileGuesses();
 
 	if ((AllCorrect == true)||(Finished == true)){
-
-
 
 		TimeOver = true;
 		Locked = true;
@@ -1499,45 +1453,30 @@ function TypeChars(Chars){
 	}
 }
 
-
 // End of script
-
 
 </script>
 
-
 <link rel="icon" href="../../favicon.ico">
-<script defer src="../../js/sis-cloze-submit.js"></script>
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
+
 </head>
-
-
 
 <body onload="StartUp()" id="TheBody"><div class="wrapfit">
 
 <!-- BeginTopNavButtons -->
 
-
-
 <!-- EndTopNavButtons -->
 
 <div class="Titles">
-	<h2 class="ExerciseTitle">104. Thanksgiving</h2>
-
-
-
-
+	<h1 class="ExerciseTitle">104. Thanksgiving</h1>
 
 </div>
-
-
 
 <div id="InstructionsDiv" class="StdDiv">
-	<div id="Instructions">Review the vocabulary, read the story, then fill in each blank. Click CHECK to see if your answers are correct.</div>
+	<div id="Instructions">1: Study the new words. 2: Listen to the story. 3: Read the story out loud. 4: Fill-in the	blanks below. 5: Check your answers.</div>
 </div>
-
-
-
-
 
 <div id="MainDiv" class="StdDiv">
 
@@ -1545,31 +1484,23 @@ function TypeChars(Chars){
 <!--
 <button id="CheckButton1" class="FuncButton" type="submit"  onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
 
-
 <button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
 
-
- -->
+-->
 
 <div id="ClozeDiv">
 <form id="Cloze" method="post" action="#" onsubmit="return false;">
 <div class="ClozeBody">
-It is November 23rd. Parents are buying <span class="GapSpan" id="GapSpan0"><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="6"></span>. The kids are waiting to eat. The <span class="GapSpan" id="GapSpan1"><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="7"></span> bring home the turkey. The doorbell rings. <span class="GapSpan" id="GapSpan2"><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6"></span> mother opens the door. Her friend comes <span class="GapSpan" id="GapSpan3"><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6"></span>. Everyone sits at the table. They begin <span class="GapSpan" id="GapSpan4"><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="6"></span> eat.
+It is November 23rd. Parents are buying <span class="GapSpan" id="GapSpan0"><label class="sr-only" for="Gap0">Blank 1</label><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="6"></span>. The kids are waiting to eat. The <span class="GapSpan" id="GapSpan1"><label class="sr-only" for="Gap1">Blank 2</label><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="7"></span> bring home the turkey. The doorbell rings. <span class="GapSpan" id="GapSpan2"><label class="sr-only" for="Gap2">Blank 3</label><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6"></span> mother opens the door. Her friend comes <span class="GapSpan" id="GapSpan3"><label class="sr-only" for="Gap3">Blank 4</label><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6"></span>. Everyone sits at the table. They begin <span class="GapSpan" id="GapSpan4"><label class="sr-only" for="Gap4">Blank 5</label><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="6"></span> eat.
 </div>
 </form>
 </div>
 
-
-
 <button id="CheckButton2" class="FuncButton" type="submit" form="Cloze" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
-
 
 <button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
 
-
 </div>
-
-
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
@@ -1578,8 +1509,6 @@ It is November 23rd. Parents are buying <span class="GapSpan" id="GapSpan0"><inp
 
 <!-- BeginBottomNavButtons -->
 
-
-
 <!-- EndBottomNavButtons -->
 
 <!-- BeginSubmissionForm -->
@@ -1587,7 +1516,6 @@ It is November 23rd. Parents are buying <span class="GapSpan" id="GapSpan0"><inp
 <!-- EndSubmissionForm -->
 
 <hr><div class="cenmar textres12"><a href="JavaScript:window.close()">CLOSE</a></div><hr><br></div></body>
-
 
 <!-- /begin1/cloze/b1cloze104.htm, Mon, 03 Jul 2017 04:59:06 GMT -->
 </html>

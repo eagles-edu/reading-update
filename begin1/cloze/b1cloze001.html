@@ -15,11 +15,11 @@
       name="keywords"
       content="Hot Potatoes, Hot Potatoes, Half-Baked Software, Windows, University of Victoria">
     <link rel="icon" href="../../favicon.ico">
-    <link rel="preload" href="../../style/font-stack.css" as="style">
-    <link rel="stylesheet" href="../../style/font-stack.css">
+    <link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
+    <link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
 
-    <link rel="preload" href="../../js/theme-selector.js" as="script">
-    <script src="../../js/theme-selector.js"></script>
+    <link rel="preload" href="../../js/theme-selector.js" as="script" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty">
+    <script src="../../js/theme-selector.js" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
     <title>B1 Cloze: 1. Morning</title>
 
     <!-- Made with executable version 6.3 Release 0 Build 5 -->
@@ -34,8 +34,7 @@
 
       /* Made with executable version 6.3 Release 0 Build 5 */
       body {
-        font-family: var(--font-base);
-        background-color: #c0c0c0;
+background-color: #c0c0c0;
         color: #000000;
         margin-right: 5%;
         margin-left: 5%;
@@ -64,8 +63,7 @@
       }
 
       button {
-        font-family: var(--font-base);
-        font-size: 100%;
+font-size: 100%;
         display: inline;
       }
       .ExerciseTitle {
@@ -119,8 +117,7 @@
         text-align: right;
         font-size: 150%;
         direction: rtl;
-        font-family: var(--font-base);
-      }
+}
 
       .Guess {
         font-weight: bold;
@@ -184,8 +181,7 @@ span.CorrectMark{
 
       input,
       textarea {
-        font-family: var(--font-base);
-        font-size: 120%;
+font-size: 120%;
       }
 
       select {
@@ -399,8 +395,7 @@ span.CorrectMark{
       }
 
       div.Keypad button {
-        font-family: var(--font-base);
-        font-size: 120%;
+font-size: 120%;
         background-color: #ffffff;
         color: #000000;
         width: 2em;
@@ -419,8 +414,7 @@ span.CorrectMark{
       }
 
       textarea {
-        font-family: var(--font-base);
-      }
+}
 
       .QuestionText {
         text-align: left;
@@ -595,8 +589,7 @@ span.CorrectMark{
 
       div.CardStyle {
         position: absolute;
-        font-family: var(--font-base);
-        font-size: 100%;
+font-size: 100%;
         padding: 5px;
         border-style: solid;
         border-width: 1px;
@@ -735,7 +728,7 @@ span.CorrectMark{
         margin: 0.5rem 0.75rem;
       }
     </style>
-    <link rel="stylesheet" href="../../css/sis-cloze-submit.css">
+    <link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-sYE/rcmXpLtym3F+roi+q4B7NOkdp2I9TYm17ltKwJFbYGC4rK3YONvyskx0qmu/">
 
     <script>
       // Start of script
@@ -1577,8 +1570,10 @@ span.CorrectMark{
 
       // End of script
     </script>
-    <script defer src="../../js/sis-cloze-submit.js"></script>
-  </head>
+    <script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
+  <script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
+
+</head>
 
   <body onload="StartUp()" id="TheBody">
     <div class="wrapfit">
@@ -1587,7 +1582,7 @@ span.CorrectMark{
       <!-- EndTopNavButtons -->
 
       <div class="Titles">
-        <h2 class="ExerciseTitle">1. Morning</h2>
+        <h1 class="ExerciseTitle">1. Morning</h1>
       </div>
 
       <div id="InstructionsDiv" class="StdDiv"></div>
@@ -1611,7 +1606,7 @@ span.CorrectMark{
             <div class="ClozeBody">
               He wakes up. He sees the sun
               <span class="GapSpan" id="GapSpan0"
-                ><input
+                ><label class="sr-only" for="Gap0">Blank 1</label><input
                   type="text"
                   id="Gap0"
                   onfocus="TrackFocus(0)"
@@ -1620,7 +1615,7 @@ span.CorrectMark{
                   size="6"></span
               >. He brushes his teeth. His teeth are
               <span class="GapSpan" id="GapSpan1"
-                ><input
+                ><label class="sr-only" for="Gap1">Blank 2</label><input
                   type="text"
                   id="Gap1"
                   onfocus="TrackFocus(1)"
@@ -1629,7 +1624,7 @@ span.CorrectMark{
                   size="6"></span
               >. He puts on his clothes. His shirt
               <span class="GapSpan" id="GapSpan2"
-                ><input
+                ><label class="sr-only" for="Gap2">Blank 3</label><input
                   type="text"
                   id="Gap2"
                   onfocus="TrackFocus(2)"
@@ -1638,7 +1633,7 @@ span.CorrectMark{
                   size="6"></span>
               blue. His shoes are yellow. His pants
               <span class="GapSpan" id="GapSpan3"
-                ><input
+                ><label class="sr-only" for="Gap3">Blank 4</label><input
                   type="text"
                   id="Gap3"
                   onfocus="TrackFocus(3)"
@@ -1647,7 +1642,7 @@ span.CorrectMark{
                   size="6"></span>
               brown. He goes downstairs. He gets a
               <span class="GapSpan" id="GapSpan4"
-                ><input
+                ><label class="sr-only" for="Gap4">Blank 5</label><input
                   type="text"
                   id="Gap4"
                   onfocus="TrackFocus(4)"
@@ -1656,7 +1651,7 @@ span.CorrectMark{
                   size="6"></span
               >. He pours milk and cereal. He eats.
               <span class="GapSpan" id="GapSpan5"
-                ><input
+                ><label class="sr-only" for="Gap5">Blank 6</label><input
                   type="text"
                   id="Gap5"
                   onfocus="TrackFocus(5)"

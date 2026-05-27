@@ -6,6 +6,8 @@ const path = require('node:path');
 const glob = require('glob');
 const parse5 = require('parse5');
 
+const { rehashHtmlSource } = require('./sri-rehash.cjs');
+
 const VOID_TAGS = new Set([
   'area',
   'base',
@@ -209,6 +211,7 @@ function main() {
   let voidChanges = 0;
   let flashPlayerChanges = 0;
   let googleAdChanges = 0;
+  const digestCache = new Map();
 
   console.log(`Mode: ${args.apply ? 'APPLY' : 'DRY-RUN'}`);
   console.log(`Root: ${args.root}`);
@@ -232,8 +235,13 @@ function main() {
 
     console.log(`${path.relative(args.root, file)}\t${edits.length} change(s)`);
 
+    let updated = stripTrailingWhitespace(applyEdits(source, edits));
+    const sriUpdate = rehashHtmlSource(updated, file, args.root, { digestCache });
+    if (sriUpdate.changes.length > 0) {
+      updated = sriUpdate.source;
+    }
+
     if (args.apply) {
-      const updated = stripTrailingWhitespace(applyEdits(source, edits));
       if (updated !== source) {
         fs.writeFileSync(file, updated);
       }
