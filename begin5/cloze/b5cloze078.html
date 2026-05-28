@@ -4,17 +4,14 @@
 <!-- /begin5/cloze/b5cloze078.htm , Mon, 03 Jul 2017 06:24:15 GMT -->
 <head>
 <meta charset="utf-8">
-<link rel="preload" href="../../style/font-stack.css" as="style">
-<link rel="stylesheet" href="../../style/font-stack.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="sis-cloze-prototype" content="current">
+<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
+<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
+<link rel="preload" href="../../js/theme-selector.js" as="script" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty">
+<script src="../../js/theme-selector.js" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
 <meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to Ron."><meta name="keywords" content="Hot Potatoes, Hot Potatoes, Half-Baked Software, Windows, University of Victoria">
-
-<link rel="schema.DC" href="../../../purl.org/dc/elements/1.1/index.html">
-<link href="../../style/style.css" rel="stylesheet" type="text/css">
-<meta name="DC:Creator" content="Ron">
-<meta name="DC:Title" content="78. Doing Something Good Can Be Bad">
-
-
-
+<link href="../../style/style.css" rel="stylesheet" type="text/css" integrity="sha384-T4cgtnxLWuzofY2y9N0v5ywzHC5GqfZ8MLjTJA2T2M30AP4TR9sfAlh3weRZpxIQ">
 
 <title>B5 Cloze:
 78. Doing Something Good Can Be Bad
@@ -24,10 +21,7 @@
 
 <!-- The following insertion allows you to add your own code directly to this head tag from the configuration screen -->
 
-
-
 <style>
-
 
 /* This is the CSS stylesheet used in the exercise. */
 /* Elements in square brackets are replaced by data based on configuration settings when the exercise is built. */
@@ -35,13 +29,6 @@
 /* BeginCorePageCSS */
 
 /* Made with executable version 6.3 Release 0 Build 4 */
-
-
-/* Hack to hide a nested Quicktime player from IE, which can't handle it. */
-* html object.MediaPlayerNotForIE {
-	display: none;
-}
-
 body {
 	background-color: #C0C0C0;
 	color: #000000;
@@ -202,9 +189,6 @@ div.Feedback {
 	display: none;
 	font-size: 100%;
 }
-
-
-
 
 div.ExerciseDiv{
 	color: #000000;
@@ -655,7 +639,6 @@ padding-top: 1em;
 
     /* for cloze */
 
-
 /*   new clamp sys*/
 
 /* Shared interpolation: (100vw - 300px) / 1300  ==>  0 at 300px viewport, 1 at 1600px viewport */
@@ -723,6 +706,7 @@ p {
 
 </style>
 
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-XwCtktcGLSEJsSijdO02na0s/5Weh32V46VyHSSKDnH/EhtixDqpmUMHlAiiX/Qg">
 
 <script>
 
@@ -783,8 +767,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -826,9 +808,6 @@ function FocusAButton(){
 		}
 	}
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -900,8 +879,6 @@ function ShowElements(Show, TagName, ContainerToReverse){
 	}
 }
 
-
-
 function HideFeedback(){
 	document.getElementById('FeedbackDiv').style.display = 'none';
 	ShowElements(true, 'input');
@@ -911,7 +888,6 @@ function HideFeedback(){
 		Finish();
 	}
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -1051,9 +1027,6 @@ function WriteToInstructions(Feedback) {
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString){
 	return InString.replace(/"/g, '&quot;')
 }
@@ -1141,9 +1114,6 @@ function RemoveBottomNavBarForIE(){
 	}
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1161,10 +1131,6 @@ function Finish(){
 		Frm.submit();
 	}
 }
-
-
-
-
 
 //JCLOZE CORE JAVASCRIPT CODE
 
@@ -1313,7 +1279,6 @@ I[19][1][0] = new Array();
 I[19][1][0][0] = '\u0073\u006F\u006D\u0065\u0074\u0068\u0069\u006E\u0067';
 I[19][2]='';
 
-
 State = new Array();
 
 function StartUp(){
@@ -1323,12 +1288,6 @@ function StartUp(){
 		document.getElementById('CharacterKeypad').style.display = 'block';
 	}
 
-
-
-
-
-
-
 	var i = 0;
 
 	State.length = 0;
@@ -1337,8 +1296,6 @@ function StartUp(){
 	}
 
 	ClearTextBoxes();
-
-
 
 }
 
@@ -1433,8 +1390,6 @@ function CheckAnswers(){
 	CompileGuesses();
 
 	if ((AllCorrect == true)||(Finished == true)){
-
-
 
 		TimeOver = true;
 		Locked = true;
@@ -1606,12 +1561,11 @@ function TypeChars(Chars){
 	}
 }
 
-
-
 // End of script
 
 </script>
 
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
 
 </head>
 
@@ -1619,27 +1573,16 @@ function TypeChars(Chars){
 
 <hr><!-- BeginTopNavButtons -->
 
-
 <div class="NavButtonBar" id="TopNavBar">
-
-
-
 
 <button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
 
-
-
-
 </div>
-
-
 
 <!-- EndTopNavButtons -->
 
 <div class="Titles">
-	<h2 class="ExerciseTitle">78. Doing Something Good Can Be Bad</h2>
-
-
+	<h1 class="ExerciseTitle">78. Doing Something Good Can Be Bad</h1>
 
 </div>
 
@@ -1647,41 +1590,29 @@ function TypeChars(Chars){
 	<div id="Instructions">1: Study the new words. 2: Listen to the story. 3: Read the story out loud. 4: Fill-in the	blanks below. 5: Check your answers.</div>
 </div>
 
-
-
-
-
 <div id="MainDiv" class="StdDiv">
 
 <!-- These top buttons hidden; reveal if required -->
 <!--
 <button id="CheckButton1" class="FuncButton" type="submit"  onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
 
-
 <button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
-
 
 -->
 
 <div id="ClozeDiv">
 <form id="Cloze" method="post" action="#" onsubmit="return false;">
 <div class="ClozeBody">
-Greg always felt strongly about the homeless population. <span class="GapSpan" id="GapSpan0"><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="6"></span> believed that even if a person was homeless, <span class="GapSpan" id="GapSpan1"><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6"></span> or she deserved to be treated fairly. There <span class="GapSpan" id="GapSpan2"><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6"></span> have been something tragic in their lives that <span class="GapSpan" id="GapSpan3"><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6"></span> them to that path. He tried to help <span class="GapSpan" id="GapSpan4"><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="6"></span> in any way he could.<br><br>For Thanksgiving, Greg <span class="GapSpan" id="GapSpan5"><input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="7"></span> to go around his neighborhood giving out free <span class="GapSpan" id="GapSpan6"><input type="text" id="Gap6" onfocus="TrackFocus(6)" onblur="LeaveGap()" class="GapBox" size="6"></span> turkeys. The homeless people were thankful to Greg. <span class="GapSpan" id="GapSpan7"><input type="text" id="Gap7" onfocus="TrackFocus(7)" onblur="LeaveGap()" class="GapBox" size="6"></span> felt bad that they couldn't return the favor. <span class="GapSpan" id="GapSpan8"><input type="text" id="Gap8" onfocus="TrackFocus(8)" onblur="LeaveGap()" class="GapBox" size="6"></span> told them not to worry about it. Greg <span class="GapSpan" id="GapSpan9"><input type="text" id="Gap9" onfocus="TrackFocus(9)" onblur="LeaveGap()" class="GapBox" size="6"></span> encouraged the homeless people to talk to each <span class="GapSpan" id="GapSpan10"><input type="text" id="Gap10" onfocus="TrackFocus(10)" onblur="LeaveGap()" class="GapBox" size="6"></span> so they wouldn't feel so lonely.<br><br>Greg saw <span class="GapSpan" id="GapSpan11"><input type="text" id="Gap11" onfocus="TrackFocus(11)" onblur="LeaveGap()" class="GapBox" size="6"></span> two police officers were approaching him. He wondered <span class="GapSpan" id="GapSpan12"><input type="text" id="Gap12" onfocus="TrackFocus(12)" onblur="LeaveGap()" class="GapBox" size="6"></span> they wanted from him. The police officers told <span class="GapSpan" id="GapSpan13"><input type="text" id="Gap13" onfocus="TrackFocus(13)" onblur="LeaveGap()" class="GapBox" size="6"></span> that he couldn't give out free food without <span class="GapSpan" id="GapSpan14"><input type="text" id="Gap14" onfocus="TrackFocus(14)" onblur="LeaveGap()" class="GapBox" size="6"></span> license because it was a health concern. Greg <span class="GapSpan" id="GapSpan15"><input type="text" id="Gap15" onfocus="TrackFocus(15)" onblur="LeaveGap()" class="GapBox" size="7"></span> that was ridiculous since it was clear that <span class="GapSpan" id="GapSpan16"><input type="text" id="Gap16" onfocus="TrackFocus(16)" onblur="LeaveGap()" class="GapBox" size="6"></span> turkey was fine. The police officers told Greg <span class="GapSpan" id="GapSpan17"><input type="text" id="Gap17" onfocus="TrackFocus(17)" onblur="LeaveGap()" class="GapBox" size="6"></span> if he gave out food again, he would <span class="GapSpan" id="GapSpan18"><input type="text" id="Gap18" onfocus="TrackFocus(18)" onblur="LeaveGap()" class="GapBox" size="6"></span> thrown in jail. Greg didn't realize that doing <span class="GapSpan" id="GapSpan19"><input type="text" id="Gap19" onfocus="TrackFocus(19)" onblur="LeaveGap()" class="GapBox" size="9"></span> good could actually be bad.
+Greg always felt strongly about the homeless population. <span class="GapSpan" id="GapSpan0"><label class="sr-only" for="Gap0">Blank 1</label><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="6"></span> believed that even if a person was homeless, <span class="GapSpan" id="GapSpan1"><label class="sr-only" for="Gap1">Blank 2</label><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6"></span> or she deserved to be treated fairly. There <span class="GapSpan" id="GapSpan2"><label class="sr-only" for="Gap2">Blank 3</label><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6"></span> have been something tragic in their lives that <span class="GapSpan" id="GapSpan3"><label class="sr-only" for="Gap3">Blank 4</label><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6"></span> them to that path. He tried to help <span class="GapSpan" id="GapSpan4"><label class="sr-only" for="Gap4">Blank 5</label><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="6"></span> in any way he could.<br><br>For Thanksgiving, Greg <span class="GapSpan" id="GapSpan5"><label class="sr-only" for="Gap5">Blank 6</label><input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="7"></span> to go around his neighborhood giving out free <span class="GapSpan" id="GapSpan6"><label class="sr-only" for="Gap6">Blank 7</label><input type="text" id="Gap6" onfocus="TrackFocus(6)" onblur="LeaveGap()" class="GapBox" size="6"></span> turkeys. The homeless people were thankful to Greg. <span class="GapSpan" id="GapSpan7"><label class="sr-only" for="Gap7">Blank 8</label><input type="text" id="Gap7" onfocus="TrackFocus(7)" onblur="LeaveGap()" class="GapBox" size="6"></span> felt bad that they couldn't return the favor. <span class="GapSpan" id="GapSpan8"><label class="sr-only" for="Gap8">Blank 9</label><input type="text" id="Gap8" onfocus="TrackFocus(8)" onblur="LeaveGap()" class="GapBox" size="6"></span> told them not to worry about it. Greg <span class="GapSpan" id="GapSpan9"><label class="sr-only" for="Gap9">Blank 10</label><input type="text" id="Gap9" onfocus="TrackFocus(9)" onblur="LeaveGap()" class="GapBox" size="6"></span> encouraged the homeless people to talk to each <span class="GapSpan" id="GapSpan10"><label class="sr-only" for="Gap10">Blank 11</label><input type="text" id="Gap10" onfocus="TrackFocus(10)" onblur="LeaveGap()" class="GapBox" size="6"></span> so they wouldn't feel so lonely.<br><br>Greg saw <span class="GapSpan" id="GapSpan11"><label class="sr-only" for="Gap11">Blank 12</label><input type="text" id="Gap11" onfocus="TrackFocus(11)" onblur="LeaveGap()" class="GapBox" size="6"></span> two police officers were approaching him. He wondered <span class="GapSpan" id="GapSpan12"><label class="sr-only" for="Gap12">Blank 13</label><input type="text" id="Gap12" onfocus="TrackFocus(12)" onblur="LeaveGap()" class="GapBox" size="6"></span> they wanted from him. The police officers told <span class="GapSpan" id="GapSpan13"><label class="sr-only" for="Gap13">Blank 14</label><input type="text" id="Gap13" onfocus="TrackFocus(13)" onblur="LeaveGap()" class="GapBox" size="6"></span> that he couldn't give out free food without <span class="GapSpan" id="GapSpan14"><label class="sr-only" for="Gap14">Blank 15</label><input type="text" id="Gap14" onfocus="TrackFocus(14)" onblur="LeaveGap()" class="GapBox" size="6"></span> license because it was a health concern. Greg <span class="GapSpan" id="GapSpan15"><label class="sr-only" for="Gap15">Blank 16</label><input type="text" id="Gap15" onfocus="TrackFocus(15)" onblur="LeaveGap()" class="GapBox" size="7"></span> that was ridiculous since it was clear that <span class="GapSpan" id="GapSpan16"><label class="sr-only" for="Gap16">Blank 17</label><input type="text" id="Gap16" onfocus="TrackFocus(16)" onblur="LeaveGap()" class="GapBox" size="6"></span> turkey was fine. The police officers told Greg <span class="GapSpan" id="GapSpan17"><label class="sr-only" for="Gap17">Blank 18</label><input type="text" id="Gap17" onfocus="TrackFocus(17)" onblur="LeaveGap()" class="GapBox" size="6"></span> if he gave out food again, he would <span class="GapSpan" id="GapSpan18"><label class="sr-only" for="Gap18">Blank 19</label><input type="text" id="Gap18" onfocus="TrackFocus(18)" onblur="LeaveGap()" class="GapBox" size="6"></span> thrown in jail. Greg didn't realize that doing <span class="GapSpan" id="GapSpan19"><label class="sr-only" for="Gap19">Blank 20</label><input type="text" id="Gap19" onfocus="TrackFocus(19)" onblur="LeaveGap()" class="GapBox" size="9"></span> good could actually be bad.
 </div>
 </form>
 </div>
 
-
-
 <button id="CheckButton2" class="FuncButton" type="submit" form="Cloze" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
-
 
 <button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
 
-
 </div>
-
-
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
@@ -1690,20 +1621,11 @@ Greg always felt strongly about the homeless population. <span class="GapSpan" i
 
 <!-- BeginBottomNavButtons -->
 
-
 <hr><hr> <div class="NavButtonBar" id="BottomNavBar">
-
-
-
 
 <button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
 
-
-
-
 </div>
-
-
 
 <!-- EndBottomNavButtons -->
 
@@ -1712,7 +1634,6 @@ Greg always felt strongly about the homeless population. <span class="GapSpan" i
 <!-- EndSubmissionForm -->
 
 <br><br></div></body>
-
 
 <!-- /begin5/cloze/b5cloze078.htm , Mon, 03 Jul 2017 06:24:15 GMT -->
 </html>

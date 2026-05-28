@@ -44,6 +44,7 @@ body#TheBody *::after {
 
 body#TheBody .sr-only {
   border: 0;
+  /* eslint-disable-next-line css/use-baseline */
   clip: rect(0, 0, 0, 0);
   clip-path: inset(50%);
   height: 1px;
@@ -103,17 +104,19 @@ body#TheBody #MainDiv {
 }
 
 body#TheBody #InstructionsDiv {
-  border: 1px solid rgba(141, 146, 158, 0.75);
+  background: var(--secondary-color, #f5f8ff);
+  border: 1px solid var(--tertiary-color, #002786);
   margin-bottom: 0.75rem;
+  padding: 1rem;
 }
 
 body#TheBody #Instructions {
   font-size: clamp(1rem, 0.94rem + 0.45vw, 1.12rem);
   font-weight: 700;
-  line-height: 1.55;
+  line-height: 1.75;
   margin-inline: auto;
-  max-width: 60ch;
-  padding: 1rem 1rem 0.65rem;
+  max-width: 100%;
+  padding: 0.5rem;
   text-indent: 0;
 }
 
