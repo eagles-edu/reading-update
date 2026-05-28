@@ -449,9 +449,10 @@ function updateHead(source, file, root, digestCache) {
   }
 
   const jsTag = `<script defer src="${jsHref}"></script>`;
-  const escapedJsTag = jsTag.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const misplacedJsRe = new RegExp(`</head>\\s*(${escapedJsTag})`, "i");
-  const jsTagRe = new RegExp(escapedJsTag, "i");
+  const escapedJsHref = jsHref.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const jsTagPattern = `<script\\b[^>]*\\bsrc="${escapedJsHref}"[^>]*></script>`;
+  const misplacedJsRe = new RegExp(`</head>\\s*(${jsTagPattern})`, "i");
+  const jsTagRe = new RegExp(jsTagPattern, "i");
 
   if (misplacedJsRe.test(next)) {
     next = next.replace(misplacedJsRe, `$1\n</head>`);
@@ -515,12 +516,10 @@ function updateHead(source, file, root, digestCache) {
     changes.push(...clozeLabelUpdate.changes);
   }
 
-  if (changes.length > 0) {
-    const sriUpdate = rehashHtmlSource(next, file, root, { digestCache });
-    if (sriUpdate.changes.length > 0) {
-      next = sriUpdate.source;
-      changes.push(...sriUpdate.changes);
-    }
+  const sriUpdate = rehashHtmlSource(next, file, root, { digestCache });
+  if (sriUpdate.changes.length > 0) {
+    next = sriUpdate.source;
+    changes.push(...sriUpdate.changes);
   }
 
   const compacted = normalizeBlankLines(next);
