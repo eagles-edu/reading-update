@@ -54,16 +54,34 @@ body#TheBody .sr-only {
   position: absolute;
   white-space: nowrap;
   width: 1px;
+
 }
 
-body#TheBody .wrapfit {
-  margin: 0 auto;
+body#TheBody .wrapfit,
+body#TheBody .sis-cloze-shell {
+  margin: 2.5rem auto 2rem;
+  padding: 0 1rem 1rem;
   width: min(100%, 920px);
 }
 
 body#TheBody .sis-cloze-shell {
   display: grid;
-  gap: 0.85rem;
+  gap: 0.65rem;
+}
+
+body#TheBody .sis-cloze-region--footer {
+  gap: 0.65rem;
+  justify-items: stretch;
+}
+
+body#TheBody .sis-cloze-region--footer hr {
+  width: 100%;
+  max-width: 920px;
+  justify-self: center;
+}
+
+body#TheBody .sis-cloze-region--footer .btn-74 {
+  justify-self: center;
 }
 
 body#TheBody .sis-cloze-region {
@@ -87,7 +105,7 @@ body#TheBody .Titles {
 body#TheBody .ExerciseTitle {
   font-size: clamp(1.4rem, 2.1vw, 2rem);
   line-height: 1.2;
-  margin-bottom: 0;
+  margin-bottom: 2rem;
   text-align: center;
 }
 
@@ -142,8 +160,8 @@ body#TheBody .ClozeBody {
 body#TheBody .GapBox {
   background: #ffffff;
   border: 1px solid #94a3b8;
-  box-sizing: border-box;
   border-radius: .78rem;
+  box-sizing: border-box;
   color: #161616;
   line-height: 1.8;
   max-height: 2.25rem;
@@ -269,7 +287,7 @@ body#TheBody .sis-cloze-region--feedback {
 
 @media (min-width: 720px) {
   body#TheBody .sis-cloze-shell {
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   body#TheBody .sis-cloze-panel__grid {
@@ -283,3 +301,171 @@ body#TheBody .sis-cloze-region--feedback {
     width: auto;
   }
 }
+
+/* Button 74 by https://www.css-buttons.com/buttons/74/background-animated-button */
+
+.btn-74 {
+    align-items: center;
+    background: transparent;
+    border: 2px solid var(--color_74);
+    border-radius: 12px;
+    color: var(--color_74);
+    cursor: pointer;
+    display: flex;
+    font-family: sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    justify-content: center;
+    letter-spacing: 0.1em;
+    overflow: hidden;
+    padding: 14px 25px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: 1.25s;
+    z-index: 1;
+    width: fit-content;
+    margin: 0 auto;
+
+    --color_74: #002786;
+    /*** full width block ***/
+    /* --delay_74: 1;*/
+    /* width: 100%; */
+  }
+
+.btn-74 span {
+    background-color: var(--color_74);
+    border-radius: 50%;
+    height: 100%;
+    left: calc((var(--delay_74) - 1) * 25%);
+    position: absolute;
+    transform: translateY(150%);
+    transition: 0.75s;
+    transition-delay: calc((var(--delay_74) - 1) * 0.1s);
+    width: 25%;
+    z-index: -1;
+  }
+
+.btn-74:hover {
+    color: whitesmoke;
+  }
+
+.btn-74:hover span {
+    transform: translateY(0) scale(2);
+  }
+
+.btn-74 span:nth-child(1) {
+
+    --delay_74: 1;
+  }
+
+.btn-74 span:nth-child(2) {
+
+    --delay_74: 2;
+  }
+
+.btn-74 span:nth-child(3) {
+
+    --delay_74: 3;
+  }
+
+.btn-74 span:nth-child(4) {
+
+    --delay_74: 4;
+  }
+
+.btn-74:disabled {
+    background: #dcdcdc;
+    box-shadow: none;
+    color: #7e7e7e;
+    opacity: .65;
+    pointer-events: none;
+  }
+
+  /* Button 17 by https://www.css-buttons.com/buttons/173/animated-3d-buttons */
+
+  .btn-17 {
+      --bg_color: #002786;
+      --border_color: transparent;
+      --color: #fff;
+      align-items: center;
+      background: var(--bg_color);
+      border: 1px solid var(--border_color);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      box-sizing: border-box;
+      color: var(--color);
+      cursor: pointer;
+      display: inline-flex;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+      justify-content: space-between;
+      letter-spacing: 1.2px;
+      overflow: hidden;
+      padding: 12px 20px;
+      /* eslint-disable-next-line css/use-baseline */
+      user-select: none;
+
+      /*** full width block ***/
+      /* width: 100%; */
+    }
+
+  .btn-17:after,
+  .btn-17:before {
+      animation: anm-17 0.8s linear infinite;
+      content: "";
+    }
+
+  .btn-17:hover {
+      --bg_color: #95111e;
+      --color: #fff;
+    }
+
+  .btn-17:active {
+      --bg_color: #002786;
+      --color: #fff;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.24);
+    }
+
+  @keyframes anm-17 {
+      0% {
+
+          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1),
+              0 0 0 20px rgba(255, 255, 255, 0.1),
+              0 0 0 40px rgba(255, 255, 255, 0.1),
+              0 0 0 60px rgba(255, 255, 255, 0.1);
+        }
+
+      100% {
+
+          box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.1),
+              0 0 0 40px rgba(255, 255, 255, 0.1),
+              0 0 0 60px rgba(255, 255, 255, 0.1),
+              0 0 0 80px rgba(255, 255, 255, 0);
+        }
+    }
+
+  /*** disabled style ***/
+  .btn-17:disabled {
+      background: #dcdcdc;
+      box-shadow: none;
+      color: #0f0f0f;
+      opacity: .65;
+      pointer-events: none;
+      text-shadow: none;
+    }
+
+  .btn-17:disabled:after,
+  .btn-17:disabled:before {
+      animation: none;
+    }
+  .btn17Container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin: 1rem auto 2rem;
+      width: 100%;
+    }

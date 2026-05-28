@@ -34,8 +34,7 @@ body {
 	color: #000000;
 font-size: inherit;
 	line-height: inherit;
-	margin-right: 5%;
-	margin-left: 5%;
+	margin: 0;
 }
 
 p {
@@ -634,7 +633,8 @@ display: none
 }
 
 body {
-padding-top: 1em;
+margin: 0;
+padding-top: 0;
 }
 
     /* for cloze */
@@ -695,18 +695,18 @@ p {
 /* Optional: if you want consistent button sizing even when user zooms further,
      you could add a max-width breakpoint tweak, but usually clamp alone suffices. */
 
-.wrapfit {
-   width: fit-content;
-   margin: 0 auto;
-}
-
+.wrapfit,
 .wrapit {
-   margin: 0 auto;
+   max-width: 920px;
+   width: calc(100% - 2rem);
+   margin: 2.5rem auto 3rem;
+   padding: 0 1rem;
+   box-sizing: border-box;
 }
 
 </style>
 
-<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-2QemiS5kShhrwu50mF3HowzvEGQ85W72xhB6aLxwtsKw58EhjtZrALvRCxSTmohd">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-2X8YODe77KnBrX75SA3M8aXpl0gknJ495UB27PI+0Lzr7P5iML+G/wAErBuaa/5q">
 
 <script>
 
@@ -1583,23 +1583,11 @@ function TypeChars(Chars){
 
 </script>
 
-<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
-
-<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-YCQgiB7vQ7x+8K6+UBXUhkyEbL2YWBKYKAjgSA5h1sAia46nrUPEkfnS024kXp6w"></script>
 
 </head>
 
 <body onload="StartUp()" id="TheBody"><div class="wrapfit">
-
-<hr><!-- BeginTopNavButtons -->
-
-<div class="NavButtonBar" id="TopNavBar">
-
-<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
-
-</div>
-
-<!-- EndTopNavButtons -->
 
 <div class="Titles">
 	<h1 class="ExerciseTitle">8. Phone Invasion</h1>
@@ -1612,14 +1600,6 @@ function TypeChars(Chars){
 
 <div id="MainDiv" class="StdDiv">
 
-<!-- These top buttons hidden; reveal if required -->
-<!--
-<button id="CheckButton1" class="FuncButton" type="submit"  onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
-
-<button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
-
--->
-
 <div id="ClozeDiv">
 <form id="Cloze" method="post" action="#" onsubmit="return false;">
 <div class="ClozeBody">
@@ -1627,11 +1607,9 @@ Ten years ago, most adults had regular cell <span class="GapSpan" id="GapSpan0">
 </div>
 </form>
 </div>
-
-<button id="CheckButton2" class="FuncButton" type="submit" form="Cloze" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
-
-<button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
-
+<div class="btn17Container">
+  <button class="btn-17" type="submit" form="Cloze" id="check">check</button>
+  <button class="btn-17" type="button" id="hint">hint</button>
 </div>
 
 <div class="Feedback" id="FeedbackDiv">
@@ -1639,13 +1617,19 @@ Ten years ago, most adults had regular cell <span class="GapSpan" id="GapSpan0">
 <button id="FeedbackOKButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
 </div>
 
+</div>
+
 <!-- BeginBottomNavButtons -->
 
-<hr><hr> <div class="NavButtonBar" id="BottomNavBar">
+<hr>
 
-<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
-
-</div>
+<button class="btn-74" type="button" onclick="location='JavaScript:window.close() '; return false;">
+  close
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
 
 <!-- EndBottomNavButtons -->
 

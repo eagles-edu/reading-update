@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Background Shade Animated Button</title>
+<style>
+.btn-116 {
+    --width: 150px;
+    --height: 50px;
+    border: solid 1px transparent;
+    width: var(--width);
+    height: 50px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    background: #03635a;
+    border-radius: 8px;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    user-select: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.btn-116:active {
+    transform: scale(.98);
+}
+
+.btn-116:hover {
+    background: #e63d00;
+}
+
+.btn-116::before {
+    content: '';
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    left: 50%;
+    --size: calc(var(--width) + 5px);
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    box-shadow: #b4fdf6 0px 0px 0px 10px inset,
+        #1efae4 0 0 0 20px inset,
+        #05e1cb 0 0 0 30px inset,
+        #04af9e 0 0 0 40px inset,
+        #037d71 0 0 0 50px inset;
+    z-index: -1;
+    transition: .2s;
+}
+
+.btn-116:hover::before {
+    box-shadow: #ffdacc 0px 0px 0px 10px inset,
+        #ffb499 0 0 0 20px inset,
+        #ff8f66 0 0 0 30px inset,
+        #ff6933 0 0 0 40px inset,
+        #ff4500 0 0 0 50px inset;
+}
+
+.btn-116:active::before {
+    box-shadow: none;
+}
+
+/*** disabled style ***/
+.btn-116:disabled {
+    pointer-events: none;
+    opacity: .65;
+    color: #7e7e7e;
+    background: #dcdcdc;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.btn-116:disabled::before {
+    box-shadow: none;
+}
+</style>
+</head>
+<body>
+<!-- https://www.css-buttons.com/buttons/116/background-shade-animated-button -->
+
+<button class="btn-116">Button 116</button>
+</body>
+</html>

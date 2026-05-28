@@ -26,8 +26,7 @@
         color: #000000;
         font-size: inherit;
         line-height: inherit;
-        margin-right: 5%;
-        margin-left: 5%;
+	margin: 0;
       }
 
       p {
@@ -617,8 +616,9 @@ span.CorrectMark{
       }
 
       body {
-        padding-top: 1em;
-      }
+margin: 0;
+padding-top: 0;
+}
 
       /* for cloze */
       /*   new clamp sys*/
@@ -674,16 +674,16 @@ span.CorrectMark{
 
       /* Optional: if you want consistent button sizing even when user zooms further,
      you could add a max-width breakpoint tweak, but usually clamp alone suffices. */
-      .wrapfit {
-        width: fit-content;
-        margin: 0 auto;
-      }
-
-      .wrapit {
-        margin: 0 auto;
-      }
+      .wrapfit,
+.wrapit {
+   max-width: 920px;
+   width: calc(100% - 2rem);
+   margin: 2.5rem auto 3rem;
+   padding: 0 1rem;
+   box-sizing: border-box;
+}
     </style>
-    <link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-2QemiS5kShhrwu50mF3HowzvEGQ85W72xhB6aLxwtsKw58EhjtZrALvRCxSTmohd">
+    <link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-2X8YODe77KnBrX75SA3M8aXpl0gknJ495UB27PI+0Lzr7P5iML+G/wAErBuaa/5q">
     <script>
       // Start of script
       function Client() {
@@ -1435,8 +1435,8 @@ span.CorrectMark{
       }
       // End of script
     </script>
-    <script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
-  <script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
+    <script defer src="../../js/sis-cloze-submit.js" integrity="sha384-YCQgiB7vQ7x+8K6+UBXUhkyEbL2YWBKYKAjgSA5h1sAia46nrUPEkfnS024kXp6w"></script>
+  <script defer src="../../js/sis-cloze-submit.js" integrity="sha384-YCQgiB7vQ7x+8K6+UBXUhkyEbL2YWBKYKAjgSA5h1sAia46nrUPEkfnS024kXp6w"></script>
 
 </head>
   <body onload="StartUp()" id="TheBody">
@@ -1444,11 +1444,12 @@ span.CorrectMark{
       <!-- BeginTopNavButtons -->
       <!-- EndTopNavButtons -->
       <div class="Titles">
-        <h3 class="ExerciseTitle">40. Las Vegas</h3>
-      </div>
-      <div id="Instructions"></div>
-    </div>
-    <div id="MainDiv" class="StdDiv">
+        <h1 class="ExerciseTitle">40. Las Vegas</h1>
+      </div><div id="InstructionsDiv" class="StdDiv">
+	<div id="Instructions"></div>
+</div>
+
+<div id="MainDiv" class="StdDiv">
       <!-- These top buttons hidden; reveal if required -->
       <!--
 <button id="CheckButton1" class="FuncButton" type="submit"  onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1497,15 +1498,17 @@ span.CorrectMark{
         ">&nbsp;OK&nbsp;</button>
     </div>
     <!-- BeginBottomNavButtons -->
-    <!-- EndBottomNavButtons -->
+
+<hr><hr> <div class="NavButtonBar" id="BottomNavBar">
+
+<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
+
+</div>
+
+<!-- EndBottomNavButtons -->
     <!-- BeginSubmissionForm -->
     <!-- EndSubmissionForm -->
-    <hr>
-    <div class="cenmar">
-      <a href="JavaScript:window.close()">CLOSE</a>
-      <br>
-      <br>
-    </div>
-  </body>
+
+<br><br></div></body>
   <!-- /begin3/cloze/b3cloze040.htm, Mon, 03 Jul 2017 05:23:35 GMT -->
 </html>

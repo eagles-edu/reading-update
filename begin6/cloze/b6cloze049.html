@@ -4,17 +4,14 @@
 <!-- /begin6/cloze/b6cloze049.htm, Mon, 03 Jul 2017 06:32:49 GMT -->
 <head>
 <meta charset="utf-8">
-<link rel="preload" href="../../style/font-stack.css" as="style">
-<link rel="stylesheet" href="../../style/font-stack.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="sis-cloze-prototype" content="current">
+<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
+<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
+<link rel="preload" href="../../js/theme-selector.js" as="script" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty">
+<script src="../../js/theme-selector.js" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
 <meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to Ron."><meta name="keywords" content="Hot Potatoes, Hot Potatoes, Half-Baked Software, Windows, University of Victoria">
-
-<link rel="schema.DC" href="../../../purl.org/dc/elements/1.1/index.html">
-<link rel="icon" href="../../pics/favicon.png">
-<meta name="DC:Creator" content="Ron">
-<meta name="DC:Title" content="49. Quitting College to Follow Dreams">
-
-
-
+<link rel="icon" href="../../favicon.ico">
 
 <title>Cloze:
 49. Quitting College to Follow Dreams
@@ -24,10 +21,7 @@
 
 <!-- The following insertion allows you to add your own code directly to this head tag from the configuration screen -->
 
-
-
 <style>
-
 
 /* This is the CSS stylesheet used in the exercise. */
 /* Elements in square brackets are replaced by data based on configuration settings when the exercise is built. */
@@ -35,18 +29,10 @@
 /* BeginCorePageCSS */
 
 /* Made with executable version 6.3 Release 0 Build 1 */
-
-
-/* Hack to hide a nested Quicktime player from IE, which can't handle it. */
-* html object.MediaPlayerNotForIE {
-	display: none;
-}
-
 body {
 	background-color: #C0C0C0;
 	color: #000000;
-	font-family: var(--font-base);
-	font-size: inherit;
+font-size: inherit;
 	line-height: inherit;
 	margin-right: 5%;
 	margin-left: 5%;
@@ -71,8 +57,7 @@ div.Titles{
 }
 
 button{
-	font-family: var(--font-base);
-	font-size: 100%;
+font-size: 100%;
 	display: inline;
 }
 
@@ -122,7 +107,6 @@ button p.RTLText{
 	text-align: right;
 	font-size: 150%;
 	direction: rtl;
-	font-family: var(--font-base);
 }
 
 .Guess{
@@ -183,8 +167,7 @@ span.CorrectMark{
 */
 
 input, textarea{
-	font-family: var(--font-base);
-	font-size: 120%;
+font-size: 120%;
 }
 
 select{
@@ -206,9 +189,6 @@ div.Feedback {
 	display: none;
 	font-size: 100%;
 }
-
-
-
 
 div.ExerciseDiv{
 	color: #000000;
@@ -400,8 +380,7 @@ div.Keypad{
 }
 
 div.Keypad button{
-	font-family: var(--font-base);
-	font-size: 120%;
+font-size: 120%;
 	background-color: #ffffff;
 	color: #000000;
 	width: 2em;
@@ -420,7 +399,6 @@ div.QuestionNavigation{
 }
 
 textarea{
-	font-family: var(--font-base);
 }
 
 .QuestionText{
@@ -596,8 +574,7 @@ a:hover{
 
 div.CardStyle {
 	position: absolute;
-	font-family: var(--font-base);
-	font-size: 100%;
+font-size: 100%;
 	padding: 5px;
 	border-style: solid;
 	border-width: 1px;
@@ -657,11 +634,11 @@ display: none
 }
 
 body {
-padding-top: 1em;
+margin: 0;
+padding-top: 0;
 }
 
     /* for cloze */
-
 
 /*   new clamp sys*/
 
@@ -719,17 +696,18 @@ p {
 /* Optional: if you want consistent button sizing even when user zooms further,
      you could add a max-width breakpoint tweak, but usually clamp alone suffices. */
 
-.wrapfit {
-   width: fit-content;
-   margin: 0 auto;
-}
-
+.wrapfit,
 .wrapit {
-   margin: 0 auto;
+   max-width: 920px;
+   width: calc(100% - 2rem);
+   margin: 2.5rem auto 3rem;
+   padding: 0 1rem;
+   box-sizing: border-box;
 }
 
 </style>
 
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-2X8YODe77KnBrX75SA3M8aXpl0gknJ495UB27PI+0Lzr7P5iML+G/wAErBuaa/5q">
 
 <script>
 
@@ -790,8 +768,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -833,9 +809,6 @@ function FocusAButton(){
 		}
 	}
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -907,8 +880,6 @@ function ShowElements(Show, TagName, ContainerToReverse){
 	}
 }
 
-
-
 function HideFeedback(){
 	document.getElementById('FeedbackDiv').style.display = 'none';
 	ShowElements(true, 'input');
@@ -918,7 +889,6 @@ function HideFeedback(){
 		Finish();
 	}
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -1058,9 +1028,6 @@ function WriteToInstructions(Feedback) {
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString){
 	return InString.replace(/"/g, '&quot;')
 }
@@ -1148,9 +1115,6 @@ function RemoveBottomNavBarForIE(){
 	}
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1168,10 +1132,6 @@ function Finish(){
 		Frm.submit();
 	}
 }
-
-
-
-
 
 //JCLOZE CORE JAVASCRIPT CODE
 
@@ -1362,7 +1322,6 @@ I[26][1][0] = new Array();
 I[26][1][0][0] = '\u0070\u0065\u006F\u0070\u006C\u0065';
 I[26][2]='';
 
-
 State = new Array();
 
 function StartUp(){
@@ -1372,12 +1331,6 @@ function StartUp(){
 		document.getElementById('CharacterKeypad').style.display = 'block';
 	}
 
-
-
-
-
-
-
 	var i = 0;
 
 	State.length = 0;
@@ -1386,8 +1339,6 @@ function StartUp(){
 	}
 
 	ClearTextBoxes();
-
-
 
 }
 
@@ -1482,8 +1433,6 @@ function CheckAnswers(){
 	CompileGuesses();
 
 	if ((AllCorrect == true)||(Finished == true)){
-
-
 
 		TimeOver = true;
 		Locked = true;
@@ -1655,27 +1604,28 @@ function TypeChars(Chars){
 	}
 }
 
-
-
 // End of script
 
 </script>
 
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-YCQgiB7vQ7x+8K6+UBXUhkyEbL2YWBKYKAjgSA5h1sAia46nrUPEkfnS024kXp6w"></script>
 
 </head>
 
 <body onload="StartUp()" id="TheBody"><div class="wrapfit">
 
-<!-- BeginTopNavButtons -->
+<hr><!-- BeginTopNavButtons -->
 
+<div class="NavButtonBar" id="TopNavBar">
 
+<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
+
+</div>
 
 <!-- EndTopNavButtons -->
 
 <div class="Titles">
-	<h2 class="ExerciseTitle">49. Quitting College to Follow Dreams</h2>
-
-
+	<h1 class="ExerciseTitle">49. Quitting College to Follow Dreams</h1>
 
 </div>
 
@@ -1683,41 +1633,29 @@ function TypeChars(Chars){
 	<div id="Instructions">1: Study the new words. 2: Listen to the story. 3: Read the story out loud. 4: Fill-in the	blanks below. 5: Check your answers.</div>
 </div>
 
-
-
-
-
 <div id="MainDiv" class="StdDiv">
 
 <!-- These top buttons hidden; reveal if required -->
 <!--
 <button id="CheckButton1" class="FuncButton" type="submit"  onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
 
-
 <button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
-
 
 -->
 
 <div id="ClozeDiv">
 <form id="Cloze" method="post" action="#" onsubmit="return false;">
 <div class="ClozeBody">
-Many famous people we know and love quit <span class="GapSpan" id="GapSpan0"><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="7"></span> to follow their dreams. Mark Zuckerberg and Steve <span class="GapSpan" id="GapSpan1"><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6"></span> are just a few of them. Elizabeth was <span class="GapSpan" id="GapSpan2"><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="8"></span> in communication studies. She was doing well in <span class="GapSpan" id="GapSpan3"><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="7"></span>, but she had bigger dreams. She wanted to <span class="GapSpan" id="GapSpan4"><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="6"></span> a clothing line. She has been designing clothes <span class="GapSpan" id="GapSpan5"><input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="6"></span> a long time. She wanted her clothing line <span class="GapSpan" id="GapSpan6"><input type="text" id="Gap6" onfocus="TrackFocus(6)" onblur="LeaveGap()" class="GapBox" size="6"></span> be high quality, but affordable. She told her <span class="GapSpan" id="GapSpan7"><input type="text" id="Gap7" onfocus="TrackFocus(7)" onblur="LeaveGap()" class="GapBox" size="7"></span> that she wanted to quit college. Her parents <span class="GapSpan" id="GapSpan8"><input type="text" id="Gap8" onfocus="TrackFocus(8)" onblur="LeaveGap()" class="GapBox" size="6"></span> not happy about it.<br><br>Elizabeth told them about <span class="GapSpan" id="GapSpan9"><input type="text" id="Gap9" onfocus="TrackFocus(9)" onblur="LeaveGap()" class="GapBox" size="10"></span> and Jobs. Her parents said that they were <span class="GapSpan" id="GapSpan10"><input type="text" id="Gap10" onfocus="TrackFocus(10)" onblur="LeaveGap()" class="GapBox" size="10"></span>. They told her that if she quit college, <span class="GapSpan" id="GapSpan11"><input type="text" id="Gap11" onfocus="TrackFocus(11)" onblur="LeaveGap()" class="GapBox" size="6"></span> had to leave the house. Elizabeth thought about <span class="GapSpan" id="GapSpan12"><input type="text" id="Gap12" onfocus="TrackFocus(12)" onblur="LeaveGap()" class="GapBox" size="6"></span> and made the decision to quit college. She <span class="GapSpan" id="GapSpan13"><input type="text" id="Gap13" onfocus="TrackFocus(13)" onblur="LeaveGap()" class="GapBox" size="6"></span> at her friend's house for a little bit. <span class="GapSpan" id="GapSpan14"><input type="text" id="Gap14" onfocus="TrackFocus(14)" onblur="LeaveGap()" class="GapBox" size="6"></span> worked full-time as a manager at Starbucks, and <span class="GapSpan" id="GapSpan15"><input type="text" id="Gap15" onfocus="TrackFocus(15)" onblur="LeaveGap()" class="GapBox" size="6"></span> enough money to pay her part of the <span class="GapSpan" id="GapSpan16"><input type="text" id="Gap16" onfocus="TrackFocus(16)" onblur="LeaveGap()" class="GapBox" size="6"></span> and buy food. At night, Elizabeth would sketch <span class="GapSpan" id="GapSpan17"><input type="text" id="Gap17" onfocus="TrackFocus(17)" onblur="LeaveGap()" class="GapBox" size="7"></span>.<br><br>After a few months of saving money, Elizabeth <span class="GapSpan" id="GapSpan18"><input type="text" id="Gap18" onfocus="TrackFocus(18)" onblur="LeaveGap()" class="GapBox" size="6"></span> up a website and posted her clothes online. <span class="GapSpan" id="GapSpan19"><input type="text" id="Gap19" onfocus="TrackFocus(19)" onblur="LeaveGap()" class="GapBox" size="6"></span> started advertising to her friends and cousins. She <span class="GapSpan" id="GapSpan20"><input type="text" id="Gap20" onfocus="TrackFocus(20)" onblur="LeaveGap()" class="GapBox" size="6"></span> them to share her website to their friends <span class="GapSpan" id="GapSpan21"><input type="text" id="Gap21" onfocus="TrackFocus(21)" onblur="LeaveGap()" class="GapBox" size="6"></span> family. Eventually, Elizabeth was getting order requests. She <span class="GapSpan" id="GapSpan22"><input type="text" id="Gap22" onfocus="TrackFocus(22)" onblur="LeaveGap()" class="GapBox" size="6"></span> getting so many that she was feeling overwhelmed. <span class="GapSpan" id="GapSpan23"><input type="text" id="Gap23" onfocus="TrackFocus(23)" onblur="LeaveGap()" class="GapBox" size="6"></span> promised that the clothes would be shipped out <span class="GapSpan" id="GapSpan24"><input type="text" id="Gap24" onfocus="TrackFocus(24)" onblur="LeaveGap()" class="GapBox" size="6"></span> two weeks, but she couldn't make all of <span class="GapSpan" id="GapSpan25"><input type="text" id="Gap25" onfocus="TrackFocus(25)" onblur="LeaveGap()" class="GapBox" size="6"></span> clothes in time. She decided to hire three <span class="GapSpan" id="GapSpan26"><input type="text" id="Gap26" onfocus="TrackFocus(26)" onblur="LeaveGap()" class="GapBox" size="6"></span> to help her make the clothes.
+Many famous people we know and love quit <span class="GapSpan" id="GapSpan0"><label class="sr-only" for="Gap0">Blank 1</label><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="7"></span> to follow their dreams. Mark Zuckerberg and Steve <span class="GapSpan" id="GapSpan1"><label class="sr-only" for="Gap1">Blank 2</label><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6"></span> are just a few of them. Elizabeth was <span class="GapSpan" id="GapSpan2"><label class="sr-only" for="Gap2">Blank 3</label><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="8"></span> in communication studies. She was doing well in <span class="GapSpan" id="GapSpan3"><label class="sr-only" for="Gap3">Blank 4</label><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="7"></span>, but she had bigger dreams. She wanted to <span class="GapSpan" id="GapSpan4"><label class="sr-only" for="Gap4">Blank 5</label><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="6"></span> a clothing line. She has been designing clothes <span class="GapSpan" id="GapSpan5"><label class="sr-only" for="Gap5">Blank 6</label><input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="6"></span> a long time. She wanted her clothing line <span class="GapSpan" id="GapSpan6"><label class="sr-only" for="Gap6">Blank 7</label><input type="text" id="Gap6" onfocus="TrackFocus(6)" onblur="LeaveGap()" class="GapBox" size="6"></span> be high quality, but affordable. She told her <span class="GapSpan" id="GapSpan7"><label class="sr-only" for="Gap7">Blank 8</label><input type="text" id="Gap7" onfocus="TrackFocus(7)" onblur="LeaveGap()" class="GapBox" size="7"></span> that she wanted to quit college. Her parents <span class="GapSpan" id="GapSpan8"><label class="sr-only" for="Gap8">Blank 9</label><input type="text" id="Gap8" onfocus="TrackFocus(8)" onblur="LeaveGap()" class="GapBox" size="6"></span> not happy about it.<br><br>Elizabeth told them about <span class="GapSpan" id="GapSpan9"><label class="sr-only" for="Gap9">Blank 10</label><input type="text" id="Gap9" onfocus="TrackFocus(9)" onblur="LeaveGap()" class="GapBox" size="10"></span> and Jobs. Her parents said that they were <span class="GapSpan" id="GapSpan10"><label class="sr-only" for="Gap10">Blank 11</label><input type="text" id="Gap10" onfocus="TrackFocus(10)" onblur="LeaveGap()" class="GapBox" size="10"></span>. They told her that if she quit college, <span class="GapSpan" id="GapSpan11"><label class="sr-only" for="Gap11">Blank 12</label><input type="text" id="Gap11" onfocus="TrackFocus(11)" onblur="LeaveGap()" class="GapBox" size="6"></span> had to leave the house. Elizabeth thought about <span class="GapSpan" id="GapSpan12"><label class="sr-only" for="Gap12">Blank 13</label><input type="text" id="Gap12" onfocus="TrackFocus(12)" onblur="LeaveGap()" class="GapBox" size="6"></span> and made the decision to quit college. She <span class="GapSpan" id="GapSpan13"><label class="sr-only" for="Gap13">Blank 14</label><input type="text" id="Gap13" onfocus="TrackFocus(13)" onblur="LeaveGap()" class="GapBox" size="6"></span> at her friend's house for a little bit. <span class="GapSpan" id="GapSpan14"><label class="sr-only" for="Gap14">Blank 15</label><input type="text" id="Gap14" onfocus="TrackFocus(14)" onblur="LeaveGap()" class="GapBox" size="6"></span> worked full-time as a manager at Starbucks, and <span class="GapSpan" id="GapSpan15"><label class="sr-only" for="Gap15">Blank 16</label><input type="text" id="Gap15" onfocus="TrackFocus(15)" onblur="LeaveGap()" class="GapBox" size="6"></span> enough money to pay her part of the <span class="GapSpan" id="GapSpan16"><label class="sr-only" for="Gap16">Blank 17</label><input type="text" id="Gap16" onfocus="TrackFocus(16)" onblur="LeaveGap()" class="GapBox" size="6"></span> and buy food. At night, Elizabeth would sketch <span class="GapSpan" id="GapSpan17"><label class="sr-only" for="Gap17">Blank 18</label><input type="text" id="Gap17" onfocus="TrackFocus(17)" onblur="LeaveGap()" class="GapBox" size="7"></span>.<br><br>After a few months of saving money, Elizabeth <span class="GapSpan" id="GapSpan18"><label class="sr-only" for="Gap18">Blank 19</label><input type="text" id="Gap18" onfocus="TrackFocus(18)" onblur="LeaveGap()" class="GapBox" size="6"></span> up a website and posted her clothes online. <span class="GapSpan" id="GapSpan19"><label class="sr-only" for="Gap19">Blank 20</label><input type="text" id="Gap19" onfocus="TrackFocus(19)" onblur="LeaveGap()" class="GapBox" size="6"></span> started advertising to her friends and cousins. She <span class="GapSpan" id="GapSpan20"><label class="sr-only" for="Gap20">Blank 21</label><input type="text" id="Gap20" onfocus="TrackFocus(20)" onblur="LeaveGap()" class="GapBox" size="6"></span> them to share her website to their friends <span class="GapSpan" id="GapSpan21"><label class="sr-only" for="Gap21">Blank 22</label><input type="text" id="Gap21" onfocus="TrackFocus(21)" onblur="LeaveGap()" class="GapBox" size="6"></span> family. Eventually, Elizabeth was getting order requests. She <span class="GapSpan" id="GapSpan22"><label class="sr-only" for="Gap22">Blank 23</label><input type="text" id="Gap22" onfocus="TrackFocus(22)" onblur="LeaveGap()" class="GapBox" size="6"></span> getting so many that she was feeling overwhelmed. <span class="GapSpan" id="GapSpan23"><label class="sr-only" for="Gap23">Blank 24</label><input type="text" id="Gap23" onfocus="TrackFocus(23)" onblur="LeaveGap()" class="GapBox" size="6"></span> promised that the clothes would be shipped out <span class="GapSpan" id="GapSpan24"><label class="sr-only" for="Gap24">Blank 25</label><input type="text" id="Gap24" onfocus="TrackFocus(24)" onblur="LeaveGap()" class="GapBox" size="6"></span> two weeks, but she couldn't make all of <span class="GapSpan" id="GapSpan25"><label class="sr-only" for="Gap25">Blank 26</label><input type="text" id="Gap25" onfocus="TrackFocus(25)" onblur="LeaveGap()" class="GapBox" size="6"></span> clothes in time. She decided to hire three <span class="GapSpan" id="GapSpan26"><label class="sr-only" for="Gap26">Blank 27</label><input type="text" id="Gap26" onfocus="TrackFocus(26)" onblur="LeaveGap()" class="GapBox" size="6"></span> to help her make the clothes.
 </div>
 </form>
 </div>
 
-
-
 <button id="CheckButton2" class="FuncButton" type="submit" form="Cloze" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
-
 
 <button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
 
-
 </div>
-
-
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
@@ -1726,7 +1664,11 @@ Many famous people we know and love quit <span class="GapSpan" id="GapSpan0"><in
 
 <!-- BeginBottomNavButtons -->
 
+<hr><hr> <div class="NavButtonBar" id="BottomNavBar">
 
+<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
+
+</div>
 
 <!-- EndBottomNavButtons -->
 
@@ -1734,8 +1676,7 @@ Many famous people we know and love quit <span class="GapSpan" id="GapSpan0"><in
 
 <!-- EndSubmissionForm -->
 
-<hr><div class="cenmar textres12"><a href="JavaScript:window.close()">CLOSE</a></div><br></div></body>
-
+<br><br></div></body>
 
 <!-- /begin6/cloze/b6cloze049.htm, Mon, 03 Jul 2017 06:32:49 GMT -->
 </html>

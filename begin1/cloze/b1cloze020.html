@@ -31,8 +31,7 @@
 body{
 background-color: #C0C0C0;
 	color: #000000;
-	margin-right: 5%;
-	margin-left: 5%;
+	margin: 0;
 	font-size: 1.3em ;
 }
 
@@ -660,7 +659,8 @@ display: none
 }
 
 body {
-padding-top: 1em;
+margin: 0;
+padding-top: 0;
 }
 
 .smb,
@@ -797,7 +797,7 @@ audio::-webkit-media-controls-panel {
 }
 </style>
 
-<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-2QemiS5kShhrwu50mF3HowzvEGQ85W72xhB6aLxwtsKw58EhjtZrALvRCxSTmohd">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-2X8YODe77KnBrX75SA3M8aXpl0gknJ495UB27PI+0Lzr7P5iML+G/wAErBuaa/5q">
 
 <script>
 
@@ -1579,14 +1579,20 @@ function TypeChars(Chars){
 </script>
 
 <link rel="icon" href="../../favicon.ico">
-<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
-<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-YCQgiB7vQ7x+8K6+UBXUhkyEbL2YWBKYKAjgSA5h1sAia46nrUPEkfnS024kXp6w"></script>
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-YCQgiB7vQ7x+8K6+UBXUhkyEbL2YWBKYKAjgSA5h1sAia46nrUPEkfnS024kXp6w"></script>
 
 </head>
 
 <body onload="StartUp()" id="TheBody"><div class="wrapfit">
 
-<!-- BeginTopNavButtons -->
+<hr><!-- BeginTopNavButtons -->
+
+<div class="NavButtonBar" id="TopNavBar">
+
+<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
+
+</div>
 
 <!-- EndTopNavButtons -->
 
@@ -1630,13 +1636,19 @@ She stands at the starting line. She <span class="GapSpan" id="GapSpan0"><label 
 
 <!-- BeginBottomNavButtons -->
 
+<hr><hr> <div class="NavButtonBar" id="BottomNavBar">
+
+<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
+
+</div>
+
 <!-- EndBottomNavButtons -->
 
 <!-- BeginSubmissionForm -->
 
 <!-- EndSubmissionForm -->
 
-<hr><div class="cenmar textres12"><a href="JavaScript:window.close()">CLOSE</a></div><hr><br></div></body>
+<br><br></div></body>
 
 <!-- /begin1/cloze/b1cloze020.htm, Sun, 02 Jul 2017 04:39:48 GMT -->
 </html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animated Border Radius Button</title>
+<style>
+.btn-164 {
+    --boder_color: #000;
+    --color: #000;
+    border: solid 2px var(--boder_color);
+    padding: 14px 26px;
+    font-size: 16px;
+    background: transparent;
+    color: var(--color);
+    box-shadow: 0 0px 0px rgba(11, 14, 15, 0.2);
+    border-radius: 0px;
+    --duration: .15s;
+    --delay: .15s;
+    --border_radius: 16px;
+    transition:
+        border-top-left-radius var(--duration) var(--delay) ease-out,
+        border-top-right-radius var(--duration) calc(var(--delay) * 2) ease-out,
+        border-bottom-right-radius var(--duration) calc(var(--delay) * 3) ease-out,
+        border-bottom-left-radius var(--duration) calc(var(--delay) * 4) ease-out;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    user-select: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    /*** full width block ***/
+    /* width: 100%; */
+}
+
+.btn-164:hover,
+.btn-164:focus {
+    box-shadow: 0 4px 8px hsla(190deg, 15%, 5%, .2);
+    color: #000;
+    border-radius: var(--border_radius);
+}
+
+/*** disabled style ***/
+.btn-164:disabled {
+    pointer-events: none;
+    opacity: .65;
+    color: #7e7e7e;
+    background: #dcdcdc;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+/*** dark mode body ***/
+html.dark-mode .btn-164 {
+    --boder_color: #fff;
+    --color: #fff;
+}
+</style>
+</head>
+<body>
+<!-- https://www.css-buttons.com/buttons/164/animated-border-radius-button -->
+
+<button class="btn-164">Button 164</button>
+</body>
+</html>

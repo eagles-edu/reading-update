@@ -62,7 +62,6 @@
     "Chk",
     "colorblack",
     "dblock",
-    "didn",
     "dinlineblk",
     "dlogindnt",
     "fieldlabel",
@@ -98,6 +97,7 @@
     "wrapit"
   ],
   "taskManager.favorites": [
+    "efast-copy/npm/format:check",
     "efast-copy/npm/html:check"
   ]
 }

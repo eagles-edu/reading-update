@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Background Animated Button</title>
+<style>
+.btn-17 {
+    --color: #fff;
+    --bg_color: #002786;
+    --border_color: transparent;
+    color: var(--color);
+    background: var(--bg_color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--border_color);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    padding: 12px 20px;
+    font-size: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 1.2px;
+    user-select: none;
+    font-weight: bold;
+    /*** full width block ***/
+    /* width: 100%; */
+}
+
+.btn-17:after,
+.btn-17:before {
+    content: "";
+    animation: anm-17 0.8s linear infinite;
+}
+
+.btn-17:hover {
+    --color: #fff;
+    --bg_color: #95111e;
+}
+
+.btn-17:active {
+    --color: #fff;
+    --bg_color: #002786;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.24);
+}
+
+@keyframes anm-17 {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1),
+            0 0 0 20px rgba(255, 255, 255, 0.1),
+            0 0 0 40px rgba(255, 255, 255, 0.1),
+            0 0 0 60px rgba(255, 255, 255, 0.1);
+    }
+
+    100% {
+        box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.1),
+            0 0 0 40px rgba(255, 255, 255, 0.1),
+            0 0 0 60px rgba(255, 255, 255, 0.1),
+            0 0 0 80px rgba(255, 255, 255, 0);
+    }
+}
+
+/*** disabled style ***/
+.btn-17:disabled {
+    pointer-events: none;
+    opacity: .65;
+    color: #0f0f0f;
+    box-shadow: none;
+    text-shadow: none;
+    background: #dcdcdc;
+}
+
+.btn-17:disabled:after,
+.btn-17:disabled:before {
+    animation: none;
+}
+
+.btn17Container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: nowrap;
+}
+</style>
+</head>
+<body>
+<!-- https://www.css-buttons.com/buttons/17/background-animated-button -->
+<div class="btn17Container">
+<button class="btn-17" type="submit" id="check">check</button>
+<button class="btn-17" type="button" id="hint">hint</button>
+</div>
+</body>
+</html>

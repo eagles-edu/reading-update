@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Background Animated Button</title>
+<style>
+.btn-74 {
+    --color_74: #002786;
+    padding: 14px 25px;
+    position: relative;
+    background: transparent;
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--color_74);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 2px solid var(--color_74);
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 1;
+    transition: 1.25s;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    /*** full width block ***/
+    /* width: 100%; */
+}
+
+.btn-74 span {
+    position: absolute;
+    width: 25%;
+    height: 100%;
+    background-color: var(--color_74);
+    transform: translateY(150%);
+    border-radius: 50%;
+    left: calc((var(--delay_74) - 1) * 25%);
+    transition: 0.75s;
+    transition-delay: calc((var(--delay_74) - 1) * 0.1s);
+    z-index: -1;
+}
+
+.btn-74:hover {
+    color: whitesmoke;
+}
+
+.btn-74:hover span {
+    transform: translateY(0) scale(2);
+}
+
+.btn-74 span:nth-child(1) {
+    --delay_74: 1;
+}
+
+.btn-74 span:nth-child(2) {
+    --delay_74: 2;
+}
+
+.btn-74 span:nth-child(3) {
+    --delay_74: 3;
+}
+
+.btn-74 span:nth-child(4) {
+    --delay_74: 4;
+}
+
+.btn-74:disabled {
+    pointer-events: none;
+    opacity: .65;
+    color: #7e7e7e;
+    background: #dcdcdc;
+    box-shadow: none;
+}
+</style>
+</head>
+<body>
+<!-- https://www.css-buttons.com/buttons/74/background-animated-button -->
+
+<button class="btn-74" type="button">
+  close
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+</body>
+</html>

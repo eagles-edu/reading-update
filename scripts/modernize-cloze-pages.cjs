@@ -22,6 +22,30 @@ const CLOZE_JS = "js/sis-cloze-submit.js";
 const CLOZE_LABEL_CLASS = "sr-only";
 const CLOZE_LABEL_PREFIX = "Blank ";
 const PROTOTYPE_META = '<meta name="sis-cloze-prototype" content="current">';
+const CLOSE_BUTTON_HTML =
+  '<button class="btn-74" type="button" onclick="location=\'JavaScript:window.close() \'; return false;">\n' +
+  "  close\n" +
+  "  <span></span>\n" +
+  "  <span></span>\n" +
+  "  <span></span>\n" +
+  "  <span></span>\n" +
+  "</button>";
+const MODERN_CHECK_HINT_BLOCK = [
+  '<div class="btn17Container">',
+  '  <button class="btn-17" type="submit" form="Cloze" id="check">check</button>',
+  '  <button class="btn-17" type="button" id="hint">hint</button>',
+  "</div>",
+].join("\n");
+const BOTTOM_NAV_BLOCK = [
+  "<!-- BeginBottomNavButtons -->",
+  "",
+  "<hr>",
+  "",
+  CLOSE_BUTTON_HTML,
+  "",
+  "<!-- EndBottomNavButtons -->",
+].join("\n");
+const NORMALIZED_END_SUBMISSION = "<!-- EndSubmissionForm -->\n\n<br><br></div></body>";
 const LEGACY_CHARSET_META =
   /\s*<meta[^>]*http-equiv="Content-Type"[^>]*content="text\/html;\s*charset=utf-8"[^>]*>\s*/i;
 
@@ -333,15 +357,15 @@ function updateHeadingLevel(source) {
     }
 
     if (
-      node.tagName === "h2" &&
+      /^h[2-6]$/i.test(node.tagName || "") &&
       hasClass(node, "ExerciseTitle") &&
       node.sourceCodeLocation?.startTag &&
       node.sourceCodeLocation?.endTag
     ) {
       const { startOffset: startStart, endOffset: startEnd } = node.sourceCodeLocation.startTag;
       const { startOffset: endStart, endOffset: endEnd } = node.sourceCodeLocation.endTag;
-      const startTag = source.slice(startStart, startEnd).replace(/^<h2\b/i, "<h1");
-      const endTag = source.slice(endStart, endEnd).replace(/^<\/h2\b/i, "</h1");
+      const startTag = source.slice(startStart, startEnd).replace(/^<h[2-6]\b/i, "<h1");
+      const endTag = source.slice(endStart, endEnd).replace(/^<\/h[2-6]\b/i, "</h1");
       edits.push(
         {
           start: startStart,
@@ -380,6 +404,90 @@ function updateHeadingLevel(source) {
     source: applyEdits(source, edits),
     changes: edits.map(() => "heading-level"),
   };
+}
+
+function normalizeClozeShell(source) {
+  const changes = [];
+  let next = source;
+
+  // Cleanup order for the modern cloze shell:
+  // 1. Strip any top nav bar entirely.
+  // 2. Normalize the replacement check/hint buttons.
+  // 3. Emit the bare bottom footer (one hr + close button) with no wrapper bar.
+  const topNavRe = /<hr><!-- BeginTopNavButtons -->[\s\S]*?<!-- EndTopNavButtons -->\s*/i;
+  if (topNavRe.test(next)) {
+    next = next.replace(topNavRe, "");
+    changes.push("top-nav");
+  }
+
+  const legacyButtonShellRe =
+    /<!-- These top buttons hidden; reveal if required -->[\s\S]*?(<div class="Feedback" id="FeedbackDiv">)/i;
+  const modernButtonShellRe = /<div class="btn17Container">[\s\S]*?(<div class="Feedback" id="FeedbackDiv">)/i;
+  if (legacyButtonShellRe.test(next)) {
+    next = next.replace(legacyButtonShellRe, `${MODERN_CHECK_HINT_BLOCK}\n\n$1`);
+    changes.push("button-shell");
+  } else if (modernButtonShellRe.test(next)) {
+    const replaced = next.replace(modernButtonShellRe, `${MODERN_CHECK_HINT_BLOCK}\n\n$1`);
+    if (replaced !== next) {
+      next = replaced;
+      changes.push("button-shell");
+    }
+  }
+
+  const bodyPaddingRe = /body\s*\{\s*padding-top:\s*[^;]+;\s*\}/i;
+  if (bodyPaddingRe.test(next)) {
+    next = next.replace(bodyPaddingRe, "body {\nmargin: 0;\npadding-top: 0;\n}");
+    changes.push("body-padding");
+  }
+
+  const wrapCssRe =
+    /\.wrapfit\s*\{\s*width:\s*fit-content;\s*margin:\s*0 auto;\s*\}\s*\.wrapit\s*\{\s*margin:\s*0 auto;\s*\}/s;
+  if (wrapCssRe.test(next)) {
+    next = next.replace(
+      wrapCssRe,
+      `.wrapfit,\n.wrapit {\n   max-width: 920px;\n   width: calc(100% - 2rem);\n   margin: 2.5rem auto 3rem;\n   padding: 0 1rem;\n   box-sizing: border-box;\n}`
+    );
+    changes.push("wrap-css");
+  }
+
+  const legacyInstructionsRe =
+    /(<div class="Titles">[\s\S]*?<\/div>\s*)(?:\r?\n\s*)<div id="Instructions"><\/div>\s*<\/div>\s*\r?\n\s*(<div id="MainDiv" class="StdDiv">)/i;
+  if (!/id="InstructionsDiv"/i.test(next) && legacyInstructionsRe.test(next)) {
+    next = next.replace(
+      legacyInstructionsRe,
+      `$1<div id="InstructionsDiv" class="StdDiv">\n\t<div id="Instructions"></div>\n</div>\n\n$2`
+    );
+    changes.push("instructions-shell");
+  }
+
+  const blankBottomNavRe = /<!-- BeginBottomNavButtons -->[\s\S]*?<!-- EndBottomNavButtons -->/i;
+  if (blankBottomNavRe.test(next)) {
+    const replaced = next.replace(blankBottomNavRe, BOTTOM_NAV_BLOCK);
+    if (replaced !== next) {
+      next = replaced;
+      changes.push("bottom-nav");
+    }
+  } else {
+    const loneBottomCloseRe = /<button class="btn-74" type="button"[\s\S]*?<\/button>/i;
+    if (loneBottomCloseRe.test(next)) {
+      const replaced = next.replace(loneBottomCloseRe, CLOSE_BUTTON_HTML);
+      if (replaced !== next) {
+        next = replaced;
+        changes.push("bottom-nav");
+      }
+    }
+  }
+
+  const endSubmissionRe = /<!-- EndSubmissionForm -->[\s\S]*?<\/body>/i;
+  if (endSubmissionRe.test(next)) {
+    const replaced = next.replace(endSubmissionRe, NORMALIZED_END_SUBMISSION);
+    if (replaced !== next) {
+      next = replaced;
+      changes.push("footer");
+    }
+  }
+
+  return { source: next, changes };
 }
 
 function updateHead(source, file, root, digestCache) {
@@ -463,6 +571,15 @@ function updateHead(source, file, root, digestCache) {
     if (injected.changed) changes.push("js");
   }
 
+  const duplicateJsRe = new RegExp(`(?:${jsTagPattern}\\s*){2,}`, "i");
+  if (duplicateJsRe.test(next)) {
+    const collapsed = next.replace(duplicateJsRe, `${jsTag}\n\n`);
+    if (collapsed !== next) {
+      next = collapsed;
+      changes.push("js");
+    }
+  }
+
   const schemaRe = /\s*<link\b[^>]*rel="schema\.DC"[^>]*>\s*/i;
   if (schemaRe.test(next)) {
     next = next.replace(schemaRe, "\n");
@@ -508,6 +625,12 @@ function updateHead(source, file, root, digestCache) {
   if (headingUpdate.changes.length > 0) {
     next = headingUpdate.source;
     changes.push(...headingUpdate.changes);
+  }
+
+  const shellUpdate = normalizeClozeShell(next);
+  if (shellUpdate.changes.length > 0) {
+    next = shellUpdate.source;
+    changes.push(...shellUpdate.changes);
   }
 
   const clozeLabelUpdate = updateClozeInputs(next);

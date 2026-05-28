@@ -13,6 +13,9 @@
   var EXERCISE_SUBMIT_PORT = 8786
   var EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   var EAGLES_ID_PATTERN = /^[a-z]+\d{3}$/
+  var CLOSE_BUTTON_HTML =
+    '<button class="btn-74" type="button" onclick="location=\'JavaScript:window.close() \'; return false;">' +
+    "\n  close\n  <span></span>\n  <span></span>\n  <span></span>\n  <span></span>\n</button>"
 
   var state = {
     initialized: false,
@@ -385,12 +388,18 @@
       feedbackRegion.appendChild(feedback)
     }
 
+    var footerRegion = document.createElement("section")
+    footerRegion.className = "sis-cloze-region sis-cloze-region--footer"
+    footerRegion.setAttribute("aria-label", "Exercise actions")
+    footerRegion.innerHTML = "<hr>" + CLOSE_BUTTON_HTML
+
     shell.appendChild(header)
     shell.appendChild(identityRegion)
     shell.appendChild(exerciseRegion)
     if (feedbackRegion.childNodes.length > 0) {
       shell.appendChild(feedbackRegion)
     }
+    shell.appendChild(footerRegion)
 
     wrapfit.replaceWith(shell)
     shell.dataset.sisShellBuilt = "true"
@@ -414,6 +423,7 @@
       document.querySelector(".GapBox:not([disabled])") ||
       document.querySelector("#CheckButton1:not([disabled])") ||
       document.querySelector("#CheckButton2:not([disabled])") ||
+      document.querySelector("#check:not([disabled])") ||
       document.querySelector(".sis-cloze-panel input:not([disabled])")
     if (candidate && typeof candidate.focus === "function") {
       candidate.focus()
@@ -427,9 +437,12 @@
     for (var i = 0; i < buttons.length; i += 1) {
       var button = buttons[i]
       var label = normalizeText(button.textContent || button.value).toLowerCase()
+      var isModernCheck = button.classList && button.classList.contains("btn-17")
+      var isModernClose = button.classList && button.classList.contains("btn-74")
+      var isModernReplacement = isModernCheck || isModernClose
       stripLegacyHandlers(button)
 
-      if (!button.__sisModernButtonBound) {
+      if (!isModernReplacement && !button.__sisModernButtonBound) {
         button.__sisModernButtonBound = true
         button.addEventListener("mouseover", function () {
           if (typeof window.FuncBtnOver === "function") window.FuncBtnOver(this)
@@ -451,10 +464,20 @@
         })
       }
 
-      if (button.id === "CheckButton1" || button.id === "CheckButton2" || label === "check") {
+      if (isModernCheck || button.id === "CheckButton1" || button.id === "CheckButton2" || label === "check") {
         button.addEventListener("click", function (event) {
           event.preventDefault()
           if (typeof window.CheckAnswers === "function") window.CheckAnswers()
+        })
+      } else if (isModernClose || label === "close") {
+        button.addEventListener("click", function (event) {
+          event.preventDefault()
+          if (typeof window.close === "function") {
+            window.close()
+          } else {
+            location = "JavaScript:window.close() "
+          }
+          return false
         })
       } else if (label === "hint") {
         button.addEventListener("click", function (event) {
@@ -733,10 +756,10 @@
 
   function collectButtons() {
     state.checkButtons = Array.prototype.slice.call(
-      document.querySelectorAll("#CheckButton1, #CheckButton2")
+      document.querySelectorAll("#CheckButton1, #CheckButton2, #check")
     )
     state.hintButtons = Array.prototype.slice.call(
-      document.querySelectorAll('button[onclick*="ShowHint"]')
+      document.querySelectorAll('button[onclick*="ShowHint"], #hint')
     )
   }
 

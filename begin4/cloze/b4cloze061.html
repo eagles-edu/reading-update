@@ -634,7 +634,8 @@ display: none
 }
 
 body {
-padding-top: 1em;
+margin: 0;
+padding-top: 0;
 }
 
     /* for cloze */
@@ -695,18 +696,18 @@ p {
 /* Optional: if you want consistent button sizing even when user zooms further,
      you could add a max-width breakpoint tweak, but usually clamp alone suffices. */
 
-.wrapfit {
-   width: fit-content;
-   margin: 0 auto;
-}
-
+.wrapfit,
 .wrapit {
-   margin: 0 auto;
+   max-width: 920px;
+   width: calc(100% - 2rem);
+   margin: 2.5rem auto 3rem;
+   padding: 0 1rem;
+   box-sizing: border-box;
 }
 
 </style>
 
-<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-2QemiS5kShhrwu50mF3HowzvEGQ85W72xhB6aLxwtsKw58EhjtZrALvRCxSTmohd">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-2X8YODe77KnBrX75SA3M8aXpl0gknJ495UB27PI+0Lzr7P5iML+G/wAErBuaa/5q">
 
 <script>
 
@@ -1529,11 +1530,11 @@ function TypeChars(Chars){
 
 </script>
 
-<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-YCQgiB7vQ7x+8K6+UBXUhkyEbL2YWBKYKAjgSA5h1sAia46nrUPEkfnS024kXp6w"></script>
 
-<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-YCQgiB7vQ7x+8K6+UBXUhkyEbL2YWBKYKAjgSA5h1sAia46nrUPEkfnS024kXp6w"></script>
 
-<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-qtumdtbcryas/sReCXbVDN1kxGazUs34iffv5sZJ/mO7grlRhXnVDW0YJnV+wm1G"></script>
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-YCQgiB7vQ7x+8K6+UBXUhkyEbL2YWBKYKAjgSA5h1sAia46nrUPEkfnS024kXp6w"></script>
 
 </head>
 
@@ -1595,9 +1596,9 @@ Brad and his friends needed something <span class="GapSpan" id="GapSpan0"><label
 
 <!-- BeginSubmissionForm -->
 
-<!-- EndSubmissionForm --><hr><hr> <div class="cenmar textres12"><a href="JavaScript:window.close()">CLOSE</a></div>
+<!-- EndSubmissionForm -->
 
-</div></body>
+<br><br></div></body>
 
 <!-- /begin4/cloze/b4cloze061.htm by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 03 Jul 2017 05:53:03 GMT -->
 </html>
