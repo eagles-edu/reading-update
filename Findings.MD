@@ -35,7 +35,7 @@ Centralization opportunities
 
 style.css is a one-off legacy stylesheet used only by index-old.html (line 10). OMIT FROM SYNC;  Everything else uses style/style.css. That is the clearest SSOT split. OK
 
-pics/favicon.png should stay centralized. OK
+/favicon.ico should stay centralized. OK
 
 pics/backgroud.webp is a shared background asset used by both stylesheet paths. OK
 

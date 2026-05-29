@@ -267,7 +267,7 @@ essays/
 
 - `style/style.css` is the shared stylesheet for the legacy trees.
 - `pics/backgroud.webp` is referenced by `style/style.css`.
-- `pics/favicon.png` is used broadly across the folders.
+- `/favicon.ico` is used broadly across the folders.
 - `audio/` is a shared content bucket and should not be duplicated per tree.
 - `images/` is a shared asset bucket and contains the icon sprite used by the current homepage work.
 - `begin2/b2/css/`, `begin4/b4/css/`, `begin5/b5/css/`, and `easydialogs/ec/css/` are local overrides that belong to their owning trees.

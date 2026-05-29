@@ -13,6 +13,7 @@ const { rehashHtmlSource } = require("./sri-rehash.cjs");
 const SCRIPT_DIR = __dirname;
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
 const DEFAULT_CLOZE_DIR = "begin1/cloze";
+const DEFAULT_ICON = "/favicon.ico";
 const CACHE_RELATIVE_PATH = path.join(".cache", "modernize-cloze-pages.json");
 const VIEWPORT_TAG = '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
 const FONT_STACK_CSS = "style/font-stack.css";
@@ -50,7 +51,7 @@ const LEGACY_CHARSET_META =
   /\s*<meta[^>]*http-equiv="Content-Type"[^>]*content="text\/html;\s*charset=utf-8"[^>]*>\s*/i;
 
 function printUsage() {
-  console.log(`Usage: ${path.basename(process.argv[1])} [--dry-run|--apply] [--root PATH] [--cloze-dir PATH] [--all|--prompt]
+  console.log(`Usage: ${path.basename(process.argv[1])} [--dry-run|--apply] [--root PATH] [--cloze-dir PATH] [--icon PATH] [--all|--prompt]
 
 Modernize cloze pages in a bulk, mobile-first pass.
 
@@ -60,6 +61,7 @@ Options:
   --root PATH Scan a different repository root.
   --cloze-dir PATH
               Scan a different cloze directory under --root. Defaults to begin1/cloze.
+  --icon PATH  Root-relative icon URL or repo-relative asset to normalize to. Defaults to /favicon.ico.
   --all       Process every HTML file in the cloze directory.
   --prompt    Ask for root, cloze dir, file selection, and mode interactively before running.
   --help      Show this help.
@@ -71,6 +73,7 @@ function parseArgs(argv) {
     apply: false,
     clozeDir: DEFAULT_CLOZE_DIR,
     clozeDirExplicit: false,
+    icon: DEFAULT_ICON,
     root: DEFAULT_ROOT,
     rootExplicit: false,
     prompt: false,
@@ -103,6 +106,14 @@ function parseArgs(argv) {
       }
       args.clozeDir = argv[i];
       args.clozeDirExplicit = true;
+      continue;
+    }
+    if (arg === "--icon") {
+      i += 1;
+      if (i >= argv.length) {
+        throw new Error("--icon requires a path");
+      }
+      args.icon = argv[i];
       continue;
     }
     if (arg === "--prompt" || arg === "-p") {
@@ -490,7 +501,7 @@ function normalizeClozeShell(source) {
   return { source: next, changes };
 }
 
-function updateHead(source, file, root, digestCache) {
+function updateHead(source, file, root, digestCache, options = {}) {
   const changes = [];
   let next = source;
 
@@ -498,7 +509,9 @@ function updateHead(source, file, root, digestCache) {
   const fontStackHref = relAsset(file, path.resolve(root, FONT_STACK_CSS));
   const themeJsHref = relAsset(file, path.resolve(root, THEME_JS));
   const jsHref = relAsset(file, path.resolve(root, CLOZE_JS));
-  const iconHref = relAsset(file, path.resolve(root, "favicon.ico"));
+  const iconRef = options.icon || DEFAULT_ICON;
+  const iconPath = iconRef.startsWith("/") ? path.resolve(root, `.${iconRef}`) : path.resolve(root, iconRef);
+  const iconHref = iconRef.startsWith("/") ? iconRef : relAsset(file, iconPath);
 
   if (!/<meta[^>]*charset="utf-8"/i.test(next) && LEGACY_CHARSET_META.test(next)) {
     next = next.replace(LEGACY_CHARSET_META, "");
@@ -698,7 +711,9 @@ async function main() {
   for (const file of files) {
     scanned += 1;
     const source = fs.readFileSync(file, "utf8");
-    const updated = updateHead(source, file, args.root, digestCache);
+    const updated = updateHead(source, file, args.root, digestCache, {
+      icon: args.icon,
+    });
 
     if (updated.changes.length === 0) continue;
 

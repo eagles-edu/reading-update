@@ -98,7 +98,7 @@ flowchart TD
 These are the shared roots that multiple reading trees reference:
 
 - `style/style.css`
-- `pics/favicon.png`
+- `/favicon.ico`
 - `pics/backgroud.webp`
 - `audio/`
 - `images/`
@@ -110,7 +110,7 @@ Keep these centralized. Do not duplicate them into every reading folder unless a
 These are the important file-level links that centralize shared behavior:
 
 - `easydialogs/*.html` -> `../style/style.css`
-- `easydialogs/*.html` -> `../pics/favicon.png`
+- `easydialogs/*.html` -> `/favicon.ico`
 - `easydialogs/*.html` -> `audio/`
 - `easydialogs/*.html` -> `images/`
 - `easydialogs/ec/` -> `ec/css/`
@@ -162,7 +162,7 @@ The current scan shows these clear orphan or non-runtime files:
 ### Centralization Opportunities
 
 - `style.css` at the repo root is a one-off legacy stylesheet used by `index-old.html`. The rest of the site uses `style/style.css`. That is the clearest stylesheet SSOT split.
-- `pics/favicon.png` is the shared favicon SSOT. Keep it centralized rather than copying per-tree.
+- `/favicon.ico` is the shared favicon SSOT. Keep it centralized rather than copying per-tree.
 - `pics/backgroud.webp` is a shared background asset consumed by both `style.css` and `style/style.css`.
 - `audio/` is a shared content bucket and should remain centralized.
 - `images/` is a shared bucket, while `images/icons/icomoon/` is the sprite SSOT used by the current homepage.
