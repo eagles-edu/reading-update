@@ -418,6 +418,26 @@
     node.removeAttribute("onmouseup")
   }
 
+  function getButtonAction(button, label, legacyOnClick) {
+    var onClick = normalizeText(legacyOnClick).toLowerCase()
+    var hasHintSignal =
+      button.id === "hint" ||
+      label === "hint" ||
+      onClick.indexOf("showhint") !== -1
+    var hasCheckSignal =
+      button.id === "CheckButton1" ||
+      button.id === "CheckButton2" ||
+      button.id === "check" ||
+      label === "check" ||
+      onClick.indexOf("checkanswers") !== -1
+
+    if (hasHintSignal) return "hint"
+    if (hasCheckSignal) return "check"
+    if (button.id === "FeedbackOKButton" || label === "ok") return "ok"
+    if (button.classList && button.classList.contains("btn-74")) return "close"
+    return ""
+  }
+
   function focusAfterFeedback() {
     var candidate =
       document.querySelector(".GapBox:not([disabled])") ||
@@ -437,6 +457,7 @@
     for (var i = 0; i < buttons.length; i += 1) {
       var button = buttons[i]
       var label = normalizeText(button.textContent || button.value).toLowerCase()
+      var legacyOnClick = button.getAttribute("onclick")
       var isModernCheck = button.classList && button.classList.contains("btn-17")
       var isModernClose = button.classList && button.classList.contains("btn-74")
       var isModernReplacement = isModernCheck || isModernClose
@@ -464,12 +485,13 @@
         })
       }
 
-      if (isModernCheck || button.id === "CheckButton1" || button.id === "CheckButton2" || label === "check") {
+      var action = getButtonAction(button, label, legacyOnClick)
+      if (action === "check" || (isModernCheck && action !== "hint")) {
         button.addEventListener("click", function (event) {
           event.preventDefault()
           if (typeof window.CheckAnswers === "function") window.CheckAnswers()
         })
-      } else if (isModernClose || label === "close") {
+      } else if (action === "close" || isModernClose || label === "close") {
         button.addEventListener("click", function (event) {
           event.preventDefault()
           if (typeof window.close === "function") {
@@ -479,12 +501,12 @@
           }
           return false
         })
-      } else if (label === "hint") {
+      } else if (action === "hint" || label === "hint") {
         button.addEventListener("click", function (event) {
           event.preventDefault()
           if (typeof window.ShowHint === "function") window.ShowHint()
         })
-      } else if (button.id === "FeedbackOKButton" || label === "ok") {
+      } else if (action === "ok") {
         button.addEventListener("click", function (event) {
           event.preventDefault()
           if (typeof window.HideFeedback === "function") window.HideFeedback()

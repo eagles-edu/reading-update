@@ -176,6 +176,30 @@ function getAttrValue(node, name) {
   return attr ? attr.value : null;
 }
 
+function readLocalAsset(assetPath, warnings, context) {
+  try {
+    const stat = fs.statSync(assetPath);
+    if (!stat.isFile()) {
+      warnings.add(`Skipped non-file asset for ${context}: ${assetPath}`);
+      return null;
+    }
+
+    return fs.readFileSync(assetPath);
+  } catch (error) {
+    if (error && error.code === "ENOENT") {
+      warnings.add(`Missing asset for ${context}: ${assetPath}`);
+      return null;
+    }
+
+    if (error && error.code === "EISDIR") {
+      warnings.add(`Skipped directory asset for ${context}: ${assetPath}`);
+      return null;
+    }
+
+    throw error;
+  }
+}
+
 function setOrReplaceAttr(rawTag, name, value) {
   const attrRe = new RegExp(
     String.raw`(\s${name}\s*=\s*)(?:"[^"]*"|'[^']*'|[^\s>]+)`,
@@ -233,13 +257,18 @@ function collectEdits(source, file, root, algo, digestCache, warnings) {
 
       if (!assetPath) {
         warnings.add(`Skipped non-local resource in ${path.relative(root, file)}: ${href}`);
-      } else if (!fs.existsSync(assetPath)) {
-        warnings.add(`Missing asset for ${path.relative(root, file)}: ${href}`);
       } else {
         const cacheKey = `${algo}:${assetPath}`;
         let integrityValue = digestCache.get(cacheKey);
         if (!integrityValue) {
-          const assetBytes = fs.readFileSync(assetPath);
+          const assetBytes = readLocalAsset(
+            assetPath,
+            warnings,
+            `${path.relative(root, file)}: ${href}`
+          );
+          if (!assetBytes) {
+            return;
+          }
           const digest = crypto.createHash(algo).update(assetBytes).digest("base64");
           integrityValue = makeIntegrityValue(algo, digest);
           digestCache.set(cacheKey, integrityValue);

@@ -59,6 +59,7 @@ body#TheBody .sr-only {
 
 body#TheBody .wrapfit,
 body#TheBody .sis-cloze-shell {
+  box-sizing: border-box;
   margin: 2.5rem auto 2rem;
   padding: 0 1rem 1rem;
   width: min(100%, 920px);
@@ -105,7 +106,7 @@ body#TheBody .Titles {
 body#TheBody .ExerciseTitle {
   font-size: clamp(1.4rem, 2.1vw, 2rem);
   line-height: 1.2;
-  margin-bottom: 2rem;
+  margin-bottom: .75rem;
   text-align: center;
 }
 
@@ -142,7 +143,7 @@ hr {
   border: none;
   border-top: 1px solid var(--tertiary-color, #002786);
   display: block;
-  margin: 2.5rem auto;
+  margin: 1rem auto;
   max-width: 920px;
 }
 
@@ -309,6 +310,7 @@ body#TheBody .sis-cloze-region--feedback {
     background: transparent;
     border: 2px solid var(--color_74);
     border-radius: 12px;
+    box-sizing: border-box;
     color: var(--color_74);
     cursor: pointer;
     display: flex;
