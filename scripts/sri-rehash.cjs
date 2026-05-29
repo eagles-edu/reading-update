@@ -6,12 +6,14 @@ const crypto = require("node:crypto");
 
 const glob = require("glob");
 const parse5 = require("parse5");
+const { createBackupManager } = require("./write-backup.cjs");
 
 const SCRIPT_DIR = __dirname;
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
 const DEFAULT_ALGO = "sha384";
 const HASHABLE_REL_VALUES = new Set(["stylesheet", "preload"]);
 const PRELOAD_AS_VALUES = new Set(["style", "script"]);
+const backupManager = createBackupManager(DEFAULT_ROOT, "sri-rehash");
 
 function printUsage() {
   console.log(`Usage: ${path.basename(process.argv[1])} [--apply] [--verify] [--algo NAME] [--root PATH] [FILE...]
@@ -387,6 +389,7 @@ function main() {
 
     if (args.apply) {
       if (updated.source !== source) {
+        backupManager.backupBeforeWrite(file);
         fs.writeFileSync(file, updated.source);
       }
     } else if (args.verify) {

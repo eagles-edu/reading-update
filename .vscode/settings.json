@@ -213,6 +213,7 @@
     "xpress"
   ],
   "taskManager.favorites": [
+    "efast-copy/npm/format",
     "efast-copy/npm/format:check",
     "efast-copy/npm/html:check"
   ]

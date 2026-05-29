@@ -7,6 +7,7 @@ const glob = require("glob");
 const parse5 = require("parse5");
 
 const { rehashHtmlSource } = require("./sri-rehash.cjs");
+const { createBackupManager } = require("./write-backup.cjs");
 
 const VOID_TAGS = new Set([
   "area",
@@ -27,6 +28,7 @@ const VOID_TAGS = new Set([
 
 const SCRIPT_DIR = __dirname;
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
+const backupManager = createBackupManager(DEFAULT_ROOT, "clean-html-selfclosing");
 
 function printUsage() {
   console.log(`Usage: ${path.basename(process.argv[1])} [--apply] [--root PATH] [FILE...]
@@ -198,6 +200,7 @@ function main() {
 
     if (args.apply) {
       if (updated !== source) {
+        backupManager.backupBeforeWrite(file);
         fs.writeFileSync(file, updated);
       }
     }

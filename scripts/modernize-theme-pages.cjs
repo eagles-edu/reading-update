@@ -6,10 +6,12 @@ const path = require("node:path");
 const glob = require("glob");
 
 const { rehashHtmlSource } = require("./sri-rehash.cjs");
+const { createBackupManager } = require("./write-backup.cjs");
 
 const SCRIPT_DIR = __dirname;
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
 const THEME_JS = "js/theme-selector.js";
+const backupManager = createBackupManager(DEFAULT_ROOT, "modernize-theme-pages");
 
 function printUsage() {
   console.log(`Usage: ${path.basename(process.argv[1])} [--dry-run|--apply] [--root PATH]
@@ -158,6 +160,7 @@ function main() {
     console.log(`${path.relative(args.root, file)}\t${updated.changes.join(", ")}`);
 
     if (args.apply && nextSource !== source) {
+      backupManager.backupBeforeWrite(file);
       fs.writeFileSync(file, nextSource);
     }
   }

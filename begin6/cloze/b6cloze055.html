@@ -505,61 +505,6 @@ div.ShortAnswer{
 	padding: 3px 6px 3px 6px;
 	cursor: pointer;
 }
-
-/*BeginNavBarStyle*/
-
-div.NavButtonBar{
-	background-color: #000000;
-	text-align: center;
-	margin: 2px 0px 2px 0px;
-	clear: both;
-	font-size: 100%;
-}
-
-.NavButton {
-	border-style: solid;
-
-	border-left-color: #7f7f7f;
-	border-top-color: #7f7f7f;
-	border-right-color: #000000;
-	border-bottom-color: #000000;
-	background-color: #000000;
-	color: #ffffff;
-
-	border-width: 2px;
-	cursor: pointer;
-}
-
-.NavButtonUp {
-	border-style: solid;
-
-	border-left-color: #7f7f7f;
-	border-top-color: #7f7f7f;
-	border-right-color: #000000;
-	border-bottom-color: #000000;
-	color: #000000;
-	background-color: #ffffff;
-
-	border-width: 2px;
-	cursor: pointer;
-}
-
-.NavButtonDown {
-	border-style: solid;
-
-	border-left-color: #000000;
-	border-top-color: #000000;
-	border-right-color: #7f7f7f;
-	border-bottom-color: #7f7f7f;
-	color: #000000;
-	background-color: #ffffff;
-
-	border-width: 2px;
-	cursor: pointer;
-}
-
-/*EndNavBarStyle*/
-
 a{
 	color: #0000FF;
 }
@@ -707,7 +652,7 @@ p {
 
 </style>
 
-<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-yd++1aA/DKlu414CBeySiG5z3pkU7c+J3hrist74uK/Kky16jm2uib6BVCXtbULm">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-dYC0ghuhEPIGDEv8mn9LdfQpAG9/7YaMiozhrIAbUGRhxV4uSRPy/w+5dxnLZb2T">
 
 <script>
 
@@ -1602,16 +1547,6 @@ function TypeChars(Chars){
 
 <body onload="StartUp()" id="TheBody"><div class="wrapfit">
 
-<hr><!-- BeginTopNavButtons -->
-
-<div class="NavButtonBar" id="TopNavBar">
-
-<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
-
-</div>
-
-<!-- EndTopNavButtons -->
-
 <div class="Titles">
 	<h1 class="ExerciseTitle">55. A Hiking Trip</h1>
 
@@ -1623,40 +1558,33 @@ function TypeChars(Chars){
 
 <div id="MainDiv" class="StdDiv">
 
-<!-- These top buttons hidden; reveal if required -->
-<!--
-<button id="CheckButton1" class="FuncButton" type="submit"  onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
-
-<button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
-
--->
-
 <div id="ClozeDiv">
 <form id="Cloze" method="post" action="#" onsubmit="return false;">
-<div class="ClozeBody">
-It was a beautiful sunny day, a perfect <span class="GapSpan" id="GapSpan0"><label class="sr-only" for="Gap0">Blank 1</label><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="6"></span> to go out and embrace nature. Sarah wanted <span class="GapSpan" id="GapSpan1"><label class="sr-only" for="Gap1">Blank 2</label><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6"></span> go hiking. She loved all outdoor activities, especially <span class="GapSpan" id="GapSpan2"><label class="sr-only" for="Gap2">Blank 3</label><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6"></span> that required her to be vigorous. She loved <span class="GapSpan" id="GapSpan3"><label class="sr-only" for="Gap3">Blank 4</label><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6"></span> climbing and rowing. She thought a hike would <span class="GapSpan" id="GapSpan4"><label class="sr-only" for="Gap4">Blank 5</label><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="6"></span> perfect for the weather. She decided to bring <span class="GapSpan" id="GapSpan5"><label class="sr-only" for="Gap5">Blank 6</label><input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="6"></span> dog along so they both could get some <span class="GapSpan" id="GapSpan6"><label class="sr-only" for="Gap6">Blank 7</label><input type="text" id="Gap6" onfocus="TrackFocus(6)" onblur="LeaveGap()" class="GapBox" size="8"></span>. Like Sarah, her dog also loved to exercise. <span class="GapSpan" id="GapSpan7"><label class="sr-only" for="Gap7">Blank 8</label><input type="text" id="Gap7" onfocus="TrackFocus(7)" onblur="LeaveGap()" class="GapBox" size="6"></span> loved going on runs with her every morning. <span class="GapSpan" id="GapSpan8"><label class="sr-only" for="Gap8">Blank 9</label><input type="text" id="Gap8" onfocus="TrackFocus(8)" onblur="LeaveGap()" class="GapBox" size="6"></span> would go on their local trail or run <span class="GapSpan" id="GapSpan9"><label class="sr-only" for="Gap9">Blank 10</label><input type="text" id="Gap9" onfocus="TrackFocus(9)" onblur="LeaveGap()" class="GapBox" size="6"></span> the park.<br><br>Sarah decided to try a new <span class="GapSpan" id="GapSpan10"><label class="sr-only" for="Gap10">Blank 11</label><input type="text" id="Gap10" onfocus="TrackFocus(10)" onblur="LeaveGap()" class="GapBox" size="6"></span> trail this time. She wanted to go to <span class="GapSpan" id="GapSpan11"><label class="sr-only" for="Gap11">Blank 12</label><input type="text" id="Gap11" onfocus="TrackFocus(11)" onblur="LeaveGap()" class="GapBox" size="6"></span> near the beach so she could have a <span class="GapSpan" id="GapSpan12"><label class="sr-only" for="Gap12">Blank 13</label><input type="text" id="Gap12" onfocus="TrackFocus(12)" onblur="LeaveGap()" class="GapBox" size="9"></span> view of the beach. She packed her backpack <span class="GapSpan" id="GapSpan13"><label class="sr-only" for="Gap13">Blank 14</label><input type="text" id="Gap13" onfocus="TrackFocus(13)" onblur="LeaveGap()" class="GapBox" size="6"></span> all her essentials, a water bottle, a jacket, <span class="GapSpan" id="GapSpan14"><label class="sr-only" for="Gap14">Blank 15</label><input type="text" id="Gap14" onfocus="TrackFocus(14)" onblur="LeaveGap()" class="GapBox" size="6"></span> snacks, and a hat. She wore her athletic <span class="GapSpan" id="GapSpan15"><label class="sr-only" for="Gap15">Blank 16</label><input type="text" id="Gap15" onfocus="TrackFocus(15)" onblur="LeaveGap()" class="GapBox" size="6"></span> and her most comfortable shoes. She brought her <span class="GapSpan" id="GapSpan16"><label class="sr-only" for="Gap16">Blank 17</label><input type="text" id="Gap16" onfocus="TrackFocus(16)" onblur="LeaveGap()" class="GapBox" size="6"></span> to take a picture of the view at <span class="GapSpan" id="GapSpan17"><label class="sr-only" for="Gap17">Blank 18</label><input type="text" id="Gap17" onfocus="TrackFocus(17)" onblur="LeaveGap()" class="GapBox" size="6"></span> top. She was ready for this adventure.<br><br>When <span class="GapSpan" id="GapSpan18"><label class="sr-only" for="Gap18">Blank 19</label><input type="text" id="Gap18" onfocus="TrackFocus(18)" onblur="LeaveGap()" class="GapBox" size="6"></span> and her dog got to the hiking trail, <span class="GapSpan" id="GapSpan19"><label class="sr-only" for="Gap19">Blank 20</label><input type="text" id="Gap19" onfocus="TrackFocus(19)" onblur="LeaveGap()" class="GapBox" size="6"></span> saw all the trees and grass. It was <span class="GapSpan" id="GapSpan20"><label class="sr-only" for="Gap20">Blank 21</label><input type="text" id="Gap20" onfocus="TrackFocus(20)" onblur="LeaveGap()" class="GapBox" size="9"></span>. She loved it because the path was not <span class="GapSpan" id="GapSpan21"><label class="sr-only" for="Gap21">Blank 22</label><input type="text" id="Gap21" onfocus="TrackFocus(21)" onblur="LeaveGap()" class="GapBox" size="6"></span> dirt. There were so many plants, there was <span class="GapSpan" id="GapSpan22"><label class="sr-only" for="Gap22">Blank 23</label><input type="text" id="Gap22" onfocus="TrackFocus(22)" onblur="LeaveGap()" class="GapBox" size="6"></span> a lot of wildlife. The trail had a <span class="GapSpan" id="GapSpan23"><label class="sr-only" for="Gap23">Blank 24</label><input type="text" id="Gap23" onfocus="TrackFocus(23)" onblur="LeaveGap()" class="GapBox" size="9"></span> view at the top. The breeze she felt <span class="GapSpan" id="GapSpan24"><label class="sr-only" for="Gap24">Blank 25</label><input type="text" id="Gap24" onfocus="TrackFocus(24)" onblur="LeaveGap()" class="GapBox" size="6"></span> amazing. Her dog also enjoyed it a lot.
-</div>
 </form>
 </div>
 
-<button id="CheckButton2" class="FuncButton" type="submit" form="Cloze" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
-
-<button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
-
+<div class="btn17Container">
+  <button class="btn-17" type="submit" form="Cloze" id="check">check</button>
+  <button class="btn-17" type="button" id="hint">hint</button>
 </div>
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
 <button id="FeedbackOKButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
 </div>
+</div>
 
 <!-- BeginBottomNavButtons -->
 
-<hr><hr> <div class="NavButtonBar" id="BottomNavBar">
+<hr>
 
-<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
-
-</div>
+<button class="btn-74" type="button" onclick="location='JavaScript:window.close() '; return false;">
+  close
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
 
 <!-- EndBottomNavButtons -->
 
@@ -1664,7 +1592,9 @@ It was a beautiful sunny day, a perfect <span class="GapSpan" id="GapSpan0"><lab
 
 <!-- EndSubmissionForm -->
 
-<br><br></div></body>
+<br><br>
+</div>
+</body>
 
 <!-- /begin6/cloze/b6cloze055.htm, Mon, 03 Jul 2017 06:32:50 GMT -->
 </html>

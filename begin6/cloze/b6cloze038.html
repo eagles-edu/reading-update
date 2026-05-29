@@ -505,61 +505,6 @@ div.ShortAnswer{
 	padding: 3px 6px 3px 6px;
 	cursor: pointer;
 }
-
-/*BeginNavBarStyle*/
-
-div.NavButtonBar{
-	background-color: #000000;
-	text-align: center;
-	margin: 2px 0px 2px 0px;
-	clear: both;
-	font-size: 100%;
-}
-
-.NavButton {
-	border-style: solid;
-
-	border-left-color: #7f7f7f;
-	border-top-color: #7f7f7f;
-	border-right-color: #000000;
-	border-bottom-color: #000000;
-	background-color: #000000;
-	color: #ffffff;
-
-	border-width: 2px;
-	cursor: pointer;
-}
-
-.NavButtonUp {
-	border-style: solid;
-
-	border-left-color: #7f7f7f;
-	border-top-color: #7f7f7f;
-	border-right-color: #000000;
-	border-bottom-color: #000000;
-	color: #000000;
-	background-color: #ffffff;
-
-	border-width: 2px;
-	cursor: pointer;
-}
-
-.NavButtonDown {
-	border-style: solid;
-
-	border-left-color: #000000;
-	border-top-color: #000000;
-	border-right-color: #7f7f7f;
-	border-bottom-color: #7f7f7f;
-	color: #000000;
-	background-color: #ffffff;
-
-	border-width: 2px;
-	cursor: pointer;
-}
-
-/*EndNavBarStyle*/
-
 a{
 	color: #0000FF;
 }
@@ -707,7 +652,7 @@ p {
 
 </style>
 
-<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-yd++1aA/DKlu414CBeySiG5z3pkU7c+J3hrist74uK/Kky16jm2uib6BVCXtbULm">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-dYC0ghuhEPIGDEv8mn9LdfQpAG9/7YaMiozhrIAbUGRhxV4uSRPy/w+5dxnLZb2T">
 
 <script>
 
@@ -1614,16 +1559,6 @@ function TypeChars(Chars){
 
 <body onload="StartUp()" id="TheBody"><div class="wrapfit">
 
-<hr><!-- BeginTopNavButtons -->
-
-<div class="NavButtonBar" id="TopNavBar">
-
-<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
-
-</div>
-
-<!-- EndTopNavButtons -->
-
 <div class="Titles">
 	<h1 class="ExerciseTitle">38. A Waste of Water</h1>
 
@@ -1635,40 +1570,33 @@ function TypeChars(Chars){
 
 <div id="MainDiv" class="StdDiv">
 
-<!-- These top buttons hidden; reveal if required -->
-<!--
-<button id="CheckButton1" class="FuncButton" type="submit"  onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
-
-<button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
-
--->
-
 <div id="ClozeDiv">
 <form id="Cloze" method="post" action="#" onsubmit="return false;">
-<div class="ClozeBody">
-Most people shower once every day. Joyce thinks <span class="GapSpan" id="GapSpan0"><label class="sr-only" for="Gap0">Blank 1</label><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="6"></span> is a waste of water. She showers every <span class="GapSpan" id="GapSpan1"><label class="sr-only" for="Gap1">Blank 2</label><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6"></span> day. Joyce does not mind if people know <span class="GapSpan" id="GapSpan2"><label class="sr-only" for="Gap2">Blank 3</label><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6"></span> she does not shower daily. She tells people <span class="GapSpan" id="GapSpan3"><label class="sr-only" for="Gap3">Blank 4</label><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6"></span> showering every day is a waste of water. <span class="GapSpan" id="GapSpan4"><label class="sr-only" for="Gap4">Blank 5</label><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="6"></span> are so many countries that do not have <span class="GapSpan" id="GapSpan5"><label class="sr-only" for="Gap5">Blank 6</label><input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="6"></span> water readily available. There is also a drought <span class="GapSpan" id="GapSpan6"><label class="sr-only" for="Gap6">Blank 7</label><input type="text" id="Gap6" onfocus="TrackFocus(6)" onblur="LeaveGap()" class="GapBox" size="6"></span> California. Joyce believes that people should only shower <span class="GapSpan" id="GapSpan7"><label class="sr-only" for="Gap7">Blank 8</label><input type="text" id="Gap7" onfocus="TrackFocus(7)" onblur="LeaveGap()" class="GapBox" size="6"></span> they really have to. For example, if someone <span class="GapSpan" id="GapSpan8"><label class="sr-only" for="Gap8">Blank 9</label><input type="text" id="Gap8" onfocus="TrackFocus(8)" onblur="LeaveGap()" class="GapBox" size="6"></span> finished going to the gym, they should shower.<br><br><span class="GapSpan" id="GapSpan9"><label class="sr-only" for="Gap9">Blank 10</label><input type="text" id="Gap9" onfocus="TrackFocus(9)" onblur="LeaveGap()" class="GapBox" size="6"></span>'s entire family only showers once every other day. <span class="GapSpan" id="GapSpan10"><label class="sr-only" for="Gap10">Blank 11</label><input type="text" id="Gap10" onfocus="TrackFocus(10)" onblur="LeaveGap()" class="GapBox" size="6"></span> day, Joyce invited her classmates to her house <span class="GapSpan" id="GapSpan11"><label class="sr-only" for="Gap11">Blank 12</label><input type="text" id="Gap11" onfocus="TrackFocus(11)" onblur="LeaveGap()" class="GapBox" size="6"></span> work on their project. The project was on <span class="GapSpan" id="GapSpan12"><label class="sr-only" for="Gap12">Blank 13</label><input type="text" id="Gap12" onfocus="TrackFocus(12)" onblur="LeaveGap()" class="GapBox" size="6"></span> usage. Joyce revealed that she and her entire <span class="GapSpan" id="GapSpan13"><label class="sr-only" for="Gap13">Blank 14</label><input type="text" id="Gap13" onfocus="TrackFocus(13)" onblur="LeaveGap()" class="GapBox" size="6"></span> do not shower daily. Her classmates looked at <span class="GapSpan" id="GapSpan14"><label class="sr-only" for="Gap14">Blank 15</label><input type="text" id="Gap14" onfocus="TrackFocus(14)" onblur="LeaveGap()" class="GapBox" size="6"></span> in disgust and then pinched their noses. "You <span class="GapSpan" id="GapSpan15"><label class="sr-only" for="Gap15">Blank 16</label><input type="text" id="Gap15" onfocus="TrackFocus(15)" onblur="LeaveGap()" class="GapBox" size="6"></span> don't even smell anything. If I did not <span class="GapSpan" id="GapSpan16"><label class="sr-only" for="Gap16">Blank 17</label><input type="text" id="Gap16" onfocus="TrackFocus(16)" onblur="LeaveGap()" class="GapBox" size="6"></span> you, you would not be doing that," Joyce <span class="GapSpan" id="GapSpan17"><label class="sr-only" for="Gap17">Blank 18</label><input type="text" id="Gap17" onfocus="TrackFocus(17)" onblur="LeaveGap()" class="GapBox" size="6"></span>. They all made excuses to leave her house.<br><br><span class="GapSpan" id="GapSpan18"><label class="sr-only" for="Gap18">Blank 19</label><input type="text" id="Gap18" onfocus="TrackFocus(18)" onblur="LeaveGap()" class="GapBox" size="6"></span> was disappointed in them. She thought they were <span class="GapSpan" id="GapSpan19"><label class="sr-only" for="Gap19">Blank 20</label><input type="text" id="Gap19" onfocus="TrackFocus(19)" onblur="LeaveGap()" class="GapBox" size="6"></span> immature. She decided to do the project by <span class="GapSpan" id="GapSpan20"><label class="sr-only" for="Gap20">Blank 21</label><input type="text" id="Gap20" onfocus="TrackFocus(20)" onblur="LeaveGap()" class="GapBox" size="7"></span>. Joyce presented her project in front of the <span class="GapSpan" id="GapSpan21"><label class="sr-only" for="Gap21">Blank 22</label><input type="text" id="Gap21" onfocus="TrackFocus(21)" onblur="LeaveGap()" class="GapBox" size="6"></span> class. It was on showering daily and how <span class="GapSpan" id="GapSpan22"><label class="sr-only" for="Gap22">Blank 23</label><input type="text" id="Gap22" onfocus="TrackFocus(22)" onblur="LeaveGap()" class="GapBox" size="10"></span> have proved that it was not necessary. The <span class="GapSpan" id="GapSpan23"><label class="sr-only" for="Gap23">Blank 24</label><input type="text" id="Gap23" onfocus="TrackFocus(23)" onblur="LeaveGap()" class="GapBox" size="7"></span> was impressed and gave Joyce an A+. Her <span class="GapSpan" id="GapSpan24"><label class="sr-only" for="Gap24">Blank 25</label><input type="text" id="Gap24" onfocus="TrackFocus(24)" onblur="LeaveGap()" class="GapBox" size="10"></span> ended up doing not so well. They also <span class="GapSpan" id="GapSpan25"><label class="sr-only" for="Gap25">Blank 26</label><input type="text" id="Gap25" onfocus="TrackFocus(25)" onblur="LeaveGap()" class="GapBox" size="6"></span> in trouble for leaving Joyce to do the <span class="GapSpan" id="GapSpan26"><label class="sr-only" for="Gap26">Blank 27</label><input type="text" id="Gap26" onfocus="TrackFocus(26)" onblur="LeaveGap()" class="GapBox" size="7"></span> by herself alone.
-</div>
 </form>
 </div>
 
-<button id="CheckButton2" class="FuncButton" type="submit" form="Cloze" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
-
-<button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
-
+<div class="btn17Container">
+  <button class="btn-17" type="submit" form="Cloze" id="check">check</button>
+  <button class="btn-17" type="button" id="hint">hint</button>
 </div>
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
 <button id="FeedbackOKButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
 </div>
+</div>
 
 <!-- BeginBottomNavButtons -->
 
-<hr><hr> <div class="NavButtonBar" id="BottomNavBar">
+<hr>
 
-<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
-
-</div>
+<button class="btn-74" type="button" onclick="location='JavaScript:window.close() '; return false;">
+  close
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
 
 <!-- EndBottomNavButtons -->
 
@@ -1676,7 +1604,9 @@ Most people shower once every day. Joyce thinks <span class="GapSpan" id="GapSpa
 
 <!-- EndSubmissionForm -->
 
-<br><br></div></body>
+<br><br>
+</div>
+</body>
 
 <!-- /begin6/cloze/b6cloze038.htm, Mon, 03 Jul 2017 06:32:47 GMT -->
 </html>

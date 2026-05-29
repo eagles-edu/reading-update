@@ -6,16 +6,11 @@
 <meta charset="utf-8">
 <link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
 <link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
-<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="ESL, cloze exercises">
-
-<link rel="schema.DC" href="../../../purl.org/dc/elements/1.1/index.html">
+<link rel="preload" href="../../js/theme-selector.js" as="script" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty">
+<script src="../../js/theme-selector.js" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="sis-cloze-prototype" content="current">
+<meta name="keywords" content="ESL, cloze exercises">
 <link rel="icon" href="/favicon.ico">
-
-<meta name="DC:Title" content="158. Don&#x2019;t Call Me &quot;Honey&quot;">
-
-
-
-
 <title>Cloze Test:
 158. Don&#x2019;t Call Me "Honey"
 </title>
@@ -24,10 +19,7 @@
 
 <!-- The following insertion allows you to add your own code directly to this head tag from the configuration screen -->
 
-
-
 <style>
-
 
 /* This is the CSS stylesheet used in the exercise. */
 /* Elements in square brackets are replaced by data based on configuration settings when the exercise is built. */
@@ -35,18 +27,10 @@
 /* BeginCorePageCSS */
 
 /* Made with executable version 6.0 Release 4 Build 27 */
-
-
-/* Hack to hide a nested Quicktime player from IE, which can't handle it. */
-* html object.MediaPlayerNotForIE {
-	display: none;
-}
-
 body {
 	background-color: #C0C0C0;
 	color: #000000;
-	font-family: var(--font-base);
-	font-size: inherit;
+font-size: inherit;
 	line-height: inherit;
 	margin-right: 5%;
 	margin-left: 5%;
@@ -71,8 +55,7 @@ div.Titles{
 }
 
 button{
-	font-family: var(--font-base);
-	font-size: 100%;
+font-size: 100%;
 	display: inline;
 }
 .ExerciseTitle {
@@ -121,7 +104,6 @@ button p.RTLText{
 	text-align: right;
 	font-size: 150%;
 	direction: rtl;
-	font-family: var(--font-base);
 }
 
 .Guess{
@@ -182,8 +164,7 @@ span.CorrectMark{
 */
 
 input, textarea{
-	font-family: var(--font-base);
-	font-size: 120%;
+font-size: 120%;
 }
 
 select{
@@ -205,9 +186,6 @@ div.Feedback {
 	display: none;
 	font-size: 100%;
 }
-
-
-
 
 div.ExerciseDiv{
 	color: #000000;
@@ -399,8 +377,7 @@ div.Keypad{
 }
 
 div.Keypad button{
-	font-family: var(--font-base);
-	font-size: 120%;
+font-size: 120%;
 	background-color: #ffffff;
 	color: #000000;
 	width: 2em;
@@ -419,7 +396,6 @@ div.QuestionNavigation{
 }
 
 textarea{
-	font-family: var(--font-base);
 }
 
 .QuestionText{
@@ -526,61 +502,6 @@ div.ShortAnswer{
 	padding: 3px 6px 3px 6px;
 	cursor: pointer;
 }
-
-/*BeginNavBarStyle*/
-
-div.NavButtonBar{
-	background-color: #000000;
-	text-align: center;
-	margin: 2px 0px 2px 0px;
-	clear: both;
-	font-size: 100%;
-}
-
-.NavButton {
-	border-style: solid;
-
-	border-left-color: #7f7f7f;
-	border-top-color: #7f7f7f;
-	border-right-color: #000000;
-	border-bottom-color: #000000;
-	background-color: #000000;
-	color: #ffffff;
-
-	border-width: 2px;
-	cursor: pointer;
-}
-
-.NavButtonUp {
-	border-style: solid;
-
-	border-left-color: #7f7f7f;
-	border-top-color: #7f7f7f;
-	border-right-color: #000000;
-	border-bottom-color: #000000;
-	color: #000000;
-	background-color: #ffffff;
-
-	border-width: 2px;
-	cursor: pointer;
-}
-
-.NavButtonDown {
-	border-style: solid;
-
-	border-left-color: #000000;
-	border-top-color: #000000;
-	border-right-color: #7f7f7f;
-	border-bottom-color: #7f7f7f;
-	color: #000000;
-	background-color: #ffffff;
-
-	border-width: 2px;
-	cursor: pointer;
-}
-
-/*EndNavBarStyle*/
-
 a{
 	color: #0000FF;
 }
@@ -595,8 +516,7 @@ a:hover{
 
 div.CardStyle {
 	position: absolute;
-	font-family: var(--font-base);
-	font-size: 100%;
+font-size: 100%;
 	padding: 5px;
 	border-style: solid;
 	border-width: 1px;
@@ -661,7 +581,6 @@ margin-top: 3em;
 
  /* for cloze */
 
-
 /*   new clamp sys*/
 
 /* Shared interpolation: (100vw - 300px) / 1300  ==>  0 at 300px viewport, 1 at 1600px viewport */
@@ -718,21 +637,19 @@ p {
 /* Optional: if you want consistent button sizing even when user zooms further,
      you could add a max-width breakpoint tweak, but usually clamp alone suffices. */
 
-.wrapfit {
-   width: fit-content;
-   margin: 0 auto;
-}
-
+.wrapfit,
 .wrapit {
-   margin: 0 auto;
+   max-width: 920px;
+   width: calc(100% - 2rem);
+   margin: 2.5rem auto 3rem;
+   padding: 0 1rem;
+   box-sizing: border-box;
 }
 
 </style>
-
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-dYC0ghuhEPIGDEv8mn9LdfQpAG9/7YaMiozhrIAbUGRhxV4uSRPy/w+5dxnLZb2T">
 
 <script>
-
-
 
 function Client(){
 //if not a DOM browser, hopeless
@@ -789,8 +706,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -832,9 +747,6 @@ function FocusAButton(){
 		}
 	}
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -885,7 +797,6 @@ function HideFeedback(){
 		Finish();
 	}
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -1014,9 +925,6 @@ function WriteToInstructions(Feedback) {
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString){
 	return InString.replace(/"/g, '&quot;')
 }
@@ -1104,9 +1012,6 @@ function RemoveBottomNavBarForIE(){
 	}
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1124,8 +1029,6 @@ function Finish(){
 		Frm.submit();
 	}
 }
-
-
 
 //JCLOZE CORE JAVASCRIPT CODE
 
@@ -1250,7 +1153,6 @@ I[15][1][0] = new Array();
 I[15][1][0][0] = '\u0079\u006F\u0075';
 I[15][2]='';
 
-
 State = new Array();
 
 function StartUp(){
@@ -1260,10 +1162,6 @@ function StartUp(){
 		document.getElementById('CharacterKeypad').style.display = 'block';
 	}
 
-
-
-
-
 	var i = 0;
 
 	State.length = 0;
@@ -1272,8 +1170,6 @@ function StartUp(){
 	}
 
 	ClearTextBoxes();
-
-
 
 }
 
@@ -1368,7 +1264,6 @@ function CheckAnswers(){
 	CompileGuesses();
 
 	if ((AllCorrect == true)||(Finished == true)){
-
 
 		TimeOver = true;
 		Locked = true;
@@ -1539,82 +1434,57 @@ function TypeChars(Chars){
 	}
 }
 
-
-
 // End of script
 
 </script>
 
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-BilbOqiEfe9Rc/waSHzUQu1xDBH7YVftSrGeyKE4knxKxgW3SM3NfPFHPNQn7Z+Y"></script>
 
 </head>
 
 <body onload="StartUp()" id="TheBody"><div class="wrapfit">
 
-
-
-
-
 <!-- EndTopNavButtons -->
 
 <div class="Titles">
-	<h2 class="ExerciseTitle">158. Don&#x2019;t Call Me "Honey"</h2>
-
-
-
-
-
-
+	<h1 class="ExerciseTitle">158. Don&#x2019;t Call Me "Honey"</h1>
 
 </div>
 
 <div id="InstructionsDiv" class="StdDiv">
-	<div id="Instructions">Review the vocabulary, read the story, then fill in each blank. Click CHECK to see if your answers are correct.</div>
+	<div id="Instructions">1: Study the new words page. 2: Listen to the story. 3: Read the story out loud. 4: Fill-in the blanks below. 5: Check your answers.</div>
 </div>
 
-
-
-
-
-<div id="MainDiv" class="StdDiv"> <!-- These top buttons hidden; reveal if required -->
-<!--
-<button id="CheckButton1" class="FuncButton" type="submit"  onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
-
-
-<button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
-
-
- -->
-
-<div id="ClozeDiv">
+<div id="MainDiv" class="StdDiv"> <div id="ClozeDiv">
 <form id="Cloze" method="post" action="#" onsubmit="return false;">
 <div class="ClozeBody">
-&#x201C;Don&#x2019;t call me &#x2018;honey&#x2019; anymore,&#x201D; Fanny said. &#x201C;Okay, <span class="GapSpan" id="GapSpan0"><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="6"></span>,&#x201D; Rich said. &#x201C;I mean it!&#x201D; she said. &#x201C;Don&#x2019;t <span class="GapSpan" id="GapSpan1"><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6"></span> me &#x2018;honey.&#x2019; Don&#x2019;t call me &#x2018;sugar.&#x2019; Don&#x2019;t call <span class="GapSpan" id="GapSpan2"><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6"></span> &#x2018;sweetie.&#x2019;&#x201D; Rich was confused. &#x201C;I am confused, darling,&#x201D; <span class="GapSpan" id="GapSpan3"><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6"></span> said. &#x201C;Why can&#x2019;t I call you &#x2018;honey&#x2019;? Why <span class="GapSpan" id="GapSpan4"><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="6"></span>&#x2019;t I call you &#x2018;sugar&#x2019;? Why can&#x2019;t I call <span class="GapSpan" id="GapSpan5"><input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="6"></span> &#x2018;sweetie&#x2019;?&#x201D; Fanny said, &#x201C;Because you used to call <span class="GapSpan" id="GapSpan6"><input type="text" id="Gap6" onfocus="TrackFocus(6)" onblur="LeaveGap()" class="GapBox" size="6"></span> ex-wife those names. When you call me those <span class="GapSpan" id="GapSpan7"><input type="text" id="Gap7" onfocus="TrackFocus(7)" onblur="LeaveGap()" class="GapBox" size="6"></span>, I think of your ex-wife. When I think <span class="GapSpan" id="GapSpan8"><input type="text" id="Gap8" onfocus="TrackFocus(8)" onblur="LeaveGap()" class="GapBox" size="6"></span> your ex-wife, I get angry. So don&#x2019;t make <span class="GapSpan" id="GapSpan9"><input type="text" id="Gap9" onfocus="TrackFocus(9)" onblur="LeaveGap()" class="GapBox" size="6"></span> angry.&#x201D; Rich was still confused. &#x201C;But what can <span class="GapSpan" id="GapSpan10"><input type="text" id="Gap10" onfocus="TrackFocus(10)" onblur="LeaveGap()" class="GapBox" size="6"></span> call you, darling?&#x201D; Fanny said, &#x201C;Don&#x2019;t call me &#x2018;<span class="GapSpan" id="GapSpan11"><input type="text" id="Gap11" onfocus="TrackFocus(11)" onblur="LeaveGap()" class="GapBox" size="7"></span>,&#x2019; either. Call me Fanny.&#x201D; &#x201C;Yes, dear,&#x201D; said Rich. <span class="GapSpan" id="GapSpan12"><input type="text" id="Gap12" onfocus="TrackFocus(12)" onblur="LeaveGap()" class="GapBox" size="6"></span> said, &#x201C;&#x2018;Dear?&#x2019; Don&#x2019;t call me &#x2018;dear,&#x2019; either. Call <span class="GapSpan" id="GapSpan13"><input type="text" id="Gap13" onfocus="TrackFocus(13)" onblur="LeaveGap()" class="GapBox" size="6"></span> Fanny. My name is Fanny.&#x201D; Rich said, &#x201C;I <span class="GapSpan" id="GapSpan14"><input type="text" id="Gap14" onfocus="TrackFocus(14)" onblur="LeaveGap()" class="GapBox" size="6"></span>&#x2019;t want to call you &#x2018;Fanny&#x2019;--I want to call <span class="GapSpan" id="GapSpan15"><input type="text" id="Gap15" onfocus="TrackFocus(15)" onblur="LeaveGap()" class="GapBox" size="6"></span> something special.&#x201D;<br>
+&#x201C;Don&#x2019;t call me &#x2018;honey&#x2019; anymore,&#x201D; Fanny said. &#x201C;Okay, <span class="GapSpan" id="GapSpan0"><label class="sr-only" for="Gap0">Blank 1</label><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="6"></span>,&#x201D; Rich said. &#x201C;I mean it!&#x201D; she said. &#x201C;Don&#x2019;t <span class="GapSpan" id="GapSpan1"><label class="sr-only" for="Gap1">Blank 2</label><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6"></span> me &#x2018;honey.&#x2019; Don&#x2019;t call me &#x2018;sugar.&#x2019; Don&#x2019;t call <span class="GapSpan" id="GapSpan2"><label class="sr-only" for="Gap2">Blank 3</label><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6"></span> &#x2018;sweetie.&#x2019;&#x201D; Rich was confused. &#x201C;I am confused, darling,&#x201D; <span class="GapSpan" id="GapSpan3"><label class="sr-only" for="Gap3">Blank 4</label><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6"></span> said. &#x201C;Why can&#x2019;t I call you &#x2018;honey&#x2019;? Why <span class="GapSpan" id="GapSpan4"><label class="sr-only" for="Gap4">Blank 5</label><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="6"></span>&#x2019;t I call you &#x2018;sugar&#x2019;? Why can&#x2019;t I call <span class="GapSpan" id="GapSpan5"><label class="sr-only" for="Gap5">Blank 6</label><input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="6"></span> &#x2018;sweetie&#x2019;?&#x201D; Fanny said, &#x201C;Because you used to call <span class="GapSpan" id="GapSpan6"><label class="sr-only" for="Gap6">Blank 7</label><input type="text" id="Gap6" onfocus="TrackFocus(6)" onblur="LeaveGap()" class="GapBox" size="6"></span> ex-wife those names. When you call me those <span class="GapSpan" id="GapSpan7"><label class="sr-only" for="Gap7">Blank 8</label><input type="text" id="Gap7" onfocus="TrackFocus(7)" onblur="LeaveGap()" class="GapBox" size="6"></span>, I think of your ex-wife. When I think <span class="GapSpan" id="GapSpan8"><label class="sr-only" for="Gap8">Blank 9</label><input type="text" id="Gap8" onfocus="TrackFocus(8)" onblur="LeaveGap()" class="GapBox" size="6"></span> your ex-wife, I get angry. So don&#x2019;t make <span class="GapSpan" id="GapSpan9"><label class="sr-only" for="Gap9">Blank 10</label><input type="text" id="Gap9" onfocus="TrackFocus(9)" onblur="LeaveGap()" class="GapBox" size="6"></span> angry.&#x201D; Rich was still confused. &#x201C;But what can <span class="GapSpan" id="GapSpan10"><label class="sr-only" for="Gap10">Blank 11</label><input type="text" id="Gap10" onfocus="TrackFocus(10)" onblur="LeaveGap()" class="GapBox" size="6"></span> call you, darling?&#x201D; Fanny said, &#x201C;Don&#x2019;t call me &#x2018;<span class="GapSpan" id="GapSpan11"><label class="sr-only" for="Gap11">Blank 12</label><input type="text" id="Gap11" onfocus="TrackFocus(11)" onblur="LeaveGap()" class="GapBox" size="7"></span>,&#x2019; either. Call me Fanny.&#x201D; &#x201C;Yes, dear,&#x201D; said Rich. <span class="GapSpan" id="GapSpan12"><label class="sr-only" for="Gap12">Blank 13</label><input type="text" id="Gap12" onfocus="TrackFocus(12)" onblur="LeaveGap()" class="GapBox" size="6"></span> said, &#x201C;&#x2018;Dear?&#x2019; Don&#x2019;t call me &#x2018;dear,&#x2019; either. Call <span class="GapSpan" id="GapSpan13"><label class="sr-only" for="Gap13">Blank 14</label><input type="text" id="Gap13" onfocus="TrackFocus(13)" onblur="LeaveGap()" class="GapBox" size="6"></span> Fanny. My name is Fanny.&#x201D; Rich said, &#x201C;I <span class="GapSpan" id="GapSpan14"><label class="sr-only" for="Gap14">Blank 15</label><input type="text" id="Gap14" onfocus="TrackFocus(14)" onblur="LeaveGap()" class="GapBox" size="6"></span>&#x2019;t want to call you &#x2018;Fanny&#x2019;--I want to call <span class="GapSpan" id="GapSpan15"><label class="sr-only" for="Gap15">Blank 16</label><input type="text" id="Gap15" onfocus="TrackFocus(15)" onblur="LeaveGap()" class="GapBox" size="6"></span> something special.&#x201D;<br>
 </div>
 </form>
 </div>
 
-
-
-
-
-<button id="CheckButton2" class="FuncButton" type="submit" form="Cloze" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
-
-
-<button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
-
-
+<div class="btn17Container">
+  <button class="btn-17" type="submit" form="Cloze" id="check">check</button>
+  <button class="btn-17" type="button" id="hint">hint</button>
 </div>
-
-
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
 <button id="FeedbackOKButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
 </div>
+</div>
 
 <!-- BeginBottomNavButtons -->
 
+<hr>
 
+<button class="btn-74" type="button" onclick="location='JavaScript:window.close() '; return false;">
+  close
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
 
 <!-- EndBottomNavButtons --><hr>
 
@@ -1622,8 +1492,9 @@ function TypeChars(Chars){
 
 <!-- EndSubmissionForm -->
 
-<div class="cenmar"><hr><a href="JavaScript:window.close()">CLOSE</a></div><br><br><br></div></body>
-
+<br><br>
+</div>
+</body>
 
 <!-- ecloze/ecloze158.htm, Mon, 03 Jul 2017 07:27:57 GMT -->
 </html>

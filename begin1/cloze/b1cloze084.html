@@ -501,61 +501,6 @@ div.ShortAnswer{
 	padding: 3px 6px 3px 6px;
 	cursor: pointer;
 }
-
-/*BeginNavBarStyle*/
-
-div.NavButtonBar{
-	background-color: #000000;
-	text-align: center;
-	margin: 2px 0px 2px 0px;
-	clear: both;
-	font-size: 100%;
-}
-
-.NavButton {
-	border-style: solid;
-
-	border-left-color: #7f7f7f;
-	border-top-color: #7f7f7f;
-	border-right-color: #000000;
-	border-bottom-color: #000000;
-	background-color: #000000;
-	color: #ffffff;
-
-	border-width: 2px;
-	cursor: pointer;
-}
-
-.NavButtonUp {
-	border-style: solid;
-
-	border-left-color: #7f7f7f;
-	border-top-color: #7f7f7f;
-	border-right-color: #000000;
-	border-bottom-color: #000000;
-	color: #000000;
-	background-color: #ffffff;
-
-	border-width: 2px;
-	cursor: pointer;
-}
-
-.NavButtonDown {
-	border-style: solid;
-
-	border-left-color: #000000;
-	border-top-color: #000000;
-	border-right-color: #7f7f7f;
-	border-bottom-color: #7f7f7f;
-	color: #000000;
-	background-color: #ffffff;
-
-	border-width: 2px;
-	cursor: pointer;
-}
-
-/*EndNavBarStyle*/
-
 a{
 	color: #0000FF;
 }
@@ -687,7 +632,7 @@ p {
 
 </style>
 
-<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-yd++1aA/DKlu414CBeySiG5z3pkU7c+J3hrist74uK/Kky16jm2uib6BVCXtbULm">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-dYC0ghuhEPIGDEv8mn9LdfQpAG9/7YaMiozhrIAbUGRhxV4uSRPy/w+5dxnLZb2T">
 
 <script>
 
@@ -1470,21 +1415,10 @@ function TypeChars(Chars){
 
 <link rel="icon" href="/favicon.ico">
 <script defer src="../../js/sis-cloze-submit.js" integrity="sha384-BilbOqiEfe9Rc/waSHzUQu1xDBH7YVftSrGeyKE4knxKxgW3SM3NfPFHPNQn7Z+Y"></script>
-<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-BilbOqiEfe9Rc/waSHzUQu1xDBH7YVftSrGeyKE4knxKxgW3SM3NfPFHPNQn7Z+Y"></script>
 
 </head>
 
 <body onload="StartUp()" id="TheBody"><div class="wrapfit">
-
-<hr><!-- BeginTopNavButtons -->
-
-<div class="NavButtonBar" id="TopNavBar">
-
-<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
-
-</div>
-
-<!-- EndTopNavButtons -->
 
 <div class="Titles">
 	<h1 class="ExerciseTitle">84. Many Shoes</h1>
@@ -1497,14 +1431,6 @@ function TypeChars(Chars){
 
 <div id="MainDiv" class="StdDiv">
 
-<!-- These top buttons hidden; reveal if required -->
-<!--
-<button id="CheckButton1" class="FuncButton" type="submit"  onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
-
-<button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
-
--->
-
 <div id="ClozeDiv">
 <form id="Cloze" method="post" action="#" onsubmit="return false;">
 <div class="ClozeBody">
@@ -1513,24 +1439,28 @@ She has two pairs of high heels. <span class="GapSpan" id="GapSpan0"><label clas
 </form>
 </div>
 
-<button id="CheckButton2" class="FuncButton" type="submit" form="Cloze" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
-
-<button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
-
+<div class="btn17Container">
+  <button class="btn-17" type="submit" form="Cloze" id="check">check</button>
+  <button class="btn-17" type="button" id="hint">hint</button>
 </div>
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
 <button id="FeedbackOKButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
 </div>
+</div>
 
 <!-- BeginBottomNavButtons -->
 
-<hr><hr> <div class="NavButtonBar" id="BottomNavBar">
+<hr>
 
-<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)"  onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='JavaScript:window.close() '; return false;"> Close </button>
-
-</div>
+<button class="btn-74" type="button" onclick="location='JavaScript:window.close() '; return false;">
+  close
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
 
 <!-- EndBottomNavButtons -->
 
@@ -1538,7 +1468,9 @@ She has two pairs of high heels. <span class="GapSpan" id="GapSpan0"><label clas
 
 <!-- EndSubmissionForm -->
 
-<br><br></div></body>
+<br><br>
+</div>
+</body>
 
 <!-- /begin1/cloze/b1cloze084.htm, Mon, 03 Jul 2017 04:52:32 GMT -->
 </html>
