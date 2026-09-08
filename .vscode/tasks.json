@@ -1,6 +1,37 @@
 {
   "version": "2.0.0",
+  "problemMatchers": [
+    {
+      "name": "sri-watch",
+      "owner": "custom",
+      "pattern": [],
+      "background": {
+        "activeOnStart": true,
+        "beginsPattern": "^\\[sri:watch\\] root=",
+        "endsPattern": "^\\[sri:watch\\] ready$"
+      }
+    }
+  ],
   "tasks": [
+    {
+      "label": "SRI WATCH",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "sri:watch"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": false
+      },
+      "problemMatcher": ["$sri-watch"]
+    },
     {
       "label": "HTML CHECK FILE",
       "type": "shell",

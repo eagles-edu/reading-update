@@ -305,6 +305,36 @@ function collectEdits(source, file, root, algo, digestCache, warnings) {
   return edits;
 }
 
+function collectReferencedAssetPaths(source, file, root) {
+  const references = new Set();
+  const document = parse5.parse(source, { sourceCodeLocationInfo: true });
+
+  const visit = (node) => {
+    if (shouldHashNode(node)) {
+      const href = getAttrValue(node, "src") || getAttrValue(node, "href");
+      const assetPath = resolveAssetPath(file, root, href);
+      if (assetPath) {
+        references.add(assetPath);
+      }
+    }
+
+    if (node.childNodes) {
+      for (const child of node.childNodes) {
+        visit(child);
+      }
+    }
+
+    if (node.content?.childNodes) {
+      for (const child of node.content.childNodes) {
+        visit(child);
+      }
+    }
+  };
+
+  visit(document);
+  return references;
+}
+
 function applyEdits(source, edits) {
   let next = source;
   for (const edit of edits) {
@@ -421,5 +451,6 @@ if (require.main === module) {
 }
 
 module.exports = {
+  collectReferencedAssetPaths,
   rehashHtmlSource,
 };
