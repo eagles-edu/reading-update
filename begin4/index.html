@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta
       name="description"
-      content="My Reader: Stories 4 in a tabbed reading index with the same Eagles theme and a cleaner, animated layout."
+      content="A2 Flyers Reading with four lettered tabs and 200 short English stories."
     >
-    <title>My Reader: Stories 4</title>
-    <link href="/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <title>A2 Flyers&copy; Reading</title>
+    <link href="/reading/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
     <link rel="preload" href="../js/theme-selector.js" as="script" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty">
 <script src="../js/theme-selector.js" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
 <script>
@@ -703,7 +703,7 @@
         align-items: flex-end;
         border-bottom: none;
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 0;
         justify-content: flex-start;
         overflow-x: auto;
@@ -724,15 +724,17 @@
         box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.42) inset;
         color: var(--tertiary-color);
         cursor: pointer;
-        display: inline-grid;
-        gap: 6px;
+        align-items: baseline;
+        display: inline-flex;
+        gap: clamp(0.45rem, 1vw, 0.85rem);
         flex: 0 0 auto;
         margin-bottom: -1px;
-        min-width: 12.25rem;
+        min-width: clamp(9.5rem, 20vw, 12.25rem);
         overflow: hidden;
         padding: 13px 30px 12px 20px;
         position: relative;
         text-align: left;
+        white-space: nowrap;
         transition:
           transform 220ms ease,
           box-shadow 220ms ease,
@@ -813,17 +815,24 @@
       }
 
       .tab-button__label {
-        font-size: 1rem;
+        flex: 0 0 auto;
+        font-size: clamp(1.35rem, 2.25vw, 2rem);
         font-weight: 900;
         letter-spacing: 0.01em;
+        line-height: 1;
+        white-space: nowrap;
       }
 
       .tab-button__range {
         color: var(--muted);
-        font-size: 0.8rem;
+        flex: 0 1 auto;
+        font-size: clamp(0.68rem, 0.9vw, 0.82rem);
         font-weight: 800;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.05em;
+        line-height: 1;
+        min-inline-size: 0;
         text-transform: uppercase;
+        white-space: nowrap;
       }
 
       .tab-button[aria-selected="true"] .tab-button__range {
@@ -1341,33 +1350,29 @@
     <main>
       <section class="hero">
         <div class="container hero-panel">
-          <span class="eyebrow">Tabbed reading path.</span>
-          <h1>My Reader: Stories 4</h1>
-          <p class="hero-copy">
-            The reading list stays compact in tabs while keeping the original Eagles theme and navigation.
-          </p>
-          <div class="hero-stats">
-            <div class="stat-chip">
-              <strong data-count-target="50">0</strong>
-              <span>Stories 4</span>
-            </div>
-            <div class="stat-chip">
-              <strong data-count-target="50">0</strong>
-              <span>Stories 4a</span>
-            </div>
-            <div class="stat-chip">
-              <strong data-count-target="100">0</strong>
-              <span>Total stories</span>
-            </div>
-            <div class="stat-chip stat-counter">
-              <strong
-                data-visit-count
-                data-count-target="0"
-                aria-live="polite"
-              >--</strong>
-              <span>Visits</span>
-            </div>
+          <span class="eyebrow">Levelled reading path.</span>
+          <h1>A2 Flyers&copy; Reading</h1>
+                      <p class="hero-copy">
+              Choose a lettered reading tab and use each card number to find a story quickly.
+            </p>
+                  <div class="hero-stats">
+          <div class="stat-chip">
+            <strong data-count-target="200">0</strong>
+            <span>Total stories</span>
           </div>
+          <div class="stat-chip">
+            <strong data-count-target="4">0</strong>
+            <span>Reading tabs</span>
+          </div>
+          <div class="stat-chip stat-counter">
+            <strong
+              data-visit-count
+              data-count-target="0"
+              aria-live="polite"
+            >--</strong>
+            <span>Visits</span>
+          </div>
+        </div>
         </div>
       </section>
 
@@ -1376,7 +1381,7 @@
           <h2 id="stories-shell-title" class="sr-only">Stories</h2>
 
           <div class="tabbed-shell">
-            <div
+                        <div
               class="tab-list"
               role="tablist"
               aria-labelledby="stories-shell-title"
@@ -1392,8 +1397,8 @@
                 tabindex="0"
                 data-tab-target="stories-1"
               >
-                <span class="tab-button__label">Stories 4</span>
-                <span class="tab-button__range">1 - 50</span>
+                <span class="tab-button__label">A</span>
+                <span class="tab-button__range">1-50</span>
               </button>
               <button
                 id="tab-stories-2"
@@ -1405,8 +1410,34 @@
                 tabindex="-1"
                 data-tab-target="stories-2"
               >
-                <span class="tab-button__label">Stories 4a</span>
-                <span class="tab-button__range">51 - 100</span>
+                <span class="tab-button__label">B</span>
+                <span class="tab-button__range">51-100</span>
+              </button>
+              <button
+                id="tab-kidsenglish3-stories-1"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="kidsenglish3-stories-1"
+                tabindex="-1"
+                data-tab-target="kidsenglish3-stories-1"
+              >
+                <span class="tab-button__label">C</span>
+                <span class="tab-button__range">1-50</span>
+              </button>
+              <button
+                id="tab-kidsenglish3-stories-2"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="kidsenglish3-stories-2"
+                tabindex="-1"
+                data-tab-target="kidsenglish3-stories-2"
+              >
+                <span class="tab-button__label">D</span>
+                <span class="tab-button__range">51-100</span>
               </button>
             </div>
 
@@ -1417,15 +1448,37 @@
                 role="tabpanel"
                 aria-labelledby="tab-stories-1"
                 data-start="1"
-
               >
                 <div class="story-grid" data-story-grid></div>
               </section>
+
               <section
                 id="stories-2"
                 class="tab-panel"
                 role="tabpanel"
                 aria-labelledby="tab-stories-2"
+                data-start="51"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+
+              <section
+                id="kidsenglish3-stories-1"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-kidsenglish3-stories-1"
+                data-start="1"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+
+              <section
+                id="kidsenglish3-stories-2"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-kidsenglish3-stories-2"
                 data-start="51"
                 hidden
               >
@@ -1611,111 +1664,821 @@
 
       (() => {
         const storySets = {
-          "stories-1": [
-            ["b4/b4001.html", "First Day of the Job"],
-            ["b4/b4002.html", "The Sale Associate"],
-            ["b4/b4003.html", "Watching a Movie"],
-            ["b4/b4004.html", "Washing Her Hair"],
-            ["b4/b4005.html", "The Store Was Closed"],
-            ["b4/b4006.html", "No Phone"],
-            ["b4/b4007.html", "Pizza Delivery"],
-            ["b4/b4008.html", "Bob Lost 50 Pounds"],
-            ["b4/b4009.html", "Messy and Clean"],
-            ["b4/b4010.html", "Instant Noodles"],
-            ["b4/b4011.html", "She Bought a Gallon of Milk"],
-            ["b4/b4012.html", "Being Young"],
-            ["b4/b4013.html", "Borrowing Books from the Library"],
-            ["b4/b4014.html", "A Generous Woman"],
-            ["b4/b4015.html", "A Changed Man"],
-            ["b4/b4016.html", "Take Your Shoes Off"],
-            ["b4/b4017.html", "Mom Doesn't Like John"],
-            ["b4/b4018.html", "An Old Friend"],
-            ["b4/b4019.html", "Left Keys in the Car"],
-            ["b4/b4020.html", "Donating Clothes"],
-            ["b4/b4021.html", "Extra Food"],
-            ["b4/b4022.html", "Not to Hang Out with a Liar"],
-            ["b4/b4023.html", "Buy One, Get One Free"],
-            ["b4/b4024.html", "Playing Tennis at the Park"],
-            ["b4/b4025.html", "Grandmother's Dying Wish"],
-            ["b4/b4026.html", "Losing a Ticket"],
-            ["b4/b4027.html", "Fried Eggs"],
-            ["b4/b4028.html", "Stealing Was Wrong"],
-            ["b4/b4029.html", "She Loves Walking"],
-            ["b4/b4030.html", "Fried Cabbage"],
-            ["b4/b4031.html", "America Is Diverse"],
-            ["b4/b4032.html", "Weird Schedules"],
-            ["b4/b4033.html", "Rick Is Overweight"],
-            ["b4/b4034.html", "Funny Eating Habits"],
-            ["b4/b4035.html", "Food Samples"],
-            ["b4/b4036.html", "A Photo Collage"],
-            ["b4/b4037.html", "Wear It, Return It"],
-            ["b4/b4038.html", "Reading in a Rainy Day"],
-            ["b4/b4039.html", "Wholesale Store"],
-            ["b4/b4040.html", "Shopping at Thrift Shop"],
-            ["b4/b4041.html", "Borrowing Books and Movies"],
-            ["b4/b4042.html", "Never Give Up"],
-            ["b4/b4043.html", "Trying New Things"],
-            ["b4/b4044.html", "Camera Shy"],
-            ["b4/b4045.html", "Putting on Sunscreen"],
-            ["b4/b4046.html", "A Problematic Car"],
-            ["b4/b4047.html", "Ask for Forgiveness, Not Permission"],
-            ["b4/b4048.html", "Zoo Animals"],
-            ["b4/b4049.html", "Chocolate Is Too Sweet"],
-            ["b4/b4050.html", "Taking Good Care of Teeth"]
-          ],
-          "stories-2": [
-            ["b4/b4051.html", "Nothing Was Impossible"],
-            ["b4/b4052.html", "She Doesn't Want Anything"],
-            ["b4/b4053.html", "Long Distance Relationship"],
-            ["b4/b4054.html", "Riding a Horse"],
-            ["b4/b4055.html", "Breaking a Computer"],
-            ["b4/b4056.html", "Buying a New Couch"],
-            ["b4/b4057.html", "Shopping at the Market"],
-            ["b4/b4058.html", "Seeing an Eye Doctor"],
-            ["b4/b4059.html", "Sold-out Tickets"],
-            ["b4/b4060.html", "Snow Cones"],
-            ["b4/b4061.html", "Rock Climbing"],
-            ["b4/b4062.html", "A Perfect Day for Hiking"],
-            ["b4/b4063.html", "Go Surfing"],
-            ["b4/b4064.html", "A Hot Summer Day"],
-            ["b4/b4065.html", "Lifeguard Duty"],
-            ["b4/b4066.html", "The Lottery"],
-            ["b4/b4067.html", "Working at the Ice Cream Shop"],
-            ["b4/b4068.html", "Her Dog Was Missing"],
-            ["b4/b4069.html", "Running a Marathon"],
-            ["b4/b4070.html", "A Blackout"],
-            ["b4/b4071.html", "Learning to Dance"],
-            ["b4/b4072.html", "Happy about the Promotion"],
-            ["b4/b4073.html", "A New Car"],
-            ["b4/b4074.html", "Pizza Palace"],
-            ["b4/b4075.html", "Cooking for the First Time"],
-            ["b4/b4076.html", "Working at the Library"],
-            ["b4/b4077.html", "Opposite Twins"],
-            ["b4/b4078.html", "Visiting America"],
-            ["b4/b4079.html", "A Free Pretzel Day"],
-            ["b4/b4080.html", "Getting Braces"],
-            ["b4/b4081.html", "Dentist Appointment"],
-            ["b4/b4082.html", "Dog-Sitting"],
-            ["b4/b4083.html", "Washing Dogs"],
-            ["b4/b4084.html", "Volunteering at the Animal Shelter"],
-            ["b4/b4085.html", "Mother's Day"],
-            ["b4/b4086.html", "Family Picnic at the Park"],
-            ["b4/b4087.html", "Going to the Beach"],
-            ["b4/b4088.html", "Making a Sandwich"],
-            ["b4/b4089.html", "Visiting the Art Museum"],
-            ["b4/b4090.html", "A Road Trip"],
-            ["b4/b4091.html", "Green Thumb"],
-            ["b4/b4092.html", "The Wallet on the Ground"],
-            ["b4/b4093.html", "A Perfect Wedding"],
-            ["b4/b4094.html", "Cutting Hair"],
-            ["b4/b4095.html", "Jewelry Shopping"],
-            ["b4/b4096.html", "Rock Climbing"],
-            ["b4/b4097.html", "A Local Talent Show"],
-            ["b4/b4098.html", "Doing Laundry"],
-            ["b4/b4099.html", "Soccer Game"],
-            ["b4/b4100.html", "Working at Movie Theaters"]
-          ]
-        };
+  "stories-1": [
+    [
+      "b4/b4001.html",
+      "First Day of the Job"
+    ],
+    [
+      "b4/b4002.html",
+      "The Sale Associate"
+    ],
+    [
+      "b4/b4003.html",
+      "Watching a Movie"
+    ],
+    [
+      "b4/b4004.html",
+      "Washing Her Hair"
+    ],
+    [
+      "b4/b4005.html",
+      "The Store Was Closed"
+    ],
+    [
+      "b4/b4006.html",
+      "No Phone"
+    ],
+    [
+      "b4/b4007.html",
+      "Pizza Delivery"
+    ],
+    [
+      "b4/b4008.html",
+      "Bob Lost 50 Pounds"
+    ],
+    [
+      "b4/b4009.html",
+      "Messy and Clean"
+    ],
+    [
+      "b4/b4010.html",
+      "Instant Noodles"
+    ],
+    [
+      "b4/b4011.html",
+      "She Bought a Gallon of Milk"
+    ],
+    [
+      "b4/b4012.html",
+      "Being Young"
+    ],
+    [
+      "b4/b4013.html",
+      "Borrowing Books from the Library"
+    ],
+    [
+      "b4/b4014.html",
+      "A Generous Woman"
+    ],
+    [
+      "b4/b4015.html",
+      "A Changed Man"
+    ],
+    [
+      "b4/b4016.html",
+      "Take Your Shoes Off"
+    ],
+    [
+      "b4/b4017.html",
+      "Mom Doesn't Like John"
+    ],
+    [
+      "b4/b4018.html",
+      "An Old Friend"
+    ],
+    [
+      "b4/b4019.html",
+      "Left Keys in the Car"
+    ],
+    [
+      "b4/b4020.html",
+      "Donating Clothes"
+    ],
+    [
+      "b4/b4021.html",
+      "Extra Food"
+    ],
+    [
+      "b4/b4022.html",
+      "Not to Hang Out with a Liar"
+    ],
+    [
+      "b4/b4023.html",
+      "Buy One, Get One Free"
+    ],
+    [
+      "b4/b4024.html",
+      "Playing Tennis at the Park"
+    ],
+    [
+      "b4/b4025.html",
+      "Grandmother's Dying Wish"
+    ],
+    [
+      "b4/b4026.html",
+      "Losing a Ticket"
+    ],
+    [
+      "b4/b4027.html",
+      "Fried Eggs"
+    ],
+    [
+      "b4/b4028.html",
+      "Stealing Was Wrong"
+    ],
+    [
+      "b4/b4029.html",
+      "She Loves Walking"
+    ],
+    [
+      "b4/b4030.html",
+      "Fried Cabbage"
+    ],
+    [
+      "b4/b4031.html",
+      "America Is Diverse"
+    ],
+    [
+      "b4/b4032.html",
+      "Weird Schedules"
+    ],
+    [
+      "b4/b4033.html",
+      "Rick Is Overweight"
+    ],
+    [
+      "b4/b4034.html",
+      "Funny Eating Habits"
+    ],
+    [
+      "b4/b4035.html",
+      "Food Samples"
+    ],
+    [
+      "b4/b4036.html",
+      "A Photo Collage"
+    ],
+    [
+      "b4/b4037.html",
+      "Wear It, Return It"
+    ],
+    [
+      "b4/b4038.html",
+      "Reading in a Rainy Day"
+    ],
+    [
+      "b4/b4039.html",
+      "Wholesale Store"
+    ],
+    [
+      "b4/b4040.html",
+      "Shopping at Thrift Shop"
+    ],
+    [
+      "b4/b4041.html",
+      "Borrowing Books and Movies"
+    ],
+    [
+      "b4/b4042.html",
+      "Never Give Up"
+    ],
+    [
+      "b4/b4043.html",
+      "Trying New Things"
+    ],
+    [
+      "b4/b4044.html",
+      "Camera Shy"
+    ],
+    [
+      "b4/b4045.html",
+      "Putting on Sunscreen"
+    ],
+    [
+      "b4/b4046.html",
+      "A Problematic Car"
+    ],
+    [
+      "b4/b4047.html",
+      "Ask for Forgiveness, Not Permission"
+    ],
+    [
+      "b4/b4048.html",
+      "Zoo Animals"
+    ],
+    [
+      "b4/b4049.html",
+      "Chocolate Is Too Sweet"
+    ],
+    [
+      "b4/b4050.html",
+      "Taking Good Care of Teeth"
+    ]
+  ],
+  "stories-2": [
+    [
+      "b4/b4051.html",
+      "Nothing Was Impossible"
+    ],
+    [
+      "b4/b4052.html",
+      "She Doesn't Want Anything"
+    ],
+    [
+      "b4/b4053.html",
+      "Long Distance Relationship"
+    ],
+    [
+      "b4/b4054.html",
+      "Riding a Horse"
+    ],
+    [
+      "b4/b4055.html",
+      "Breaking a Computer"
+    ],
+    [
+      "b4/b4056.html",
+      "Buying a New Couch"
+    ],
+    [
+      "b4/b4057.html",
+      "Shopping at the Market"
+    ],
+    [
+      "b4/b4058.html",
+      "Seeing an Eye Doctor"
+    ],
+    [
+      "b4/b4059.html",
+      "Sold-out Tickets"
+    ],
+    [
+      "b4/b4060.html",
+      "Snow Cones"
+    ],
+    [
+      "b4/b4061.html",
+      "Rock Climbing"
+    ],
+    [
+      "b4/b4062.html",
+      "A Perfect Day for Hiking"
+    ],
+    [
+      "b4/b4063.html",
+      "Go Surfing"
+    ],
+    [
+      "b4/b4064.html",
+      "A Hot Summer Day"
+    ],
+    [
+      "b4/b4065.html",
+      "Lifeguard Duty"
+    ],
+    [
+      "b4/b4066.html",
+      "The Lottery"
+    ],
+    [
+      "b4/b4067.html",
+      "Working at the Ice Cream Shop"
+    ],
+    [
+      "b4/b4068.html",
+      "Her Dog Was Missing"
+    ],
+    [
+      "b4/b4069.html",
+      "Running a Marathon"
+    ],
+    [
+      "b4/b4070.html",
+      "A Blackout"
+    ],
+    [
+      "b4/b4071.html",
+      "Learning to Dance"
+    ],
+    [
+      "b4/b4072.html",
+      "Happy about the Promotion"
+    ],
+    [
+      "b4/b4073.html",
+      "A New Car"
+    ],
+    [
+      "b4/b4074.html",
+      "Pizza Palace"
+    ],
+    [
+      "b4/b4075.html",
+      "Cooking for the First Time"
+    ],
+    [
+      "b4/b4076.html",
+      "Working at the Library"
+    ],
+    [
+      "b4/b4077.html",
+      "Opposite Twins"
+    ],
+    [
+      "b4/b4078.html",
+      "Visiting America"
+    ],
+    [
+      "b4/b4079.html",
+      "A Free Pretzel Day"
+    ],
+    [
+      "b4/b4080.html",
+      "Getting Braces"
+    ],
+    [
+      "b4/b4081.html",
+      "Dentist Appointment"
+    ],
+    [
+      "b4/b4082.html",
+      "Dog-Sitting"
+    ],
+    [
+      "b4/b4083.html",
+      "Washing Dogs"
+    ],
+    [
+      "b4/b4084.html",
+      "Volunteering at the Animal Shelter"
+    ],
+    [
+      "b4/b4085.html",
+      "Mother's Day"
+    ],
+    [
+      "b4/b4086.html",
+      "Family Picnic at the Park"
+    ],
+    [
+      "b4/b4087.html",
+      "Going to the Beach"
+    ],
+    [
+      "b4/b4088.html",
+      "Making a Sandwich"
+    ],
+    [
+      "b4/b4089.html",
+      "Visiting the Art Museum"
+    ],
+    [
+      "b4/b4090.html",
+      "A Road Trip"
+    ],
+    [
+      "b4/b4091.html",
+      "Green Thumb"
+    ],
+    [
+      "b4/b4092.html",
+      "The Wallet on the Ground"
+    ],
+    [
+      "b4/b4093.html",
+      "A Perfect Wedding"
+    ],
+    [
+      "b4/b4094.html",
+      "Cutting Hair"
+    ],
+    [
+      "b4/b4095.html",
+      "Jewelry Shopping"
+    ],
+    [
+      "b4/b4096.html",
+      "Rock Climbing"
+    ],
+    [
+      "b4/b4097.html",
+      "A Local Talent Show"
+    ],
+    [
+      "b4/b4098.html",
+      "Doing Laundry"
+    ],
+    [
+      "b4/b4099.html",
+      "Soccer Game"
+    ],
+    [
+      "b4/b4100.html",
+      "Working at Movie Theaters"
+    ]
+  ],
+  "kidsenglish3-stories-1": [
+    [
+      "../kidsenglish3/ke3/ke3001.html",
+      "Claire Reads a Book"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3002.html",
+      "A Broken Chair"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3003.html",
+      "Birthday Celebration"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3004.html",
+      "The Pink One is Popular"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3005.html",
+      "The Petting Zoo"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3006.html",
+      "Parental Punishment"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3007.html",
+      "Alexa's Bunny"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3008.html",
+      "Drawing Animals"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3009.html",
+      "Falling Down in the Game"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3010.html",
+      "Arts and Crafts"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3011.html",
+      "Visiting a Candy Factory"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3012.html",
+      "Water Slide"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3013.html",
+      "Luke's New School"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3014.html",
+      "Meeting His Cousins"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3015.html",
+      "Ripped Bag"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3016.html",
+      "Dirty Shoes"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3017.html",
+      "Sharing is Caring"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3018.html",
+      "A Lazy Kid"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3019.html",
+      "Finding a Place to Study"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3020.html",
+      "She Brings Lunch From Home"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3021.html",
+      "The School Bully"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3022.html",
+      "Moving to New York"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3023.html",
+      "Pacing Yourself"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3024.html",
+      "He Was Forced to Go Home"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3025.html",
+      "A Bad Influence"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3026.html",
+      "He Loves Having Two Families"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3027.html",
+      "Twins Like Different Things"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3028.html",
+      "Washing Her Face"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3029.html",
+      "Junk Food"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3030.html",
+      "Visiting a Museum"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3031.html",
+      "Writing a Story"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3032.html",
+      "The Perfect Burger"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3033.html",
+      "Lemonade Stand"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3034.html",
+      "Job Applications"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3035.html",
+      "Pimple at Prom"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3036.html",
+      "Doing Chores for Money"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3037.html",
+      "Shopping for a Backpack"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3038.html",
+      "The Talent Show"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3039.html",
+      "Flying Alone for the First Time"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3040.html",
+      "Photography Project"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3041.html",
+      "A Project for Science Fair"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3042.html",
+      "Her 16th Birthday"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3043.html",
+      "Left Books at the Library"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3044.html",
+      "Summer Reading Program"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3045.html",
+      "Volunteering with Kids"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3046.html",
+      "Baby Brother"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3047.html",
+      "A Trail of Ants"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3048.html",
+      "Taking Turns Washing Dishes"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3049.html",
+      "Selling Chips to... Schoolmates"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3050.html",
+      "Good Old Shoes"
+    ]
+  ],
+  "kidsenglish3-stories-2": [
+    [
+      "../kidsenglish3/ke3/ke3051.html",
+      "Morning Routine"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3052.html",
+      "A Loyal Friend"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3053.html",
+      "Online Stranger"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3054.html",
+      "Opposites Really Do Attract"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3055.html",
+      "Sore Arms"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3056.html",
+      "First Pimple"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3057.html",
+      "Riding a Skateboard"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3058.html",
+      "Plant Project"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3059.html",
+      "First Day of School"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3060.html",
+      "Getting in Trouble"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3061.html",
+      "Watching a Tennis Game"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3062.html",
+      "School Lunch"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3063.html",
+      "Shopping Addiction"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3064.html",
+      "A Boring Day"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3065.html",
+      "Picture Day Problem"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3066.html",
+      "Help From Coffee"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3067.html",
+      "Backpacks Are Out"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3068.html",
+      "The Quiet Boy"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3069.html",
+      "More Responsibilities"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3070.html",
+      "A Pimple on His Forehead"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3071.html",
+      "A Cheating Friend"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3072.html",
+      "Mismatched Socks"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3073.html",
+      "Out of Battery"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3074.html",
+      "He Hates Poetry"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3075.html",
+      "Cloud Watching"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3076.html",
+      "Shopping at Thrift Shop"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3077.html",
+      "Running for President"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3078.html",
+      "Making a Volcano"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3079.html",
+      "Donating Food Cans"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3080.html",
+      "Going to the Circus"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3081.html",
+      "Meeting the New Neighbor"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3082.html",
+      "The Quiet Game"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3083.html",
+      "Planting Trees"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3084.html",
+      "Selling Chocolate to Raise..."
+    ],
+    [
+      "../kidsenglish3/ke3/ke3085.html",
+      "Girl Scout Cookies"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3086.html",
+      "A Camp Counselor"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3087.html",
+      "Harrison Has Lost His Phone"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3088.html",
+      "The Final Exam"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3089.html",
+      "A Special Candle"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3090.html",
+      "Downloading Music"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3091.html",
+      "Washing Dishes"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3092.html",
+      "What a cold day for California"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3093.html",
+      "The Speed Limit"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3094.html",
+      "Packing carefully"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3095.html",
+      "Buying Shoes Online"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3096.html",
+      "Using Her Credit Card"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3097.html",
+      "Flowers for Mom"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3098.html",
+      "Graduating"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3099.html",
+      "College Applications"
+    ],
+    [
+      "../kidsenglish3/ke3/ke3100.html",
+      "Dorm Shopping"
+    ]
+  ]
+};
+        const tabLetters = {
+  "stories-1": "A",
+  "stories-2": "B",
+  "kidsenglish3-stories-1": "C",
+  "kidsenglish3-stories-2": "D"
+};
 
         const buttons = Array.from(document.querySelectorAll("[data-tab-target]"));
         const panels = Array.from(document.querySelectorAll("[role='tabpanel']"));
@@ -1745,21 +2508,30 @@
           }
 
           const startNumber = Number(panel.dataset.start || "1");
+          const letter = tabLetters[panel.id] || "";
 
           grid.textContent = "";
 
           items.forEach(([href, title], index) => {
             const number = startNumber + index;
-            const link = document.createElement("a");
-            link.className = "story-item";
-            link.href = href;
-            link.setAttribute("aria-label", `${number}. ${title}`);
-            link.innerHTML = `
-              <span class="story-number">${number}.</span>
-              <span class="story-title">${title}</span>
-              <span class="story-arrow" aria-hidden="true">→</span>
-            `;
-            grid.appendChild(link);
+            const isPlaceholder = href === "#";
+            const card = document.createElement(isPlaceholder ? "div" : "a");
+
+            card.className = isPlaceholder
+              ? "story-item story-item--placeholder"
+              : "story-item";
+            if (!isPlaceholder) {
+              card.href = href;
+              card.setAttribute("aria-label", String(number) + ". " + title);
+            } else {
+              card.setAttribute("aria-disabled", "true");
+            }
+            card.innerHTML = isPlaceholder
+              ? '<span class="story-title">' + title + '</span>'
+              : '<span class="story-number">' + number + '</span>' +
+                '<span class="story-title">' + title + '</span>' +
+                '<span class="story-arrow" aria-hidden="true">→</span>';
+            grid.appendChild(card);
           });
 
           grid.dataset.rendered = "true";

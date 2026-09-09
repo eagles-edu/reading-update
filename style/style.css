@@ -3,10 +3,10 @@
 /* eslint-disable css/no-important */
 
 :root {
-  --content-max: 920px;
-  --content-width: 80%;
-  --story-page-bg-color: #a9b9c9;
-  --story-page-bg-image: url('/images/bg/blueGrunge.webp');
+  --content-max: 1280px;
+  --content-width: 100%;
+  --story-page-bg-color: #677c90;
+  --story-page-bg-image: url('/reading/images/bg/blueGrunge.webp');
   --story-panel-bg: rgba(255, 255, 255, 0.88);
   --story-panel-border: rgba(50, 70, 90, 0.18);
   --story-panel-shadow: rgba(36, 52, 68, 0.18);
@@ -145,7 +145,7 @@ body.story-page {
 .story-column {
   background: var(--story-panel-bg);
   border: 1px solid var(--story-panel-border);
-  border-radius: 12px;
+  border-radius: 3.66px;
   box-shadow: 0 10px 24px var(--story-panel-shadow);
   margin: 0 auto;
   max-width: 100%;
@@ -164,7 +164,7 @@ body.story-page {
   letter-spacing: 0.02em;
   line-height: 1.18;
   margin-bottom: 0.35em;
-  max-width: 18ch;
+  max-width: 36ch;
   padding-bottom: 0;
   /* eslint-disable-next-line css/use-baseline*/
   text-wrap: balance;
@@ -204,7 +204,7 @@ body.story-page {
   }
 
   .story-column {
-    border-radius: 18px;
+    border-radius: 5px;
     box-shadow: 0 18px 40px var(--story-panel-shadow);
     max-width: 860px;
     padding: 28px 32px 40px;

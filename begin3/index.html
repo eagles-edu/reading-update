@@ -9,10 +9,10 @@
     <script src="../js/theme-selector.js" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
     <meta
       name="description"
-      content="My Reader: Stories 3 in a tabbed reading index with the same Eagles theme and a cleaner, animated layout."
+      content="My Reader: Stories 3 and 4 in a four-tab reading index with the same Eagles theme and a cleaner, animated layout."
     >
-    <title>My Reader: Stories 3</title>
-    <link href="/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <title>My Reader: Stories 3 and 4</title>
+    <link href="/reading/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
     <style>
       :root {
         color-scheme: light;
@@ -624,7 +624,7 @@
       .hero-stats {
         display: grid;
         gap: 12px;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(6, minmax(0, 1fr));
         margin-top: var(--space-3);
         position: relative;
         z-index: 1;
@@ -1316,10 +1316,10 @@
     <main>
       <section class="hero">
         <div class="container hero-panel">
-          <span class="eyebrow">Tabbed reading path.</span>
-          <h1>My Reader: Stories 3</h1>
+          <span class="eyebrow">Four tabs. One reading path.</span>
+          <h1>My Reader: Stories 3 and 4</h1>
           <p class="hero-copy">
-            The reading list stays compact in tabs while keeping the original Eagles theme and navigation.
+            The reading lists are folded into one page with four tabs, the same theme language as the homepage, and a cleaner reading surface that still feels like the same site.
           </p>
           <div class="hero-stats">
             <div class="stat-chip">
@@ -1331,7 +1331,15 @@
               <span>Stories 3a</span>
             </div>
             <div class="stat-chip">
-              <strong data-count-target="110">0</strong>
+              <strong data-count-target="50">0</strong>
+              <span>Stories 4</span>
+            </div>
+            <div class="stat-chip">
+              <strong data-count-target="50">0</strong>
+              <span>Stories 4a</span>
+            </div>
+            <div class="stat-chip">
+              <strong data-count-target="210">0</strong>
               <span>Total stories</span>
             </div>
             <div class="stat-chip stat-counter">
@@ -1383,6 +1391,32 @@
                 <span class="tab-button__label">Stories 3a</span>
                 <span class="tab-button__range">56 - 110</span>
               </button>
+              <button
+                id="tab-stories-3"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="stories-3"
+                tabindex="-1"
+                data-tab-target="stories-3"
+              >
+                <span class="tab-button__label">Stories 4</span>
+                <span class="tab-button__range">1 - 50</span>
+              </button>
+              <button
+                id="tab-stories-3a"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="stories-3a"
+                tabindex="-1"
+                data-tab-target="stories-3a"
+              >
+                <span class="tab-button__label">Stories 4a</span>
+                <span class="tab-button__range">51 - 100</span>
+              </button>
             </div>
 
             <div class="tab-panels">
@@ -1402,6 +1436,26 @@
                 role="tabpanel"
                 aria-labelledby="tab-stories-2"
                 data-start="56"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+              <section
+                id="stories-3"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-stories-3"
+                data-start="1"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+              <section
+                id="stories-3a"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-stories-3a"
+                data-start="51"
                 hidden
               >
                 <div class="story-grid" data-story-grid></div>
@@ -1699,6 +1753,110 @@
             ["b3/b3108.html", "Too Old For Children"],
             ["b3/b3109.html", "New Phone"],
             ["b3/b3110.html", "The Secret Party"]
+          ],
+          "stories-3": [
+            ["b4/b4001.html", "First Day of the Job"],
+            ["b4/b4002.html", "The Sale Associate"],
+            ["b4/b4003.html", "Watching a Movie"],
+            ["b4/b4004.html", "Washing Her Hair"],
+            ["b4/b4005.html", "The Store Was Closed"],
+            ["b4/b4006.html", "No Phone"],
+            ["b4/b4007.html", "Pizza Delivery"],
+            ["b4/b4008.html", "Bob Lost 50 Pounds"],
+            ["b4/b4009.html", "Messy and Clean"],
+            ["b4/b4010.html", "Instant Noodles"],
+            ["b4/b4011.html", "She Bought a Gallon of Milk"],
+            ["b4/b4012.html", "Being Young"],
+            ["b4/b4013.html", "Borrowing Books from the Library"],
+            ["b4/b4014.html", "A Generous Woman"],
+            ["b4/b4015.html", "A Changed Man"],
+            ["b4/b4016.html", "Take Your Shoes Off"],
+            ["b4/b4017.html", "Mom Doesn't Like John"],
+            ["b4/b4018.html", "An Old Friend"],
+            ["b4/b4019.html", "Left Keys in the Car"],
+            ["b4/b4020.html", "Donating Clothes"],
+            ["b4/b4021.html", "Extra Food"],
+            ["b4/b4022.html", "Not to Hang Out with a Liar"],
+            ["b4/b4023.html", "Buy One, Get One Free"],
+            ["b4/b4024.html", "Playing Tennis at the Park"],
+            ["b4/b4025.html", "Grandmother's Dying Wish"],
+            ["b4/b4026.html", "Losing a Ticket"],
+            ["b4/b4027.html", "Fried Eggs"],
+            ["b4/b4028.html", "Stealing Was Wrong"],
+            ["b4/b4029.html", "She Loves Walking"],
+            ["b4/b4030.html", "Fried Cabbage"],
+            ["b4/b4031.html", "America Is Diverse"],
+            ["b4/b4032.html", "Weird Schedules"],
+            ["b4/b4033.html", "Rick Is Overweight"],
+            ["b4/b4034.html", "Funny Eating Habits"],
+            ["b4/b4035.html", "Food Samples"],
+            ["b4/b4036.html", "A Photo Collage"],
+            ["b4/b4037.html", "Wear It, Return It"],
+            ["b4/b4038.html", "Reading in a Rainy Day"],
+            ["b4/b4039.html", "Wholesale Store"],
+            ["b4/b4040.html", "Shopping at Thrift Shop"],
+            ["b4/b4041.html", "Borrowing Books and Movies"],
+            ["b4/b4042.html", "Never Give Up"],
+            ["b4/b4043.html", "Trying New Things"],
+            ["b4/b4044.html", "Camera Shy"],
+            ["b4/b4045.html", "Putting on Sunscreen"],
+            ["b4/b4046.html", "A Problematic Car"],
+            ["b4/b4047.html", "Ask for Forgiveness, Not Permission"],
+            ["b4/b4048.html", "Zoo Animals"],
+            ["b4/b4049.html", "Chocolate Is Too Sweet"],
+            ["b4/b4050.html", "Taking Good Care of Teeth"]
+          ],
+          "stories-3a": [
+            ["b4/b4051.html", "Nothing Was Impossible"],
+            ["b4/b4052.html", "She Doesn't Want Anything"],
+            ["b4/b4053.html", "Long Distance Relationship"],
+            ["b4/b4054.html", "Riding a Horse"],
+            ["b4/b4055.html", "Breaking a Computer"],
+            ["b4/b4056.html", "Buying a New Couch"],
+            ["b4/b4057.html", "Shopping at the Market"],
+            ["b4/b4058.html", "Seeing an Eye Doctor"],
+            ["b4/b4059.html", "Sold-out Tickets"],
+            ["b4/b4060.html", "Snow Cones"],
+            ["b4/b4061.html", "Rock Climbing"],
+            ["b4/b4062.html", "A Perfect Day for Hiking"],
+            ["b4/b4063.html", "Go Surfing"],
+            ["b4/b4064.html", "A Hot Summer Day"],
+            ["b4/b4065.html", "Lifeguard Duty"],
+            ["b4/b4066.html", "The Lottery"],
+            ["b4/b4067.html", "Working at the Ice Cream Shop"],
+            ["b4/b4068.html", "Her Dog Was Missing"],
+            ["b4/b4069.html", "Running a Marathon"],
+            ["b4/b4070.html", "A Blackout"],
+            ["b4/b4071.html", "Learning to Dance"],
+            ["b4/b4072.html", "Happy about the Promotion"],
+            ["b4/b4073.html", "A New Car"],
+            ["b4/b4074.html", "Pizza Palace"],
+            ["b4/b4075.html", "Cooking for the First Time"],
+            ["b4/b4076.html", "Working at the Library"],
+            ["b4/b4077.html", "Opposite Twins"],
+            ["b4/b4078.html", "Visiting America"],
+            ["b4/b4079.html", "A Free Pretzel Day"],
+            ["b4/b4080.html", "Getting Braces"],
+            ["b4/b4081.html", "Dentist Appointment"],
+            ["b4/b4082.html", "Dog-Sitting"],
+            ["b4/b4083.html", "Washing Dogs"],
+            ["b4/b4084.html", "Volunteering at the Animal Shelter"],
+            ["b4/b4085.html", "Mother's Day"],
+            ["b4/b4086.html", "Family Picnic at the Park"],
+            ["b4/b4087.html", "Going to the Beach"],
+            ["b4/b4088.html", "Making a Sandwich"],
+            ["b4/b4089.html", "Visiting the Art Museum"],
+            ["b4/b4090.html", "A Road Trip"],
+            ["b4/b4091.html", "Green Thumb"],
+            ["b4/b4092.html", "The Wallet on the Ground"],
+            ["b4/b4093.html", "A Perfect Wedding"],
+            ["b4/b4094.html", "Cutting Hair"],
+            ["b4/b4095.html", "Jewelry Shopping"],
+            ["b4/b4096.html", "Rock Climbing"],
+            ["b4/b4097.html", "A Local Talent Show"],
+            ["b4/b4098.html", "Doing Laundry"],
+            ["b4/b4099.html", "Soccer Game"],
+            ["b4/b4100.html", "Working at Movie Theaters"]
           ]
         };
 
@@ -1737,7 +1895,7 @@
             const number = startNumber + index;
             const link = document.createElement("a");
             link.className = "story-item";
-            link.href = href;
+            link.href = href.startsWith("b4/") ? `../begin4/${href}` : href;
             link.setAttribute("aria-label", `${number}. ${title}`);
             link.innerHTML = `
               <span class="story-number">${number}.</span>

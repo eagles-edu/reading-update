@@ -9,10 +9,10 @@
     <script src="../js/theme-selector.js" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
     <meta
       name="description"
-      content="My Reader: Stories 2 in a tabbed reading index with the same Eagles theme and a cleaner, animated layout."
+      content="A2 KET Reading with four lettered tabs and 220 short English stories."
     >
-    <title>My Reader: Stories 2</title>
-    <link href="/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <title>A2 KET&copy; Reading</title>
+    <link href="/reading/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
     <style>
       :root {
         color-scheme: light;
@@ -678,7 +678,7 @@
         align-items: flex-end;
         border-bottom: none;
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 0;
         justify-content: flex-start;
         overflow-x: auto;
@@ -699,15 +699,17 @@
         box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.42) inset;
         color: var(--tertiary-color);
         cursor: pointer;
-        display: inline-grid;
-        gap: 6px;
+        align-items: baseline;
+        display: inline-flex;
+        gap: clamp(0.45rem, 1vw, 0.85rem);
         flex: 0 0 auto;
         margin-bottom: -1px;
-        min-width: 12.25rem;
+        min-width: clamp(9.5rem, 20vw, 12.25rem);
         overflow: hidden;
         padding: 13px 30px 12px 20px;
         position: relative;
         text-align: left;
+        white-space: nowrap;
         transition:
           transform 220ms ease,
           box-shadow 220ms ease,
@@ -788,17 +790,24 @@
       }
 
       .tab-button__label {
-        font-size: 1rem;
+        flex: 0 0 auto;
+        font-size: clamp(1.35rem, 2.25vw, 2rem);
         font-weight: 900;
         letter-spacing: 0.01em;
+        line-height: 1;
+        white-space: nowrap;
       }
 
       .tab-button__range {
         color: var(--muted);
-        font-size: 0.8rem;
+        flex: 0 1 auto;
+        font-size: clamp(0.68rem, 0.9vw, 0.82rem);
         font-weight: 800;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.05em;
+        line-height: 1;
+        min-inline-size: 0;
         text-transform: uppercase;
+        white-space: nowrap;
       }
 
       .tab-button[aria-selected="true"] .tab-button__range {
@@ -1316,33 +1325,29 @@
     <main>
       <section class="hero">
         <div class="container hero-panel">
-          <span class="eyebrow">Tabbed reading path.</span>
-          <h1>My Reader: Stories 2</h1>
-          <p class="hero-copy">
-            The reading list stays compact in tabs while keeping the original Eagles theme and navigation.
-          </p>
-          <div class="hero-stats">
-            <div class="stat-chip">
-              <strong data-count-target="55">0</strong>
-              <span>Stories 2</span>
-            </div>
-            <div class="stat-chip">
-              <strong data-count-target="55">0</strong>
-              <span>Stories 2a</span>
-            </div>
-            <div class="stat-chip">
-              <strong data-count-target="110">0</strong>
-              <span>Total stories</span>
-            </div>
-            <div class="stat-chip stat-counter">
-              <strong
-                data-visit-count
-                data-count-target="0"
-                aria-live="polite"
-              >--</strong>
-              <span>Visits</span>
-            </div>
+          <span class="eyebrow">Levelled reading path.</span>
+          <h1>A2 KET&copy; Reading</h1>
+                      <p class="hero-copy">
+              Choose a lettered reading tab and use each card number to find a story quickly.
+            </p>
+                  <div class="hero-stats">
+          <div class="stat-chip">
+            <strong data-count-target="220">0</strong>
+            <span>Total stories</span>
           </div>
+          <div class="stat-chip">
+            <strong data-count-target="4">0</strong>
+            <span>Reading tabs</span>
+          </div>
+          <div class="stat-chip stat-counter">
+            <strong
+              data-visit-count
+              data-count-target="0"
+              aria-live="polite"
+            >--</strong>
+            <span>Visits</span>
+          </div>
+        </div>
         </div>
       </section>
 
@@ -1351,7 +1356,7 @@
           <h2 id="stories-shell-title" class="sr-only">Stories</h2>
 
           <div class="tabbed-shell">
-            <div
+                        <div
               class="tab-list"
               role="tablist"
               aria-labelledby="stories-shell-title"
@@ -1367,8 +1372,8 @@
                 tabindex="0"
                 data-tab-target="stories-1"
               >
-                <span class="tab-button__label">Stories 2</span>
-                <span class="tab-button__range">1 - 55</span>
+                <span class="tab-button__label">A</span>
+                <span class="tab-button__range">1-55</span>
               </button>
               <button
                 id="tab-stories-2"
@@ -1380,8 +1385,34 @@
                 tabindex="-1"
                 data-tab-target="stories-2"
               >
-                <span class="tab-button__label">Stories 2a</span>
-                <span class="tab-button__range">56 - 110</span>
+                <span class="tab-button__label">B</span>
+                <span class="tab-button__range">56-110</span>
+              </button>
+              <button
+                id="tab-begin3-stories-1"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="begin3-stories-1"
+                tabindex="-1"
+                data-tab-target="begin3-stories-1"
+              >
+                <span class="tab-button__label">C</span>
+                <span class="tab-button__range">1-55</span>
+              </button>
+              <button
+                id="tab-begin3-stories-2"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="begin3-stories-2"
+                tabindex="-1"
+                data-tab-target="begin3-stories-2"
+              >
+                <span class="tab-button__label">D</span>
+                <span class="tab-button__range">56-110</span>
               </button>
             </div>
 
@@ -1392,15 +1423,37 @@
                 role="tabpanel"
                 aria-labelledby="tab-stories-1"
                 data-start="1"
-
               >
                 <div class="story-grid" data-story-grid></div>
               </section>
+
               <section
                 id="stories-2"
                 class="tab-panel"
                 role="tabpanel"
                 aria-labelledby="tab-stories-2"
+                data-start="56"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+
+              <section
+                id="begin3-stories-1"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-begin3-stories-1"
+                data-start="1"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+
+              <section
+                id="begin3-stories-2"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-begin3-stories-2"
                 data-start="56"
                 hidden
               >
@@ -1586,121 +1639,901 @@
 
       (() => {
         const storySets = {
-          "stories-1": [
-            ["b2/b2001.html", "Getting Ready for Work"],
-            ["b2/b2002.html", "Going to Sleep"],
-            ["b2/b2003.html", "Walking the Dog"],
-            ["b2/b2004.html", "Lemonade on a Hot Day"],
-            ["b2/b2005.html", "Coffee on a Cold Night"],
-            ["b2/b2006.html", "Jim Picks Up His Little Sister"],
-            ["b2/b2007.html", "Jim Walks Nancy Home..."],
-            ["b2/b2008.html", "Making a Sandwich"],
-            ["b2/b2009.html", "Making Scrambled Eggs"],
-            ["b2/b2010.html", "John Loves to Read Books"],
-            ["b2/b2011.html", "Sam Loves Watching Television"],
-            ["b2/b2012.html", "Exercising"],
-            ["b2/b2013.html", "Her Love of Food"],
-            ["b2/b2014.html", "Lost Dog"],
-            ["b2/b2015.html", "Spike the Dog"],
-            ["b2/b2016.html", "Falling and Breaking an Arm"],
-            ["b2/b2017.html", "Learning to Roller-Skate"],
-            ["b2/b2018.html", "Lying on the Beach"],
-            ["b2/b2019.html", "Tommy has a Bake Sale"],
-            ["b2/b2020.html", "Math Test"],
-            ["b2/b2021.html", "Graduating from High School"],
-            ["b2/b2022.html", "Ice-cream and Yogurt"],
-            ["b2/b2023.html", "Lisa the Artist"],
-            ["b2/b2024.html", "Closing the Store at Night"],
-            ["b2/b2025.html", "Oatmeal for Breakfast"],
-            ["b2/b2026.html", "Sally and her Cat"],
-            ["b2/b2027.html", "Buying a Couch"],
-            ["b2/b2028.html", "Tom's Fourth of July"],
-            ["b2/b2029.html", "Mark's Thanksgiving"],
-            ["b2/b2030.html", "David Runs a Marathon"],
-            ["b2/b2031.html", "Joe's Walk in the Park"],
-            ["b2/b2032.html", "Meeting a Jazz Artist..."],
-            ["b2/b2033.html", "Old Man Crosses the Street"],
-            ["b2/b2034.html", "Waiting for a Friend in the Cold"],
-            ["b2/b2035.html", "Shopping at the Mall"],
-            ["b2/b2036.html", "Buying a Laptop"],
-            ["b2/b2037.html", "The Popular Girl at School"],
-            ["b2/b2038.html", "He Was the King"],
-            ["b2/b2039.html", "Talking"],
-            ["b2/b2040.html", "It's a Big World"],
-            ["b2/b2041.html", "Having Lunch"],
-            ["b2/b2042.html", "The Cat Tom"],
-            ["b2/b2043.html", "Suzan Has the Flu"],
-            ["b2/b2044.html", "John & Jim Play Country Music"],
-            ["b2/b2045.html", "She Sings Pop Music"],
-            ["b2/b2046.html", "The Camping Trip (1)"],
-            ["b2/b2047.html", "The Camping Trip (2)"],
-            ["b2/b2048.html", "He Likes Her (1)"],
-            ["b2/b2049.html", "He Likes Her (2)"],
-            ["b2/b2050.html", "Late to Work"],
-            ["b2/b2051.html", "Late to School"],
-            ["b2/b2052.html", "All You Can Eat Restaurant"],
-            ["b2/b2053.html", "A night at the Theater"],
-            ["b2/b2054.html", "Waiting for Friday"],
-            ["b2/b2055.html", "Lisa Got a Car"]
-          ],
-          "stories-2": [
-            ["b2/b2056.html", "Party"],
-            ["b2/b2057.html", "Riding the Bus"],
-            ["b2/b2058.html", "Diving Off a Cliff"],
-            ["b2/b2059.html", "A Familiar Face"],
-            ["b2/b2060.html", "Home Again"],
-            ["b2/b2061.html", "Roller Coaster Ride"],
-            ["b2/b2062.html", "Ready for the Race"],
-            ["b2/b2063.html", "Alex's Friends"],
-            ["b2/b2064.html", "Suzan's Garden"],
-            ["b2/b2065.html", "Dreams"],
-            ["b2/b2066.html", "Hiking"],
-            ["b2/b2067.html", "Storm"],
-            ["b2/b2068.html", "Road Trip"],
-            ["b2/b2069.html", "Bicycle Shop"],
-            ["b2/b2070.html", "Library Visit"],
-            ["b2/b2071.html", "Wandering Man"],
-            ["b2/b2072.html", "Flight to Boston"],
-            ["b2/b2073.html", "Family Reunion"],
-            ["b2/b2074.html", "The Interview"],
-            ["b2/b2075.html", "Package in the Mail"],
-            ["b2/b2076.html", "Frisbee"],
-            ["b2/b2077.html", "Stomach Ache"],
-            ["b2/b2078.html", "First Day of College"],
-            ["b2/b2079.html", "Walking After Midnight"],
-            ["b2/b2080.html", "Haircut at the Salon"],
-            ["b2/b2081.html", "Best Friends"],
-            ["b2/b2082.html", "Sixteenth Birthday"],
-            ["b2/b2083.html", "A Nice House"],
-            ["b2/b2084.html", "Break-in"],
-            ["b2/b2085.html", "Death of a Grandmother"],
-            ["b2/b2086.html", "Circus"],
-            ["b2/b2087.html", "Henry the Strong Man"],
-            ["b2/b2088.html", "A Family Visit to the Zoo"],
-            ["b2/b2089.html", "A Toothache"],
-            ["b2/b2090.html", "Guitar Man"],
-            ["b2/b2091.html", "Lost in the Woods"],
-            ["b2/b2092.html", "A Broken Cell Phone"],
-            ["b2/b2093.html", "Easter"],
-            ["b2/b2094.html", "Night Sky"],
-            ["b2/b2095.html", "Late Night Caller"],
-            ["b2/b2096.html", "Comic Books"],
-            ["b2/b2097.html", "Skyscraper"],
-            ["b2/b2098.html", "Jane from LA"],
-            ["b2/b2099.html", "Parade"],
-            ["b2/b2100.html", "Music Festival"],
-            ["b2/b2101.html", "Playing in the Snow"],
-            ["b2/b2102.html", "Late to Class"],
-            ["b2/b2103.html", "Class Time"],
-            ["b2/b2104.html", "Question for the Teacher"],
-            ["b2/b2105.html", "A Hot Day"],
-            ["b2/b2106.html", "Making Friends"],
-            ["b2/b2107.html", "Summer Day at the Pool"],
-            ["b2/b2108.html", "Ice Skating"],
-            ["b2/b2109.html", "Scary Movie"],
-            ["b2/b2110.html", "Mowing the Lawn"]
-          ]
-        };
+  "stories-1": [
+    [
+      "b2/b2001.html",
+      "Getting Ready for Work"
+    ],
+    [
+      "b2/b2002.html",
+      "Going to Sleep"
+    ],
+    [
+      "b2/b2003.html",
+      "Walking the Dog"
+    ],
+    [
+      "b2/b2004.html",
+      "Lemonade on a Hot Day"
+    ],
+    [
+      "b2/b2005.html",
+      "Coffee on a Cold Night"
+    ],
+    [
+      "b2/b2006.html",
+      "Jim Picks Up His Little Sister"
+    ],
+    [
+      "b2/b2007.html",
+      "Jim Walks Nancy Home..."
+    ],
+    [
+      "b2/b2008.html",
+      "Making a Sandwich"
+    ],
+    [
+      "b2/b2009.html",
+      "Making Scrambled Eggs"
+    ],
+    [
+      "b2/b2010.html",
+      "John Loves to Read Books"
+    ],
+    [
+      "b2/b2011.html",
+      "Sam Loves Watching Television"
+    ],
+    [
+      "b2/b2012.html",
+      "Exercising"
+    ],
+    [
+      "b2/b2013.html",
+      "Her Love of Food"
+    ],
+    [
+      "b2/b2014.html",
+      "Lost Dog"
+    ],
+    [
+      "b2/b2015.html",
+      "Spike the Dog"
+    ],
+    [
+      "b2/b2016.html",
+      "Falling and Breaking an Arm"
+    ],
+    [
+      "b2/b2017.html",
+      "Learning to Roller-Skate"
+    ],
+    [
+      "b2/b2018.html",
+      "Lying on the Beach"
+    ],
+    [
+      "b2/b2019.html",
+      "Tommy has a Bake Sale"
+    ],
+    [
+      "b2/b2020.html",
+      "Math Test"
+    ],
+    [
+      "b2/b2021.html",
+      "Graduating from High School"
+    ],
+    [
+      "b2/b2022.html",
+      "Ice-cream and Yogurt"
+    ],
+    [
+      "b2/b2023.html",
+      "Lisa the Artist"
+    ],
+    [
+      "b2/b2024.html",
+      "Closing the Store at Night"
+    ],
+    [
+      "b2/b2025.html",
+      "Oatmeal for Breakfast"
+    ],
+    [
+      "b2/b2026.html",
+      "Sally and her Cat"
+    ],
+    [
+      "b2/b2027.html",
+      "Buying a Couch"
+    ],
+    [
+      "b2/b2028.html",
+      "Tom's Fourth of July"
+    ],
+    [
+      "b2/b2029.html",
+      "Mark's Thanksgiving"
+    ],
+    [
+      "b2/b2030.html",
+      "David Runs a Marathon"
+    ],
+    [
+      "b2/b2031.html",
+      "Joe's Walk in the Park"
+    ],
+    [
+      "b2/b2032.html",
+      "Meeting a Jazz Artist..."
+    ],
+    [
+      "b2/b2033.html",
+      "Old Man Crosses the Street"
+    ],
+    [
+      "b2/b2034.html",
+      "Waiting for a Friend in the Cold"
+    ],
+    [
+      "b2/b2035.html",
+      "Shopping at the Mall"
+    ],
+    [
+      "b2/b2036.html",
+      "Buying a Laptop"
+    ],
+    [
+      "b2/b2037.html",
+      "The Popular Girl at School"
+    ],
+    [
+      "b2/b2038.html",
+      "He Was the King"
+    ],
+    [
+      "b2/b2039.html",
+      "Talking"
+    ],
+    [
+      "b2/b2040.html",
+      "It's a Big World"
+    ],
+    [
+      "b2/b2041.html",
+      "Having Lunch"
+    ],
+    [
+      "b2/b2042.html",
+      "The Cat Tom"
+    ],
+    [
+      "b2/b2043.html",
+      "Suzan Has the Flu"
+    ],
+    [
+      "b2/b2044.html",
+      "John & Jim Play Country Music"
+    ],
+    [
+      "b2/b2045.html",
+      "She Sings Pop Music"
+    ],
+    [
+      "b2/b2046.html",
+      "The Camping Trip (1)"
+    ],
+    [
+      "b2/b2047.html",
+      "The Camping Trip (2)"
+    ],
+    [
+      "b2/b2048.html",
+      "He Likes Her (1)"
+    ],
+    [
+      "b2/b2049.html",
+      "He Likes Her (2)"
+    ],
+    [
+      "b2/b2050.html",
+      "Late to Work"
+    ],
+    [
+      "b2/b2051.html",
+      "Late to School"
+    ],
+    [
+      "b2/b2052.html",
+      "All You Can Eat Restaurant"
+    ],
+    [
+      "b2/b2053.html",
+      "A night at the Theater"
+    ],
+    [
+      "b2/b2054.html",
+      "Waiting for Friday"
+    ],
+    [
+      "b2/b2055.html",
+      "Lisa Got a Car"
+    ]
+  ],
+  "stories-2": [
+    [
+      "b2/b2056.html",
+      "Party"
+    ],
+    [
+      "b2/b2057.html",
+      "Riding the Bus"
+    ],
+    [
+      "b2/b2058.html",
+      "Diving Off a Cliff"
+    ],
+    [
+      "b2/b2059.html",
+      "A Familiar Face"
+    ],
+    [
+      "b2/b2060.html",
+      "Home Again"
+    ],
+    [
+      "b2/b2061.html",
+      "Roller Coaster Ride"
+    ],
+    [
+      "b2/b2062.html",
+      "Ready for the Race"
+    ],
+    [
+      "b2/b2063.html",
+      "Alex's Friends"
+    ],
+    [
+      "b2/b2064.html",
+      "Suzan's Garden"
+    ],
+    [
+      "b2/b2065.html",
+      "Dreams"
+    ],
+    [
+      "b2/b2066.html",
+      "Hiking"
+    ],
+    [
+      "b2/b2067.html",
+      "Storm"
+    ],
+    [
+      "b2/b2068.html",
+      "Road Trip"
+    ],
+    [
+      "b2/b2069.html",
+      "Bicycle Shop"
+    ],
+    [
+      "b2/b2070.html",
+      "Library Visit"
+    ],
+    [
+      "b2/b2071.html",
+      "Wandering Man"
+    ],
+    [
+      "b2/b2072.html",
+      "Flight to Boston"
+    ],
+    [
+      "b2/b2073.html",
+      "Family Reunion"
+    ],
+    [
+      "b2/b2074.html",
+      "The Interview"
+    ],
+    [
+      "b2/b2075.html",
+      "Package in the Mail"
+    ],
+    [
+      "b2/b2076.html",
+      "Frisbee"
+    ],
+    [
+      "b2/b2077.html",
+      "Stomach Ache"
+    ],
+    [
+      "b2/b2078.html",
+      "First Day of College"
+    ],
+    [
+      "b2/b2079.html",
+      "Walking After Midnight"
+    ],
+    [
+      "b2/b2080.html",
+      "Haircut at the Salon"
+    ],
+    [
+      "b2/b2081.html",
+      "Best Friends"
+    ],
+    [
+      "b2/b2082.html",
+      "Sixteenth Birthday"
+    ],
+    [
+      "b2/b2083.html",
+      "A Nice House"
+    ],
+    [
+      "b2/b2084.html",
+      "Break-in"
+    ],
+    [
+      "b2/b2085.html",
+      "Death of a Grandmother"
+    ],
+    [
+      "b2/b2086.html",
+      "Circus"
+    ],
+    [
+      "b2/b2087.html",
+      "Henry the Strong Man"
+    ],
+    [
+      "b2/b2088.html",
+      "A Family Visit to the Zoo"
+    ],
+    [
+      "b2/b2089.html",
+      "A Toothache"
+    ],
+    [
+      "b2/b2090.html",
+      "Guitar Man"
+    ],
+    [
+      "b2/b2091.html",
+      "Lost in the Woods"
+    ],
+    [
+      "b2/b2092.html",
+      "A Broken Cell Phone"
+    ],
+    [
+      "b2/b2093.html",
+      "Easter"
+    ],
+    [
+      "b2/b2094.html",
+      "Night Sky"
+    ],
+    [
+      "b2/b2095.html",
+      "Late Night Caller"
+    ],
+    [
+      "b2/b2096.html",
+      "Comic Books"
+    ],
+    [
+      "b2/b2097.html",
+      "Skyscraper"
+    ],
+    [
+      "b2/b2098.html",
+      "Jane from LA"
+    ],
+    [
+      "b2/b2099.html",
+      "Parade"
+    ],
+    [
+      "b2/b2100.html",
+      "Music Festival"
+    ],
+    [
+      "b2/b2101.html",
+      "Playing in the Snow"
+    ],
+    [
+      "b2/b2102.html",
+      "Late to Class"
+    ],
+    [
+      "b2/b2103.html",
+      "Class Time"
+    ],
+    [
+      "b2/b2104.html",
+      "Question for the Teacher"
+    ],
+    [
+      "b2/b2105.html",
+      "A Hot Day"
+    ],
+    [
+      "b2/b2106.html",
+      "Making Friends"
+    ],
+    [
+      "b2/b2107.html",
+      "Summer Day at the Pool"
+    ],
+    [
+      "b2/b2108.html",
+      "Ice Skating"
+    ],
+    [
+      "b2/b2109.html",
+      "Scary Movie"
+    ],
+    [
+      "b2/b2110.html",
+      "Mowing the Lawn"
+    ]
+  ],
+  "begin3-stories-1": [
+    [
+      "../begin3/b3/b3001.html",
+      "Meeting the Guys"
+    ],
+    [
+      "../begin3/b3/b3002.html",
+      "Grandma's Sweaters"
+    ],
+    [
+      "../begin3/b3/b3003.html",
+      "Big Hair"
+    ],
+    [
+      "../begin3/b3/b3004.html",
+      "The Ugly Sister"
+    ],
+    [
+      "../begin3/b3/b3005.html",
+      "I Know How to Snowboard"
+    ],
+    [
+      "../begin3/b3/b3006.html",
+      "Road Trip"
+    ],
+    [
+      "../begin3/b3/b3007.html",
+      "A Trip to Six Flags"
+    ],
+    [
+      "../begin3/b3/b3008.html",
+      "Protesting Sea World"
+    ],
+    [
+      "../begin3/b3/b3009.html",
+      "Drive-In Theatre"
+    ],
+    [
+      "../begin3/b3/b3010.html",
+      "All You Can Eat"
+    ],
+    [
+      "../begin3/b3/b3011.html",
+      "The Pet Chicken"
+    ],
+    [
+      "../begin3/b3/b3012.html",
+      "The Last Cigarette"
+    ],
+    [
+      "../begin3/b3/b3013.html",
+      "We've Been Robbed"
+    ],
+    [
+      "../begin3/b3/b3014.html",
+      "Back to School"
+    ],
+    [
+      "../begin3/b3/b3015.html",
+      "Cat Lovers"
+    ],
+    [
+      "../begin3/b3/b3016.html",
+      "Taking the Bus"
+    ],
+    [
+      "../begin3/b3/b3017.html",
+      "The Cold"
+    ],
+    [
+      "../begin3/b3/b3018.html",
+      "New Shoes"
+    ],
+    [
+      "../begin3/b3/b3019.html",
+      "Losing Weight"
+    ],
+    [
+      "../begin3/b3/b3020.html",
+      "Learning to Ride"
+    ],
+    [
+      "../begin3/b3/b3021.html",
+      "The New Waiter"
+    ],
+    [
+      "../begin3/b3/b3022.html",
+      "Pottery is For Girls"
+    ],
+    [
+      "../begin3/b3/b3023.html",
+      "The Sad Hike"
+    ],
+    [
+      "../begin3/b3/b3024.html",
+      "Missing Pets"
+    ],
+    [
+      "../begin3/b3/b3025.html",
+      "Short Shorts"
+    ],
+    [
+      "../begin3/b3/b3026.html",
+      "A New Tattoo"
+    ],
+    [
+      "../begin3/b3/b3027.html",
+      "The Unlucky Millionaire"
+    ],
+    [
+      "../begin3/b3/b3028.html",
+      "Time Capsule"
+    ],
+    [
+      "../begin3/b3/b3029.html",
+      "The Baby Blanket"
+    ],
+    [
+      "../begin3/b3/b3030.html",
+      "Speeding Ticket"
+    ],
+    [
+      "../begin3/b3/b3031.html",
+      "Little Sisters"
+    ],
+    [
+      "../begin3/b3/b3032.html",
+      "Protective Dad"
+    ],
+    [
+      "../begin3/b3/b3033.html",
+      "Airplanes Are Safer Than Cars"
+    ],
+    [
+      "../begin3/b3/b3034.html",
+      "Surprise in the Ocean"
+    ],
+    [
+      "../begin3/b3/b3035.html",
+      "The Big Fight"
+    ],
+    [
+      "../begin3/b3/b3036.html",
+      "Fishy Lake"
+    ],
+    [
+      "../begin3/b3/b3037.html",
+      "Women Can't Fix Cars"
+    ],
+    [
+      "../begin3/b3/b3038.html",
+      "A Sport for Short People"
+    ],
+    [
+      "../begin3/b3/b3039.html",
+      "Ghosts Are Not Real"
+    ],
+    [
+      "../begin3/b3/b3040.html",
+      "Las Vegas"
+    ],
+    [
+      "../begin3/b3/b3041.html",
+      "The Car Accident"
+    ],
+    [
+      "../begin3/b3/b3042.html",
+      "Get a Job"
+    ],
+    [
+      "../begin3/b3/b3043.html",
+      "Always Carry a Spare"
+    ],
+    [
+      "../begin3/b3/b3044.html",
+      "Black Friday"
+    ],
+    [
+      "../begin3/b3/b3045.html",
+      "The Pink House"
+    ],
+    [
+      "../begin3/b3/b3046.html",
+      "The Retired Actor"
+    ],
+    [
+      "../begin3/b3/b3047.html",
+      "Don't Be a Bully"
+    ],
+    [
+      "../begin3/b3/b3048.html",
+      "Anniversary Surprise"
+    ],
+    [
+      "../begin3/b3/b3049.html",
+      "Being Rich"
+    ],
+    [
+      "../begin3/b3/b3050.html",
+      "In Love With His Best Friend"
+    ],
+    [
+      "../begin3/b3/b3051.html",
+      "Independent Mom"
+    ],
+    [
+      "../begin3/b3/b3052.html",
+      "Security Guard"
+    ],
+    [
+      "../begin3/b3/b3053.html",
+      "Try-Outs"
+    ],
+    [
+      "../begin3/b3/b3054.html",
+      "I Can Be a Dog Walker"
+    ],
+    [
+      "../begin3/b3/b3055.html",
+      "Valet Parking"
+    ]
+  ],
+  "begin3-stories-2": [
+    [
+      "../begin3/b3/b3056.html",
+      "Looking For a Roommate"
+    ],
+    [
+      "../begin3/b3/b3057.html",
+      "Littering"
+    ],
+    [
+      "../begin3/b3/b3058.html",
+      "Too Much Make Up"
+    ],
+    [
+      "../begin3/b3/b3059.html",
+      "New Parents"
+    ],
+    [
+      "../begin3/b3/b3060.html",
+      "First Trip to Disneyland"
+    ],
+    [
+      "../begin3/b3/b3061.html",
+      "The Cool Grandpa"
+    ],
+    [
+      "../begin3/b3/b3062.html",
+      "The Useless and Lazy Man"
+    ],
+    [
+      "../begin3/b3/b3063.html",
+      "The Stalker"
+    ],
+    [
+      "../begin3/b3/b3064.html",
+      "Let's Go Skydiving"
+    ],
+    [
+      "../begin3/b3/b3065.html",
+      "The American Dream"
+    ],
+    [
+      "../begin3/b3/b3066.html",
+      "Passion for Pizza"
+    ],
+    [
+      "../begin3/b3/b3067.html",
+      "Time for a Promotion"
+    ],
+    [
+      "../begin3/b3/b3068.html",
+      "Knitting in the Summer"
+    ],
+    [
+      "../begin3/b3/b3069.html",
+      "Boys Can Dance Too"
+    ],
+    [
+      "../begin3/b3/b3070.html",
+      "The Noisy Neighbors"
+    ],
+    [
+      "../begin3/b3/b3071.html",
+      "Turning 21 Years Old"
+    ],
+    [
+      "../begin3/b3/b3072.html",
+      "Missing Dog"
+    ],
+    [
+      "../begin3/b3/b3073.html",
+      "The Runaway Groom"
+    ],
+    [
+      "../begin3/b3/b3074.html",
+      "No Tony Hawk"
+    ],
+    [
+      "../begin3/b3/b3075.html",
+      "Shark Attack"
+    ],
+    [
+      "../begin3/b3/b3076.html",
+      "Bad Hair Day"
+    ],
+    [
+      "../begin3/b3/b3077.html",
+      "A New Girlfriend"
+    ],
+    [
+      "../begin3/b3/b3078.html",
+      "The Reunion"
+    ],
+    [
+      "../begin3/b3/b3079.html",
+      "No More Pets"
+    ],
+    [
+      "../begin3/b3/b3080.html",
+      "A White Dress"
+    ],
+    [
+      "../begin3/b3/b3081.html",
+      "Free the Animals"
+    ],
+    [
+      "../begin3/b3/b3082.html",
+      "Big Dreams"
+    ],
+    [
+      "../begin3/b3/b3083.html",
+      "Peer Pressure"
+    ],
+    [
+      "../begin3/b3/b3084.html",
+      "Hidden Talent"
+    ],
+    [
+      "../begin3/b3/b3085.html",
+      "The Beard"
+    ],
+    [
+      "../begin3/b3/b3086.html",
+      "Jason's First Ticket"
+    ],
+    [
+      "../begin3/b3/b3087.html",
+      "Sibling Rivalry"
+    ],
+    [
+      "../begin3/b3/b3088.html",
+      "Camping Time"
+    ],
+    [
+      "../begin3/b3/b3089.html",
+      "Going to the Dentist"
+    ],
+    [
+      "../begin3/b3/b3090.html",
+      "You're the Winner"
+    ],
+    [
+      "../begin3/b3/b3091.html",
+      "Don't Forget the Rope"
+    ],
+    [
+      "../begin3/b3/b3092.html",
+      "Saying Goodbye"
+    ],
+    [
+      "../begin3/b3/b3093.html",
+      "Learning to Swim"
+    ],
+    [
+      "../begin3/b3/b3094.html",
+      "The New Gardener"
+    ],
+    [
+      "../begin3/b3/b3095.html",
+      "Time to Relax"
+    ],
+    [
+      "../begin3/b3/b3096.html",
+      "Nelson's Video Games"
+    ],
+    [
+      "../begin3/b3/b3097.html",
+      "The Big Sale"
+    ],
+    [
+      "../begin3/b3/b3098.html",
+      "Getting Braces"
+    ],
+    [
+      "../begin3/b3/b3099.html",
+      "Greeting from Space"
+    ],
+    [
+      "../begin3/b3/b3100.html",
+      "Finding a Mermaid"
+    ],
+    [
+      "../begin3/b3/b3101.html",
+      "Earthquake!"
+    ],
+    [
+      "../begin3/b3/b3102.html",
+      "Read the Sign"
+    ],
+    [
+      "../begin3/b3/b3103.html",
+      "The Big Plan"
+    ],
+    [
+      "../begin3/b3/b3104.html",
+      "Looking for Singers"
+    ],
+    [
+      "../begin3/b3/b3105.html",
+      "I'm Going to Be a Doctor"
+    ],
+    [
+      "../begin3/b3/b3106.html",
+      "His First Bee Sting"
+    ],
+    [
+      "../begin3/b3/b3107.html",
+      "Sarah's First Car"
+    ],
+    [
+      "../begin3/b3/b3108.html",
+      "Too Old For Children"
+    ],
+    [
+      "../begin3/b3/b3109.html",
+      "New Phone"
+    ],
+    [
+      "../begin3/b3/b3110.html",
+      "The Secret Party"
+    ]
+  ]
+};
+        const tabLetters = {
+  "stories-1": "A",
+  "stories-2": "B",
+  "begin3-stories-1": "C",
+  "begin3-stories-2": "D"
+};
 
         const buttons = Array.from(document.querySelectorAll("[data-tab-target]"));
         const panels = Array.from(document.querySelectorAll("[role='tabpanel']"));
@@ -1730,21 +2563,30 @@
           }
 
           const startNumber = Number(panel.dataset.start || "1");
+          const letter = tabLetters[panel.id] || "";
 
           grid.textContent = "";
 
           items.forEach(([href, title], index) => {
             const number = startNumber + index;
-            const link = document.createElement("a");
-            link.className = "story-item";
-            link.href = href;
-            link.setAttribute("aria-label", `${number}. ${title}`);
-            link.innerHTML = `
-              <span class="story-number">${number}.</span>
-              <span class="story-title">${title}</span>
-              <span class="story-arrow" aria-hidden="true">→</span>
-            `;
-            grid.appendChild(link);
+            const isPlaceholder = href === "#";
+            const card = document.createElement(isPlaceholder ? "div" : "a");
+
+            card.className = isPlaceholder
+              ? "story-item story-item--placeholder"
+              : "story-item";
+            if (!isPlaceholder) {
+              card.href = href;
+              card.setAttribute("aria-label", String(number) + ". " + title);
+            } else {
+              card.setAttribute("aria-disabled", "true");
+            }
+            card.innerHTML = isPlaceholder
+              ? '<span class="story-title">' + title + '</span>'
+              : '<span class="story-number">' + number + '</span>' +
+                '<span class="story-title">' + title + '</span>' +
+                '<span class="story-arrow" aria-hidden="true">→</span>';
+            grid.appendChild(card);
           });
 
           grid.dataset.rendered = "true";

@@ -9,10 +9,10 @@
     <script src="../js/theme-selector.js" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
     <meta
       name="description"
-      content="My Reader: Stories 1 in a single tabbed reading index with the same Eagles theme and a cleaner, animated layout."
+      content="A1 Movers Reading with four lettered tabs and 304 short English stories."
     >
-    <title>My Reader: Stories 1</title>
-    <link href="/favicon.ico?v=2" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <title>A1 Movers&copy; Reading</title>
+    <link href="/reading/favicon.ico?v=2" rel="shortcut icon" type="image/vnd.microsoft.icon">
     <style>
       :root {
         color-scheme: light;
@@ -624,7 +624,7 @@
       .hero-stats {
         display: grid;
         gap: 12px;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(6, minmax(0, 1fr));
         margin-top: var(--space-3);
         position: relative;
         z-index: 1;
@@ -678,7 +678,7 @@
         align-items: flex-end;
         border-bottom: none;
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 0;
         justify-content: flex-start;
         overflow-x: auto;
@@ -699,15 +699,17 @@
         box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.42) inset;
         color: var(--tertiary-color);
         cursor: pointer;
-        display: inline-grid;
-        gap: 6px;
+        align-items: baseline;
+        display: inline-flex;
+        gap: clamp(0.45rem, 1vw, 0.85rem);
         flex: 0 0 auto;
         margin-bottom: -1px;
-        min-width: 12.25rem;
+        min-width: clamp(9.5rem, 20vw, 12.25rem);
         overflow: hidden;
         padding: 13px 30px 12px 20px;
         position: relative;
         text-align: left;
+        white-space: nowrap;
         transition:
           transform 220ms ease,
           box-shadow 220ms ease,
@@ -788,17 +790,24 @@
       }
 
       .tab-button__label {
-        font-size: 1rem;
+        flex: 0 0 auto;
+        font-size: clamp(1.35rem, 2.25vw, 2rem);
         font-weight: 900;
         letter-spacing: 0.01em;
+        line-height: 1;
+        white-space: nowrap;
       }
 
       .tab-button__range {
         color: var(--muted);
-        font-size: 0.8rem;
+        flex: 0 1 auto;
+        font-size: clamp(0.68rem, 0.9vw, 0.82rem);
         font-weight: 800;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.05em;
+        line-height: 1;
+        min-inline-size: 0;
         text-transform: uppercase;
+        white-space: nowrap;
       }
 
       .tab-button[aria-selected="true"] .tab-button__range {
@@ -1316,33 +1325,29 @@
     <main>
       <section class="hero">
         <div class="container hero-panel">
-          <span class="eyebrow">Two tabs. One reading path.</span>
-          <h1>My Reader: Stories 1</h1>
-          <p class="hero-copy">
-            The old split index is now folded into one page with two tabs, the same theme language as the homepage, and a cleaner reading surface that still feels like the same site.
-          </p>
-          <div class="hero-stats">
-            <div class="stat-chip">
-              <strong data-count-target="52">0</strong>
-              <span>Stories 1</span>
-            </div>
-            <div class="stat-chip">
-              <strong data-count-target="52">0</strong>
-              <span>Stories 1a</span>
-            </div>
-            <div class="stat-chip">
-              <strong data-count-target="104">0</strong>
-              <span>Total stories</span>
-            </div>
-            <div class="stat-chip stat-counter">
-              <strong
-                data-visit-count
-                data-count-target="0"
-                aria-live="polite"
-              >--</strong>
-              <span>Visits</span>
-            </div>
+          <span class="eyebrow">Levelled reading path.</span>
+          <h1>A1 Movers&copy; Reading</h1>
+                      <p class="hero-copy">
+              Choose a lettered reading tab and use each card number to find a story quickly.
+            </p>
+                  <div class="hero-stats">
+          <div class="stat-chip">
+            <strong data-count-target="304">0</strong>
+            <span>Total stories</span>
           </div>
+          <div class="stat-chip">
+            <strong data-count-target="4">0</strong>
+            <span>Reading tabs</span>
+          </div>
+          <div class="stat-chip stat-counter">
+            <strong
+              data-visit-count
+              data-count-target="0"
+              aria-live="polite"
+            >--</strong>
+            <span>Visits</span>
+          </div>
+        </div>
         </div>
       </section>
 
@@ -1351,7 +1356,7 @@
           <h2 id="stories-shell-title" class="sr-only">Stories</h2>
 
           <div class="tabbed-shell">
-            <div
+                        <div
               class="tab-list"
               role="tablist"
               aria-labelledby="stories-shell-title"
@@ -1367,8 +1372,8 @@
                 tabindex="0"
                 data-tab-target="stories-1"
               >
-                <span class="tab-button__label">Stories 1</span>
-                <span class="tab-button__range">1 - 52</span>
+                <span class="tab-button__label">A</span>
+                <span class="tab-button__range">1-52</span>
               </button>
               <button
                 id="tab-stories-1a"
@@ -1380,8 +1385,34 @@
                 tabindex="-1"
                 data-tab-target="stories-1a"
               >
-                <span class="tab-button__label">Stories 1a</span>
-                <span class="tab-button__range">53 - 104</span>
+                <span class="tab-button__label">B</span>
+                <span class="tab-button__range">53-104</span>
+              </button>
+              <button
+                id="tab-easyread-stories-1"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="easyread-stories-1"
+                tabindex="-1"
+                data-tab-target="easyread-stories-1"
+              >
+                <span class="tab-button__label">C</span>
+                <span class="tab-button__range">1-100</span>
+              </button>
+              <button
+                id="tab-easyread-stories-2"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="easyread-stories-2"
+                tabindex="-1"
+                data-tab-target="easyread-stories-2"
+              >
+                <span class="tab-button__label">D</span>
+                <span class="tab-button__range">101-200</span>
               </button>
             </div>
 
@@ -1402,6 +1433,28 @@
                 role="tabpanel"
                 aria-labelledby="tab-stories-1a"
                 data-start="53"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+
+              <section
+                id="easyread-stories-1"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-easyread-stories-1"
+                data-start="1"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+
+              <section
+                id="easyread-stories-2"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-easyread-stories-2"
+                data-start="101"
                 hidden
               >
                 <div class="story-grid" data-story-grid></div>
@@ -1586,115 +1639,1237 @@
 
       (() => {
         const storySets = {
-          "stories-1": [
-            ["b1/b1001.html", "Morning"],
-            ["b1/b1002.html", "First Day of School"],
-            ["b1/b1003.html", "Water on the Floor"],
-            ["b1/b1004.html", "Babysitting"],
-            ["b1/b1005.html", "A Doctor"],
-            ["b1/b1006.html", "Twins"],
-            ["b1/b1007.html", "Reading"],
-            ["b1/b1008.html", "Ruined by the Rain"],
-            ["b1/b1009.html", "Banana Nut Muffin"],
-            ["b1/b1010.html", "The Park"],
-            ["b1/b1011.html", "A New Vision"],
-            ["b1/b1012.html", "Fruit Shop"],
-            ["b1/b1013.html", "Special Cereal"],
-            ["b1/b1014.html", "A New Shirt"],
-            ["b1/b1015.html", "Picking a Color for the House"],
-            ["b1/b1016.html", "The Beach Is Fun"],
-            ["b1/b1017.html", "A Beautiful Garden"],
-            ["b1/b1018.html", "She Shoots, She Scores"],
-            ["b1/b1019.html", "Celebrating the Win"],
-            ["b1/b1020.html", "The Race"],
-            ["b1/b1021.html", "Substitute Teacher"],
-            ["b1/b1022.html", "Sticker Collection"],
-            ["b1/b1023.html", "Getting Ready... the Road Trip"],
-            ["b1/b1024.html", "Calling Her Brother"],
-            ["b1/b1025.html", "Biking with Grandma"],
-            ["b1/b1026.html", "The Newspaper is Interesting"],
-            ["b1/b1027.html", "The New Neighbors"],
-            ["b1/b1028.html", "A Scary Movie"],
-            ["b1/b1029.html", "Stage Fright"],
-            ["b1/b1030.html", "Lost and Found"],
-            ["b1/b1031.html", "Asking for a Favor"],
-            ["b1/b1032.html", "What Do They Do Friday Night?"],
-            ["b1/b1033.html", "Food Samples"],
-            ["b1/b1034.html", "The Dog Howls"],
-            ["b1/b1035.html", "Things to do as a Secretary"],
-            ["b1/b1036.html", "Things to do as a Maid"],
-            ["b1/b1037.html", "The Police"],
-            ["b1/b1038.html", "The Hair Stylist"],
-            ["b1/b1039.html", "Losing Her Cell Phone"],
-            ["b1/b1040.html", "Squirrels at the Park"],
-            ["b1/b1041.html", "Awake at Night"],
-            ["b1/b1042.html", "Gifts for Students"],
-            ["b1/b1043.html", "Job Interview"],
-            ["b1/b1044.html", "More Money"],
-            ["b1/b1045.html", "The Lunch Lady and the Bully"],
-            ["b1/b1046.html", "Grand Opening"],
-            ["b1/b1047.html", "Crumb on the Floor"],
-            ["b1/b1048.html", "Fireworks"],
-            ["b1/b1049.html", "A Book Lover"],
-            ["b1/b1050.html", "Dressed for the Rain"],
-            ["b1/b1051.html", "Milk Gone Bad"],
-            ["b1/b1052.html", "Clothes on Sale"],
-          ],
-          "stories-1a": [
-            ["b1/b1053.html", "The Lifeguard"],
-            ["b1/b1054.html", "Bad Partners"],
-            ["b1/b1055.html", "Knitting is Fun"],
-            ["b1/b1056.html", "She Loves Her Phone"],
-            ["b1/b1057.html", "Winter Break"],
-            ["b1/b1058.html", "Making a Smoothie"],
-            ["b1/b1059.html", "Practice Makes Perfect"],
-            ["b1/b1060.html", "A Stuffed Bear"],
-            ["b1/b1061.html", "Lockers Are Awesome"],
-            ["b1/b1062.html", "A Bad Skunk Smell"],
-            ["b1/b1063.html", "Bumping Into an Old Friend"],
-            ["b1/b1064.html", "Happy People, Sad People"],
-            ["b1/b1065.html", "T.V. and Turtles"],
-            ["b1/b1066.html", "She's Good at a Lot of Things"],
-            ["b1/b1067.html", "A Motorcycle on the Road"],
-            ["b1/b1068.html", "The Medal"],
-            ["b1/b1069.html", "Dental Care"],
-            ["b1/b1070.html", "A Ketchup Lover"],
-            ["b1/b1071.html", "Peanut Butter Sandwich"],
-            ["b1/b1072.html", "What Is in a Magazine?"],
-            ["b1/b1073.html", "Clouds in the Sky"],
-            ["b1/b1074.html", "Leaves Falling"],
-            ["b1/b1075.html", "Eating at a Restaurant"],
-            ["b1/b1076.html", "Working at the Grocery Store"],
-            ["b1/b1077.html", "A Fancy Outfit"],
-            ["b1/b1078.html", "Fighting the Cold Weather"],
-            ["b1/b1079.html", "A Lizard from the Backyard"],
-            ["b1/b1080.html", "The Apple Tree"],
-            ["b1/b1081.html", "A View from the 100th Floor"],
-            ["b1/b1082.html", "Pie-Eating Contest"],
-            ["b1/b1083.html", "A Lot of Jackets"],
-            ["b1/b1084.html", "Many Shoes"],
-            ["b1/b1085.html", "Free Throws"],
-            ["b1/b1086.html", "Passing the Ball"],
-            ["b1/b1087.html", "Tennis for Two"],
-            ["b1/b1088.html", "A Waitress at Duty"],
-            ["b1/b1089.html", "Clowns are Cool"],
-            ["b1/b1090.html", "A Boat Ride"],
-            ["b1/b1091.html", "Reading Questions"],
-            ["b1/b1092.html", "Over the Bush"],
-            ["b1/b1093.html", "Scared of the Dark"],
-            ["b1/b1094.html", "Snow Globe"],
-            ["b1/b1095.html", "Traffic Lights"],
-            ["b1/b1096.html", "The Beach is Fun"],
-            ["b1/b1097.html", "Wait for the Pie to Cool"],
-            ["b1/b1098.html", "A Haircut"],
-            ["b1/b1099.html", "Going to a Concert"],
-            ["b1/b1100.html", "Different T.V. Shows"],
-            ["b1/b1101.html", "Saving Money"],
-            ["b1/b1102.html", "Vending Machine"],
-            ["b1/b1103.html", "Buying an Apple"],
-            ["b1/b1104.html", "Thanksgiving"],
-          ],
-        };
+  "stories-1": [
+    [
+      "b1/b1001.html",
+      "Morning"
+    ],
+    [
+      "b1/b1002.html",
+      "First Day of School"
+    ],
+    [
+      "b1/b1003.html",
+      "Water on the Floor"
+    ],
+    [
+      "b1/b1004.html",
+      "Babysitting"
+    ],
+    [
+      "b1/b1005.html",
+      "A Doctor"
+    ],
+    [
+      "b1/b1006.html",
+      "Twins"
+    ],
+    [
+      "b1/b1007.html",
+      "Reading"
+    ],
+    [
+      "b1/b1008.html",
+      "Ruined by the Rain"
+    ],
+    [
+      "b1/b1009.html",
+      "Banana Nut Muffin"
+    ],
+    [
+      "b1/b1010.html",
+      "The Park"
+    ],
+    [
+      "b1/b1011.html",
+      "A New Vision"
+    ],
+    [
+      "b1/b1012.html",
+      "Fruit Shop"
+    ],
+    [
+      "b1/b1013.html",
+      "Special Cereal"
+    ],
+    [
+      "b1/b1014.html",
+      "A New Shirt"
+    ],
+    [
+      "b1/b1015.html",
+      "Picking a Color for the House"
+    ],
+    [
+      "b1/b1016.html",
+      "The Beach Is Fun"
+    ],
+    [
+      "b1/b1017.html",
+      "A Beautiful Garden"
+    ],
+    [
+      "b1/b1018.html",
+      "She Shoots, She Scores"
+    ],
+    [
+      "b1/b1019.html",
+      "Celebrating the Win"
+    ],
+    [
+      "b1/b1020.html",
+      "The Race"
+    ],
+    [
+      "b1/b1021.html",
+      "Substitute Teacher"
+    ],
+    [
+      "b1/b1022.html",
+      "Sticker Collection"
+    ],
+    [
+      "b1/b1023.html",
+      "Getting Ready... the Road Trip"
+    ],
+    [
+      "b1/b1024.html",
+      "Calling Her Brother"
+    ],
+    [
+      "b1/b1025.html",
+      "Biking with Grandma"
+    ],
+    [
+      "b1/b1026.html",
+      "The Newspaper is Interesting"
+    ],
+    [
+      "b1/b1027.html",
+      "The New Neighbors"
+    ],
+    [
+      "b1/b1028.html",
+      "A Scary Movie"
+    ],
+    [
+      "b1/b1029.html",
+      "Stage Fright"
+    ],
+    [
+      "b1/b1030.html",
+      "Lost and Found"
+    ],
+    [
+      "b1/b1031.html",
+      "Asking for a Favor"
+    ],
+    [
+      "b1/b1032.html",
+      "What Do They Do Friday Night?"
+    ],
+    [
+      "b1/b1033.html",
+      "Food Samples"
+    ],
+    [
+      "b1/b1034.html",
+      "The Dog Howls"
+    ],
+    [
+      "b1/b1035.html",
+      "Things to do as a Secretary"
+    ],
+    [
+      "b1/b1036.html",
+      "Things to do as a Maid"
+    ],
+    [
+      "b1/b1037.html",
+      "The Police"
+    ],
+    [
+      "b1/b1038.html",
+      "The Hair Stylist"
+    ],
+    [
+      "b1/b1039.html",
+      "Losing Her Cell Phone"
+    ],
+    [
+      "b1/b1040.html",
+      "Squirrels at the Park"
+    ],
+    [
+      "b1/b1041.html",
+      "Awake at Night"
+    ],
+    [
+      "b1/b1042.html",
+      "Gifts for Students"
+    ],
+    [
+      "b1/b1043.html",
+      "Job Interview"
+    ],
+    [
+      "b1/b1044.html",
+      "More Money"
+    ],
+    [
+      "b1/b1045.html",
+      "The Lunch Lady and the Bully"
+    ],
+    [
+      "b1/b1046.html",
+      "Grand Opening"
+    ],
+    [
+      "b1/b1047.html",
+      "Crumb on the Floor"
+    ],
+    [
+      "b1/b1048.html",
+      "Fireworks"
+    ],
+    [
+      "b1/b1049.html",
+      "A Book Lover"
+    ],
+    [
+      "b1/b1050.html",
+      "Dressed for the Rain"
+    ],
+    [
+      "b1/b1051.html",
+      "Milk Gone Bad"
+    ],
+    [
+      "b1/b1052.html",
+      "Clothes on Sale"
+    ]
+  ],
+  "stories-1a": [
+    [
+      "b1/b1053.html",
+      "The Lifeguard"
+    ],
+    [
+      "b1/b1054.html",
+      "Bad Partners"
+    ],
+    [
+      "b1/b1055.html",
+      "Knitting is Fun"
+    ],
+    [
+      "b1/b1056.html",
+      "She Loves Her Phone"
+    ],
+    [
+      "b1/b1057.html",
+      "Winter Break"
+    ],
+    [
+      "b1/b1058.html",
+      "Making a Smoothie"
+    ],
+    [
+      "b1/b1059.html",
+      "Practice Makes Perfect"
+    ],
+    [
+      "b1/b1060.html",
+      "A Stuffed Bear"
+    ],
+    [
+      "b1/b1061.html",
+      "Lockers Are Awesome"
+    ],
+    [
+      "b1/b1062.html",
+      "A Bad Skunk Smell"
+    ],
+    [
+      "b1/b1063.html",
+      "Bumping Into an Old Friend"
+    ],
+    [
+      "b1/b1064.html",
+      "Happy People, Sad People"
+    ],
+    [
+      "b1/b1065.html",
+      "T.V. and Turtles"
+    ],
+    [
+      "b1/b1066.html",
+      "She's Good at a Lot of Things"
+    ],
+    [
+      "b1/b1067.html",
+      "A Motorcycle on the Road"
+    ],
+    [
+      "b1/b1068.html",
+      "The Medal"
+    ],
+    [
+      "b1/b1069.html",
+      "Dental Care"
+    ],
+    [
+      "b1/b1070.html",
+      "A Ketchup Lover"
+    ],
+    [
+      "b1/b1071.html",
+      "Peanut Butter Sandwich"
+    ],
+    [
+      "b1/b1072.html",
+      "What Is in a Magazine?"
+    ],
+    [
+      "b1/b1073.html",
+      "Clouds in the Sky"
+    ],
+    [
+      "b1/b1074.html",
+      "Leaves Falling"
+    ],
+    [
+      "b1/b1075.html",
+      "Eating at a Restaurant"
+    ],
+    [
+      "b1/b1076.html",
+      "Working at the Grocery Store"
+    ],
+    [
+      "b1/b1077.html",
+      "A Fancy Outfit"
+    ],
+    [
+      "b1/b1078.html",
+      "Fighting the Cold Weather"
+    ],
+    [
+      "b1/b1079.html",
+      "A Lizard from the Backyard"
+    ],
+    [
+      "b1/b1080.html",
+      "The Apple Tree"
+    ],
+    [
+      "b1/b1081.html",
+      "A View from the 100th Floor"
+    ],
+    [
+      "b1/b1082.html",
+      "Pie-Eating Contest"
+    ],
+    [
+      "b1/b1083.html",
+      "A Lot of Jackets"
+    ],
+    [
+      "b1/b1084.html",
+      "Many Shoes"
+    ],
+    [
+      "b1/b1085.html",
+      "Free Throws"
+    ],
+    [
+      "b1/b1086.html",
+      "Passing the Ball"
+    ],
+    [
+      "b1/b1087.html",
+      "Tennis for Two"
+    ],
+    [
+      "b1/b1088.html",
+      "A Waitress at Duty"
+    ],
+    [
+      "b1/b1089.html",
+      "Clowns are Cool"
+    ],
+    [
+      "b1/b1090.html",
+      "A Boat Ride"
+    ],
+    [
+      "b1/b1091.html",
+      "Reading Questions"
+    ],
+    [
+      "b1/b1092.html",
+      "Over the Bush"
+    ],
+    [
+      "b1/b1093.html",
+      "Scared of the Dark"
+    ],
+    [
+      "b1/b1094.html",
+      "Snow Globe"
+    ],
+    [
+      "b1/b1095.html",
+      "Traffic Lights"
+    ],
+    [
+      "b1/b1096.html",
+      "The Beach is Fun"
+    ],
+    [
+      "b1/b1097.html",
+      "Wait for the Pie to Cool"
+    ],
+    [
+      "b1/b1098.html",
+      "A Haircut"
+    ],
+    [
+      "b1/b1099.html",
+      "Going to a Concert"
+    ],
+    [
+      "b1/b1100.html",
+      "Different T.V. Shows"
+    ],
+    [
+      "b1/b1101.html",
+      "Saving Money"
+    ],
+    [
+      "b1/b1102.html",
+      "Vending Machine"
+    ],
+    [
+      "b1/b1103.html",
+      "Buying an Apple"
+    ],
+    [
+      "b1/b1104.html",
+      "Thanksgiving"
+    ]
+  ],
+  "easyread-stories-1": [
+    [
+      "../easyread/es/easy001.html",
+      "Baby and a Sock 2."
+    ],
+    [
+      "../easyread/es/easy002.html",
+      "Birds and a Baby 3."
+    ],
+    [
+      "../easyread/es/easy003.html",
+      "Cat and a Dog 4."
+    ],
+    [
+      "../easyread/es/easy004.html",
+      "The Baby Bear 5."
+    ],
+    [
+      "#",
+      "An Apple Pie 6."
+    ],
+    [
+      "../easyread/es/easy006.html",
+      "The Top Bunk 7."
+    ],
+    [
+      "../easyread/es/easy007.html",
+      "Ask Santa 8."
+    ],
+    [
+      "../easyread/es/easy008.html",
+      "Birthday Bike 9."
+    ],
+    [
+      "../easyread/es/easy009.html",
+      "In the Garden 10."
+    ],
+    [
+      "../easyread/es/easy010.html",
+      "Today's Mail 11."
+    ],
+    [
+      "../easyread/es/easy011.html",
+      "Boys Will Be Boys 12."
+    ],
+    [
+      "../easyread/es/easy012.html",
+      "Good Meal 13."
+    ],
+    [
+      "../easyread/es/easy013.html",
+      "No Food, No Job 14."
+    ],
+    [
+      "../easyread/es/easy014.html",
+      "New Shoes 15."
+    ],
+    [
+      "../easyread/es/easy015.html",
+      "No Friends for Me 16."
+    ],
+    [
+      "../easyread/es/easy016.html",
+      "Life Is Good 17."
+    ],
+    [
+      "../easyread/es/easy017.html",
+      "Tell the Truth"
+    ],
+    [
+      "../easyread/es/easy018.html",
+      "Corn for People and Animals 19."
+    ],
+    [
+      "../easyread/es/easy019.html",
+      "God Loves Babies 20."
+    ],
+    [
+      "../easyread/es/easy020.html",
+      "Don't Be Late 21."
+    ],
+    [
+      "../easyread/es/easy021.html",
+      "Clean Car 22."
+    ],
+    [
+      "../easyread/es/easy022.html",
+      "Just a Cough 23."
+    ],
+    [
+      "../easyread/es/easy023.html",
+      "Rain and Hail 24."
+    ],
+    [
+      "../easyread/es/easy024.html",
+      "Hungry Birds 25."
+    ],
+    [
+      "../easyread/es/easy025.html",
+      "At the Bus Stop"
+    ],
+    [
+      "../easyread/es/easy026.html",
+      "Brown and Blue Eyes 27."
+    ],
+    [
+      "../easyread/es/easy027.html",
+      "Farm Animals 28."
+    ],
+    [
+      "../easyread/es/easy028.html",
+      "Wash Your Nose 29."
+    ],
+    [
+      "../easyread/es/easy029.html",
+      "Catch Some Fish 30."
+    ],
+    [
+      "../easyread/es/easy030.html",
+      "An Impolite Bird 31."
+    ],
+    [
+      "../easyread/es/easy031.html",
+      "Daddy Likes Beer 32."
+    ],
+    [
+      "../easyread/es/easy032.html",
+      "Bears and a Pig 33."
+    ],
+    [
+      "../easyread/es/easy033.html",
+      "She Wants to Ride 34."
+    ],
+    [
+      "../easyread/es/easy034.html",
+      "Second Job 35."
+    ],
+    [
+      "../easyread/es/easy035.html",
+      "Short Plane Ride 36."
+    ],
+    [
+      "../easyread/es/easy036.html",
+      "Windy Day 37."
+    ],
+    [
+      "../easyread/es/easy037.html",
+      "Snowed In"
+    ],
+    [
+      "../easyread/es/easy038.html",
+      "Try to Tell the Truth 39."
+    ],
+    [
+      "../easyread/es/easy039.html",
+      "Bad Economy 40."
+    ],
+    [
+      "../easyread/es/easy040.html",
+      "The Birthday Party 41."
+    ],
+    [
+      "../easyread/es/easy041.html",
+      "Plants Need Water 42."
+    ],
+    [
+      "../easyread/es/easy042.html",
+      "Life Will Be Better 43."
+    ],
+    [
+      "../easyread/es/easy043.html",
+      "Lucky Day 44."
+    ],
+    [
+      "../easyread/es/easy044.html",
+      "My Family's House 45."
+    ],
+    [
+      "../easyread/es/easy045.html",
+      "Wash Your Hands 46."
+    ],
+    [
+      "../easyread/es/easy046.html",
+      "She Writes Letters 47."
+    ],
+    [
+      "../easyread/es/easy047.html",
+      "Bus Accident 48."
+    ],
+    [
+      "../easyread/es/easy048.html",
+      "Headache 49."
+    ],
+    [
+      "../easyread/es/easy049.html",
+      "She's So Hungry 50."
+    ],
+    [
+      "../easyread/es/easy050.html",
+      "Basketball in LA 51."
+    ],
+    [
+      "../easyread/es/easy051.html",
+      "Hard Head 52."
+    ],
+    [
+      "../easyread/es/easy052.html",
+      "Homeless People"
+    ],
+    [
+      "../easyread/es/easy053.html",
+      "Day at the Beach 54."
+    ],
+    [
+      "../easyread/es/easy054.html",
+      "Thank You, Mom"
+    ],
+    [
+      "../easyread/es/easy055.html",
+      "The Check for Rent 56."
+    ],
+    [
+      "../easyread/es/easy056.html",
+      "At the Casino 57."
+    ],
+    [
+      "../easyread/es/easy057.html",
+      "Life is a Rainbow"
+    ],
+    [
+      "../easyread/es/easy058.html",
+      "Squares and Circles 59."
+    ],
+    [
+      "../easyread/es/easy059.html",
+      "Don't Be Stupid 60."
+    ],
+    [
+      "../easyread/es/easy060.html",
+      "New Kittens 61."
+    ],
+    [
+      "../easyread/es/easy061.html",
+      "My Girlfriend 62."
+    ],
+    [
+      "../easyread/es/easy062.html",
+      "Don't Be Fat 63."
+    ],
+    [
+      "../easyread/es/easy063.html",
+      "Pizza"
+    ],
+    [
+      "../easyread/es/easy064.html",
+      "What Do You Wear? 65."
+    ],
+    [
+      "../easyread/es/easy065.html",
+      "My Dad 66."
+    ],
+    [
+      "../easyread/es/easy066.html",
+      "Junk Mail 67."
+    ],
+    [
+      "../easyread/es/easy067.html",
+      "My Best Friend"
+    ],
+    [
+      "../easyread/es/easy068.html",
+      "More Good News, Please 69."
+    ],
+    [
+      "../easyread/es/easy069.html",
+      "Popcorn 70."
+    ],
+    [
+      "../easyread/es/easy070.html",
+      "Roaches 71."
+    ],
+    [
+      "../easyread/es/easy071.html",
+      "He Loves Birds 72."
+    ],
+    [
+      "../easyread/es/easy072.html",
+      "Roses Are Red 73."
+    ],
+    [
+      "../easyread/es/easy073.html",
+      "Violets Are Blue 74."
+    ],
+    [
+      "../easyread/es/easy074.html",
+      "I Have a Question"
+    ],
+    [
+      "../easyread/es/easy075.html",
+      "Do This, Daddy Says"
+    ],
+    [
+      "../easyread/es/easy076.html",
+      "Don't Do This, Mommy Says 77."
+    ],
+    [
+      "../easyread/es/easy077.html",
+      "Bad Boy 78."
+    ],
+    [
+      "../easyread/es/easy078.html",
+      "The Cigarette 79."
+    ],
+    [
+      "../easyread/es/easy079.html",
+      "Smoker Quits 80."
+    ],
+    [
+      "../easyread/es/easy080.html",
+      "School Day 81."
+    ],
+    [
+      "../easyread/es/easy081.html",
+      "People Are Poor 82."
+    ],
+    [
+      "../easyread/es/easy082.html",
+      "New Lipstick 83."
+    ],
+    [
+      "../easyread/es/easy083.html",
+      "Things to Do 84."
+    ],
+    [
+      "../easyread/es/easy084.html",
+      "Daddy Is Watching 85."
+    ],
+    [
+      "../easyread/es/easy085.html",
+      "It Looks Like Rain 86."
+    ],
+    [
+      "../easyread/es/easy086.html",
+      "An Old Dog 87."
+    ],
+    [
+      "../easyread/es/easy087.html",
+      "New York City 88."
+    ],
+    [
+      "../easyread/es/easy088.html",
+      "He Climbs Trees 89."
+    ],
+    [
+      "../easyread/es/easy089.html",
+      "Drunk Driver 90."
+    ],
+    [
+      "../easyread/es/easy090.html",
+      "Wedding 91."
+    ],
+    [
+      "../easyread/es/easy091.html",
+      "Peanuts and Ham 92."
+    ],
+    [
+      "../easyread/es/easy092.html",
+      "I Want to Swim 93."
+    ],
+    [
+      "../easyread/es/easy093.html",
+      "New Law 94."
+    ],
+    [
+      "../easyread/es/easy094.html",
+      "She Plays Golf 95."
+    ],
+    [
+      "../easyread/es/easy095.html",
+      "The Fat Actress 96."
+    ],
+    [
+      "../easyread/es/easy096.html",
+      "Tornado 97."
+    ],
+    [
+      "../easyread/es/easy097.html",
+      "Two Men 98."
+    ],
+    [
+      "../easyread/es/easy098.html",
+      "Big Cat 99."
+    ],
+    [
+      "../easyread/es/easy099.html",
+      "He Loved Her 100."
+    ],
+    [
+      "../easyread/es/easy100.html",
+      "The Fire 101."
+    ]
+  ],
+  "easyread-stories-2": [
+    [
+      "../easyread/es/easy101.html",
+      "Do the Laundry"
+    ],
+    [
+      "../easyread/es/easy102.html",
+      "Drunk Pilot"
+    ],
+    [
+      "../easyread/es/easy103.html",
+      "Free Breakfast for Everyone 104."
+    ],
+    [
+      "../easyread/es/easy104.html",
+      "Make a Sandwich 105."
+    ],
+    [
+      "../easyread/es/easy105.html",
+      "Fry an Egg 106."
+    ],
+    [
+      "../easyread/es/easy106.html",
+      "Watch a DVD"
+    ],
+    [
+      "../easyread/es/easy107.html",
+      "Make Some Coffee"
+    ],
+    [
+      "../easyread/es/easy108.html",
+      "Get Dressed"
+    ],
+    [
+      "../easyread/es/easy109.html",
+      "Buy a Lotto Ticket 110."
+    ],
+    [
+      "../easyread/es/easy110.html",
+      "Brush Your Teeth 111."
+    ],
+    [
+      "../easyread/es/easy111.html",
+      "Shave Your Face"
+    ],
+    [
+      "../easyread/es/easy112.html",
+      "Vacuum the Carpet"
+    ],
+    [
+      "../easyread/es/easy113.html",
+      "Change a Light Bulb 114."
+    ],
+    [
+      "../easyread/es/easy114.html",
+      "Change a Tire 115."
+    ],
+    [
+      "../easyread/es/easy115.html",
+      "Peel a Carrot"
+    ],
+    [
+      "../easyread/es/easy116.html",
+      "Make Some Toast 117."
+    ],
+    [
+      "../easyread/es/easy117.html",
+      "Two Babies"
+    ],
+    [
+      "../easyread/es/easy118.html",
+      "Problems at Home"
+    ],
+    [
+      "../easyread/es/easy119.html",
+      "What's That Smell? 120."
+    ],
+    [
+      "../easyread/es/easy120.html",
+      "Time to Shop 121."
+    ],
+    [
+      "../easyread/es/easy121.html",
+      "Fix the Car 122."
+    ],
+    [
+      "../easyread/es/easy122.html",
+      "Take a Drive"
+    ],
+    [
+      "../easyread/es/easy123.html",
+      "Thief on the Sidewalk"
+    ],
+    [
+      "../easyread/es/easy124.html",
+      "Cat Scratch 125."
+    ],
+    [
+      "../easyread/es/easy125.html",
+      "School Fight 126."
+    ],
+    [
+      "../easyread/es/easy126.html",
+      "The Painter 127."
+    ],
+    [
+      "../easyread/es/easy127.html",
+      "Halloween 128."
+    ],
+    [
+      "../easyread/es/easy128.html",
+      "School Starts"
+    ],
+    [
+      "../easyread/es/easy129.html",
+      "The Indoor Antenna 130."
+    ],
+    [
+      "../easyread/es/easy130.html",
+      "The Tomato"
+    ],
+    [
+      "../easyread/es/easy131.html",
+      "The Birthday Cake 132."
+    ],
+    [
+      "../easyread/es/easy132.html",
+      "Dinner Chores 133."
+    ],
+    [
+      "../easyread/es/easy133.html",
+      "Pay the Interest"
+    ],
+    [
+      "../easyread/es/easy134.html",
+      "He Loves His Country 135."
+    ],
+    [
+      "../easyread/es/easy135.html",
+      "The Winner 136."
+    ],
+    [
+      "../easyread/es/easy136.html",
+      "Forever Single"
+    ],
+    [
+      "../easyread/es/easy137.html",
+      "New Family 138."
+    ],
+    [
+      "../easyread/es/easy138.html",
+      "The Paint Job 139."
+    ],
+    [
+      "../easyread/es/easy139.html",
+      "Baseball Dreams 140."
+    ],
+    [
+      "../easyread/es/easy140.html",
+      "Walk the Dog 141."
+    ],
+    [
+      "../easyread/es/easy141.html",
+      "The Mole"
+    ],
+    [
+      "../easyread/es/easy142.html",
+      "Barking Dog"
+    ],
+    [
+      "../easyread/es/easy143.html",
+      "Christmas Present 144."
+    ],
+    [
+      "../easyread/es/easy144.html",
+      "Cross the Street"
+    ],
+    [
+      "../easyread/es/easy145.html",
+      "Who Sits in the Front? 146."
+    ],
+    [
+      "../easyread/es/easy146.html",
+      "The World Map 147."
+    ],
+    [
+      "../easyread/es/easy147.html",
+      "Go to the Park 148."
+    ],
+    [
+      "../easyread/es/easy148.html",
+      "Drive the Car"
+    ],
+    [
+      "../easyread/es/easy149.html",
+      "Something's Biting Him 150."
+    ],
+    [
+      "../easyread/es/easy150.html",
+      "Visit the Ocean 151."
+    ],
+    [
+      "../easyread/es/easy151.html",
+      "Does It Hurt? 152."
+    ],
+    [
+      "../easyread/es/easy152.html",
+      "White Spots 153."
+    ],
+    [
+      "../easyread/es/easy153.html",
+      "Hot Chocolate 154."
+    ],
+    [
+      "../easyread/es/easy154.html",
+      "Her Meow Book"
+    ],
+    [
+      "../easyread/es/easy155.html",
+      "He Will Go to Heaven"
+    ],
+    [
+      "../easyread/es/easy156.html",
+      "Birthday Dress"
+    ],
+    [
+      "../easyread/es/easy157.html",
+      "Cookies for Students"
+    ],
+    [
+      "../easyread/es/easy158.html",
+      "Don't Call Me \\\"Honey\\\""
+    ],
+    [
+      "../easyread/es/easy159.html",
+      "Teacher Feels Dizzy 160."
+    ],
+    [
+      "../easyread/es/easy160.html",
+      "She's So Lonely"
+    ],
+    [
+      "../easyread/es/easy161.html",
+      "Cat and a Squirrel"
+    ],
+    [
+      "../easyread/es/easy162.html",
+      "The Moon and the Sun 163."
+    ],
+    [
+      "../easyread/es/easy163.html",
+      "Golf Lessons"
+    ],
+    [
+      "../easyread/es/easy164.html",
+      "Clothes Shopping in NYC"
+    ],
+    [
+      "../easyread/es/easy165.html",
+      "165 Quiet Pet"
+    ],
+    [
+      "../easyread/es/easy166.html",
+      "Small Apartment 167."
+    ],
+    [
+      "../easyread/es/easy167.html",
+      "Brown Spots"
+    ],
+    [
+      "../easyread/es/easy168.html",
+      "Short Plane Trip 169."
+    ],
+    [
+      "../easyread/es/easy169.html",
+      "He Forgot Again 170."
+    ],
+    [
+      "../easyread/es/easy170.html",
+      "The Rent Check"
+    ],
+    [
+      "../easyread/es/easy171.html",
+      "Black President"
+    ],
+    [
+      "../easyread/es/easy172.html",
+      "Nosy Coworker 173."
+    ],
+    [
+      "../easyread/es/easy173.html",
+      "The Wrong Train"
+    ],
+    [
+      "../easyread/es/easy174.html",
+      "What's That Buzz?"
+    ],
+    [
+      "../easyread/es/easy175.html",
+      "The Citizenship Interview"
+    ],
+    [
+      "../easyread/es/easy176.html",
+      "Here Comes the Flu 177."
+    ],
+    [
+      "../easyread/es/easy177.html",
+      "Her 10th Birthday"
+    ],
+    [
+      "../easyread/es/easy178.html",
+      "Tired All the Time 179."
+    ],
+    [
+      "../easyread/es/easy179.html",
+      "Sugar for Sugar 180."
+    ],
+    [
+      "../easyread/es/easy180.html",
+      "He Hates Carrots 181."
+    ],
+    [
+      "../easyread/es/easy181.html",
+      "Rent or Quit"
+    ],
+    [
+      "../easyread/es/easy182.html",
+      "Sharon Goes Shopping 183."
+    ],
+    [
+      "../easyread/es/easy183.html",
+      "Iced Coffee"
+    ],
+    [
+      "../easyread/es/easy184.html",
+      "Saved by the Cowbell"
+    ],
+    [
+      "../easyread/es/easy185.html",
+      "Beer Drinker 186."
+    ],
+    [
+      "../easyread/es/easy186.html",
+      "Man with a Gun 187."
+    ],
+    [
+      "../easyread/es/easy187.html",
+      "Car Chase"
+    ],
+    [
+      "../easyread/es/easy188.html",
+      "An Unlucky Winner"
+    ],
+    [
+      "../easyread/es/easy189.html",
+      "Unhappy Prisoners 190."
+    ],
+    [
+      "../easyread/es/easy190.html",
+      "The Big Game 191."
+    ],
+    [
+      "../easyread/es/easy191.html",
+      "Buy a Goat 192."
+    ],
+    [
+      "../easyread/es/easy192.html",
+      "Where's Kitty? 193."
+    ],
+    [
+      "../easyread/es/easy193.html",
+      "30 Years Late"
+    ],
+    [
+      "../easyread/es/easy194.html",
+      "Wet Kitchen Floor (1)"
+    ],
+    [
+      "../easyread/es/easy195.html",
+      "Wet Kitchen Floor (2)"
+    ],
+    [
+      "../easyread/es/easy196.html",
+      "A Brand New Bike 197."
+    ],
+    [
+      "../easyread/es/easy197.html",
+      "Easter Eggs 198."
+    ],
+    [
+      "../easyread/es/easy198.html",
+      "Hotel Germs 199."
+    ],
+    [
+      "../easyread/es/easy199.html",
+      "No Doggy Bag"
+    ],
+    [
+      "../easyread/es/easy200.html",
+      "Cheaper School Books"
+    ]
+  ]
+};
+        const tabLetters = {
+  "stories-1": "A",
+  "stories-1a": "B",
+  "easyread-stories-1": "C",
+  "easyread-stories-2": "D"
+};
 
         const buttons = Array.from(document.querySelectorAll("[data-tab-target]"));
         const panels = Array.from(document.querySelectorAll("[role='tabpanel']"));
@@ -1724,21 +2899,30 @@
           }
 
           const startNumber = Number(panel.dataset.start || "1");
+          const letter = tabLetters[panel.id] || "";
 
           grid.textContent = "";
 
           items.forEach(([href, title], index) => {
             const number = startNumber + index;
-            const link = document.createElement("a");
-            link.className = "story-item";
-            link.href = href;
-            link.setAttribute("aria-label", `${number}. ${title}`);
-            link.innerHTML = `
-              <span class="story-number">${number}.</span>
-              <span class="story-title">${title}</span>
-              <span class="story-arrow" aria-hidden="true">→</span>
-            `;
-            grid.appendChild(link);
+            const isPlaceholder = href === "#";
+            const card = document.createElement(isPlaceholder ? "div" : "a");
+
+            card.className = isPlaceholder
+              ? "story-item story-item--placeholder"
+              : "story-item";
+            if (!isPlaceholder) {
+              card.href = href;
+              card.setAttribute("aria-label", String(number) + ". " + title);
+            } else {
+              card.setAttribute("aria-disabled", "true");
+            }
+            card.innerHTML = isPlaceholder
+              ? '<span class="story-title">' + title + '</span>'
+              : '<span class="story-number">' + number + '</span>' +
+                '<span class="story-title">' + title + '</span>' +
+                '<span class="story-arrow" aria-hidden="true">→</span>';
+            grid.appendChild(card);
           });
 
           grid.dataset.rendered = "true";

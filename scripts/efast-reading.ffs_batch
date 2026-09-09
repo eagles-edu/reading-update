@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FreeFileSync XmlType="BATCH" XmlFormat="23">
+    <Notes>Development reading-subtree sync. Copies approved files to /reading/ and never deletes.</Notes>
+    <Compare>
+        <Variant>TimeAndSize</Variant>
+        <Symlinks>Exclude</Symlinks>
+        <IgnoreTimeShift/>
+    </Compare>
+    <Synchronize>
+        <Changes>
+            <Left Create="right" Update="right" Delete="none"/>
+            <Right Create="none" Update="none" Delete="none"/>
+        </Changes>
+        <DeletionPolicy>Versioning</DeletionPolicy>
+        <VersioningFolder Style="TimeStamp-Folder" MaxAge="7">/home/eagles/dockerz/efast-copy/.ffs-versions</VersioningFolder>
+    </Synchronize>
+    <Filter>
+        <Include>
+            <Item>\favicon.ico</Item>
+            <Item>\audio\</Item>
+            <Item>\css\</Item>
+            <Item>\fonts\</Item>
+            <Item>\images\</Item>
+            <Item>\img\</Item>
+            <Item>\js\</Item>
+            <Item>\pics\</Item>
+            <Item>\style\</Item>
+            <Item>\easydialogs\</Item>
+            <Item>\kidsenglish\</Item>
+            <Item>\kidsenglish2\</Item>
+            <Item>\kidsenglish3\</Item>
+            <Item>\begin1\</Item>
+            <Item>\begin2\</Item>
+            <Item>\begin3\</Item>
+            <Item>\begin4\</Item>
+            <Item>\begin5\</Item>
+            <Item>\begin6\</Item>
+            <Item>\supereasy\</Item>
+            <Item>\easyread\</Item>
+            <Item>\eslread\</Item>
+            <Item>\people\</Item>
+            <Item>\essays\</Item>
+        </Include>
+        <Exclude>
+            <Item>*\.git\</Item>
+            <Item>*\.vscode\</Item>
+            <Item>*\node_modules\</Item>
+            <Item>*\vendor\</Item>
+            <Item>*\.backups\</Item>
+            <Item>*\.playwright-cli\</Item>
+            <Item>*\robot\</Item>
+            <Item>*\AboutPageAssets\</Item>
+            <Item>*\_notes\</Item>
+            <Item>*\_vti_cnf\</Item>
+            <Item>*.bak*</Item>
+            <Item>*.BAK</Item>
+            <Item>*.old</Item>
+            <Item>*.older</Item>
+            <Item>*.bu</Item>
+            <Item>*.zip</Item>
+            <Item>*.7z</Item>
+            <Item>*.log</Item>
+            <Item>*.gz</Item>
+            <Item>*.br</Item>
+        </Exclude>
+        <SizeMin Unit="None">0</SizeMin>
+        <SizeMax Unit="None">0</SizeMax>
+        <TimeSpan Type="None">0</TimeSpan>
+    </Filter>
+    <FolderPairs>
+        <Pair>
+            <Left>/home/eagles/dockerz/efast-copy/</Left>
+            <Right>/home/thuvien.eagles.edu.vn/public_html/reading/</Right>
+        </Pair>
+    </FolderPairs>
+    <Errors Ignore="false" Retry="2" Delay="5"/>
+    <PostSyncCommand Condition="Completion"/>
+    <LogFolder/>
+    <EmailNotification Condition="Always"/>
+    <GridViewType>Action</GridViewType>
+    <Batch>
+        <ProgressDialog Minimized="false" AutoClose="true"/>
+        <ErrorDialog>Cancel</ErrorDialog>
+        <PostSyncAction>None</PostSyncAction>
+    </Batch>
+</FreeFileSync>

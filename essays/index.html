@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta
       name="description"
-      content="100 Essays About America in a tabbed reading index with the same Eagles theme and a cleaner, animated layout."
+      content="IELTS Reading with seven lettered tabs and 545 English reading texts."
     >
-    <title>100 Essays About America</title>
-    <link href="/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <title>IELTS Reading</title>
+    <link href="/reading/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
     <link rel="preload" href="../js/theme-selector.js" as="script" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty">
 <script src="../js/theme-selector.js" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
 <script>
@@ -703,7 +703,7 @@
         align-items: flex-end;
         border-bottom: none;
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 0;
         justify-content: flex-start;
         overflow-x: auto;
@@ -724,15 +724,17 @@
         box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.42) inset;
         color: var(--tertiary-color);
         cursor: pointer;
-        display: inline-grid;
-        gap: 6px;
+        align-items: baseline;
+        display: inline-flex;
+        gap: clamp(0.45rem, 1vw, 0.85rem);
         flex: 0 0 auto;
         margin-bottom: -1px;
-        min-width: 12.25rem;
+        min-width: clamp(9.5rem, 20vw, 12.25rem);
         overflow: hidden;
         padding: 13px 30px 12px 20px;
         position: relative;
         text-align: left;
+        white-space: nowrap;
         transition:
           transform 220ms ease,
           box-shadow 220ms ease,
@@ -813,17 +815,24 @@
       }
 
       .tab-button__label {
-        font-size: 1rem;
+        flex: 0 0 auto;
+        font-size: clamp(1.35rem, 2.25vw, 2rem);
         font-weight: 900;
         letter-spacing: 0.01em;
+        line-height: 1;
+        white-space: nowrap;
       }
 
       .tab-button__range {
         color: var(--muted);
-        font-size: 0.8rem;
+        flex: 0 1 auto;
+        font-size: clamp(0.68rem, 0.9vw, 0.82rem);
         font-weight: 800;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.05em;
+        line-height: 1;
+        min-inline-size: 0;
         text-transform: uppercase;
+        white-space: nowrap;
       }
 
       .tab-button[aria-selected="true"] .tab-button__range {
@@ -1341,33 +1350,29 @@
     <main>
       <section class="hero">
         <div class="container hero-panel">
-          <span class="eyebrow">Tabbed reading path.</span>
-          <h1>100 Essays About America</h1>
-          <p class="hero-copy">
-            The reading list stays compact in tabs while keeping the original Eagles theme and navigation.
-          </p>
-          <div class="hero-stats">
-            <div class="stat-chip">
-              <strong data-count-target="50">0</strong>
-              <span>Part 1</span>
-            </div>
-            <div class="stat-chip">
-              <strong data-count-target="50">0</strong>
-              <span>Part 2</span>
-            </div>
-            <div class="stat-chip">
-              <strong data-count-target="100">0</strong>
-              <span>Total stories</span>
-            </div>
-            <div class="stat-chip stat-counter">
-              <strong
-                data-visit-count
-                data-count-target="0"
-                aria-live="polite"
-              >--</strong>
-              <span>Visits</span>
-            </div>
+          <span class="eyebrow">Levelled reading path.</span>
+          <h1>IELTS Reading</h1>
+                      <p class="hero-copy">
+              Choose a lettered reading tab and use each card number to find a story quickly.
+            </p>
+                  <div class="hero-stats">
+          <div class="stat-chip">
+            <strong data-count-target="545">0</strong>
+            <span>Total stories</span>
           </div>
+          <div class="stat-chip">
+            <strong data-count-target="7">0</strong>
+            <span>Reading tabs</span>
+          </div>
+          <div class="stat-chip stat-counter">
+            <strong
+              data-visit-count
+              data-count-target="0"
+              aria-live="polite"
+            >--</strong>
+            <span>Visits</span>
+          </div>
+        </div>
         </div>
       </section>
       <section class="section" aria-labelledby="stories-shell-title">
@@ -1375,7 +1380,7 @@
           <h2 id="stories-shell-title" class="sr-only">Stories</h2>
 
           <div class="tabbed-shell">
-            <div
+                        <div
               class="tab-list"
               role="tablist"
               aria-labelledby="stories-shell-title"
@@ -1391,8 +1396,8 @@
                 tabindex="0"
                 data-tab-target="stories-1"
               >
-                <span class="tab-button__label">Part 1</span>
-                <span class="tab-button__range">1 - 50</span>
+                <span class="tab-button__label">A</span>
+                <span class="tab-button__range">1-50</span>
               </button>
               <button
                 id="tab-stories-2"
@@ -1404,8 +1409,73 @@
                 tabindex="-1"
                 data-tab-target="stories-2"
               >
-                <span class="tab-button__label">Part 2</span>
-                <span class="tab-button__range">51 - 100</span>
+                <span class="tab-button__label">B</span>
+                <span class="tab-button__range">51-100</span>
+              </button>
+              <button
+                id="tab-eslread-stories-1"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="eslread-stories-1"
+                tabindex="-1"
+                data-tab-target="eslread-stories-1"
+              >
+                <span class="tab-button__label">C</span>
+                <span class="tab-button__range">1-160</span>
+              </button>
+              <button
+                id="tab-eslread-stories-2"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="eslread-stories-2"
+                tabindex="-1"
+                data-tab-target="eslread-stories-2"
+              >
+                <span class="tab-button__label">D</span>
+                <span class="tab-button__range">161-280</span>
+              </button>
+              <button
+                id="tab-eslread-stories-3"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="eslread-stories-3"
+                tabindex="-1"
+                data-tab-target="eslread-stories-3"
+              >
+                <span class="tab-button__label">E</span>
+                <span class="tab-button__range">281-345</span>
+              </button>
+              <button
+                id="tab-people-stories-1"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="people-stories-1"
+                tabindex="-1"
+                data-tab-target="people-stories-1"
+              >
+                <span class="tab-button__label">F</span>
+                <span class="tab-button__range">1-50</span>
+              </button>
+              <button
+                id="tab-people-stories-2"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="people-stories-2"
+                tabindex="-1"
+                data-tab-target="people-stories-2"
+              >
+                <span class="tab-button__label">G</span>
+                <span class="tab-button__range">51-100</span>
               </button>
             </div>
 
@@ -1419,11 +1489,67 @@
               >
                 <div class="story-grid" data-story-grid></div>
               </section>
+
               <section
                 id="stories-2"
                 class="tab-panel"
                 role="tabpanel"
                 aria-labelledby="tab-stories-2"
+                data-start="51"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+
+              <section
+                id="eslread-stories-1"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-eslread-stories-1"
+                data-start="1"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+
+              <section
+                id="eslread-stories-2"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-eslread-stories-2"
+                data-start="161"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+
+              <section
+                id="eslread-stories-3"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-eslread-stories-3"
+                data-start="281"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+
+              <section
+                id="people-stories-1"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-people-stories-1"
+                data-start="1"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+
+              <section
+                id="people-stories-2"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-people-stories-2"
                 data-start="51"
                 hidden
               >
@@ -1609,111 +1735,2210 @@
 
       (() => {
         const storySets = {
-          "stories-1": [
-            ["e/essay001.html", "A Social Media Fast"],
-            ["e/essay002.html", "The Parade"],
-            ["e/essay003.html", "The Queen Mary"],
-            ["e/essay004.html", "A Garage Band"],
-            ["e/essay005.html", "Memorial Day and ..."],
-            ["e/essay006.html", "The Challenger Disaster"],
-            ["e/essay007.html", "Marching for Safer Streets"],
-            ["e/essay008.html", "Amber Alert"],
-            ["e/essay009.html", "Childhood Friends"],
-            ["e/essay010.html", "Board Game Night"],
-            ["e/essay011.html", "Celebrating a Win"],
-            ["e/essay012.html", "Have Points, Will Travel"],
-            ["e/essay013.html", "Long Distance..."],
-            ["e/essay014.html", "Summer School"],
-            ["e/essay015.html", "At Father's Day"],
-            ["e/essay016.html", "Black Friday"],
-            ["e/essay017.html", "Election Day"],
-            ["e/essay018.html", "Prom Night"],
-            ["e/essay019.html", "Learn How to Drive"],
-            ["e/essay020.html", "T-Ball"],
-            ["e/essay021.html", "A Breath of Fresh Air"],
-            ["e/essay022.html", "Falling into a Dream"],
-            ["e/essay023.html", "Stop and Frisk"],
-            ["e/essay024.html", "An Earthquake"],
-            ["e/essay025.html", "A Real Guitar Hero"],
-            ["e/essay026.html", "An Overturned Bus"],
-            ["e/essay027.html", "Calm and Relaxed"],
-            ["e/essay028.html", "A Day at the Library"],
-            ["e/essay029.html", "Playing Catch"],
-            ["e/essay030.html", "The Humor in Life"],
-            ["e/essay031.html", "How Johnny Met His Wife"],
-            ["e/essay032.html", "My Bike Club"],
-            ["e/essay033.html", "Helen the Gardner"],
-            ["e/essay034.html", "My Friend Diego"],
-            ["e/essay035.html", "Going Back to School"],
-            ["e/essay036.html", "Mario's First Car"],
-            ["e/essay037.html", "Joining the Marine Corp"],
-            ["e/essay038.html", "A Workaholic Dad"],
-            ["e/essay039.html", "The Carnival"],
-            ["e/essay040.html", "High School Love"],
-            ["e/essay041.html", "A Hot Summer Day"],
-            ["e/essay042.html", "Hungry Abel"],
-            ["e/essay043.html", "Joel's Job Search"],
-            ["e/essay044.html", "Valery's Bus Trip"],
-            ["e/essay045.html", "Studying for the Big Test"],
-            ["e/essay046.html", "Jenny's First Pets (1)"],
-            ["e/essay047.html", "Jenny's First Pets (2)"],
-            ["e/essay048.html", "Surfing"],
-            ["e/essay049.html", "Jane the Living Doll"],
-            ["e/essay050.html", "An Emergency"]
-          ],
-          "stories-2": [
-            ["e/essay051.html", "Disappearance of a Lego"],
-            ["e/essay052.html", "Drought-Resistant Plants"],
-            ["e/essay053.html", "Facebook Friends"],
-            ["e/essay054.html", "Service Animals"],
-            ["e/essay055.html", "Underground Music"],
-            ["e/essay056.html", "Summer Programs for..."],
-            ["e/essay057.html", "Special Education"],
-            ["e/essay058.html", "Stay-at-Home Dad"],
-            ["e/essay059.html", "A time for Family"],
-            ["e/essay060.html", "Shopping on Black Friday"],
-            ["e/essay061.html", "Vinyl Hunting"],
-            ["e/essay062.html", "No-Hitter"],
-            ["e/essay063.html", "Helping the Needy"],
-            ["e/essay064.html", "A Visit to Statue of Liberty"],
-            ["e/essay065.html", "A Homeless Man"],
-            ["e/essay066.html", "Being Charged with Arson"],
-            ["e/essay067.html", "A Baby Girl"],
-            ["e/essay068.html", "An Easter Bunny"],
-            ["e/essay069.html", "The Most Beautiful Girl..."],
-            ["e/essay070.html", "Josh's First Girlfriend"],
-            ["e/essay071.html", "Hide and Seek"],
-            ["e/essay072.html", "A Night at the Drive-In"],
-            ["e/essay073.html", "Hello Dolly!"],
-            ["e/essay074.html", "Dodgers vs. Giants"],
-            ["e/essay075.html", "Halloween Costume Party"],
-            ["e/essay076.html", "The Coke Bottles"],
-            ["e/essay077.html", "Going to College"],
-            ["e/essay078.html", "Pacific Coast Highway"],
-            ["e/essay079.html", "Mary, Tom, and Buddy (1)"],
-            ["e/essay080.html", "Mary, Tom, and Buddy (2)"],
-            ["e/essay081.html", "Always Safety First"],
-            ["e/essay082.html", "Eddie and Jake Form..."],
-            ["e/essay083.html", "Learning Spanish"],
-            ["e/essay084.html", "Going Back to School"],
-            ["e/essay085.html", "Johnny's Long Hair (1)"],
-            ["e/essay086.html", "Johnny's Long Hair (2)"],
-            ["e/essay087.html", "The Friendship"],
-            ["e/essay088.html", "A New Friend"],
-            ["e/essay089.html", "Fingerprinting"],
-            ["e/essay090.html", "Getting Cable"],
-            ["e/essay091.html", "Trash Days"],
-            ["e/essay092.html", "Seeing a Dermatologist"],
-            ["e/essay093.html", "Happy Hour"],
-            ["e/essay094.html", "Learning to Drive"],
-            ["e/essay095.html", "Playing Football"],
-            ["e/essay096.html", "Food Trucks"],
-            ["e/essay097.html", "Nelson Mandela"],
-            ["e/essay098.html", "Charles Darwin"],
-            ["e/essay099.html", "Online Classes"],
-            ["e/essay100.html", "The Titanic"]
-          ]
-        };
+  "stories-1": [
+    [
+      "e/essay001.html",
+      "A Social Media Fast"
+    ],
+    [
+      "e/essay002.html",
+      "The Parade"
+    ],
+    [
+      "e/essay003.html",
+      "The Queen Mary"
+    ],
+    [
+      "e/essay004.html",
+      "A Garage Band"
+    ],
+    [
+      "e/essay005.html",
+      "Memorial Day and ..."
+    ],
+    [
+      "e/essay006.html",
+      "The Challenger Disaster"
+    ],
+    [
+      "e/essay007.html",
+      "Marching for Safer Streets"
+    ],
+    [
+      "e/essay008.html",
+      "Amber Alert"
+    ],
+    [
+      "e/essay009.html",
+      "Childhood Friends"
+    ],
+    [
+      "e/essay010.html",
+      "Board Game Night"
+    ],
+    [
+      "e/essay011.html",
+      "Celebrating a Win"
+    ],
+    [
+      "e/essay012.html",
+      "Have Points, Will Travel"
+    ],
+    [
+      "e/essay013.html",
+      "Long Distance..."
+    ],
+    [
+      "e/essay014.html",
+      "Summer School"
+    ],
+    [
+      "e/essay015.html",
+      "At Father's Day"
+    ],
+    [
+      "e/essay016.html",
+      "Black Friday"
+    ],
+    [
+      "e/essay017.html",
+      "Election Day"
+    ],
+    [
+      "e/essay018.html",
+      "Prom Night"
+    ],
+    [
+      "e/essay019.html",
+      "Learn How to Drive"
+    ],
+    [
+      "e/essay020.html",
+      "T-Ball"
+    ],
+    [
+      "e/essay021.html",
+      "A Breath of Fresh Air"
+    ],
+    [
+      "e/essay022.html",
+      "Falling into a Dream"
+    ],
+    [
+      "e/essay023.html",
+      "Stop and Frisk"
+    ],
+    [
+      "e/essay024.html",
+      "An Earthquake"
+    ],
+    [
+      "e/essay025.html",
+      "A Real Guitar Hero"
+    ],
+    [
+      "e/essay026.html",
+      "An Overturned Bus"
+    ],
+    [
+      "e/essay027.html",
+      "Calm and Relaxed"
+    ],
+    [
+      "e/essay028.html",
+      "A Day at the Library"
+    ],
+    [
+      "e/essay029.html",
+      "Playing Catch"
+    ],
+    [
+      "e/essay030.html",
+      "The Humor in Life"
+    ],
+    [
+      "e/essay031.html",
+      "How Johnny Met His Wife"
+    ],
+    [
+      "e/essay032.html",
+      "My Bike Club"
+    ],
+    [
+      "e/essay033.html",
+      "Helen the Gardner"
+    ],
+    [
+      "e/essay034.html",
+      "My Friend Diego"
+    ],
+    [
+      "e/essay035.html",
+      "Going Back to School"
+    ],
+    [
+      "e/essay036.html",
+      "Mario's First Car"
+    ],
+    [
+      "e/essay037.html",
+      "Joining the Marine Corp"
+    ],
+    [
+      "e/essay038.html",
+      "A Workaholic Dad"
+    ],
+    [
+      "e/essay039.html",
+      "The Carnival"
+    ],
+    [
+      "e/essay040.html",
+      "High School Love"
+    ],
+    [
+      "e/essay041.html",
+      "A Hot Summer Day"
+    ],
+    [
+      "e/essay042.html",
+      "Hungry Abel"
+    ],
+    [
+      "e/essay043.html",
+      "Joel's Job Search"
+    ],
+    [
+      "e/essay044.html",
+      "Valery's Bus Trip"
+    ],
+    [
+      "e/essay045.html",
+      "Studying for the Big Test"
+    ],
+    [
+      "e/essay046.html",
+      "Jenny's First Pets (1)"
+    ],
+    [
+      "e/essay047.html",
+      "Jenny's First Pets (2)"
+    ],
+    [
+      "e/essay048.html",
+      "Surfing"
+    ],
+    [
+      "e/essay049.html",
+      "Jane the Living Doll"
+    ],
+    [
+      "e/essay050.html",
+      "An Emergency"
+    ]
+  ],
+  "stories-2": [
+    [
+      "e/essay051.html",
+      "Disappearance of a Lego"
+    ],
+    [
+      "e/essay052.html",
+      "Drought-Resistant Plants"
+    ],
+    [
+      "e/essay053.html",
+      "Facebook Friends"
+    ],
+    [
+      "e/essay054.html",
+      "Service Animals"
+    ],
+    [
+      "e/essay055.html",
+      "Underground Music"
+    ],
+    [
+      "e/essay056.html",
+      "Summer Programs for..."
+    ],
+    [
+      "e/essay057.html",
+      "Special Education"
+    ],
+    [
+      "e/essay058.html",
+      "Stay-at-Home Dad"
+    ],
+    [
+      "e/essay059.html",
+      "A time for Family"
+    ],
+    [
+      "e/essay060.html",
+      "Shopping on Black Friday"
+    ],
+    [
+      "e/essay061.html",
+      "Vinyl Hunting"
+    ],
+    [
+      "e/essay062.html",
+      "No-Hitter"
+    ],
+    [
+      "e/essay063.html",
+      "Helping the Needy"
+    ],
+    [
+      "e/essay064.html",
+      "A Visit to Statue of Liberty"
+    ],
+    [
+      "e/essay065.html",
+      "A Homeless Man"
+    ],
+    [
+      "e/essay066.html",
+      "Being Charged with Arson"
+    ],
+    [
+      "e/essay067.html",
+      "A Baby Girl"
+    ],
+    [
+      "e/essay068.html",
+      "An Easter Bunny"
+    ],
+    [
+      "e/essay069.html",
+      "The Most Beautiful Girl..."
+    ],
+    [
+      "e/essay070.html",
+      "Josh's First Girlfriend"
+    ],
+    [
+      "e/essay071.html",
+      "Hide and Seek"
+    ],
+    [
+      "e/essay072.html",
+      "A Night at the Drive-In"
+    ],
+    [
+      "e/essay073.html",
+      "Hello Dolly!"
+    ],
+    [
+      "e/essay074.html",
+      "Dodgers vs. Giants"
+    ],
+    [
+      "e/essay075.html",
+      "Halloween Costume Party"
+    ],
+    [
+      "e/essay076.html",
+      "The Coke Bottles"
+    ],
+    [
+      "e/essay077.html",
+      "Going to College"
+    ],
+    [
+      "e/essay078.html",
+      "Pacific Coast Highway"
+    ],
+    [
+      "e/essay079.html",
+      "Mary, Tom, and Buddy (1)"
+    ],
+    [
+      "e/essay080.html",
+      "Mary, Tom, and Buddy (2)"
+    ],
+    [
+      "e/essay081.html",
+      "Always Safety First"
+    ],
+    [
+      "e/essay082.html",
+      "Eddie and Jake Form..."
+    ],
+    [
+      "e/essay083.html",
+      "Learning Spanish"
+    ],
+    [
+      "e/essay084.html",
+      "Going Back to School"
+    ],
+    [
+      "e/essay085.html",
+      "Johnny's Long Hair (1)"
+    ],
+    [
+      "e/essay086.html",
+      "Johnny's Long Hair (2)"
+    ],
+    [
+      "e/essay087.html",
+      "The Friendship"
+    ],
+    [
+      "e/essay088.html",
+      "A New Friend"
+    ],
+    [
+      "e/essay089.html",
+      "Fingerprinting"
+    ],
+    [
+      "e/essay090.html",
+      "Getting Cable"
+    ],
+    [
+      "e/essay091.html",
+      "Trash Days"
+    ],
+    [
+      "e/essay092.html",
+      "Seeing a Dermatologist"
+    ],
+    [
+      "e/essay093.html",
+      "Happy Hour"
+    ],
+    [
+      "e/essay094.html",
+      "Learning to Drive"
+    ],
+    [
+      "e/essay095.html",
+      "Playing Football"
+    ],
+    [
+      "e/essay096.html",
+      "Food Trucks"
+    ],
+    [
+      "e/essay097.html",
+      "Nelson Mandela"
+    ],
+    [
+      "e/essay098.html",
+      "Charles Darwin"
+    ],
+    [
+      "e/essay099.html",
+      "Online Classes"
+    ],
+    [
+      "e/essay100.html",
+      "The Titanic"
+    ]
+  ],
+  "eslread-stories-1": [
+    [
+      "../eslread/ss/s001.html",
+      "America: Land of Opportunity"
+    ],
+    [
+      "../eslread/ss/s002.html",
+      "The Fourth of July"
+    ],
+    [
+      "../eslread/ss/s003.html",
+      "The U.S. Federal Government"
+    ],
+    [
+      "../eslread/ss/s004.html",
+      "Christmas - A Holiday of Traditions"
+    ],
+    [
+      "../eslread/ss/s005.html",
+      "New Year's Day - A Holiday of..."
+    ],
+    [
+      "../eslread/ss/s006.html",
+      "Martin Luther King Jr. Day - To ..."
+    ],
+    [
+      "../eslread/ss/s007.html",
+      "Valentine's Day - A Holiday of Love..."
+    ],
+    [
+      "../eslread/ss/s008.html",
+      "St. Patrick's Day - A Holiday to..."
+    ],
+    [
+      "../eslread/ss/s009.html",
+      "Passover - A Jewish Holiday of..."
+    ],
+    [
+      "../eslread/ss/s010.html",
+      "Easter - An Important Christian Holiday"
+    ],
+    [
+      "../eslread/ss/s011.html",
+      "Mother's Day - A Holiday to Honor..."
+    ],
+    [
+      "../eslread/ss/s012.html",
+      "Father's Day - A Holiday to Honor..."
+    ],
+    [
+      "../eslread/ss/s013.html",
+      "Memorial Day - A Holiday to..."
+    ],
+    [
+      "../eslread/ss/s014.html",
+      "Labor Day - A Holiday to Honor Workers"
+    ],
+    [
+      "../eslread/ss/s015.html",
+      "Columbus Day - A Holiday to..."
+    ],
+    [
+      "../eslread/ss/s016.html",
+      "Halloween - A Holiday for Costumes..."
+    ],
+    [
+      "../eslread/ss/s017.html",
+      "Veterans Day - A Holiday Honoring..."
+    ],
+    [
+      "../eslread/ss/s018.html",
+      "Chanukah - A Holiday of Lights"
+    ],
+    [
+      "../eslread/ss/s019.html",
+      "Thanksgiving - Families Coming..."
+    ],
+    [
+      "../eslread/ss/s020.html",
+      "Lottery - A Chance at Millions"
+    ],
+    [
+      "../eslread/ss/s021.html",
+      "One Country, Many Taxes"
+    ],
+    [
+      "../eslread/ss/s022.html",
+      "Medical Insurance - Making it Easier to..."
+    ],
+    [
+      "../eslread/ss/s023.html",
+      "Immigration - A Broken System"
+    ],
+    [
+      "../eslread/ss/s024.html",
+      "Community Colleges (1)"
+    ],
+    [
+      "../eslread/ss/s025.html",
+      "Community Colleges (2)"
+    ],
+    [
+      "../eslread/ss/s026.html",
+      "Elementary Schools in the U.S."
+    ],
+    [
+      "../eslread/ss/s027.html",
+      "Middle Schools in the U.S."
+    ],
+    [
+      "../eslread/ss/s028.html",
+      "High School in the U.S."
+    ],
+    [
+      "../eslread/ss/s029.html",
+      "Homeschooling"
+    ],
+    [
+      "../eslread/ss/s030.html",
+      "Parent-Teacher Conferences"
+    ],
+    [
+      "../eslread/ss/s031.html",
+      "Private Schools: An Expensive..."
+    ],
+    [
+      "../eslread/ss/s032.html",
+      "The California College and University..."
+    ],
+    [
+      "../eslread/ss/s033.html",
+      "Driving in the United States"
+    ],
+    [
+      "../eslread/ss/s034.html",
+      "Pasadena Rose Parade"
+    ],
+    [
+      "../eslread/ss/s035.html",
+      "Selfies"
+    ],
+    [
+      "../eslread/ss/s036.html",
+      "Apartment Pets"
+    ],
+    [
+      "../eslread/ss/s037.html",
+      "Non-traditional Wakes"
+    ],
+    [
+      "../eslread/ss/s038.html",
+      "Homelessness in Los Angeles"
+    ],
+    [
+      "../eslread/ss/s039.html",
+      "Paramedics"
+    ],
+    [
+      "../eslread/ss/s040.html",
+      "September 11th"
+    ],
+    [
+      "../eslread/ss/s041.html",
+      "The California Redwoods and Giant..."
+    ],
+    [
+      "../eslread/ss/s042.html",
+      "The California Highway Patrol"
+    ],
+    [
+      "../eslread/ss/s043.html",
+      "The Golden Gate Bridge"
+    ],
+    [
+      "../eslread/ss/s044.html",
+      "The San Francisco Cable Cars"
+    ],
+    [
+      "../eslread/ss/s045.html",
+      "Car Chase Television"
+    ],
+    [
+      "../eslread/ss/s046.html",
+      "Los Angeles Coroner's Office"
+    ],
+    [
+      "../eslread/ss/s047.html",
+      "Museum Mile in New York City"
+    ],
+    [
+      "../eslread/ss/s048.html",
+      "A Building for the Empire State"
+    ],
+    [
+      "../eslread/ss/s049.html",
+      "The Statue of Liberty Enlightening..."
+    ],
+    [
+      "../eslread/ss/s050.html",
+      "Rockefeller Center - Top of the Rock"
+    ],
+    [
+      "../eslread/ss/s051.html",
+      "Manhattan, New York City"
+    ],
+    [
+      "../eslread/ss/s052.html",
+      "Las Vegas, Nevada"
+    ],
+    [
+      "../eslread/ss/s053.html",
+      "Mr. Rogers' Neighborhood"
+    ],
+    [
+      "../eslread/ss/s054.html",
+      "The Cinco de Mayo Celebration"
+    ],
+    [
+      "../eslread/ss/s055.html",
+      "The Attack on Pearl Harbor"
+    ],
+    [
+      "../eslread/ss/s056.html",
+      "Funeral Customs in the U.S.A"
+    ],
+    [
+      "../eslread/ss/s057.html",
+      "The John F. Kennedy Assassination"
+    ],
+    [
+      "../eslread/ss/s058.html",
+      "Social Class in the United States"
+    ],
+    [
+      "../eslread/ss/s059.html",
+      "Rosa Parks - Civil Rights Movement"
+    ],
+    [
+      "../eslread/ss/s060.html",
+      "Chicago - The Windy City"
+    ],
+    [
+      "../eslread/ss/s061.html",
+      "Boston - A Revolutionary City"
+    ],
+    [
+      "../eslread/ss/s062.html",
+      "A Nation is Born"
+    ],
+    [
+      "../eslread/ss/s063.html",
+      "The American Civil War"
+    ],
+    [
+      "../eslread/ss/s064.html",
+      "Fires that Changed Cities"
+    ],
+    [
+      "../eslread/ss/s065.html",
+      "A Bewitched City"
+    ],
+    [
+      "../eslread/ss/s066.html",
+      "The U.N. in New York City"
+    ],
+    [
+      "../eslread/ss/s067.html",
+      "New York City - The Big Apple"
+    ],
+    [
+      "../eslread/ss/s068.html",
+      "The World Trade Center"
+    ],
+    [
+      "../eslread/ss/s069.html",
+      "Central Park"
+    ],
+    [
+      "../eslread/ss/s070.html",
+      "The Marlboro Man"
+    ],
+    [
+      "../eslread/ss/s071.html",
+      "The Beatles"
+    ],
+    [
+      "../eslread/ss/s072.html",
+      "The Griffith Observatory"
+    ],
+    [
+      "../eslread/ss/s073.html",
+      "One Country, Many Religions"
+    ],
+    [
+      "../eslread/ss/s074.html",
+      "Woodstock: Defining a Generation"
+    ],
+    [
+      "../eslread/ss/s075.html",
+      "The Veteran's Administration"
+    ],
+    [
+      "../eslread/ss/s076.html",
+      "Married With Children"
+    ],
+    [
+      "../eslread/ss/s077.html",
+      "Facebook"
+    ],
+    [
+      "../eslread/ss/s078.html",
+      "Don't be Tardy to the Party"
+    ],
+    [
+      "../eslread/ss/s079.html",
+      "A Bridal Shower"
+    ],
+    [
+      "../eslread/ss/s080.html",
+      "A Baby Shower"
+    ],
+    [
+      "../eslread/ss/s081.html",
+      "A Housewarming Party"
+    ],
+    [
+      "../eslread/ss/s082.html",
+      "The Wedding Reception (1)"
+    ],
+    [
+      "../eslread/ss/s083.html",
+      "The Wedding Reception (2)"
+    ],
+    [
+      "../eslread/ss/s084.html",
+      "Bride and Groom Traditions"
+    ],
+    [
+      "../eslread/ss/s085.html",
+      "Theme Parties"
+    ],
+    [
+      "../eslread/ss/s086.html",
+      "Helicopter versus Free Range Moms"
+    ],
+    [
+      "../eslread/ss/s087.html",
+      "Attachment Parenting"
+    ],
+    [
+      "../eslread/ss/s088.html",
+      "A Kid's Party for Adults"
+    ],
+    [
+      "../eslread/ss/s089.html",
+      "When a Kid Becomes an Adult"
+    ],
+    [
+      "../eslread/ss/s090.html",
+      "Who Will Take Care of Mom and Dad"
+    ],
+    [
+      "../eslread/ss/s091.html",
+      "Vacation Time"
+    ],
+    [
+      "../eslread/ss/s092.html",
+      "Camping"
+    ],
+    [
+      "../eslread/ss/s093.html",
+      "Renting an Apartment (1)"
+    ],
+    [
+      "../eslread/ss/s094.html",
+      "Renting an Apartment (2)"
+    ],
+    [
+      "../eslread/ss/s095.html",
+      "What is in a Lease (1)"
+    ],
+    [
+      "../eslread/ss/s096.html",
+      "What is in a Lease (2)"
+    ],
+    [
+      "../eslread/ss/s097.html",
+      "Public Housing"
+    ],
+    [
+      "../eslread/ss/s098.html",
+      "Applying for Public Housing"
+    ],
+    [
+      "../eslread/ss/s099.html",
+      "Section 8"
+    ],
+    [
+      "../eslread/ss/s100.html",
+      "Baseball: The National Pastime"
+    ],
+    [
+      "../eslread/ss/s101.html",
+      "Leaving for Work"
+    ],
+    [
+      "../eslread/ss/s102.html",
+      "Shopping at the Supermarket"
+    ],
+    [
+      "../eslread/ss/s103.html",
+      "Sunday Afternoons"
+    ],
+    [
+      "../eslread/ss/s104.html",
+      "Julie Joins Facebook"
+    ],
+    [
+      "../eslread/ss/s105.html",
+      "Bowling Night"
+    ],
+    [
+      "../eslread/ss/s106.html",
+      "The Haunted Warehouse"
+    ],
+    [
+      "../eslread/ss/s107.html",
+      "Moving to Arizona"
+    ],
+    [
+      "../eslread/ss/s108.html",
+      "Working at a Bookstore"
+    ],
+    [
+      "../eslread/ss/s109.html",
+      "Joel Learns to Drive"
+    ],
+    [
+      "../eslread/ss/s110.html",
+      "Ghost in the Hall"
+    ],
+    [
+      "../eslread/ss/s111.html",
+      "Bobby the Fat Boy"
+    ],
+    [
+      "../eslread/ss/s112.html",
+      "Fifth Grade Dance Competition (1)"
+    ],
+    [
+      "../eslread/ss/s113.html",
+      "Fifth Grade Dance Competition (2)"
+    ],
+    [
+      "../eslread/ss/s114.html",
+      "Camping Trip"
+    ],
+    [
+      "../eslread/ss/s115.html",
+      "Painting a Mural"
+    ],
+    [
+      "../eslread/ss/s116.html",
+      "New York, New York"
+    ],
+    [
+      "../eslread/ss/s117.html",
+      "Not-so-happy Meals"
+    ],
+    [
+      "../eslread/ss/s118.html",
+      "The Bad News"
+    ],
+    [
+      "../eslread/ss/s119.html",
+      "The Big Move"
+    ],
+    [
+      "../eslread/ss/s120.html",
+      "The Dentist Will See You Now"
+    ],
+    [
+      "../eslread/ss/s121.html",
+      "The Lottery Ticket"
+    ],
+    [
+      "../eslread/ss/s122.html",
+      "A New \"Alarm Clock\""
+    ],
+    [
+      "../eslread/ss/s123.html",
+      "The Unlikely Reunion"
+    ],
+    [
+      "../eslread/ss/s124.html",
+      "Thrift Store Treasures"
+    ],
+    [
+      "../eslread/ss/s125.html",
+      "Winter Time"
+    ],
+    [
+      "../eslread/ss/s126.html",
+      "No Smoking"
+    ],
+    [
+      "../eslread/ss/s127.html",
+      "Composting"
+    ],
+    [
+      "../eslread/ss/s128.html",
+      "Giving a Hand"
+    ],
+    [
+      "../eslread/ss/s129.html",
+      "Arrested Twice in One Day"
+    ],
+    [
+      "../eslread/ss/s130.html",
+      "What's Good for the Goose"
+    ],
+    [
+      "../eslread/ss/s131.html",
+      "No Such Thing as Free Lunch"
+    ],
+    [
+      "../eslread/ss/s132.html",
+      "Paying to Win"
+    ],
+    [
+      "../eslread/ss/s133.html",
+      "A Night in Las Vegas"
+    ],
+    [
+      "../eslread/ss/s134.html",
+      "The Girl Next Door"
+    ],
+    [
+      "../eslread/ss/s135.html",
+      "My Best Friend"
+    ],
+    [
+      "../eslread/ss/s136.html",
+      "A Day in the Park"
+    ],
+    [
+      "../eslread/ss/s137.html",
+      "Going out to the Movies"
+    ],
+    [
+      "../eslread/ss/s138.html",
+      "Water Balloon War"
+    ],
+    [
+      "../eslread/ss/s139.html",
+      "Summer Job"
+    ],
+    [
+      "../eslread/ss/s140.html",
+      "The Divorce"
+    ],
+    [
+      "../eslread/ss/s141.html",
+      "The Last Drink"
+    ],
+    [
+      "../eslread/ss/s142.html",
+      "Christopher the Reporter"
+    ],
+    [
+      "../eslread/ss/s143.html",
+      "Richard's Father"
+    ],
+    [
+      "../eslread/ss/s144.html",
+      "The Bartender"
+    ],
+    [
+      "../eslread/ss/s145.html",
+      "A Trip to Hawaii"
+    ],
+    [
+      "../eslread/ss/s146.html",
+      "Family Reunion"
+    ],
+    [
+      "../eslread/ss/s147.html",
+      "Losing My Dog"
+    ],
+    [
+      "../eslread/ss/s148.html",
+      "A Big City and a Small Town"
+    ],
+    [
+      "../eslread/ss/s149.html",
+      "Looking for a Job"
+    ],
+    [
+      "../eslread/ss/s150.html",
+      "Superstore"
+    ],
+    [
+      "../eslread/ss/s151.html",
+      "Getting my License"
+    ],
+    [
+      "../eslread/ss/s152.html",
+      "Going to Disneyland"
+    ],
+    [
+      "../eslread/ss/s153.html",
+      "The Artist, the Poor Man, and..."
+    ],
+    [
+      "../eslread/ss/s154.html",
+      "The Evils of Technology"
+    ],
+    [
+      "../eslread/ss/s155.html",
+      "Anthony's First Day at Disneyland"
+    ],
+    [
+      "../eslread/ss/s156.html",
+      "Woken up by Fireworks"
+    ],
+    [
+      "../eslread/ss/s157.html",
+      "Come over anytime, but not really"
+    ],
+    [
+      "../eslread/ss/s158.html",
+      "Finding Your Own Apartment"
+    ],
+    [
+      "../eslread/ss/s159.html",
+      "Trick or Treat"
+    ],
+    [
+      "../eslread/ss/s160.html",
+      "Leaving a Tip"
+    ]
+  ],
+  "eslread-stories-2": [
+    [
+      "../eslread/ss/s161.html",
+      "Not Sold Over the Counter"
+    ],
+    [
+      "../eslread/ss/s162.html",
+      "Seeing the Entire United States"
+    ],
+    [
+      "../eslread/ss/s163.html",
+      "Grocery Shopping"
+    ],
+    [
+      "../eslread/ss/s164.html",
+      "Sales Tax"
+    ],
+    [
+      "../eslread/ss/s165.html",
+      "\"Oh Really?\""
+    ],
+    [
+      "../eslread/ss/s166.html",
+      "More than Sports"
+    ],
+    [
+      "../eslread/ss/s167.html",
+      "Time-out"
+    ],
+    [
+      "../eslread/ss/s168.html",
+      "Saving a Pigeon"
+    ],
+    [
+      "../eslread/ss/s169.html",
+      "Not Just for the Old and Homeless"
+    ],
+    [
+      "../eslread/ss/s170.html",
+      "The Facebook Message"
+    ],
+    [
+      "../eslread/ss/s171.html",
+      "Paintballing in the City Streets"
+    ],
+    [
+      "../eslread/ss/s172.html",
+      "Increasing the Home Value"
+    ],
+    [
+      "../eslread/ss/s173.html",
+      "Growing up Playing Baseball"
+    ],
+    [
+      "../eslread/ss/s174.html",
+      "My Day on the Ocean"
+    ],
+    [
+      "../eslread/ss/s175.html",
+      "Green Hair, Don't Care"
+    ],
+    [
+      "../eslread/ss/s176.html",
+      "Hospice Care"
+    ],
+    [
+      "../eslread/ss/s177.html",
+      "Diving at the Swimming Pool"
+    ],
+    [
+      "../eslread/ss/s178.html",
+      "Watching Three Movies at the Theater"
+    ],
+    [
+      "../eslread/ss/s179.html",
+      "I Hate Summer"
+    ],
+    [
+      "../eslread/ss/s180.html",
+      "Jumping Over Fireworks"
+    ],
+    [
+      "../eslread/ss/s181.html",
+      "A Problem with Online Dating"
+    ],
+    [
+      "../eslread/ss/s182.html",
+      "What are Friends?"
+    ],
+    [
+      "../eslread/ss/s183.html",
+      "After the Death of a Music Collector"
+    ],
+    [
+      "../eslread/ss/s184.html",
+      "My first Road Trip"
+    ],
+    [
+      "../eslread/ss/s185.html",
+      "Don't Drink and Drive"
+    ],
+    [
+      "../eslread/ss/s186.html",
+      "Seeing a Midnight Screening"
+    ],
+    [
+      "../eslread/ss/s187.html",
+      "Going to the Beach"
+    ],
+    [
+      "../eslread/ss/s188.html",
+      "My Worst Birthday"
+    ],
+    [
+      "../eslread/ss/s189.html",
+      "My Embarrassing Family"
+    ],
+    [
+      "../eslread/ss/s190.html",
+      "A new Addition to the Family"
+    ],
+    [
+      "../eslread/ss/s191.html",
+      "Marriage Is the End"
+    ],
+    [
+      "../eslread/ss/s192.html",
+      "Running a Mile"
+    ],
+    [
+      "../eslread/ss/s193.html",
+      "Baseball Tryouts"
+    ],
+    [
+      "../eslread/ss/s194.html",
+      "The School Dance"
+    ],
+    [
+      "../eslread/ss/s195.html",
+      "A Jealous Girlfriend"
+    ],
+    [
+      "../eslread/ss/s196.html",
+      "Skating for Glory"
+    ],
+    [
+      "../eslread/ss/s197.html",
+      "The Dog Sandy"
+    ],
+    [
+      "../eslread/ss/s198.html",
+      "Decorating the Christmas Tree"
+    ],
+    [
+      "../eslread/ss/s199.html",
+      "Cruising the Boulevard"
+    ],
+    [
+      "../eslread/ss/s200.html",
+      "A Day at the Beach"
+    ],
+    [
+      "../eslread/ss/s201.html",
+      "A Social Media Fast"
+    ],
+    [
+      "../eslread/ss/s202.html",
+      "The Parade"
+    ],
+    [
+      "../eslread/ss/s203.html",
+      "The Queen Mary"
+    ],
+    [
+      "../eslread/ss/s204.html",
+      "A Garage Band"
+    ],
+    [
+      "../eslread/ss/s205.html",
+      "Memorial Day and Veterans Day"
+    ],
+    [
+      "../eslread/ss/s206.html",
+      "The Challenger Disaster"
+    ],
+    [
+      "../eslread/ss/s207.html",
+      "Marching for Safer Streets"
+    ],
+    [
+      "../eslread/ss/s208.html",
+      "Amber Alert"
+    ],
+    [
+      "../eslread/ss/s209.html",
+      "Childhood Friends"
+    ],
+    [
+      "../eslread/ss/s210.html",
+      "Board Game Night"
+    ],
+    [
+      "../eslread/ss/s211.html",
+      "Celebrating a Win"
+    ],
+    [
+      "../eslread/ss/s212.html",
+      "Have Points, Will Travel"
+    ],
+    [
+      "../eslread/ss/s213.html",
+      "Long Distance Relationship"
+    ],
+    [
+      "../eslread/ss/s214.html",
+      "Summer School"
+    ],
+    [
+      "../eslread/ss/s215.html",
+      "At Father's Day"
+    ],
+    [
+      "../eslread/ss/s216.html",
+      "Black Friday"
+    ],
+    [
+      "../eslread/ss/s217.html",
+      "Election Day"
+    ],
+    [
+      "../eslread/ss/s218.html",
+      "Prom Night"
+    ],
+    [
+      "../eslread/ss/s219.html",
+      "Need to Learn How to Drive"
+    ],
+    [
+      "../eslread/ss/s220.html",
+      "T-Ball"
+    ],
+    [
+      "../eslread/ss/s241.html",
+      "A Hot Summer Day"
+    ],
+    [
+      "../eslread/ss/s242.html",
+      "Hungry Abel"
+    ],
+    [
+      "../eslread/ss/s243.html",
+      "Joel's Job Search"
+    ],
+    [
+      "../eslread/ss/s244.html",
+      "Valery's Bus Trip"
+    ],
+    [
+      "../eslread/ss/s245.html",
+      "Studying for the Big Test"
+    ],
+    [
+      "../eslread/ss/s246.html",
+      "Jenny's First Pets (1)"
+    ],
+    [
+      "../eslread/ss/s247.html",
+      "Jenny's First Pets (2)"
+    ],
+    [
+      "../eslread/ss/s248.html",
+      "Surfing"
+    ],
+    [
+      "../eslread/ss/s249.html",
+      "Jane the Living Doll"
+    ],
+    [
+      "../eslread/ss/s250.html",
+      "An Emergency"
+    ],
+    [
+      "../eslread/ss/s251.html",
+      "Disappearance of a Lego"
+    ],
+    [
+      "../eslread/ss/s252.html",
+      "Drought-Resistant Plants"
+    ],
+    [
+      "../eslread/ss/s253.html",
+      "Facebook Friends"
+    ],
+    [
+      "../eslread/ss/s254.html",
+      "Service Animals"
+    ],
+    [
+      "../eslread/ss/s255.html",
+      "Underground Music"
+    ],
+    [
+      "../eslread/ss/s256.html",
+      "Summer Programs for Kids"
+    ],
+    [
+      "../eslread/ss/s257.html",
+      "Special Education"
+    ],
+    [
+      "../eslread/ss/s258.html",
+      "Stay-at-Home Dad"
+    ],
+    [
+      "../eslread/ss/s259.html",
+      "A time for Family"
+    ],
+    [
+      "../eslread/ss/s260.html",
+      "Shopping on Black Friday"
+    ],
+    [
+      "../eslread/ss/s261.html",
+      "Vinyl Hunting"
+    ],
+    [
+      "../eslread/ss/s262.html",
+      "No-Hitter"
+    ],
+    [
+      "../eslread/ss/s263.html",
+      "Helping the Needy"
+    ],
+    [
+      "../eslread/ss/s264.html",
+      "A Visit to Statue of Liberty"
+    ],
+    [
+      "../eslread/ss/s265.html",
+      "A Homeless Man"
+    ],
+    [
+      "../eslread/ss/s266.html",
+      "Being Charged with Arson"
+    ],
+    [
+      "../eslread/ss/s267.html",
+      "A Baby Girl"
+    ],
+    [
+      "../eslread/ss/s268.html",
+      "An Easter Bunny"
+    ],
+    [
+      "../eslread/ss/s269.html",
+      "The Most Beautiful Girl in the World"
+    ],
+    [
+      "../eslread/ss/s270.html",
+      "Josh's First Girlfriend"
+    ],
+    [
+      "../eslread/ss/s271.html",
+      "Hide and Seek"
+    ],
+    [
+      "../eslread/ss/s272.html",
+      "A Night at the Drive-In"
+    ],
+    [
+      "../eslread/ss/s273.html",
+      "Hello Dolly!"
+    ],
+    [
+      "../eslread/ss/s274.html",
+      "Dodgers vs. Giants"
+    ],
+    [
+      "../eslread/ss/s275.html",
+      "Halloween Costume Party"
+    ],
+    [
+      "../eslread/ss/s276.html",
+      "The Coke Bottles"
+    ],
+    [
+      "../eslread/ss/s277.html",
+      "Going to College"
+    ],
+    [
+      "../eslread/ss/s278.html",
+      "Driving up Pacific Coast Highway"
+    ],
+    [
+      "../eslread/ss/s279.html",
+      "Mary, Tom, and Buddy (1)"
+    ],
+    [
+      "../eslread/ss/s280.html",
+      "Mary, Tom, and Buddy (2)"
+    ],
+    [
+      "../eslread/ss/s281.html",
+      "Always Safety First"
+    ],
+    [
+      "../eslread/ss/s282.html",
+      "Eddie and Jake Form a Rock Band"
+    ],
+    [
+      "../eslread/ss/s283.html",
+      "Learning Spanish"
+    ],
+    [
+      "../eslread/ss/s284.html",
+      "Going Back to School"
+    ],
+    [
+      "../eslread/ss/s285.html",
+      "Johnny's Long Hair (1)"
+    ],
+    [
+      "../eslread/ss/s286.html",
+      "Johnny's Long Hair (2)"
+    ],
+    [
+      "../eslread/ss/s287.html",
+      "The Friendship"
+    ],
+    [
+      "../eslread/ss/s288.html",
+      "A New Friend"
+    ],
+    [
+      "../eslread/ss/s289.html",
+      "Fingerprinting"
+    ],
+    [
+      "../eslread/ss/s290.html",
+      "Getting Cable"
+    ],
+    [
+      "../eslread/ss/s291.html",
+      "Trash Days"
+    ],
+    [
+      "../eslread/ss/s292.html",
+      "Seeing a Dermatologist"
+    ],
+    [
+      "../eslread/ss/s293.html",
+      "Happy Hour"
+    ],
+    [
+      "../eslread/ss/s294.html",
+      "Learning to Drive"
+    ],
+    [
+      "../eslread/ss/s295.html",
+      "Playing Football"
+    ],
+    [
+      "../eslread/ss/s296.html",
+      "Food Trucks"
+    ],
+    [
+      "../eslread/ss/s297.html",
+      "The Great Nelson Mandela"
+    ],
+    [
+      "../eslread/ss/s298.html",
+      "Charles Darwin"
+    ],
+    [
+      "../eslread/ss/s299.html",
+      "Online Classes"
+    ],
+    [
+      "../eslread/ss/s300.html",
+      "The Titanic"
+    ]
+  ],
+  "eslread-stories-3": [
+    [
+      "../eslread/ss/s301.html",
+      "George Washington:The..."
+    ],
+    [
+      "../eslread/ss/s302.html",
+      "Henry Ford:The Founder..."
+    ],
+    [
+      "../eslread/ss/s303.html",
+      "Martin Luther King Jr..."
+    ],
+    [
+      "../eslread/ss/s304.html",
+      "Bill Gates:The Man..."
+    ],
+    [
+      "../eslread/ss/s305.html",
+      "Michael Jordan:A Famous..."
+    ],
+    [
+      "../eslread/ss/s306.html",
+      "Babe Ruth:The Greatest..."
+    ],
+    [
+      "../eslread/ss/s307.html",
+      "Kobe Bryant:The Incredible..."
+    ],
+    [
+      "../eslread/ss/s308.html",
+      "Tiger Woods:A Great..."
+    ],
+    [
+      "../eslread/ss/s309.html",
+      "Jesse Owens:The Man Who..."
+    ],
+    [
+      "../eslread/ss/s310.html",
+      "Steven Spielberg:Hollywood..."
+    ],
+    [
+      "../eslread/ss/s311.html",
+      "Michael Jackson: Pop Star"
+    ],
+    [
+      "../eslread/ss/s312.html",
+      "Mickey Mouse:The World..."
+    ],
+    [
+      "../eslread/ss/s313.html",
+      "Jackie Robinson:Breaking..."
+    ],
+    [
+      "../eslread/ss/s314.html",
+      "Van Halen:From Garage Band..."
+    ],
+    [
+      "../eslread/ss/s315.html",
+      "Jane Fonda:American Patriot..."
+    ],
+    [
+      "../eslread/ss/s316.html",
+      "Barry Bonds:Cheater or..."
+    ],
+    [
+      "../eslread/ss/s317.html",
+      "Mike Tyson:The Youngest..."
+    ],
+    [
+      "../eslread/ss/s318.html",
+      "Barack Obama:America's..."
+    ],
+    [
+      "../eslread/ss/s319.html",
+      "Yao Ming:Bigger than Life"
+    ],
+    [
+      "../eslread/ss/s320.html",
+      "Oprah Winfrey:Her Incredible..."
+    ],
+    [
+      "../eslread/ss/s321.html",
+      "Abraham Lincoln:America's..."
+    ],
+    [
+      "../eslread/ss/s322.html",
+      "Muhammad Ali:The Greatest..."
+    ],
+    [
+      "../eslread/ss/s323.html",
+      "Carl Sagan:Visionary..."
+    ],
+    [
+      "../eslread/ss/s324.html",
+      "Beyonce Knowles:Beauty..."
+    ],
+    [
+      "../eslread/ss/s325.html",
+      "Jack Kevorkian:Hero or..."
+    ],
+    [
+      "../eslread/ss/s326.html",
+      "Amelia Earhart:America's Lost..."
+    ],
+    [
+      "../eslread/ss/s327.html",
+      "Charles Lindbergh:A Super..."
+    ],
+    [
+      "../eslread/ss/s328.html",
+      "Susan B. Anthony:The First..."
+    ],
+    [
+      "../eslread/ss/s329.html",
+      "Bill Clinton:Popular Modern..."
+    ],
+    [
+      "../eslread/ss/s330.html",
+      "Forrest Gump:An American..."
+    ],
+    [
+      "../eslread/ss/s331.html",
+      "Lance Armstrong:American..."
+    ],
+    [
+      "../eslread/ss/s332.html",
+      "Thomas Jefferson:An..."
+    ],
+    [
+      "../eslread/ss/s333.html",
+      "Russell Crowe:A Great..."
+    ],
+    [
+      "../eslread/ss/s334.html",
+      "Arnold Schwarzenegger:From...."
+    ],
+    [
+      "../eslread/ss/s335.html",
+      "Johnny Depp:An Unusual Talent"
+    ],
+    [
+      "../eslread/ss/s336.html",
+      "Donald Sterling:The..."
+    ],
+    [
+      "../eslread/ss/s337.html",
+      "Magic Johnson:...Superstar..."
+    ],
+    [
+      "../eslread/ss/s338.html",
+      "Phil Jackson:Winning at..."
+    ],
+    [
+      "../eslread/ss/s339.html",
+      "Jerry Springer:The Man..."
+    ],
+    [
+      "../eslread/ss/s340.html",
+      "The Wright Brothers:The..."
+    ],
+    [
+      "../eslread/ss/s341.html",
+      "John Lennon:A Founding..."
+    ],
+    [
+      "../eslread/ss/s342.html",
+      "D.B. Cooper:The Infamous..."
+    ],
+    [
+      "../eslread/ss/s343.html",
+      "O.J. Simpson:American Hero..."
+    ],
+    [
+      "../eslread/ss/s344.html",
+      "Billie Jean King:An Advocate..."
+    ],
+    [
+      "../eslread/ss/s345.html",
+      "Madonna:A Musical Legend"
+    ],
+    [
+      "../eslread/ss/s346.html",
+      "Neil Armstrong:The Man who..."
+    ],
+    [
+      "../eslread/ss/s347.html",
+      "Mark Twain:A Great American..."
+    ],
+    [
+      "../eslread/ss/s348.html",
+      "Christopher Reeve:A Real-Life..."
+    ],
+    [
+      "../eslread/ss/s349.html",
+      "Richard M. Nixon:A Presidency.."
+    ],
+    [
+      "../eslread/ss/s350.html",
+      "Clint Eastwood:A Filmmaker..."
+    ],
+    [
+      "../eslread/ss/s351.html",
+      "Michael Moore:Exposing..."
+    ],
+    [
+      "../eslread/ss/s352.html",
+      "Bill Maher:Mr. Liberal"
+    ],
+    [
+      "../eslread/ss/s353.html",
+      "Cesar Chavez:The Voice..."
+    ],
+    [
+      "../eslread/ss/s354.html",
+      "Hugh Hefner: ...Playboy"
+    ],
+    [
+      "../eslread/ss/s355.html",
+      "Tom Hanks:A Great American..."
+    ],
+    [
+      "../eslread/ss/s356.html",
+      "Johnny Carson:The Late..."
+    ],
+    [
+      "../eslread/ss/s357.html",
+      "Helen Keller:Overcoming..."
+    ],
+    [
+      "../eslread/ss/s358.html",
+      "Elvis Presley:The King of..."
+    ],
+    [
+      "../eslread/ss/s359.html",
+      "Frederick Douglass: ...Slave..."
+    ],
+    [
+      "../eslread/ss/s360.html",
+      "Audie Murphy:An American..."
+    ],
+    [
+      "../eslread/ss/s361.html",
+      "Jonas Salk:The Man who..."
+    ],
+    [
+      "../eslread/ss/s362.html",
+      "Chuck Yeager:Faster than..."
+    ],
+    [
+      "../eslread/ss/s363.html",
+      "Steve Jobs:The Man and His..."
+    ],
+    [
+      "../eslread/ss/s364.html",
+      "Meg Whitman:CEO and..."
+    ],
+    [
+      "../eslread/ss/s365.html",
+      "Mark Zuckerberg:The Social..."
+    ]
+  ],
+  "people-stories-1": [
+    [
+      "../people/p/people001.html",
+      "George Washington: The Father of His Country"
+    ],
+    [
+      "../people/p/people002.html",
+      "Henry Ford: The Founder of Ford Motor Company"
+    ],
+    [
+      "../people/p/people003.html",
+      "Martin Luther King Jr.: Civil Rights Leader"
+    ],
+    [
+      "../people/p/people004.html",
+      "Bill Gates: The Man behind Microsoft"
+    ],
+    [
+      "../people/p/people005.html",
+      "Michael Jordan: A Famous Basketball Star"
+    ],
+    [
+      "../people/p/people006.html",
+      "Babe Ruth: The Greatest Baseball Player"
+    ],
+    [
+      "../people/p/people007.html",
+      "Kobe Bryant: The Incredible Basketball Star"
+    ],
+    [
+      "../people/p/people008.html",
+      "Tiger Woods: A Great American Golf Champion"
+    ],
+    [
+      "../people/p/people009.html",
+      "Jesse Owens: The Man Who Defied Hitler"
+    ],
+    [
+      "../people/p/people010.html",
+      "Steven Spielberg: Hollywood's Best Director"
+    ],
+    [
+      "../people/p/people011.html",
+      "Michael Jackson: A Controversial Pop Star"
+    ],
+    [
+      "../people/p/people012.html",
+      "Mickey Mouse: The World Famous Cartoon Character"
+    ],
+    [
+      "../people/p/people013.html",
+      "Jackie Robinson: Breaking the Color Line"
+    ],
+    [
+      "../people/p/people014.html",
+      "Van Halen: From Garage Band to Superstardom"
+    ],
+    [
+      "../people/p/people015.html",
+      "Jane Fonda: American Patriot or Traitor?"
+    ],
+    [
+      "../people/p/people016.html",
+      "Barry Bonds: Cheater or Legend?"
+    ],
+    [
+      "../people/p/people017.html",
+      "Mike Tyson: The Youngest Boxing Champ"
+    ],
+    [
+      "../people/p/people018.html",
+      "Barack Obama: America's First Black President"
+    ],
+    [
+      "../people/p/people019.html",
+      "Yao Ming: Bigger than Life"
+    ],
+    [
+      "../people/p/people020.html",
+      "Oprah Winfrey: Her Incredible Life"
+    ],
+    [
+      "../people/p/people021.html",
+      "Abraham Lincoln: America's Greatest President"
+    ],
+    [
+      "../people/p/people022.html",
+      "Muhammad Ali: The Greatest Boxer"
+    ],
+    [
+      "../people/p/people023.html",
+      "Carl Sagan: Visionary Astronomer"
+    ],
+    [
+      "../people/p/people024.html",
+      "Beyonce Knowles: Beauty and Talent Personified"
+    ],
+    [
+      "../people/p/people025.html",
+      "Jack Kevorkian: Hero or Murderer?"
+    ],
+    [
+      "../people/p/people026.html",
+      "Amelia Earhart: America's Lost Heroine"
+    ],
+    [
+      "../people/p/people027.html",
+      "Charles Lindbergh: A Superstar Pilot"
+    ],
+    [
+      "../people/p/people028.html",
+      "Susan B. Anthony: The First Women's Rights Activist"
+    ],
+    [
+      "../people/p/people029.html",
+      "Bill Clinton: Popular Modern American President"
+    ],
+    [
+      "../people/p/people030.html",
+      "Forrest Gump: An American Film Legend"
+    ],
+    [
+      "../people/p/people031.html",
+      "Lance Armstrong: American Hero or Villain?"
+    ],
+    [
+      "../people/p/people032.html",
+      "Thomas Jefferson: An American Patriot"
+    ],
+    [
+      "../people/p/people033.html",
+      "Russell Crowe: A Great Hollywood Leading Man"
+    ],
+    [
+      "../people/p/people034.html",
+      "Arnold Schwarzenegger: From Terminator to Governor"
+    ],
+    [
+      "../people/p/people035.html",
+      "Johnny Depp: An Unusual Talent"
+    ],
+    [
+      "../people/p/people036.html",
+      "Donald Sterling: The Controversial Billionaire"
+    ],
+    [
+      "../people/p/people037.html",
+      "Marvin \"Magic\" Johnson: From Superstar to Businessman"
+    ],
+    [
+      "../people/p/people038.html",
+      "Phil Jackson: Winning at All Levels"
+    ],
+    [
+      "../people/p/people039.html",
+      "Jerry Springer: The Man Behind the Show"
+    ],
+    [
+      "../people/p/people040.html",
+      "The Wright Brothers: The Fathers of Aviation"
+    ],
+    [
+      "../people/p/people041.html",
+      "John Lennon: A Founding Member of the Beatles"
+    ],
+    [
+      "../people/p/people042.html",
+      "D.B. Cooper: The Infamous Skyjacker"
+    ],
+    [
+      "../people/p/people043.html",
+      "O.J. Simpson: American Hero and Villain"
+    ],
+    [
+      "../people/p/people044.html",
+      "Billie Jean King: An Advocate of Equal Rights for Women"
+    ],
+    [
+      "../people/p/people045.html",
+      "Madonna: A Musical Legend"
+    ],
+    [
+      "../people/p/people046.html",
+      "Neil Armstrong: The Man who Walked on the Moon"
+    ],
+    [
+      "../people/p/people047.html",
+      "Mark Twain: A Great American Author"
+    ],
+    [
+      "../people/p/people048.html",
+      "Christopher Reeve: A Real-Life Superman"
+    ],
+    [
+      "../people/p/people049.html",
+      "Richard M. Nixon: A Presidency Lost"
+    ],
+    [
+      "../people/p/people050.html",
+      "Clint Eastwood: A Filmmaker Like No Other"
+    ]
+  ],
+  "people-stories-2": [
+    [
+      "../people/p/people051.html",
+      "Michael Moore: Exposing the Truth"
+    ],
+    [
+      "../people/p/people052.html",
+      "Bill Maher: Mr. Liberal"
+    ],
+    [
+      "../people/p/people053.html",
+      "Cesar Chavez: The Voice of Equality"
+    ],
+    [
+      "../people/p/people054.html",
+      "Hugh Hefner: The Greatest Playboy"
+    ],
+    [
+      "../people/p/people055.html",
+      "Tom Hanks: A Great American Actor"
+    ],
+    [
+      "../people/p/people056.html",
+      "Johnny Carson: The Late Night King of TV"
+    ],
+    [
+      "../people/p/people057.html",
+      "Helen Keller: Overcoming Disability"
+    ],
+    [
+      "../people/p/people058.html",
+      "Elvis Presley: The King of Rock 'n' Roll"
+    ],
+    [
+      "../people/p/people059.html",
+      "Frederick Douglass: From Slave to Emancipator"
+    ],
+    [
+      "../people/p/people060.html",
+      "Audie Murphy: An American War Hero"
+    ],
+    [
+      "../people/p/people061.html",
+      "Jonas Salk: The Man who Cured the World"
+    ],
+    [
+      "../people/p/people062.html",
+      "Chuck Yeager: Faster than the Speed of Sound"
+    ],
+    [
+      "../people/p/people063.html",
+      "Steve Jobs: The Man and His Apple Computers"
+    ],
+    [
+      "../people/p/people064.html",
+      "Meg Whitman: CEO and Political Hopeful"
+    ],
+    [
+      "../people/p/people065.html",
+      "Mark Zuckerberg: The Social Revolutionist"
+    ],
+    [
+      "../people/p/people066.html",
+      "Jeff Bezos: Amazon.com Creator"
+    ],
+    [
+      "../people/p/people067.html",
+      "Larry Page: The Man who gave the World Google"
+    ],
+    [
+      "../people/p/people068.html",
+      "Vin Scully: The Voice of the L.A. Dodgers"
+    ],
+    [
+      "../people/p/people069.html",
+      "Robin Williams: Behind the Laughter"
+    ],
+    [
+      "../people/p/people070.html",
+      "Benjamin Franklin: Invention Personified"
+    ],
+    [
+      "../people/p/people071.html",
+      "Walt Disney: The Man Behind Mickey Mouse"
+    ],
+    [
+      "../people/p/people072.html",
+      "Bob Hope: Hollywood Legend"
+    ],
+    [
+      "../people/p/people073.html",
+      "Andrew Carnegie: From Rags to Riches"
+    ],
+    [
+      "../people/p/people074.html",
+      "Ursula Burns: From Poverty to the Fortune 500"
+    ],
+    [
+      "../people/p/people075.html",
+      "Jim Carrey: From Homeless to Superstardom"
+    ],
+    [
+      "../people/p/people076.html",
+      "Ray Charles: The Man and His Music"
+    ],
+    [
+      "../people/p/people077.html",
+      "Lucille Ball: America's Sweetheart"
+    ],
+    [
+      "../people/p/people078.html",
+      "Usher: The Man and his Music"
+    ],
+    [
+      "../people/p/people079.html",
+      "Rudy Giuliani: The Man Who Saved New York"
+    ],
+    [
+      "../people/p/people080.html",
+      "Pat Tillman: The Greatest Sacrifice"
+    ],
+    [
+      "../people/p/people081.html",
+      "Lyndon B. Johnson: 36th President of the U.S."
+    ],
+    [
+      "../people/p/people082.html",
+      "George S. Patton: World War II Hero"
+    ],
+    [
+      "../people/p/people083.html",
+      "Ronald Reagan: From Actor to President"
+    ],
+    [
+      "../people/p/people084.html",
+      "George Lucas: The Man Behind Star Wars"
+    ],
+    [
+      "../people/p/people085.html",
+      "Franklin D. Roosevelt: A President at War"
+    ],
+    [
+      "../people/p/people086.html",
+      "Albert Einstein: Intelligence Personified"
+    ],
+    [
+      "../people/p/people087.html",
+      "Alexander Graham Bell: Inventor of the Telephone"
+    ],
+    [
+      "../people/p/people088.html",
+      "George Washington Carver: From Slave to Inventor"
+    ],
+    [
+      "../people/p/people089.html",
+      "Dwight D. Eisenhower: From General to President"
+    ],
+    [
+      "../people/p/people090.html",
+      "Maya Angelou: American Author"
+    ],
+    [
+      "../people/p/people091.html",
+      "Billy Graham: Evangelist and Civil Rights Advocate"
+    ],
+    [
+      "../people/p/people092.html",
+      "George H.W. Bush: From Pilot to President"
+    ],
+    [
+      "../people/p/people093.html",
+      "George W. Bush: Controversial President"
+    ],
+    [
+      "../people/p/people094.html",
+      "Rush Limbaugh: The Right-Wing Personified"
+    ],
+    [
+      "../people/p/people095.html",
+      "Marilyn Monroe: Glamour and Beauty"
+    ],
+    [
+      "../people/p/people096.html",
+      "Frank Sinatra: Ol' Blue Eyes"
+    ],
+    [
+      "../people/p/people097.html",
+      "Shirley Temple: From Child Star to Diplomat"
+    ],
+    [
+      "../people/p/people098.html",
+      "Harrison Ford: The Great American Actor"
+    ],
+    [
+      "../people/p/people099.html",
+      "James Bond: Filmdom's Greatest Spy"
+    ],
+    [
+      "../people/p/people100.html",
+      "David Letterman: Late Night Comedy"
+    ]
+  ]
+};
+        const tabLetters = {
+  "stories-1": "A",
+  "stories-2": "B",
+  "eslread-stories-1": "C",
+  "eslread-stories-2": "D",
+  "eslread-stories-3": "E",
+  "people-stories-1": "F",
+  "people-stories-2": "G"
+};
 
         const buttons = Array.from(document.querySelectorAll("[data-tab-target]"));
         const panels = Array.from(document.querySelectorAll("[role='tabpanel']"));
@@ -1743,21 +3968,30 @@
           }
 
           const startNumber = Number(panel.dataset.start || "1");
+          const letter = tabLetters[panel.id] || "";
 
           grid.textContent = "";
 
           items.forEach(([href, title], index) => {
             const number = startNumber + index;
-            const link = document.createElement("a");
-            link.className = "story-item";
-            link.href = href;
-            link.setAttribute("aria-label", `${number}. ${title}`);
-            link.innerHTML = `
-              <span class="story-number">${number}.</span>
-              <span class="story-title">${title}</span>
-              <span class="story-arrow" aria-hidden="true">→</span>
-            `;
-            grid.appendChild(link);
+            const isPlaceholder = href === "#";
+            const card = document.createElement(isPlaceholder ? "div" : "a");
+
+            card.className = isPlaceholder
+              ? "story-item story-item--placeholder"
+              : "story-item";
+            if (!isPlaceholder) {
+              card.href = href;
+              card.setAttribute("aria-label", String(number) + ". " + title);
+            } else {
+              card.setAttribute("aria-disabled", "true");
+            }
+            card.innerHTML = isPlaceholder
+              ? '<span class="story-title">' + title + '</span>'
+              : '<span class="story-number">' + number + '</span>' +
+                '<span class="story-title">' + title + '</span>' +
+                '<span class="story-arrow" aria-hidden="true">→</span>';
+            grid.appendChild(card);
           });
 
           grid.dataset.rendered = "true";

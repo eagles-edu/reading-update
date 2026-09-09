@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta
       name="description"
-      content="My Reader: Stories 5 in a tabbed reading index with the same Eagles theme and a cleaner, animated layout."
+      content="B1 PET Reading with three lettered tabs and 160 short English stories."
     >
-    <title>My Reader: Stories 5</title>
-    <link href="/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <title>B1 PET&copy; Reading</title>
+    <link href="/reading/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
     <link rel="preload" href="../js/theme-selector.js" as="script" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty">
 <script src="../js/theme-selector.js" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
 <script>
@@ -649,7 +649,7 @@
       .hero-stats {
         display: grid;
         gap: 12px;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(0, 1fr));
         margin-top: var(--space-3);
         position: relative;
         z-index: 1;
@@ -703,7 +703,7 @@
         align-items: flex-end;
         border-bottom: none;
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 0;
         justify-content: flex-start;
         overflow-x: auto;
@@ -724,15 +724,17 @@
         box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.42) inset;
         color: var(--tertiary-color);
         cursor: pointer;
-        display: inline-grid;
-        gap: 6px;
+        align-items: baseline;
+        display: inline-flex;
+        gap: clamp(0.45rem, 1vw, 0.85rem);
         flex: 0 0 auto;
         margin-bottom: -1px;
-        min-width: 12.25rem;
+        min-width: clamp(9.5rem, 20vw, 12.25rem);
         overflow: hidden;
         padding: 13px 30px 12px 20px;
         position: relative;
         text-align: left;
+        white-space: nowrap;
         transition:
           transform 220ms ease,
           box-shadow 220ms ease,
@@ -813,17 +815,24 @@
       }
 
       .tab-button__label {
-        font-size: 1rem;
+        flex: 0 0 auto;
+        font-size: clamp(1.35rem, 2.25vw, 2rem);
         font-weight: 900;
         letter-spacing: 0.01em;
+        line-height: 1;
+        white-space: nowrap;
       }
 
       .tab-button__range {
         color: var(--muted);
-        font-size: 0.8rem;
+        flex: 0 1 auto;
+        font-size: clamp(0.68rem, 0.9vw, 0.82rem);
         font-weight: 800;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.05em;
+        line-height: 1;
+        min-inline-size: 0;
         text-transform: uppercase;
+        white-space: nowrap;
       }
 
       .tab-button[aria-selected="true"] .tab-button__range {
@@ -1341,33 +1350,29 @@
     <main>
       <section class="hero">
         <div class="container hero-panel">
-          <span class="eyebrow">Tabbed reading path.</span>
-          <h1>My Reader: Stories 5</h1>
-          <p class="hero-copy">
-            The reading list stays compact in tabs while keeping the original Eagles theme and navigation.
-          </p>
-          <div class="hero-stats">
-            <div class="stat-chip">
-              <strong data-count-target="50">0</strong>
-              <span>Stories 5</span>
-            </div>
-            <div class="stat-chip">
-              <strong data-count-target="50">0</strong>
-              <span>Stories 5a</span>
-            </div>
-            <div class="stat-chip">
-              <strong data-count-target="100">0</strong>
-              <span>Total stories</span>
-            </div>
-            <div class="stat-chip stat-counter">
-              <strong
-                data-visit-count
-                data-count-target="0"
-                aria-live="polite"
-              >--</strong>
-              <span>Visits</span>
-            </div>
+          <span class="eyebrow">Levelled reading path.</span>
+          <h1>B1 PET&copy; Reading</h1>
+                      <p class="hero-copy">
+              Choose a lettered reading tab and use each card number to find a story quickly.
+            </p>
+                  <div class="hero-stats">
+          <div class="stat-chip">
+            <strong data-count-target="160">0</strong>
+            <span>Total stories</span>
           </div>
+          <div class="stat-chip">
+            <strong data-count-target="3">0</strong>
+            <span>Reading tabs</span>
+          </div>
+          <div class="stat-chip stat-counter">
+            <strong
+              data-visit-count
+              data-count-target="0"
+              aria-live="polite"
+            >--</strong>
+            <span>Visits</span>
+          </div>
+        </div>
         </div>
       </section>
 
@@ -1376,7 +1381,7 @@
           <h2 id="stories-shell-title" class="sr-only">Stories</h2>
 
           <div class="tabbed-shell">
-            <div
+                        <div
               class="tab-list"
               role="tablist"
               aria-labelledby="stories-shell-title"
@@ -1392,8 +1397,8 @@
                 tabindex="0"
                 data-tab-target="stories-1"
               >
-                <span class="tab-button__label">Stories 5</span>
-                <span class="tab-button__range">1 - 50</span>
+                <span class="tab-button__label">A</span>
+                <span class="tab-button__range">1-50</span>
               </button>
               <button
                 id="tab-stories-2"
@@ -1405,8 +1410,21 @@
                 tabindex="-1"
                 data-tab-target="stories-2"
               >
-                <span class="tab-button__label">Stories 5a</span>
-                <span class="tab-button__range">51 - 100</span>
+                <span class="tab-button__label">B</span>
+                <span class="tab-button__range">51-100</span>
+              </button>
+              <button
+                id="tab-begin6-stories-1"
+                class="tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="begin6-stories-1"
+                tabindex="-1"
+                data-tab-target="begin6-stories-1"
+              >
+                <span class="tab-button__label">C</span>
+                <span class="tab-button__range">1-60</span>
               </button>
             </div>
 
@@ -1417,16 +1435,27 @@
                 role="tabpanel"
                 aria-labelledby="tab-stories-1"
                 data-start="1"
-
               >
                 <div class="story-grid" data-story-grid></div>
               </section>
+
               <section
                 id="stories-2"
                 class="tab-panel"
                 role="tabpanel"
                 aria-labelledby="tab-stories-2"
                 data-start="51"
+                hidden
+              >
+                <div class="story-grid" data-story-grid></div>
+              </section>
+
+              <section
+                id="begin6-stories-1"
+                class="tab-panel"
+                role="tabpanel"
+                aria-labelledby="tab-begin6-stories-1"
+                data-start="1"
                 hidden
               >
                 <div class="story-grid" data-story-grid></div>
@@ -1611,111 +1640,658 @@
 
       (() => {
         const storySets = {
-          "stories-1": [
-            ["b5/b5001.html", "The Rich Uncle"],
-            ["b5/b5002.html", "College Admissions"],
-            ["b5/b5003.html", "She Has a Unibrow"],
-            ["b5/b5004.html", "Losing a Loved One"],
-            ["b5/b5005.html", "A Cheerleader's Dream"],
-            ["b5/b5006.html", "An Undercover Superhero"],
-            ["b5/b5007.html", "A Lucky Jacket"],
-            ["b5/b5008.html", "Phone Invasion"],
-            ["b5/b5009.html", "Life in Fear"],
-            ["b5/b5010.html", "Pros and Cons"],
-            ["b5/b5011.html", "Procrastination"],
-            ["b5/b5012.html", "Not Going to Church"],
-            ["b5/b5013.html", "Afraid to Cry"],
-            ["b5/b5014.html", "The Missing Water Bottle"],
-            ["b5/b5015.html", "Addicted to Coffee"],
-            ["b5/b5016.html", "Letters of Recommendation"],
-            ["b5/b5017.html", "Celebrity Idol"],
-            ["b5/b5018.html", "The Cool Group Has Money"],
-            ["b5/b5019.html", "Secret Relationship"],
-            ["b5/b5020.html", "Twins Are Cheating"],
-            ["b5/b5021.html", "The Transformation"],
-            ["b5/b5022.html", "A Female Boxer"],
-            ["b5/b5023.html", "Mom and Her Daughter"],
-            ["b5/b5024.html", "An Interrupted Wedding"],
-            ["b5/b5025.html", "Snoring"],
-            ["b5/b5026.html", "School Mascot"],
-            ["b5/b5027.html", "A Hero"],
-            ["b5/b5028.html", "Life Seems Unfair"],
-            ["b5/b5029.html", "The Acne Problem"],
-            ["b5/b5030.html", "A Mystery Man"],
-            ["b5/b5031.html", "Moving Schools"],
-            ["b5/b5032.html", "A New Haircut"],
-            ["b5/b5033.html", "Started From the Bottom"],
-            ["b5/b5034.html", "No Vote, No Opinion"],
-            ["b5/b5035.html", "The Addiction"],
-            ["b5/b5036.html", "Writing an Essay"],
-            ["b5/b5037.html", "Eyebrow Waxing"],
-            ["b5/b5038.html", "A Yes-Man"],
-            ["b5/b5039.html", "Christmas Spirit"],
-            ["b5/b5040.html", "Valentine's Hater"],
-            ["b5/b5041.html", "A Foreign Accent"],
-            ["b5/b5042.html", "The Career Day"],
-            ["b5/b5043.html", "Bad Guy Gone Good"],
-            ["b5/b5044.html", "Taking Revenge"],
-            ["b5/b5045.html", "Fireball Wings"],
-            ["b5/b5046.html", "Friends Betrayal"],
-            ["b5/b5047.html", "The Election Speech"],
-            ["b5/b5048.html", "The Vote for Swim captain"],
-            ["b5/b5049.html", "Mary and Natasha"],
-            ["b5/b5050.html", "The Homecoming Dance"]
-          ],
-          "stories-2": [
-            ["b5/b5051.html", "Textbooks"],
-            ["b5/b5052.html", "Late Registration Appointment"],
-            ["b5/b5053.html", "Stage Fright"],
-            ["b5/b5054.html", "The One Who Stayed Behind"],
-            ["b5/b5055.html", "Flip Flop Danger"],
-            ["b5/b5056.html", "Most Likeable Girl"],
-            ["b5/b5057.html", "Soccer Tryouts"],
-            ["b5/b5058.html", "Trouble with the Captain"],
-            ["b5/b5059.html", "Strengths and Weaknesses"],
-            ["b5/b5060.html", "A Homeless Man's Past"],
-            ["b5/b5061.html", "Meeting Boyfriend's Parents"],
-            ["b5/b5062.html", "Being Home Alone"],
-            ["b5/b5063.html", "The Best Donut on Earth"],
-            ["b5/b5064.html", "A Terrible Teacher"],
-            ["b5/b5065.html", "Taking a Break"],
-            ["b5/b5066.html", "Vegetarian Family"],
-            ["b5/b5067.html", "Food from Outside"],
-            ["b5/b5068.html", "A Hot Risk"],
-            ["b5/b5069.html", "Every Day is Your Last"],
-            ["b5/b5070.html", "Planning a Surprise Party"],
-            ["b5/b5071.html", "A New Look"],
-            ["b5/b5072.html", "Making the Boss Angry"],
-            ["b5/b5073.html", "Cash Only"],
-            ["b5/b5074.html", "First Day as a Tutor"],
-            ["b5/b5075.html", "No Need to Help Others"],
-            ["b5/b5076.html", "Pay Me Back"],
-            ["b5/b5077.html", "Washing Dishes"],
-            ["b5/b5078.html", "Doing Something Good Can..."],
-            ["b5/b5079.html", "Facing a Setback"],
-            ["b5/b5080.html", "July 4th Plans"],
-            ["b5/b5081.html", "Body Image Problems"],
-            ["b5/b5082.html", "Picking a Team"],
-            ["b5/b5083.html", "Fighting Friends"],
-            ["b5/b5084.html", "Shopping Addiction"],
-            ["b5/b5085.html", "The Hard Truth"],
-            ["b5/b5086.html", "No Internet Connection"],
-            ["b5/b5087.html", "A Stolen Bike"],
-            ["b5/b5088.html", "Pretty and Dumb"],
-            ["b5/b5089.html", "Too Cute"],
-            ["b5/b5090.html", "A Pet Mouse"],
-            ["b5/b5091.html", "A Scary Story for the Night"],
-            ["b5/b5092.html", "Singing Competition (1)"],
-            ["b5/b5093.html", "Singing Competition (2)"],
-            ["b5/b5094.html", "A Jealous Girlfriend"],
-            ["b5/b5095.html", "First Time at Disneyland"],
-            ["b5/b5096.html", "Eye Problems"],
-            ["b5/b5097.html", "Ralph's App"],
-            ["b5/b5098.html", "A Stay-at-home Dad"],
-            ["b5/b5099.html", "A Sweepstakes Winner"],
-            ["b5/b5100.html", "Name Change"]
-          ]
-        };
+  "stories-1": [
+    [
+      "b5/b5001.html",
+      "The Rich Uncle"
+    ],
+    [
+      "b5/b5002.html",
+      "College Admissions"
+    ],
+    [
+      "b5/b5003.html",
+      "She Has a Unibrow"
+    ],
+    [
+      "b5/b5004.html",
+      "Losing a Loved One"
+    ],
+    [
+      "b5/b5005.html",
+      "A Cheerleader's Dream"
+    ],
+    [
+      "b5/b5006.html",
+      "An Undercover Superhero"
+    ],
+    [
+      "b5/b5007.html",
+      "A Lucky Jacket"
+    ],
+    [
+      "b5/b5008.html",
+      "Phone Invasion"
+    ],
+    [
+      "b5/b5009.html",
+      "Life in Fear"
+    ],
+    [
+      "b5/b5010.html",
+      "Pros and Cons"
+    ],
+    [
+      "b5/b5011.html",
+      "Procrastination"
+    ],
+    [
+      "b5/b5012.html",
+      "Not Going to Church"
+    ],
+    [
+      "b5/b5013.html",
+      "Afraid to Cry"
+    ],
+    [
+      "b5/b5014.html",
+      "The Missing Water Bottle"
+    ],
+    [
+      "b5/b5015.html",
+      "Addicted to Coffee"
+    ],
+    [
+      "b5/b5016.html",
+      "Letters of Recommendation"
+    ],
+    [
+      "b5/b5017.html",
+      "Celebrity Idol"
+    ],
+    [
+      "b5/b5018.html",
+      "The Cool Group Has Money"
+    ],
+    [
+      "b5/b5019.html",
+      "Secret Relationship"
+    ],
+    [
+      "b5/b5020.html",
+      "Twins Are Cheating"
+    ],
+    [
+      "b5/b5021.html",
+      "The Transformation"
+    ],
+    [
+      "b5/b5022.html",
+      "A Female Boxer"
+    ],
+    [
+      "b5/b5023.html",
+      "Mom and Her Daughter"
+    ],
+    [
+      "b5/b5024.html",
+      "An Interrupted Wedding"
+    ],
+    [
+      "b5/b5025.html",
+      "Snoring"
+    ],
+    [
+      "b5/b5026.html",
+      "School Mascot"
+    ],
+    [
+      "b5/b5027.html",
+      "A Hero"
+    ],
+    [
+      "b5/b5028.html",
+      "Life Seems Unfair"
+    ],
+    [
+      "b5/b5029.html",
+      "The Acne Problem"
+    ],
+    [
+      "b5/b5030.html",
+      "A Mystery Man"
+    ],
+    [
+      "b5/b5031.html",
+      "Moving Schools"
+    ],
+    [
+      "b5/b5032.html",
+      "A New Haircut"
+    ],
+    [
+      "b5/b5033.html",
+      "Started From the Bottom"
+    ],
+    [
+      "b5/b5034.html",
+      "No Vote, No Opinion"
+    ],
+    [
+      "b5/b5035.html",
+      "The Addiction"
+    ],
+    [
+      "b5/b5036.html",
+      "Writing an Essay"
+    ],
+    [
+      "b5/b5037.html",
+      "Eyebrow Waxing"
+    ],
+    [
+      "b5/b5038.html",
+      "A Yes-Man"
+    ],
+    [
+      "b5/b5039.html",
+      "Christmas Spirit"
+    ],
+    [
+      "b5/b5040.html",
+      "Valentine's Hater"
+    ],
+    [
+      "b5/b5041.html",
+      "A Foreign Accent"
+    ],
+    [
+      "b5/b5042.html",
+      "The Career Day"
+    ],
+    [
+      "b5/b5043.html",
+      "Bad Guy Gone Good"
+    ],
+    [
+      "b5/b5044.html",
+      "Taking Revenge"
+    ],
+    [
+      "b5/b5045.html",
+      "Fireball Wings"
+    ],
+    [
+      "b5/b5046.html",
+      "Friends Betrayal"
+    ],
+    [
+      "b5/b5047.html",
+      "The Election Speech"
+    ],
+    [
+      "b5/b5048.html",
+      "The Vote for Swim captain"
+    ],
+    [
+      "b5/b5049.html",
+      "Mary and Natasha"
+    ],
+    [
+      "b5/b5050.html",
+      "The Homecoming Dance"
+    ]
+  ],
+  "stories-2": [
+    [
+      "b5/b5051.html",
+      "Textbooks"
+    ],
+    [
+      "b5/b5052.html",
+      "Late Registration Appointment"
+    ],
+    [
+      "b5/b5053.html",
+      "Stage Fright"
+    ],
+    [
+      "b5/b5054.html",
+      "The One Who Stayed Behind"
+    ],
+    [
+      "b5/b5055.html",
+      "Flip Flop Danger"
+    ],
+    [
+      "b5/b5056.html",
+      "Most Likeable Girl"
+    ],
+    [
+      "b5/b5057.html",
+      "Soccer Tryouts"
+    ],
+    [
+      "b5/b5058.html",
+      "Trouble with the Captain"
+    ],
+    [
+      "b5/b5059.html",
+      "Strengths and Weaknesses"
+    ],
+    [
+      "b5/b5060.html",
+      "A Homeless Man's Past"
+    ],
+    [
+      "b5/b5061.html",
+      "Meeting Boyfriend's Parents"
+    ],
+    [
+      "b5/b5062.html",
+      "Being Home Alone"
+    ],
+    [
+      "b5/b5063.html",
+      "The Best Donut on Earth"
+    ],
+    [
+      "b5/b5064.html",
+      "A Terrible Teacher"
+    ],
+    [
+      "b5/b5065.html",
+      "Taking a Break"
+    ],
+    [
+      "b5/b5066.html",
+      "Vegetarian Family"
+    ],
+    [
+      "b5/b5067.html",
+      "Food from Outside"
+    ],
+    [
+      "b5/b5068.html",
+      "A Hot Risk"
+    ],
+    [
+      "b5/b5069.html",
+      "Every Day is Your Last"
+    ],
+    [
+      "b5/b5070.html",
+      "Planning a Surprise Party"
+    ],
+    [
+      "b5/b5071.html",
+      "A New Look"
+    ],
+    [
+      "b5/b5072.html",
+      "Making the Boss Angry"
+    ],
+    [
+      "b5/b5073.html",
+      "Cash Only"
+    ],
+    [
+      "b5/b5074.html",
+      "First Day as a Tutor"
+    ],
+    [
+      "b5/b5075.html",
+      "No Need to Help Others"
+    ],
+    [
+      "b5/b5076.html",
+      "Pay Me Back"
+    ],
+    [
+      "b5/b5077.html",
+      "Washing Dishes"
+    ],
+    [
+      "b5/b5078.html",
+      "Doing Something Good Can..."
+    ],
+    [
+      "b5/b5079.html",
+      "Facing a Setback"
+    ],
+    [
+      "b5/b5080.html",
+      "July 4th Plans"
+    ],
+    [
+      "b5/b5081.html",
+      "Body Image Problems"
+    ],
+    [
+      "b5/b5082.html",
+      "Picking a Team"
+    ],
+    [
+      "b5/b5083.html",
+      "Fighting Friends"
+    ],
+    [
+      "b5/b5084.html",
+      "Shopping Addiction"
+    ],
+    [
+      "b5/b5085.html",
+      "The Hard Truth"
+    ],
+    [
+      "b5/b5086.html",
+      "No Internet Connection"
+    ],
+    [
+      "b5/b5087.html",
+      "A Stolen Bike"
+    ],
+    [
+      "b5/b5088.html",
+      "Pretty and Dumb"
+    ],
+    [
+      "b5/b5089.html",
+      "Too Cute"
+    ],
+    [
+      "b5/b5090.html",
+      "A Pet Mouse"
+    ],
+    [
+      "b5/b5091.html",
+      "A Scary Story for the Night"
+    ],
+    [
+      "b5/b5092.html",
+      "Singing Competition (1)"
+    ],
+    [
+      "b5/b5093.html",
+      "Singing Competition (2)"
+    ],
+    [
+      "b5/b5094.html",
+      "A Jealous Girlfriend"
+    ],
+    [
+      "b5/b5095.html",
+      "First Time at Disneyland"
+    ],
+    [
+      "b5/b5096.html",
+      "Eye Problems"
+    ],
+    [
+      "b5/b5097.html",
+      "Ralph's App"
+    ],
+    [
+      "b5/b5098.html",
+      "A Stay-at-home Dad"
+    ],
+    [
+      "b5/b5099.html",
+      "A Sweepstakes Winner"
+    ],
+    [
+      "b5/b5100.html",
+      "Name Change"
+    ]
+  ],
+  "begin6-stories-1": [
+    [
+      "../begin6/b6/b6001.html",
+      "The Hairstyle Change"
+    ],
+    [
+      "../begin6/b6/b6002.html",
+      "Too Old for Trick-or-Treating"
+    ],
+    [
+      "../begin6/b6/b6003.html",
+      "The Night Shift"
+    ],
+    [
+      "../begin6/b6/b6004.html",
+      "A Wonderful Surprise"
+    ],
+    [
+      "../begin6/b6/b6005.html",
+      "A Group of Friends"
+    ],
+    [
+      "../begin6/b6/b6006.html",
+      "A Long Distance Relationship"
+    ],
+    [
+      "../begin6/b6/b6007.html",
+      "Ruby's Role Model"
+    ],
+    [
+      "../begin6/b6/b6008.html",
+      "Confidence Is Key"
+    ],
+    [
+      "../begin6/b6/b6009.html",
+      "Not a Dancer"
+    ],
+    [
+      "../begin6/b6/b6010.html",
+      "Being Too Superstitious"
+    ],
+    [
+      "../begin6/b6/b6011.html",
+      "Irene's Secret"
+    ],
+    [
+      "../begin6/b6/b6012.html",
+      "A Boy or a Girl"
+    ],
+    [
+      "../begin6/b6/b6013.html",
+      "Money Matters"
+    ],
+    [
+      "../begin6/b6/b6014.html",
+      "Not So Average"
+    ],
+    [
+      "../begin6/b6/b6015.html",
+      "At the Arcade"
+    ],
+    [
+      "../begin6/b6/b6016.html",
+      "On a Healthy Diet"
+    ],
+    [
+      "../begin6/b6/b6017.html",
+      "Pet Shopping"
+    ],
+    [
+      "../begin6/b6/b6018.html",
+      "Moving into a New Apartment"
+    ],
+    [
+      "../begin6/b6/b6019.html",
+      "A Study Group"
+    ],
+    [
+      "../begin6/b6/b6020.html",
+      "Going to Teach Abroad"
+    ],
+    [
+      "../begin6/b6/b6021.html",
+      "Making Sushi at Home"
+    ],
+    [
+      "../begin6/b6/b6022.html",
+      "Jogging around the..."
+    ],
+    [
+      "../begin6/b6/b6023.html",
+      "A Lonely Puppy"
+    ],
+    [
+      "../begin6/b6/b6024.html",
+      "An Innocent Mistake"
+    ],
+    [
+      "../begin6/b6/b6025.html",
+      "The First Date"
+    ],
+    [
+      "../begin6/b6/b6026.html",
+      "Do-It-Yourself Projects"
+    ],
+    [
+      "../begin6/b6/b6027.html",
+      "A Beach Day"
+    ],
+    [
+      "../begin6/b6/b6028.html",
+      "Michelle's New Look"
+    ],
+    [
+      "../begin6/b6/b6029.html",
+      "Christmas Gift Shopping"
+    ],
+    [
+      "../begin6/b6/b6030.html",
+      "The Job Search"
+    ],
+    [
+      "../begin6/b6/b6031.html",
+      "The Extreme Burger"
+    ],
+    [
+      "../begin6/b6/b6032.html",
+      "The Old Dog"
+    ],
+    [
+      "../begin6/b6/b6033.html",
+      "Lactose Intolerant"
+    ],
+    [
+      "../begin6/b6/b6034.html",
+      "Financial Aid"
+    ],
+    [
+      "../begin6/b6/b6035.html",
+      "New Year Resolutions"
+    ],
+    [
+      "../begin6/b6/b6036.html",
+      "If Only She Waited One Day"
+    ],
+    [
+      "../begin6/b6/b6037.html",
+      "Getting a Divorce"
+    ],
+    [
+      "../begin6/b6/b6038.html",
+      "A Waste of Water"
+    ],
+    [
+      "../begin6/b6/b6039.html",
+      "An Ice Cream Accident"
+    ],
+    [
+      "../begin6/b6/b6040.html",
+      "A Pair of Magi-pants"
+    ],
+    [
+      "../begin6/b6/b6041.html",
+      "Embarrassed to Be Seen"
+    ],
+    [
+      "../begin6/b6/b6042.html",
+      "The School Dress Code"
+    ],
+    [
+      "../begin6/b6/b6043.html",
+      "To Be Independent"
+    ],
+    [
+      "../begin6/b6/b6044.html",
+      "An Artist's Dream"
+    ],
+    [
+      "../begin6/b6/b6045.html",
+      "Lying About Being Rich"
+    ],
+    [
+      "../begin6/b6/b6046.html",
+      "Getting Contact Lenses"
+    ],
+    [
+      "../begin6/b6/b6047.html",
+      "From Skinny to Muscular"
+    ],
+    [
+      "../begin6/b6/b6048.html",
+      "Fishing for Compliments"
+    ],
+    [
+      "../begin6/b6/b6049.html",
+      "Quitting College Follow..."
+    ],
+    [
+      "../begin6/b6/b6050.html",
+      "A Fashion Trend Setter"
+    ],
+    [
+      "../begin6/b6/b6051.html",
+      "The Job Search"
+    ],
+    [
+      "../begin6/b6/b6052.html",
+      "The Rainy Days"
+    ],
+    [
+      "../begin6/b6/b6053.html",
+      "Susan's Favorite Band"
+    ],
+    [
+      "../begin6/b6/b6054.html",
+      "Different Morning Routines"
+    ],
+    [
+      "../begin6/b6/b6055.html",
+      "A Hiking Trip"
+    ],
+    [
+      "../begin6/b6/b6056.html",
+      "The Physical Education Class"
+    ],
+    [
+      "../begin6/b6/b6057.html",
+      "Learning How to Drive"
+    ],
+    [
+      "../begin6/b6/b6058.html",
+      "Apartment Hunting"
+    ],
+    [
+      "../begin6/b6/b6059.html",
+      "Embarrassing Moments"
+    ],
+    [
+      "../begin6/b6/b6060.html",
+      "Mark's New Year Resolution"
+    ]
+  ]
+};
+        const tabLetters = {
+  "stories-1": "A",
+  "stories-2": "B",
+  "begin6-stories-1": "C"
+};
 
         const buttons = Array.from(document.querySelectorAll("[data-tab-target]"));
         const panels = Array.from(document.querySelectorAll("[role='tabpanel']"));
@@ -1745,21 +2321,30 @@
           }
 
           const startNumber = Number(panel.dataset.start || "1");
+          const letter = tabLetters[panel.id] || "";
 
           grid.textContent = "";
 
           items.forEach(([href, title], index) => {
             const number = startNumber + index;
-            const link = document.createElement("a");
-            link.className = "story-item";
-            link.href = href;
-            link.setAttribute("aria-label", `${number}. ${title}`);
-            link.innerHTML = `
-              <span class="story-number">${number}.</span>
-              <span class="story-title">${title}</span>
-              <span class="story-arrow" aria-hidden="true">→</span>
-            `;
-            grid.appendChild(link);
+            const isPlaceholder = href === "#";
+            const card = document.createElement(isPlaceholder ? "div" : "a");
+
+            card.className = isPlaceholder
+              ? "story-item story-item--placeholder"
+              : "story-item";
+            if (!isPlaceholder) {
+              card.href = href;
+              card.setAttribute("aria-label", String(number) + ". " + title);
+            } else {
+              card.setAttribute("aria-disabled", "true");
+            }
+            card.innerHTML = isPlaceholder
+              ? '<span class="story-title">' + title + '</span>'
+              : '<span class="story-number">' + number + '</span>' +
+                '<span class="story-title">' + title + '</span>' +
+                '<span class="story-arrow" aria-hidden="true">→</span>';
+            grid.appendChild(card);
           });
 
           grid.dataset.rendered = "true";

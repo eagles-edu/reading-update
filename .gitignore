@@ -429,3 +429,12 @@ FodyWeavers.xsd
 *.msm
 *.msp
 node_modules
+
+# Local browser captures and Cloudflare export files stay out of commits.
+/.playwright-cli/
+/.sto/
+/docs/R2 Admin Read & Write.md
+/docs/R2 Object Storage _ Admin@eagles.edu.vn's Account _ Cloudflare.html
+/docs/R2 Object Storage _ Admin@eagles.edu.vn's Account _ Cloudflare_files/
+/docs/R2 Object Storage _ Client_Admin@eagles.edu.vn's Account _ Cloudflare.html
+/docs/R2 Object Storage _ Client_Admin@eagles.edu.vn's Account _ Cloudflare_files/

@@ -49,6 +49,10 @@
     "clean:html-selfclose:apply": "node ./scripts/clean-html-selfclosing.cjs --apply",
     "sync:live": "bash ./scripts/sync-dev-to-live.sh",
     "sync:live:apply": "bash ./scripts/sync-dev-to-live.sh --apply",
+    "sync:dev": "bash ./scripts/ffs-sync-dev.sh",
+    "sync:dev:apply": "bash ./scripts/ffs-sync-dev.sh --apply",
+    "sync:dev:ffs": "bash ./scripts/run-ffs-dev.sh",
+    "precompress:dev": "bash ./scripts/precompress-web-assets.sh",
     "efast:manifest": "bash ./scripts/efast-rsync-manifest.sh",
     "efast:manifest:apply": "bash ./scripts/efast-rsync-manifest.sh --apply"
   },
