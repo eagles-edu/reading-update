@@ -9,7 +9,7 @@ User=eagles
 Group=eagles
 WorkingDirectory=/home/eagles/dockerz/efast-copy
 EnvironmentFile=/home/eagles/dockerz/efast-copy/.env
-Environment=R2_AUDIO_MANIFEST=/home/eagles/dockerz/efast-copy/poc/r2-read-audio-b1-b1001-b1010.json
+Environment=R2_AUDIO_MANIFEST=/home/eagles/dockerz/efast-copy/poc/r2-read-audio-b1-b5.json
 Environment=R2_AUDIO_PORT=8789
 ExecStart=/home/eagles/.nvm/versions/node/v22.22.1/bin/node /home/eagles/dockerz/efast-copy/scripts/r2-read-audio-gateway.cjs
 Restart=on-failure
