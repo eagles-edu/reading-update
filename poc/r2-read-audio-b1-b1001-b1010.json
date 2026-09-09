@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "bucket": "read-audio",
+  "collection": "b1",
+  "items": [
+    {
+      "storyId": "b1001",
+      "pagePath": "/reading/begin1/b1/b1001.html",
+      "sourcePath": "begin1/audio/b1001c.mp3",
+      "kind": "story",
+      "objectKey": "b1/audio/0aa05928/b1001c.mp3",
+      "url": "/reading/_audio/b1/audio/0aa05928/b1001c.mp3",
+      "sha256": "0aa05928f0b196c28ce15485f8f21fded94bc78f214829a1892df97dfad6c6aa",
+      "mime": "audio/mpeg",
+      "preload": true
+    },
+    {
+      "storyId": "b1002",
+      "pagePath": "/reading/begin1/b1/b1002.html",
+      "sourcePath": "begin1/audio/b1002c.mp3",
+      "kind": "story",
+      "objectKey": "b1/audio/1b43eb9c/b1002c.mp3",
+      "url": "/reading/_audio/b1/audio/1b43eb9c/b1002c.mp3",
+      "sha256": "1b43eb9c3c8be73da280bf5e669795bce825efc895683d4ed55fe8cf2acff151",
+      "mime": "audio/mpeg",
+      "preload": true
+    },
+    {
+      "storyId": "b1003",
+      "pagePath": "/reading/begin1/b1/b1003.html",
+      "sourcePath": "begin1/audio/b1003c.mp3",
+      "kind": "story",
+      "objectKey": "b1/audio/0c082da8/b1003c.mp3",
+      "url": "/reading/_audio/b1/audio/0c082da8/b1003c.mp3",
+      "sha256": "0c082da8e3a009bfa8632bfa19608e142a253acfe3ada98ab00630629768965c",
+      "mime": "audio/mpeg",
+      "preload": true
+    },
+    {
+      "storyId": "b1004",
+      "pagePath": "/reading/begin1/b1/b1004.html",
+      "sourcePath": "begin1/audio/b1004dd.mp3",
+      "kind": "story",
+      "objectKey": "b1/audio/bbf21c22/b1004dd.mp3",
+      "url": "/reading/_audio/b1/audio/bbf21c22/b1004dd.mp3",
+      "sha256": "bbf21c227bc6cdde13bfc38141a52695ddca0cf5063142b25788912f932f0e2c",
+      "mime": "audio/mpeg",
+      "preload": true
+    },
+    {
+      "storyId": "b1005",
+      "pagePath": "/reading/begin1/b1/b1005.html",
+      "sourcePath": "begin1/audio/b1005dd.mp3",
+      "kind": "story",
+      "objectKey": "b1/audio/2f4253e1/b1005dd.mp3",
+      "url": "/reading/_audio/b1/audio/2f4253e1/b1005dd.mp3",
+      "sha256": "2f4253e1f5a6528972e238243d6ebee2f35893ed192b95ed855fca25d6cd181d",
+      "mime": "audio/mpeg",
+      "preload": true
+    },
+    {
+      "storyId": "b1006",
+      "pagePath": "/reading/begin1/b1/b1006.html",
+      "sourcePath": "begin1/audio/b1006d.mp3",
+      "kind": "story",
+      "objectKey": "b1/audio/3d5081b0/b1006d.mp3",
+      "url": "/reading/_audio/b1/audio/3d5081b0/b1006d.mp3",
+      "sha256": "3d5081b048379771d1df2e140eddb5fcfeb278901edbe35f2000abc399186df2",
+      "mime": "audio/mpeg",
+      "preload": true
+    },
+    {
+      "storyId": "b1007",
+      "pagePath": "/reading/begin1/b1/b1007.html",
+      "sourcePath": "begin1/audio/b1007f1.mp3",
+      "kind": "story",
+      "objectKey": "b1/audio/6e7f4be5/b1007f1.mp3",
+      "url": "/reading/_audio/b1/audio/6e7f4be5/b1007f1.mp3",
+      "sha256": "6e7f4be5143261507d05658bb98fa2a26a1ddb44b75777c27bddf28d97438e3a",
+      "mime": "audio/mpeg",
+      "preload": true
+    },
+    {
+      "storyId": "b1008",
+      "pagePath": "/reading/begin1/b1/b1008.html",
+      "sourcePath": "begin1/audio/b1008f3.mp3",
+      "kind": "story",
+      "objectKey": "b1/audio/17ada229/b1008f3.mp3",
+      "url": "/reading/_audio/b1/audio/17ada229/b1008f3.mp3",
+      "sha256": "17ada229a7870682ee07a1943c611ab20476f1a5476629b8cc9b6d80a257d42d",
+      "mime": "audio/mpeg",
+      "preload": true
+    },
+    {
+      "storyId": "b1009",
+      "pagePath": "/reading/begin1/b1/b1009.html",
+      "sourcePath": "begin1/audio/b1009g.mp3",
+      "kind": "story",
+      "objectKey": "b1/audio/2cc9544d/b1009g.mp3",
+      "url": "/reading/_audio/b1/audio/2cc9544d/b1009g.mp3",
+      "sha256": "2cc9544d4e0feb702e1712c97568210518faed132a41006aaa7ff9f6bc323086",
+      "mime": "audio/mpeg",
+      "preload": true
+    },
+    {
+      "storyId": "b1010",
+      "pagePath": "/reading/begin1/b1/b1010.html",
+      "sourcePath": "begin1/audio/b1010g.mp3",
+      "kind": "story",
+      "objectKey": "b1/audio/65e08046/b1010g.mp3",
+      "url": "/reading/_audio/b1/audio/65e08046/b1010g.mp3",
+      "sha256": "65e080464478d05b5378af20729ca522a0270b40592bd817572fe3c7fc85beec",
+      "mime": "audio/mpeg",
+      "preload": true
+    }
+  ]
+}

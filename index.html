@@ -1819,7 +1819,15 @@
 
       applyTheme(root.dataset.theme || "light", false);
       toggle.addEventListener("click", () => {
-        applyTheme(root.dataset.theme === "dark" ? "light" : "dark");
+        const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
+        if (
+          window.ThemeSelector &&
+          typeof window.ThemeSelector.setTheme === "function"
+        ) {
+          window.ThemeSelector.setTheme(nextTheme);
+        } else {
+          applyTheme(nextTheme);
+        }
       });
     })();
   </script>

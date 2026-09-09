@@ -1,0 +1,1 @@
+html:has(.settings-overlay-open){overflow-y:hidden!important}
