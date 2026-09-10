@@ -81,7 +81,7 @@ for (const item of manifest.items) {
   if (!item || typeof item.objectKey !== 'string') {
     throw new Error('Manifest item is missing objectKey');
   }
-  if (!/^b[0-9a-z]+\/audio(?:\/d)?\/[0-9a-f]{8}\/[A-Za-z0-9._-]+\.mp3$/i.test(item.objectKey)) {
+  if (!/^[a-z][a-z0-9_-]{0,63}\/audio(?:\/(?:d|dict))?\/[0-9a-f]{8}\/[A-Za-z0-9._-]+\.mp3$/i.test(item.objectKey)) {
     throw new Error(`Manifest objectKey is outside the audio schema: ${item.objectKey}`);
   }
   if (assetsByKey.has(item.objectKey)) {

@@ -12,10 +12,12 @@ function usage() {
       'Options:\n' +
       '  --root PATH             Repository root (default: current directory)\n' +
       '  --env-file PATH         Non-secret R2 config file (default: ROOT/.env)\n' +
-      '  --existing-manifest PATH Existing manifest for already migrated pages\n' +
-      '  --manifest-out PATH     Output manifest path (default: ROOT/audio-manifest.json)\n' +
-      '  --levels LIST           Comma-separated levels, e.g. b1,b2,b3,b4,b5\n' +
-      '  --include-dictation     Include HTML references to each level audio/d directory\n' +
+    '  --existing-manifest PATH Existing manifest for already migrated pages\n' +
+    '  --manifest-out PATH     Output manifest path (default: ROOT/audio-manifest.json)\n' +
+    '  --levels LIST           Comma-separated levels, e.g. b1,b2,b3,b4,b5\n' +
+    '  --roots LIST            Comma-separated collection roots, e.g. easyread,essays,people\n' +
+    '  --include-root-audio    Include MP3 files in ROOT/audio\n' +
+    '  --include-dictation     Include HTML references to each level audio/d directory\n' +
       '  --start NUMBER          First story number (default: 1)\n' +
       '  --end NUMBER            Last story number (default: 85)\n' +
       '  --dry-run               Inventory only; do not contact R2 or write a manifest\n'
@@ -405,6 +407,230 @@ function inventoryDictation(root, levels, existingManifest) {
   return { items: [...itemsBySource.values()], missing };
 }
 
+function collectRootHtmlFiles(root, collection) {
+  const files = [];
+  const collectionRoot = path.join(root, collection);
+
+  function visit(directory) {
+    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+      const filePath = path.join(directory, entry.name);
+      if (entry.isDirectory()) {
+        visit(filePath);
+      } else if (entry.isFile() && /\.html?$/i.test(entry.name)) {
+        files.push(filePath);
+      }
+    }
+  }
+
+  visit(collectionRoot);
+  return files.sort();
+}
+
+function inventoryCollections(root, collections, existingBySource) {
+  const itemsBySource = new Map();
+  const missingBySource = new Map();
+
+  for (const collection of collections) {
+    const audioPrefix = `${collection}/audio/`;
+    for (const absolutePagePath of collectRootHtmlFiles(root, collection)) {
+      const pagePath = path.relative(root, absolutePagePath).split(path.sep).join('/');
+      const html = fs.readFileSync(absolutePagePath, 'utf8');
+      const references = [
+        ...html.matchAll(/\bsrc\s*=\s*["']([^"']+\.mp3(?:[?#][^"']*)?)/gi),
+      ];
+
+      for (const match of references) {
+        const rawReference = match[1];
+        const cleanReference = rawReference.split(/[?#]/, 1)[0];
+        if (
+          cleanReference.startsWith('/reading/_audio/') ||
+          /^(?:[a-z]+:|\/\/|data:|blob:)/i.test(cleanReference)
+        ) {
+          continue;
+        }
+
+        const sourcePath = path.posix.normalize(
+          path.posix.join(path.posix.dirname(pagePath), cleanReference)
+        );
+        if (
+          !sourcePath.startsWith(audioPrefix) ||
+          sourcePath.split('/').includes('..')
+        ) {
+          continue;
+        }
+        if (itemsBySource.has(sourcePath) || missingBySource.has(sourcePath)) {
+          continue;
+        }
+
+        const existing = existingBySource.get(sourcePath);
+        const absoluteSourcePath = path.join(root, sourcePath);
+        if (!fs.existsSync(absoluteSourcePath)) {
+          if (existing?.objectKey && existing?.sha256) {
+            itemsBySource.set(sourcePath, {
+              item: {
+                ...existing,
+                pagePath: `/${pagePath}`,
+                sourcePath,
+                objectKey: existing.objectKey,
+                url: `/reading/_audio/${existing.objectKey}`,
+              },
+              body: null,
+            });
+          } else {
+            missingBySource.set(sourcePath, {
+              collection,
+              pagePath: `/${pagePath}`,
+              sourcePath,
+              reference: rawReference,
+              reason: 'missing-source',
+            });
+          }
+          continue;
+        }
+
+        const body = fs.readFileSync(absoluteSourcePath);
+        const digest = sha256(body);
+        if (existing?.sha256 && existing.sha256 !== digest) {
+          throw new Error(`Local source hash differs from existing manifest for ${sourcePath}`);
+        }
+
+        const relativeAudioPath = sourcePath.slice(audioPrefix.length);
+        const parsedAudioPath = path.posix.parse(relativeAudioPath);
+        const relativeDirectory = parsedAudioPath.dir
+          ? `${parsedAudioPath.dir}/`
+          : '';
+        const objectKey =
+          existing?.objectKey ||
+          `${collection}/audio/${relativeDirectory}${digest.slice(0, 8)}/${parsedAudioPath.base}`;
+
+        itemsBySource.set(sourcePath, {
+          item: {
+            storyId: `${collection}:${sourcePath}`,
+            pagePath: `/${pagePath}`,
+            sourcePath,
+            kind: 'collection-audio',
+            objectKey,
+            url: `/reading/_audio/${objectKey}`,
+            sha256: digest,
+            mime: 'audio/mpeg',
+            preload: existing?.preload === true,
+          },
+          body,
+        });
+      }
+    }
+
+    const audioDirectory = path.join(root, collection, 'audio');
+    const audioFiles = [];
+    function collectAudioFiles(directory) {
+      for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+        const filePath = path.join(directory, entry.name);
+        if (entry.isDirectory()) {
+          collectAudioFiles(filePath);
+        } else if (entry.isFile() && /\.mp3$/i.test(entry.name)) {
+          audioFiles.push(filePath);
+        }
+      }
+    }
+    collectAudioFiles(audioDirectory);
+
+    for (const absoluteSourcePath of audioFiles.sort()) {
+      const sourcePath = path.relative(root, absoluteSourcePath).split(path.sep).join('/');
+      if (itemsBySource.has(sourcePath)) continue;
+
+      const existing = existingBySource.get(sourcePath);
+      const body = fs.readFileSync(absoluteSourcePath);
+      const digest = sha256(body);
+      if (existing?.sha256 && existing.sha256 !== digest) {
+        throw new Error(`Local source hash differs from existing manifest for ${sourcePath}`);
+      }
+
+      const relativeAudioPath = sourcePath.slice(audioPrefix.length);
+      const parsedAudioPath = path.posix.parse(relativeAudioPath);
+      const relativeDirectory = parsedAudioPath.dir
+        ? `${parsedAudioPath.dir}/`
+        : '';
+      const objectKey =
+        existing?.objectKey ||
+        `${collection}/audio/${relativeDirectory}${digest.slice(0, 8)}/${parsedAudioPath.base}`;
+
+      itemsBySource.set(sourcePath, {
+        item: {
+          storyId: `${collection}:${sourcePath}`,
+          pagePath: null,
+          sourcePath,
+          kind: 'collection-audio',
+          objectKey,
+          url: `/reading/_audio/${objectKey}`,
+          sha256: digest,
+          mime: 'audio/mpeg',
+          preload: existing?.preload === true,
+        },
+        body,
+      });
+    }
+  }
+
+  return {
+    items: [...itemsBySource.values()],
+    missing: [...missingBySource.values()],
+  };
+}
+
+function inventoryRootAudio(root, existingBySource) {
+  const items = [];
+  const audioDirectory = path.join(root, 'audio');
+  const audioFiles = [];
+
+  function collectAudioFiles(directory) {
+    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+      const filePath = path.join(directory, entry.name);
+      if (entry.isDirectory()) {
+        collectAudioFiles(filePath);
+      } else if (entry.isFile() && /\.mp3$/i.test(entry.name)) {
+        audioFiles.push(filePath);
+      }
+    }
+  }
+
+  collectAudioFiles(audioDirectory);
+  for (const absoluteSourcePath of audioFiles.sort()) {
+    const sourcePath = path.relative(root, absoluteSourcePath).split(path.sep).join('/');
+    const existing = existingBySource.get(sourcePath);
+    const body = fs.readFileSync(absoluteSourcePath);
+    const digest = sha256(body);
+    if (existing?.sha256 && existing.sha256 !== digest) {
+      throw new Error(`Local source hash differs from existing manifest for ${sourcePath}`);
+    }
+
+    const relativeAudioPath = sourcePath.slice('audio/'.length);
+    const parsedAudioPath = path.posix.parse(relativeAudioPath);
+    const relativeDirectory = parsedAudioPath.dir
+      ? `${parsedAudioPath.dir}/`
+      : '';
+    const objectKey =
+      existing?.objectKey ||
+      `root-audio/audio/${relativeDirectory}${digest.slice(0, 8)}/${parsedAudioPath.base}`;
+
+    items.push({
+      item: {
+        storyId: `root-audio:${sourcePath}`,
+        pagePath: null,
+        sourcePath,
+        kind: 'collection-audio',
+        objectKey,
+        url: `/reading/_audio/${objectKey}`,
+        sha256: digest,
+        mime: 'audio/mpeg',
+        preload: existing?.preload === true,
+      },
+      body,
+    });
+  }
+
+  return { items, missing: [] };
+}
+
 async function main() {
   const root = path.resolve(option('--root', process.cwd()));
   const credentialsDocument = path.resolve(option('--credentials-doc', ''));
@@ -416,21 +642,39 @@ async function main() {
   const manifestOutput = path.resolve(
     option('--manifest-out', path.join(root, 'audio-manifest.json'))
   );
-  const levels = option('--levels', 'b1')
+  const levelsOption = args.includes('--levels') ? option('--levels', '') : '';
+  const rootsOption = args.includes('--roots') ? option('--roots', '') : '';
+  const levels = (levelsOption || (!rootsOption ? 'b1' : ''))
     .split(',')
     .map((level) => level.trim().toLowerCase())
     .filter(Boolean);
+  const roots = rootsOption
+    .split(',')
+    .map((rootName) => rootName.trim().toLowerCase())
+    .filter(Boolean);
+  const includeRootAudio = args.includes('--include-root-audio');
   const start = Number(option('--start', '1'));
   const end = Number(option('--end', '85'));
   const dryRun = args.includes('--dry-run');
   const includeDictation = args.includes('--include-dictation');
 
+  if (new Set(levels).size !== levels.length || levels.some((level) => !/^b[1-9]\d*$/.test(level))) {
+    throw new Error('--levels must contain unique values such as b1 through b85');
+  }
   if (
-    levels.length === 0 ||
-    new Set(levels).size !== levels.length ||
-    levels.some((level) => !/^b[1-5]$/.test(level))
+    new Set(roots).size !== roots.length ||
+    roots.some((rootName) => !/^[a-z][a-z0-9_-]{0,63}$/.test(rootName))
   ) {
-    throw new Error('--levels must contain unique values from b1 through b5');
+    throw new Error('--roots must contain unique safe collection directory names');
+  }
+  if (levels.length === 0 && roots.length === 0) {
+    throw new Error('Provide --levels, --roots, or both');
+  }
+  for (const collection of roots) {
+    const collectionPath = path.join(root, collection);
+    if (!fs.existsSync(collectionPath) || !fs.statSync(collectionPath).isDirectory()) {
+      throw new Error(`Collection root does not exist: ${collection}`);
+    }
   }
   if (!Number.isInteger(start) || !Number.isInteger(end) || start < 1 || end < start) {
     throw new Error('Story range must be positive integers with start <= end');
@@ -446,27 +690,42 @@ async function main() {
   if (endpoint.protocol !== 'https:') throw new Error('R2_ENDPOINT_URL must use https');
 
   let existingManifest;
+  let existingItems = [];
+  const existingBySource = new Map();
   if (fs.existsSync(existingManifestPath)) {
     const parsed = JSON.parse(fs.readFileSync(existingManifestPath, 'utf8'));
     if (!Array.isArray(parsed.items)) throw new Error(`Invalid existing manifest: ${existingManifestPath}`);
+    existingItems = parsed.items;
+    for (const item of parsed.items) {
+      if (typeof item?.sourcePath === 'string') existingBySource.set(item.sourcePath, item);
+    }
     existingManifest = new Map(parsed.items.map((item) => [item.storyId, item]));
   }
 
-  const storyInventory = inventoryStories(
-    root,
-    levels,
-    start,
-    end,
-    existingManifest
-  );
+  const storyInventory = levels.length > 0
+    ? inventoryStories(root, levels, start, end, existingManifest)
+    : { items: [], missing: [] };
   const dictationInventory = includeDictation
     ? inventoryDictation(root, levels, existingManifest)
     : { items: [], missing: [] };
-  const items = [...storyInventory.items, ...dictationInventory.items];
+  const collectionInventory = roots.length > 0
+    ? inventoryCollections(root, roots, existingBySource)
+    : { items: [], missing: [] };
+  const rootAudioInventory = includeRootAudio
+    ? inventoryRootAudio(root, existingBySource)
+    : { items: [], missing: [] };
+  const items = [
+    ...storyInventory.items,
+    ...dictationInventory.items,
+    ...collectionInventory.items,
+    ...rootAudioInventory.items,
+  ];
   const missing = [...storyInventory.missing, ...dictationInventory.missing];
+  missing.push(...collectionInventory.missing);
+  missing.push(...rootAudioInventory.missing);
   if (items.length === 0) throw new Error('No migratable MP3 files found');
   process.stdout.write(
-    `inventory: ${storyInventory.items.length} story MP3 files, ${dictationInventory.items.length} dictation MP3 files, ${missing.length} missing reference(s)\n`
+    `inventory: ${storyInventory.items.length} story MP3 files, ${dictationInventory.items.length} dictation MP3 files, ${collectionInventory.items.length} collection MP3 files, ${rootAudioInventory.items.length} root audio MP3 files, ${missing.length} missing reference(s)\n`
   );
   if (dryRun) return;
 
@@ -479,7 +738,18 @@ async function main() {
   });
   let uploaded = 0;
   let reused = 0;
-  for (let index = 0; index < items.length; index += 1) {
+  let completed = 0;
+  let nextIndex = 0;
+  const configuredConcurrency = Number(process.env.R2_UPLOAD_CONCURRENCY || 8);
+  const concurrency = Math.min(
+    8,
+    items.length,
+    Number.isInteger(configuredConcurrency) && configuredConcurrency > 0
+      ? configuredConcurrency
+      : 8
+  );
+
+  async function processItem(index) {
     const { item, body } = items[index];
     if (body === null) {
       const current = await client.request('GET', item.objectKey);
@@ -489,41 +759,56 @@ async function main() {
         throw new Error(`Existing R2 verification failed for ${item.storyId}`);
       }
       reused += 1;
-      if ((index + 1) % 10 === 0 || index + 1 === items.length) {
-        process.stdout.write(`verified ${index + 1}/${items.length}\n`);
-      }
-      continue;
-    }
-    const head = await client.request('HEAD', item.objectKey);
-    let matches = head.status === 200 && Number(head.headers['content-length']) === body.length;
-    if (matches) {
-      const current = await client.request('GET', item.objectKey);
-      matches = current.status === 200 && current.body.equals(body);
-    }
-    if (!matches) {
-      const put = await client.request('PUT', item.objectKey, body);
-      if (put.status < 200 || put.status >= 300) {
-        throw new Error(`Upload failed for ${item.storyId}: HTTP ${put.status}`);
-      }
-      uploaded += 1;
     } else {
-      reused += 1;
+      const head = await client.request('HEAD', item.objectKey);
+      let matches =
+        head.status === 200 && Number(head.headers['content-length']) === body.length;
+      if (matches) {
+        const current = await client.request('GET', item.objectKey);
+        matches = current.status === 200 && current.body.equals(body);
+      }
+      if (!matches) {
+        const put = await client.request('PUT', item.objectKey, body);
+        if (put.status < 200 || put.status >= 300) {
+          throw new Error(`Upload failed for ${item.storyId}: HTTP ${put.status}`);
+        }
+        uploaded += 1;
+      } else {
+        reused += 1;
+      }
+      const verified = await client.request('GET', item.objectKey);
+      if (verified.status !== 200 || !verified.body.equals(body)) {
+        throw new Error(`Byte verification failed for ${item.storyId}: HTTP ${verified.status}`);
+      }
     }
-    const verified = await client.request('GET', item.objectKey);
-    if (verified.status !== 200 || !verified.body.equals(body)) {
-      throw new Error(`Byte verification failed for ${item.storyId}: HTTP ${verified.status}`);
-    }
-    if ((index + 1) % 10 === 0 || index + 1 === items.length) {
-      process.stdout.write(`verified ${index + 1}/${items.length}\n`);
+    completed += 1;
+    if (completed % 10 === 0 || completed === items.length) {
+      process.stdout.write(`verified ${completed}/${items.length}\n`);
     }
   }
 
+  async function worker() {
+    while (nextIndex < items.length) {
+      const index = nextIndex;
+      nextIndex += 1;
+      await processItem(index);
+    }
+  }
+
+  await Promise.all(Array.from({ length: concurrency }, () => worker()));
+
+  const combinedBySource = new Map(
+    existingItems.map((item) => [item.sourcePath, item])
+  );
+  for (const { item } of items) {
+    combinedBySource.set(item.sourcePath, item);
+  }
   const manifest = {
     schemaVersion: 1,
     bucket: process.env.R2_BUCKET,
-    collections: levels,
-    includesDictation: includeDictation,
-    items: items.map(({ item }) => item),
+    collections: [...levels, ...roots],
+    includesDictation: includeDictation || existingItems.some((item) => item.kind === 'dictation'),
+    items: [...combinedBySource.values()],
     missing,
   };
   fs.writeFileSync(manifestOutput, `${JSON.stringify(manifest, null, 2)}\n`);
