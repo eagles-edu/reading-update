@@ -11,6 +11,7 @@ const { createBackupManager } = require("./write-backup.cjs");
 const SCRIPT_DIR = __dirname;
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
 const DEFAULT_ALGO = "sha384";
+const DEPLOYMENT_PREFIX = "/reading";
 const HASHABLE_REL_VALUES = new Set(["stylesheet", "preload"]);
 const PRELOAD_AS_VALUES = new Set(["style", "script"]);
 const backupManager = createBackupManager(DEFAULT_ROOT, "sri-rehash");
@@ -148,9 +149,22 @@ function resolveAssetPath(file, root, href) {
     return null;
   }
 
-  const assetPath = pathPart.startsWith("/")
-    ? path.resolve(root, `.${pathPart}`)
-    : path.resolve(path.dirname(file), pathPart);
+  let assetPath;
+  if (pathPart.startsWith("/")) {
+    assetPath = path.resolve(root, `.${pathPart}`);
+
+    if (
+      pathPart.startsWith(`${DEPLOYMENT_PREFIX}/`) &&
+      !fs.existsSync(path.join(root, DEPLOYMENT_PREFIX.slice(1)))
+    ) {
+      assetPath = path.resolve(
+        root,
+        `.${pathPart.slice(DEPLOYMENT_PREFIX.length)}`
+      );
+    }
+  } else {
+    assetPath = path.resolve(path.dirname(file), pathPart);
+  }
 
   const relative = path.relative(root, assetPath);
   if (
