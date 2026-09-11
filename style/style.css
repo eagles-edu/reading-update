@@ -173,6 +173,7 @@ body.story-page {
 
 .story-column audio {
   display: block;
+  margin-inline: auto;
   max-width: 100%;
   width: min(100%, 320px);
 }
