@@ -154,7 +154,7 @@ body.story-page {
   background-size: auto;
   box-sizing: border-box;
   border: 1px solid var(--story-panel-border);
-  border-radius: 3.66px;
+  border-radius: 16px;
   box-shadow: 0 10px 24px var(--story-panel-shadow);
   margin: 0 auto;
   max-width: min(76vw, var(--content-max));
