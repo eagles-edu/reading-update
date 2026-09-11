@@ -14,9 +14,19 @@ const THEME_JS = "js/theme-selector.js";
 const STORY_THEME_JS = "js/story-theme.js";
 const FONT_STACK_CSS = "style/font-stack.css";
 const STORY_CSS = "style/style.css";
+const SCOPED_STORY_PATHS = [
+  "eslread/ss",
+  "easyread/es",
+  "essays/e",
+  "kidsenglish/ke",
+  "kidsenglish2/ke2",
+  "kidsenglish3/ke3",
+  "people/p",
+  "supereasy/se",
+];
 
 function printUsage() {
-  console.log(`Usage: ${path.basename(process.argv[1])} [--dry-run|--apply] [--root PATH]
+  console.log(`Usage: ${path.basename(process.argv[1])} [--dry-run|--apply] [--root PATH] [--include PATH]
 
 Modernize theme-toggle pages and story pages.
 
@@ -29,6 +39,8 @@ Options:
   --dry-run   Report what would change without writing files. This is the default.
   --apply     Write changes back to disk.
   --root PATH Scan a different repository root.
+  --include PATH
+              Restrict scanning to a repository-relative file or directory path.
   --help      Show this help.
 `);
 }
@@ -36,6 +48,7 @@ Options:
 function parseArgs(argv) {
   const args = {
     apply: false,
+    include: [],
     root: DEFAULT_ROOT,
   };
 
@@ -55,6 +68,16 @@ function parseArgs(argv) {
         throw new Error("--root requires a path");
       }
       args.root = path.resolve(argv[i]);
+      continue;
+    }
+    if (arg === "--include") {
+      i += 1;
+      if (i >= argv.length) {
+        throw new Error("--include requires a path");
+      }
+      args.include.push(
+        argv[i].replaceAll("\\", "/").replace(/^\.\//, "").replace(/\/$/, ""),
+      );
       continue;
     }
     if (arg === "--help" || arg === "-h") {
@@ -99,7 +122,25 @@ function isStoryPage(source, file, root) {
   const relativeFile = path.relative(root, file).split(path.sep).join("/");
   const storyPath = /^begin\d+\/b\d+\/b\d{4}\.html$/i.test(relativeFile);
   const notFoundPage = /404\s+Not\s+Found/i.test(source);
-  return /\bstory-page\b/i.test(source) || (storyPath && !notFoundPage);
+  const scopedStoryFile =
+    SCOPED_STORY_PATHS.some((storyPathPrefix) =>
+      relativeFile.toLowerCase().startsWith(`${storyPathPrefix}/`),
+    ) &&
+    /<audio\b/i.test(source);
+  return (
+    /\bstory-page\b/i.test(source) ||
+    (storyPath && !notFoundPage) ||
+    (scopedStoryFile && !notFoundPage)
+  );
+}
+
+function isIncludedFile(file, root, includePaths) {
+  if (includePaths.length === 0) return true;
+  const relativeFile = path.relative(root, file).split(path.sep).join("/");
+  return includePaths.some(
+    (includePath) =>
+      relativeFile === includePath || relativeFile.startsWith(`${includePath}/`),
+  );
 }
 
 function addClassToTagAt(source, tag, index, className) {
@@ -336,19 +377,21 @@ function main() {
 
   const backupManager = createBackupManager(args.root, "modernize-theme-pages");
 
-  const files = glob.sync("**/*.html", {
-    absolute: true,
-    cwd: args.root,
-    dot: true,
-    ignore: [
-      "**/.git/**",
-      "**/.backups/**",
-      "**/node_modules/**",
-      "**/.playwright-cli/**",
-      "**/.sto/**",
-      "**/*.BAK",
-    ],
-  });
+  const files = glob
+    .sync("**/*.html", {
+      absolute: true,
+      cwd: args.root,
+      dot: true,
+      ignore: [
+        "**/.git/**",
+        "**/.backups/**",
+        "**/node_modules/**",
+        "**/.playwright-cli/**",
+        "**/.sto/**",
+        "**/*.BAK",
+      ],
+    })
+    .filter((file) => isIncludedFile(file, args.root, args.include));
 
   let scanned = 0;
   let changed = 0;
