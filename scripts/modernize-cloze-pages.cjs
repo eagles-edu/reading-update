@@ -24,7 +24,7 @@ const CLOZE_JS = "js/sis-cloze-submit.js";
 const CLOZE_LABEL_CLASS = "sr-only";
 const CLOZE_LABEL_PREFIX = "Blank ";
 const DEFAULT_INSTRUCTIONS_HTML =
-  "Review the vocabulary, read the story, then fill in each blank. " +
+  "CLOZE: Review the vocabulary, read the story, then fill in each blank. " +
   "Click CHECK to see if your answers are correct.";
 const PROTOTYPE_META = '<meta name="sis-cloze-prototype" content="current">';
 const CLOSE_BUTTON_HTML =

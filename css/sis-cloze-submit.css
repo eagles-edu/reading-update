@@ -106,7 +106,7 @@ body#TheBody .Titles {
 body#TheBody .ExerciseTitle {
   font-size: clamp(1.4rem, 2.1vw, 2rem);
   line-height: 1.2;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   text-align: center;
 }
 
@@ -125,7 +125,7 @@ body#TheBody #MainDiv {
 body#TheBody #InstructionsDiv {
   background: var(--secondary-color, #f5f8ff);
   border: 1px solid var(--tertiary-color, #002786);
-  margin-bottom: 1rem;
+  margin-bottom: 12px;
   padding: 1rem;
 }
 
@@ -149,7 +149,7 @@ hr {
 
 body#TheBody #MainDiv {
   border: 1px solid var(--tertiary-color, #002786);
-  margin-bottom: 1rem;
+  margin-bottom: 12px;
   padding: 0.5rem;
 }
 
@@ -160,8 +160,8 @@ body#TheBody .ClozeBody {
 }
 
 body#TheBody .GapBox {
-  background: #ffffff;
-  border: 1px solid #94a3b8;
+  background: #fbffff;
+  border: 1px solid #8896a8;
   border-radius: .78rem;
   box-sizing: border-box;
   color: #161616;
@@ -212,7 +212,7 @@ body#TheBody .sis-cloze-region--feedback {
 .sis-cloze-panel {
   background: var(--secondary-color, #f5f8ff);
   border: 1px solid var(--tertiary-color, #002786);
-  margin-bottom: 1rem;
+  margin-bottom: 12px;
   padding: 1rem;
 }
 
@@ -242,8 +242,8 @@ body#TheBody .sis-cloze-region--feedback {
 }
 
 .sis-cloze-field input {
-  background-color: #ffffff;
-  border: 1px solid #94a3b8;
+  background-color: #fbffff;
+  border: 1px solid #8896a8;
   border-radius: 0.75rem;
   box-sizing: border-box;
   caret-color: #161616;
@@ -263,11 +263,11 @@ body#TheBody .sis-cloze-region--feedback {
 .sis-cloze-field input:-webkit-autofill:hover,
 .sis-cloze-field input:-webkit-autofill:focus {
   -webkit-text-fill-color: #161616;
-  box-shadow: 0 0 0 1000px #ffffff inset;
+  box-shadow: 0 0 0 1000px #fbffff inset;
 }
 
 .sis-cloze-field input::placeholder {
-  color: #8d929e;
+  color: #8896a8;
   opacity: 1;
 }
 
