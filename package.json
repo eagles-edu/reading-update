@@ -52,6 +52,8 @@
     "sync:dev": "bash ./scripts/ffs-sync-dev.sh",
     "sync:dev:apply": "bash ./scripts/ffs-sync-dev.sh --apply",
     "sync:dev:ffs": "bash ./scripts/run-ffs-dev.sh",
+    "migrate:r2:asset-host": "node ./scripts/migrate-r2-asset-host.cjs",
+    "flip:r2:enable": "node ./scripts/enable-flip-r2-preload.cjs",
     "precompress:dev": "bash ./scripts/precompress-web-assets.sh",
     "efast:manifest": "bash ./scripts/efast-rsync-manifest.sh",
     "efast:manifest:apply": "bash ./scripts/efast-rsync-manifest.sh --apply"

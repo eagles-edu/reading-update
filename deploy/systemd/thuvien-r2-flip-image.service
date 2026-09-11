@@ -1,0 +1,27 @@
+[Unit]
+Description=Thuvien R2 flip image gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=eagles
+Group=eagles
+WorkingDirectory=/home/eagles/dockerz/efast-copy
+EnvironmentFile=/home/eagles/dockerz/efast-copy/.env
+Environment=R2_FLIP_BUCKET=flip-image
+Environment="R2_FLIP_CREDENTIALS_DOC=/home/eagles/dockerz/efast-copy/docs/R2 Admin Read & Write-new.md"
+Environment="R2_FLIP_TOKEN_LABEL=R2 flip-image read-only key"
+Environment=R2_FLIP_IMAGE_MANIFEST=/home/eagles/dockerz/efast-copy/poc/r2-flip-image-manifest.json
+Environment=R2_FLIP_IMAGE_PORT=8790
+ExecStart=/home/eagles/.nvm/versions/node/v22.22.1/bin/node /home/eagles/dockerz/efast-copy/scripts/r2-flip-image-gateway.cjs
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target

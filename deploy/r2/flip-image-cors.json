@@ -1,0 +1,30 @@
+{
+  "rules": [
+    {
+      "id": "flip-viewer-read",
+      "allowed": {
+        "origins": [
+          "https://thuvien.eagles.edu.vn",
+          "https://www.thuvien.eagles.edu.vn"
+        ],
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "headers": [
+          "*"
+        ]
+      },
+      "exposeHeaders": [
+        "Accept-Ranges",
+        "Cache-Control",
+        "Content-Length",
+        "Content-Range",
+        "Content-Type",
+        "ETag",
+        "Last-Modified"
+      ],
+      "maxAgeSeconds": 86400
+    }
+  ]
+}
