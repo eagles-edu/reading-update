@@ -48,6 +48,13 @@
   "python.analysis.extraPaths": [
     "/home/eagles/.local/lib/python3.10/site-packages"],
   "css.autoValidation": "Never",
+  "cssvar.files": [
+    "*.css",
+    "css/**/*.css",
+    "style/**/*.css",
+    "begin*/b*/css/**/*.css",
+    "images/icons/**/*.css"
+  ],
   "css.styleSheets": [
     "style.css"
   ],
@@ -214,7 +221,8 @@
     "wrapfit",
     "wrapit",
     "wwwroot",
-    "xpress"
+    "xpress",
+    "zxcvbn"
   ],
   "taskManager.favorites": [
     "efast-copy/npm/format",

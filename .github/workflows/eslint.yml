@@ -1,0 +1,48 @@
+name: ESLint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "31 10 * * 5"
+
+permissions:
+  contents: read
+
+jobs:
+  eslint:
+    name: Run repository ESLint checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Install SARIF formatter
+        run: npm install --no-save --package-lock=false @microsoft/eslint-formatter-sarif@3.1.0
+
+      - name: Run ESLint scan
+        env:
+          SARIF_ESLINT_IGNORE_SUPPRESSED: "true"
+        run: >-
+          npx eslint . --ext .js,.mjs,.cjs
+          --format @microsoft/eslint-formatter-sarif
+          --output-file eslint-results.sarif
+        continue-on-error: true
+
+      - name: Upload ESLint results
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: eslint-results.sarif
+          wait-for-processing: true

@@ -3,9 +3,10 @@
 /* eslint-disable css/no-important */
 
 :root {
+  --font-base: Helvetica, system-ui, -apple-system, Roboto, "Segoe UI", sans-serif;
   --content-max: 1280px;
   --content-width: 100%;
-  --story-page-bg-color: #677c90;
+  --story-page-bg-color: #929494;
   --story-page-bg-image: url('../images/bg/blueGrunge.webp');
   --story-paper-image: url('../images/bg/paper/ep_naturalwhite.webp');
   --story-panel-bg: rgba(255, 255, 255, 0.88);
@@ -102,7 +103,7 @@ video {
   border: 0;
   font: inherit;
   margin: 0;
-  padding: 0 0 1.85rem 0;
+  padding: 0 0 .85rem 0;
   vertical-align: baseline;
 }
 
