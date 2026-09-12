@@ -48,7 +48,10 @@ test("cli rewrites a read-only SARIF file by replacing it atomically", () => {
       "docs/R2%20Object%20Storage%20_new-%20Admin%40eagles.edu.vn%27s%20Account%20_%20Cloudflare_files/file.js",
     );
   } finally {
-    fs.chmodSync(path.join(root, "results.sarif"), 0o644);
+    const sarifPath = path.join(root, "results.sarif");
+    if (fs.existsSync(sarifPath)) {
+      fs.chmodSync(sarifPath, 0o644);
+    }
     fs.rmSync(root, { force: true, recursive: true });
   }
 });
