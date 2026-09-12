@@ -19,6 +19,7 @@ const CACHE_RELATIVE_PATH = path.join(".cache", "modernize-cloze-pages.json");
 const VIEWPORT_TAG = '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
 const FONT_STACK_CSS = "style/font-stack.css";
 const THEME_JS = "js/theme-selector.js";
+const STORY_THEME_JS = "js/story-theme.js";
 const CLOZE_CSS = "css/sis-cloze-submit.css";
 const CLOZE_JS = "js/sis-cloze-submit.js";
 const CLOZE_LABEL_CLASS = "sr-only";
@@ -243,6 +244,11 @@ function pickRandomFiles(files, count) {
 
 function relAsset(file, assetRoot) {
   return path.relative(path.dirname(file), assetRoot).split(path.sep).join("/");
+}
+
+function storyThemeKey(file) {
+  const match = path.basename(file).match(/^b([1-6])cloze(\d{3})\.html$/i);
+  return match ? `b${match[1]}${match[2]}.html` : "";
 }
 
 function injectAfterFirst(source, matcher, insertion) {
@@ -868,6 +874,8 @@ function updateHead(source, file, root, digestCache, options = {}) {
   const cssHref = relAsset(file, path.resolve(root, CLOZE_CSS));
   const fontStackHref = relAsset(file, path.resolve(root, FONT_STACK_CSS));
   const themeJsHref = relAsset(file, path.resolve(root, THEME_JS));
+  const storyThemeJsHref = relAsset(file, path.resolve(root, STORY_THEME_JS));
+  const storyKey = storyThemeKey(file);
   const jsHref = relAsset(file, path.resolve(root, CLOZE_JS));
   const iconRef = options.icon || DEFAULT_ICON;
   const iconPath = iconRef.startsWith("/") ? path.resolve(root, `.${iconRef}`) : path.resolve(root, iconRef);
@@ -1006,6 +1014,17 @@ function updateHead(source, file, root, digestCache, options = {}) {
     );
     next = injected.source;
     if (injected.changed) changes.push("theme");
+  }
+
+  if (storyKey && !/story-theme\.js/i.test(next)) {
+    const storyThemeTag = `<script src="${storyThemeJsHref}" data-story-theme-key="${storyKey}"></script>\n`;
+    const injected = injectAfterFirst(
+      next,
+      /<script\b(?=[^>]*\bsrc=["'][^"']*theme-selector\.js["'])[^>]*><\/script>\s*/i,
+      storyThemeTag
+    );
+    next = injected.source;
+    if (injected.changed) changes.push("story-theme");
   }
 
   const jsTag = `<script defer src="${jsHref}"></script>`;

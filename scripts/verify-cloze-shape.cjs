@@ -38,6 +38,7 @@ const REQUIRED_PATTERNS = [
   { label: 'css/sis-cloze-submit.css', re: /css\/sis-cloze-submit\.css/i },
   { label: 'style/font-stack.css', re: /style\/font-stack\.css/i },
   { label: 'theme-selector.js', re: /theme-selector\.js/i },
+  { label: 'story-theme.js', re: /story-theme\.js/i },
   { label: 'href="/reading/favicon.ico"', re: /href\s*=\s*"\/reading\/favicon\.ico"/i },
   { label: 'sis-cloze-submit.js', re: /sis-cloze-submit\.js/i },
 ];
@@ -78,6 +79,17 @@ function main() {
       const missing = REQUIRED_PATTERNS.filter((pattern) => !pattern.re.test(source)).map(
         (pattern) => pattern.label
       );
+      const filenameMatch = path.basename(file).match(/^b([1-6])cloze(\d{3})\.html$/i);
+      const storyThemeScript = source.match(/<script\b[^>]*story-theme\.js[^>]*><\/script>/i);
+      const actualStoryKey = storyThemeScript
+        ? storyThemeScript[0].match(/\bdata-story-theme-key\s*=\s*["']([^"']+)["']/i)
+        : null;
+      const expectedStoryKey = filenameMatch
+        ? `b${filenameMatch[1]}${filenameMatch[2]}.html`
+        : "";
+      if (!expectedStoryKey || !actualStoryKey || actualStoryKey[1] !== expectedStoryKey) {
+        missing.push("matching data-story-theme-key for linked story");
+      }
       const forbidden = FORBIDDEN_SNIPPETS.filter((snippet) => source.includes(snippet));
       if (missing.length > 0 || forbidden.length > 0) {
         failures.push({

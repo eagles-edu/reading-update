@@ -4,8 +4,12 @@
 <!-- /kidsenglish/kemx/kemx02604.htm, Mon, 03 Jul 2017 15:24:20 GMT -->
 <head>
 <meta charset="utf-8">
-<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
-<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
+<!-- HOT POTATOES MODERNIZATION ASSETS START -->
+<script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="ke026.html" data-story-title-url="../ke/ke026.html"></script>
+<script src="../../js/hot-potatoes-ui.js" integrity="sha384-/MHyfnAGPvpJenlGmZPAnIJ15f2IH33OefocvyK2+qgGnyAQbQVIeMoLLXsJRu5e"></script>
+<!-- HOT POTATOES MODERNIZATION ASSETS END -->
+<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
+<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
 <meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to ron."><meta name="keywords" content="Hot Potatoes, Hot Potatoes, Half-Baked Software, Windows, University of Victoria">
 
 <link rel="schema.DC" href="../../../purl.org/dc/elements/1.1/index.html">
@@ -841,7 +845,7 @@ function ShowMessage(Feedback){
 	FDiv.style.zIndex = topZ;
 	FDiv.style.top = TopSettingWithScrollOffset(30) + 'px';
 
-	FDiv.style.display = 'block';
+	HPSetDisplay(FDiv, "block");
 
 	ShowElements(false, 'input');
 	ShowElements(false, 'select');
@@ -873,13 +877,13 @@ function ShowElements(Show, TagName, ContainerToReverse){
 		if (TagName == "object") {
 			//manipulate object elements in all browsers
 			if (Show == true){
-				Els[i].style.visibility = 'visible';
+				HPSetVisibility(Els[i], "visible");
 				//get Mac FireFox to manipulate display, to force screen redraw
-				if (C.mac && C.gecko) {Els[i].style.display = '';}
+				if (C.mac && C.gecko) {HPSetDisplay(Els[i], "");}
 			}
 			else{
-				Els[i].style.visibility = 'hidden';
-				if (C.mac && C.gecko) {Els[i].style.display = 'none';}
+				HPSetVisibility(Els[i], "hidden");
+				if (C.mac && C.gecko) {HPSetDisplay(Els[i], "none");}
 			}
 		}
 		else {
@@ -888,10 +892,10 @@ function ShowElements(Show, TagName, ContainerToReverse){
 			if (C.ie) {
 				if (C.ieVer < 7) {
 					if (Show == true){
-						Els[i].style.visibility = 'visible';
+						HPSetVisibility(Els[i], "visible");
 					}
 					else{
-						Els[i].style.visibility = 'hidden';
+						HPSetVisibility(Els[i], "hidden");
 					}
 				}
 			}
@@ -902,7 +906,7 @@ function ShowElements(Show, TagName, ContainerToReverse){
 
 
 function HideFeedback(){
-	document.getElementById('FeedbackDiv').style.display = 'none';
+	HPSetDisplay(document.getElementById('FeedbackDiv'), "none");
 	ShowElements(true, 'input');
 	ShowElements(true, 'select');
 	ShowElements(true, 'object');
@@ -1517,8 +1521,10 @@ function DisplayExercise(StuffToDisplay){
 // End of script
 
 </script>
-
-
+<!-- HOT POTATOES MODERNIZATION STYLES START -->
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<!-- HOT POTATOES MODERNIZATION STYLES END -->
 </head>
 
 <body onload="StartUp()" id="TheBody"><div class="wrapit">
@@ -1533,7 +1539,7 @@ function DisplayExercise(StuffToDisplay){
 
 
 
-<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)" onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='kemx02605.html'; return false;">4 of 5 Next</button>
+<button class="NavButton hp-button" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)" onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='kemx02605.html'; return false;">4 of 5 Next</button>
 
 
 </div>
@@ -1563,18 +1569,18 @@ function DisplayExercise(StuffToDisplay){
 
 <div id="MainDiv" class="StdDiv">
 
-<button id="CheckButton1" class="FuncButton" type="submit"  onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswer(0)">&nbsp;Check&nbsp;</button>
+<button id="CheckButton1" class="FuncButton hp-button" type="submit" onclick="CheckAnswer(0)">&nbsp;Check&nbsp;</button>
 
 
-<button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="Undo()">&nbsp;Undo&nbsp;</button>
-
-
-
-<button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="location.reload()">&nbsp;Restart&nbsp;</button>
+<button class="FuncButton hp-button" type="button" onclick="Undo()">&nbsp;Undo&nbsp;</button>
 
 
 
-<button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswer(1)">&nbsp;Hint&nbsp;</button>
+<button class="FuncButton hp-button" type="button" onclick="location.reload()">&nbsp;Restart&nbsp;</button>
+
+
+
+<button class="FuncButton hp-button" type="button" onclick="CheckAnswer(1)">&nbsp;Hint&nbsp;</button>
 
 
 <div id="SegmentDiv">
@@ -1587,7 +1593,7 @@ function DisplayExercise(StuffToDisplay){
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
-<button id="FeedbackOKButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
+<button id="FeedbackOKButton" class="FuncButton hp-button" type="button" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
 </div>
 
 <br><!-- BeginBottomNavButtons -->
@@ -1600,7 +1606,7 @@ function DisplayExercise(StuffToDisplay){
 
 
 
-<button class="NavButton" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)" onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='kemx02605.html'; return false;">4 of 5 Next</button>
+<button class="NavButton hp-button" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)" onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='kemx02605.html'; return false;">4 of 5 Next</button>
 
 
 </div>

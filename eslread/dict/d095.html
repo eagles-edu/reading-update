@@ -4,8 +4,12 @@
 <!-- Mirrored from www.eslfast.com/eslread/dict/d095.htm by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 03 Jul 2017 08:39:23 GMT -->
 <head>
 <meta charset="utf-8">
-<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
-<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
+<!-- HOT POTATOES MODERNIZATION ASSETS START -->
+<script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="s095.html" data-story-title-url="../ss/s095.html"></script>
+<script src="../../js/hot-potatoes-ui.js" integrity="sha384-/MHyfnAGPvpJenlGmZPAnIJ15f2IH33OefocvyK2+qgGnyAQbQVIeMoLLXsJRu5e"></script>
+<!-- HOT POTATOES MODERNIZATION ASSETS END -->
+<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
+<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
 <meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to Ron."><meta name="keywords" content="Hot Potatoes, Hot Potatoes, Half-Baked Software, Windows, University of Victoria">
 
 <link rel="schema.DC" href="../../../purl.org/dc/elements/1.1/index.html">
@@ -918,7 +922,7 @@ function ShowMessage(Feedback){
 	FDiv.style.zIndex = topZ;
 	FDiv.style.top = TopSettingWithScrollOffset(30) + 'px';
 
-	FDiv.style.display = 'block';
+	HPSetDisplay(FDiv, "block");
 
 	ShowElements(false, 'input');
 	ShowElements(false, 'select');
@@ -950,13 +954,13 @@ function ShowElements(Show, TagName, ContainerToReverse){
 		if (TagName == "object") {
 			//manipulate object elements in all browsers
 			if (Show == true){
-				Els[i].style.visibility = 'visible';
+				HPSetVisibility(Els[i], "visible");
 				//get Mac FireFox to manipulate display, to force screen redraw
-				if (C.mac && C.gecko) {Els[i].style.display = '';}
+				if (C.mac && C.gecko) {HPSetDisplay(Els[i], "");}
 			}
 			else{
-				Els[i].style.visibility = 'hidden';
-				if (C.mac && C.gecko) {Els[i].style.display = 'none';}
+				HPSetVisibility(Els[i], "hidden");
+				if (C.mac && C.gecko) {HPSetDisplay(Els[i], "none");}
 			}
 		}
 		else {
@@ -965,10 +969,10 @@ function ShowElements(Show, TagName, ContainerToReverse){
 			if (C.ie) {
 				if (C.ieVer < 7) {
 					if (Show == true){
-						Els[i].style.visibility = 'visible';
+						HPSetVisibility(Els[i], "visible");
 					}
 					else{
-						Els[i].style.visibility = 'hidden';
+						HPSetVisibility(Els[i], "hidden");
 					}
 				}
 			}
@@ -979,7 +983,7 @@ function ShowElements(Show, TagName, ContainerToReverse){
 
 
 function HideFeedback(){
-	document.getElementById('FeedbackDiv').style.display = 'none';
+	HPSetDisplay(document.getElementById('FeedbackDiv'), "none");
 	ShowElements(true, 'input');
 	ShowElements(true, 'select');
 	ShowElements(true, 'object');
@@ -1267,8 +1271,8 @@ var Finished = false;
 var Qs = null;
 var QArray = new Array();
 var ShowingAllQuestions = false;
-var ShowAllQuestionsCaption = 'Show all questions';
-var ShowOneByOneCaption = 'Show questions one by one';
+var ShowAllQuestionsCaption = 'Show all';
+var ShowOneByOneCaption = 'Show one';
 var State = new Array();
 var Feedback = '';
 var TimeOver = false;
@@ -1343,11 +1347,11 @@ function SetUpQuestions(){
 	}
 
 //Show the first item
-	QArray[0].style.display = '';
+	HPSetDisplay(QArray[0], "");
 
 //Now hide all except the first item
 	for (i=1; i<QArray.length; i++){
-		QArray[i].style.display = 'none';
+		HPSetDisplay(QArray[i], "none");
 	}
 	SetQNumReadout();
 
@@ -1360,7 +1364,7 @@ function SetFocusToTextbox(){
 		QArray[CurrQNum].getElementsByTagName('input')[0].focus();
 //and show a keypad if there is one
 		if (document.getElementById('CharacterKeypad') != null){
-			document.getElementById('CharacterKeypad').style.display = 'block';
+			HPSetDisplay(document.getElementById('CharacterKeypad'), "block");
 		}
 	}
 	else{
@@ -1368,13 +1372,13 @@ function SetFocusToTextbox(){
   		QArray[CurrQNum].getElementsByTagName('textarea')[0].focus();
 //and show a keypad if there is one
 			if (document.getElementById('CharacterKeypad') != null){
-				document.getElementById('CharacterKeypad').style.display = 'block';
+				HPSetDisplay(document.getElementById('CharacterKeypad'), "block");
 			}
 		}
 //This added for 6.0.4.11: hide accented character buttons if no textbox
 		else{
 			if (document.getElementById('CharacterKeypad') != null){
-				document.getElementById('CharacterKeypad').style.display = 'none';
+				HPSetDisplay(document.getElementById('CharacterKeypad'), "none");
 			}
 		}
 	}
@@ -1385,9 +1389,9 @@ function ChangeQ(ChangeBy){
 //question is answered correctly. Uncomment it to enable this behaviour.
 //	if (State[CurrQNum][0] == -1){return;}
 	if (((CurrQNum + ChangeBy) < 0)||((CurrQNum + ChangeBy) >= QArray.length)){return;}
-	QArray[CurrQNum].style.display = 'none';
+	HPSetDisplay(QArray[CurrQNum], "none");
 	CurrQNum += ChangeBy;
-	QArray[CurrQNum].style.display = '';
+	HPSetDisplay(QArray[CurrQNum], "");
 //Undocumented function added 10/12/2004
 	ShowSpecialReadingForQuestion();
 	SetQNumReadout();
@@ -1411,7 +1415,7 @@ function ShowSpecialReadingForQuestion(){
 					HiddenReadingShown = true;
 //Hide the ShowAllQuestions button to avoid confusion
 					if (document.getElementById('ShowMethodButton') != null){
-						document.getElementById('ShowMethodButton').style.display = 'none';
+						HPSetDisplay(document.getElementById('ShowMethodButton'), "none");
 					}
 				}
 			}
@@ -1423,22 +1427,22 @@ function SetQNumReadout(){
 	document.getElementById('QNumReadout').innerHTML = (CurrQNum+1) + ' / ' + QArray.length;
 	if ((CurrQNum+1) >= QArray.length){
 		if (document.getElementById('NextQButton') != null){
-			document.getElementById('NextQButton').style.visibility = 'hidden';
+			HPSetVisibility(document.getElementById('NextQButton'), "hidden");
 		}
 	}
 	else{
 		if (document.getElementById('NextQButton') != null){
-			document.getElementById('NextQButton').style.visibility = 'visible';
+			HPSetVisibility(document.getElementById('NextQButton'), "visible");
 		}
 	}
 	if (CurrQNum <= 0){
 		if (document.getElementById('PrevQButton') != null){
-			document.getElementById('PrevQButton').style.visibility = 'hidden';
+			HPSetVisibility(document.getElementById('PrevQButton'), "hidden");
 		}
 	}
 	else{
 		if (document.getElementById('PrevQButton') != null){
-			document.getElementById('PrevQButton').style.visibility = 'visible';
+			HPSetVisibility(document.getElementById('PrevQButton'), "visible");
 		}
 	}
 }
@@ -1501,7 +1505,7 @@ function StartUp(){
 
 //If there's only one question, no need for question navigation controls
 	if (QsToShow < 2){
-		document.getElementById('QNav').style.display = 'none';
+		HPSetDisplay(document.getElementById('QNav'), "none");
 	}
 
 //Stash the instructions so they can be redisplayed
@@ -1536,28 +1540,28 @@ function StartUp(){
 
 function ShowHideQuestions(){
 	FuncBtnOut(document.getElementById('ShowMethodButton'));
-	document.getElementById('ShowMethodButton').style.display = 'none';
+	HPSetDisplay(document.getElementById('ShowMethodButton'), "none");
 	if (ShowingAllQuestions == false){
 		for (var i=0; i<QArray.length; i++){
-				QArray[i].style.display = '';
+				HPSetDisplay(QArray[i], "");
 			}
 		document.getElementById('Questions').style.listStyleType = 'decimal';
-		document.getElementById('OneByOneReadout').style.display = 'none';
+		HPSetDisplay(document.getElementById('OneByOneReadout'), "none");
 		document.getElementById('ShowMethodButton').innerHTML = ShowOneByOneCaption;
 		ShowingAllQuestions = true;
 	}
 	else{
 		for (var i=0; i<QArray.length; i++){
 				if (i != CurrQNum){
-					QArray[i].style.display = 'none';
+					HPSetDisplay(QArray[i], "none");
 				}
 			}
 		document.getElementById('Questions').style.listStyleType = 'none';
-		document.getElementById('OneByOneReadout').style.display = '';
+		HPSetDisplay(document.getElementById('OneByOneReadout'), "");
 		document.getElementById('ShowMethodButton').innerHTML = ShowAllQuestionsCaption;
 		ShowingAllQuestions = false;
 	}
-	document.getElementById('ShowMethodButton').style.display = 'inline';
+	HPSetDisplay(document.getElementById('ShowMethodButton'), "inline");
 }
 
 function CreateStatusArray(){
@@ -1713,7 +1717,7 @@ function LeaveGap(){
 function TypeChars(Chars){
 	if (CurrBox != null){
 //Following check added for 6.0.4.4 to avoid error message in IE6
-		if (CurrBox.style.display != 'none'){
+		if (HPGetDisplay(CurrBox) != 'none'){
 			CurrBox.value += Chars;
 			CurrBox.focus();
 		}
@@ -1964,9 +1968,9 @@ function CalculateShortAnsQuestionScore(QNum){
 
 function SwitchHybridDisplay(QNum){
 	if (document.getElementById('Q_' + QNum + '_Hybrid_MC') != null){
-		document.getElementById('Q_' + QNum + '_Hybrid_MC').style.display = '';
+		HPSetDisplay(document.getElementById('Q_' + QNum + '_Hybrid_MC'), "");
 		if (document.getElementById('Q_' + QNum + '_SA') != null){
-			document.getElementById('Q_' + QNum + '_SA').style.display = 'none';
+			HPSetDisplay(document.getElementById('Q_' + QNum + '_SA'), "none");
 		}
 	}
 }
@@ -2112,8 +2116,10 @@ function ShowHint(QNum){
 // End of script
 
 </script>
-
-
+<!-- HOT POTATOES MODERNIZATION STYLES START -->
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<!-- HOT POTATOES MODERNIZATION STYLES END -->
 </head>
 
 <body onload="StartUp()" id="TheBody"><div class="wrapit">
@@ -2145,22 +2151,22 @@ function ShowHint(QNum){
 <div id="QNav" class="QuestionNavigation">
 
 <p class="flextxtright">
-<button id="ShowMethodButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOver(this)" onclick="ShowHideQuestions(); return false;">Show all questions</button>
+<button id="ShowMethodButton" class="FuncButton hp-button" type="button" onclick="ShowHideQuestions(); return false;">Show all</button>
 </p>
 
 <div id="OneByOneReadout">
-<button id="PrevQButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOver(this)" onclick="ChangeQ(-1); return false;">&lt;=</button>
+<button id="PrevQButton" class="FuncButton hp-button" type="button" onclick="ChangeQ(-1); return false;">&lt;=</button>
 
 <span id="QNumReadout" class="QNum">&nbsp;</span>
 
-<button id="NextQButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOver(this)" onclick="ChangeQ(1); return false;">=&gt;</button>
+<button id="NextQButton" class="FuncButton hp-button" type="button" onclick="ChangeQ(1); return false;">=&gt;</button>
 <br>
 </div>
 
 </div>
 
 <ol class="QuizQuestions" id="Questions">
-<li class="QuizQuestion" id="Q_0" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_0_SA"><form method="post" action="#" onsubmit="return false;">
+<li class="QuizQuestion hp-display-none" id="Q_0"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_0_SA"><form method="post" action="#" onsubmit="return false;">
 
 <audio
   class="audio-player"
@@ -2178,8 +2184,8 @@ function ShowHint(QNum){
 <param name="wmode" value="transparent">
 </object> -->
 
-<div><textarea id="Q_0_Guess" onfocus="TrackFocus('Q_0_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(0)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(0)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(0)">Show Answer</button></div></form></div></li>
-<li class="QuizQuestion" id="Q_1" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_1_SA"><form method="post" action="#" onsubmit="return false;">
+<div><textarea id="Q_0_Guess" onfocus="TrackFocus('Q_0_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3" aria-label="Your answer for question 1"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(0)">Check</button><button class="FuncButton hp-button" type="button" onclick="ShowHint(0)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(0)">Show answers</button></div></form></div></li>
+<li class="QuizQuestion hp-display-none" id="Q_1"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_1_SA"><form method="post" action="#" onsubmit="return false;">
 
 <audio
   class="audio-player"
@@ -2197,8 +2203,8 @@ function ShowHint(QNum){
 <param name="wmode" value="transparent">
 </object> -->
 
-<div><textarea id="Q_1_Guess" onfocus="TrackFocus('Q_1_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(1)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(1)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(1)">Show Answer</button></div></form></div></li>
-<li class="QuizQuestion" id="Q_2" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_2_SA"><form method="post" action="#" onsubmit="return false;">
+<div><textarea id="Q_1_Guess" onfocus="TrackFocus('Q_1_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3" aria-label="Your answer for question 2"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(1)">Check</button><button class="FuncButton hp-button" type="button" onclick="ShowHint(1)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(1)">Show answers</button></div></form></div></li>
+<li class="QuizQuestion hp-display-none" id="Q_2"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_2_SA"><form method="post" action="#" onsubmit="return false;">
 
 <audio
   class="audio-player"
@@ -2216,8 +2222,8 @@ function ShowHint(QNum){
 <param name="wmode" value="transparent">
 </object> -->
 
-<div><textarea id="Q_2_Guess" onfocus="TrackFocus('Q_2_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(2)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(2)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(2)">Show Answer</button></div></form></div></li>
-<li class="QuizQuestion" id="Q_3" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_3_SA"><form method="post" action="#" onsubmit="return false;">
+<div><textarea id="Q_2_Guess" onfocus="TrackFocus('Q_2_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3" aria-label="Your answer for question 3"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(2)">Check</button><button class="FuncButton hp-button" type="button" onclick="ShowHint(2)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(2)">Show answers</button></div></form></div></li>
+<li class="QuizQuestion hp-display-none" id="Q_3"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_3_SA"><form method="post" action="#" onsubmit="return false;">
 
 <audio
   class="audio-player"
@@ -2235,8 +2241,8 @@ function ShowHint(QNum){
 <param name="wmode" value="transparent">
 </object> -->
 
-<div><textarea id="Q_3_Guess" onfocus="TrackFocus('Q_3_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(3)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(3)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(3)">Show Answer</button></div></form></div></li>
-<li class="QuizQuestion" id="Q_4" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_4_SA"><form method="post" action="#" onsubmit="return false;">
+<div><textarea id="Q_3_Guess" onfocus="TrackFocus('Q_3_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3" aria-label="Your answer for question 4"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(3)">Check</button><button class="FuncButton hp-button" type="button" onclick="ShowHint(3)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(3)">Show answers</button></div></form></div></li>
+<li class="QuizQuestion hp-display-none" id="Q_4"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_4_SA"><form method="post" action="#" onsubmit="return false;">
 
 <audio
   class="audio-player"
@@ -2254,8 +2260,8 @@ function ShowHint(QNum){
 <param name="wmode" value="transparent">
 </object> -->
 
-<div><textarea id="Q_4_Guess" onfocus="TrackFocus('Q_4_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(4)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(4)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(4)">Show Answer</button></div></form></div></li>
-<li class="QuizQuestion" id="Q_5" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_5_SA"><form method="post" action="#" onsubmit="return false;">
+<div><textarea id="Q_4_Guess" onfocus="TrackFocus('Q_4_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 5"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(4)">Check</button><button class="FuncButton hp-button" type="button" onclick="ShowHint(4)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(4)">Show answers</button></div></form></div></li>
+<li class="QuizQuestion hp-display-none" id="Q_5"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_5_SA"><form method="post" action="#" onsubmit="return false;">
 
 <audio
   class="audio-player"
@@ -2273,8 +2279,8 @@ function ShowHint(QNum){
 <param name="wmode" value="transparent">
 </object> -->
 
-<div><textarea id="Q_5_Guess" onfocus="TrackFocus('Q_5_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(5)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(5)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(5)">Show Answer</button></div></form></div></li>
-<li class="QuizQuestion" id="Q_6" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_6_SA"><form method="post" action="#" onsubmit="return false;">
+<div><textarea id="Q_5_Guess" onfocus="TrackFocus('Q_5_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3" aria-label="Your answer for question 6"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(5)">Check</button><button class="FuncButton hp-button" type="button" onclick="ShowHint(5)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(5)">Show answers</button></div></form></div></li>
+<li class="QuizQuestion hp-display-none" id="Q_6"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_6_SA"><form method="post" action="#" onsubmit="return false;">
 
 <audio
   class="audio-player"
@@ -2292,8 +2298,8 @@ function ShowHint(QNum){
 <param name="wmode" value="transparent">
 </object> -->
 
-<div><textarea id="Q_6_Guess" onfocus="TrackFocus('Q_6_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(6)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(6)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(6)">Show Answer</button></div></form></div></li>
-<li class="QuizQuestion" id="Q_7" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_7_SA"><form method="post" action="#" onsubmit="return false;">
+<div><textarea id="Q_6_Guess" onfocus="TrackFocus('Q_6_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3" aria-label="Your answer for question 7"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(6)">Check</button><button class="FuncButton hp-button" type="button" onclick="ShowHint(6)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(6)">Show answers</button></div></form></div></li>
+<li class="QuizQuestion hp-display-none" id="Q_7"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_7_SA"><form method="post" action="#" onsubmit="return false;">
 
 <audio
   class="audio-player"
@@ -2311,8 +2317,8 @@ function ShowHint(QNum){
 <param name="wmode" value="transparent">
 </object> -->
 
-<div><textarea id="Q_7_Guess" onfocus="TrackFocus('Q_7_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(7)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(7)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(7)">Show Answer</button></div></form></div></li>
-<li class="QuizQuestion" id="Q_8" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_8_SA"><form method="post" action="#" onsubmit="return false;">
+<div><textarea id="Q_7_Guess" onfocus="TrackFocus('Q_7_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3" aria-label="Your answer for question 8"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(7)">Check</button><button class="FuncButton hp-button" type="button" onclick="ShowHint(7)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(7)">Show answers</button></div></form></div></li>
+<li class="QuizQuestion hp-display-none" id="Q_8"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_8_SA"><form method="post" action="#" onsubmit="return false;">
 
 <audio
   class="audio-player"
@@ -2330,8 +2336,8 @@ function ShowHint(QNum){
 <param name="wmode" value="transparent">
 </object> -->
 
-<div><textarea id="Q_8_Guess" onfocus="TrackFocus('Q_8_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(8)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(8)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(8)">Show Answer</button></div></form></div></li>
-<li class="QuizQuestion" id="Q_9" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_9_SA"><form method="post" action="#" onsubmit="return false;">
+<div><textarea id="Q_8_Guess" onfocus="TrackFocus('Q_8_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 9"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(8)">Check</button><button class="FuncButton hp-button" type="button" onclick="ShowHint(8)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(8)">Show answers</button></div></form></div></li>
+<li class="QuizQuestion hp-display-none" id="Q_9"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_9_SA"><form method="post" action="#" onsubmit="return false;">
 
 <audio
   class="audio-player"
@@ -2349,7 +2355,7 @@ function ShowHint(QNum){
 <param name="wmode" value="transparent">
 </object> -->
 
-<div><textarea id="Q_9_Guess" onfocus="TrackFocus('Q_9_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(9)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(9)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(9)">Show Answer</button></div></form></div></li></ol>
+<div><textarea id="Q_9_Guess" onfocus="TrackFocus('Q_9_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 10"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(9)">Check</button><button class="FuncButton hp-button" type="button" onclick="ShowHint(9)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(9)">Show answers</button></div></form></div></li></ol>
 
 
 
@@ -2359,7 +2365,7 @@ function ShowHint(QNum){
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
-<button id="FeedbackOKButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
+<button id="FeedbackOKButton" class="FuncButton hp-button" type="button" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
 </div>
 
 <!-- BeginBottomNavButtons -->

@@ -102,11 +102,44 @@ body#TheBody .Titles {
   margin-bottom: 0;
 }
 
+body#TheBody .sis-cloze-region--header {
+  gap: clamp(0.3rem, 0.7vw, 0.55rem);
+}
+
+html[data-story-theme] body#TheBody .sis-cloze-region--header .Titles {
+  background-color: var(--secondary-color, #f5f8ff);
+  background-image:
+    linear-gradient(rgba(245, 248, 255, 0.86), rgba(245, 248, 255, 0.86)),
+    var(--story-paper-image, none);
+  border: 1px solid var(--tertiary-color, #002786);
+  border-radius: 0.8rem;
+  box-shadow: 0 8px 20px rgba(0, 39, 134, 0.1);
+  margin: 0;
+  padding: 0.4rem clamp(0.65rem, 2vw, 1rem);
+}
+
 body#TheBody .ExerciseTitle {
   font-size: clamp(1.4rem, 2.1vw, 2rem);
   line-height: 1.2;
   margin-bottom: 1.25rem;
   text-align: center;
+}
+
+html[data-story-theme] body#TheBody .ExerciseTitle {
+  display: -webkit-box;
+  font-size: clamp(0.9rem, 0.65rem + 1.15vw, 1.15rem);
+  line-height: 1.2;
+  margin: 0;
+  max-height: 2.4em;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  padding: 0;
+  text-overflow: ellipsis;
+  text-align: center;
+  -webkit-box-orient: vertical;
+  /* eslint-disable-next-line css/use-baseline*/
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
 }
 
 body#TheBody #InstructionsDiv,
@@ -121,7 +154,7 @@ body#TheBody #MainDiv {
   background: rgba(255, 255, 255, 0.96);
 }
 
-body#TheBody.sis-exercise-story-theme {
+html[data-story-theme] body#TheBody {
   background-color: var(--story-page-bg-color, #929494);
   background-image: var(--story-page-bg-image, url("../images/bg/blueGrunge.webp"));
   background-position: center;
@@ -129,9 +162,9 @@ body#TheBody.sis-exercise-story-theme {
   background-size: auto;
 }
 
-body#TheBody.sis-exercise-story-theme #InstructionsDiv,
-body#TheBody.sis-exercise-story-theme #MainDiv,
-body#TheBody.sis-exercise-story-theme #GuessDiv {
+html[data-story-theme] body#TheBody #InstructionsDiv,
+html[data-story-theme] body#TheBody #MainDiv,
+html[data-story-theme] body#TheBody #GuessDiv {
   background-color: var(--story-panel-bg, rgba(255, 255, 255, 0.92));
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)),
@@ -147,7 +180,7 @@ body#TheBody #InstructionsDiv {
   padding: 1rem;
 }
 
-body#TheBody.sis-exercise-story-theme #InstructionsDiv {
+html[data-story-theme] body#TheBody #InstructionsDiv {
   background-color: var(--secondary-color, #f5f8ff);
   background-image:
     linear-gradient(rgba(245, 248, 255, 0.86), rgba(245, 248, 255, 0.86)),
@@ -246,7 +279,7 @@ body#TheBody .sis-cloze-region--feedback {
   padding: 1rem;
 }
 
-body#TheBody.sis-exercise-story-theme .sis-cloze-panel {
+html[data-story-theme] body#TheBody .sis-cloze-panel {
   background-color: var(--secondary-color, #f5f8ff);
   background-image:
     linear-gradient(rgba(245, 248, 255, 0.86), rgba(245, 248, 255, 0.86)),
@@ -337,6 +370,7 @@ body#TheBody.sis-exercise-story-theme .sis-cloze-panel {
 body#TheBody.sis-exercise-story-theme #GuessDiv {
   border: 1px solid var(--tertiary-color, #002786);
   border-radius: 1rem;
+  box-sizing: border-box;
   box-shadow: 0 16px 36px rgba(0, 39, 134, 0.12);
   margin: 0 auto 0.75rem;
   padding: 0.75rem;

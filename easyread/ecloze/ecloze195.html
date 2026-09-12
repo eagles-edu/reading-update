@@ -4,11 +4,16 @@
 <!-- ecloze/ecloze195.htm, Mon, 03 Jul 2017 07:34:51 GMT -->
 <head>
 <meta charset="utf-8">
-<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
-<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
-<link rel="preload" href="../../js/theme-selector.js" as="script" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty">
-<script src="../../js/theme-selector.js" integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="sis-cloze-prototype" content="current">
+<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
+<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
+<link rel="preload" href="../../js/theme-selector.js" as="script" integrity="sha384-Z1/JSOxBq9/FDcKgAV/WlspujLmY1FVDWPKUBtGpMaemJRTV4PhhWDV5ftWg8zni">
+<script src="../../js/theme-selector.js" integrity="sha384-Z1/JSOxBq9/FDcKgAV/WlspujLmY1FVDWPKUBtGpMaemJRTV4PhhWDV5ftWg8zni"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- HOT POTATOES MODERNIZATION ASSETS START -->
+<script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="easy195.html" data-story-title-url="../es/easy195.html"></script>
+<script src="../../js/hot-potatoes-ui.js" integrity="sha384-/MHyfnAGPvpJenlGmZPAnIJ15f2IH33OefocvyK2+qgGnyAQbQVIeMoLLXsJRu5e"></script>
+<!-- HOT POTATOES MODERNIZATION ASSETS END -->
+<meta name="sis-cloze-prototype" content="current">
 <meta name="keywords" content="ESL, cloze exercises">
 <link rel="icon" href="/reading/favicon.ico">
 <title>Cloze Test:
@@ -647,7 +652,7 @@ p {
 }
 
 </style>
-<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-v0DSSGeZcLACmWH5WI6ozuW3QDiFMUS3j4Sk5JWf6Ck3Uu0XHd1G+syt1v0pqTMI">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-/iMGGg256Wgu2rutWcrgP9MYBdA/uh727ut9BWSP8bhW0PD2ym0TIg900tiFzDNO">
 
 <script>
 
@@ -760,7 +765,7 @@ function ShowMessage(Feedback){
 	FDiv.style.zIndex = topZ;
 	FDiv.style.top = TopSettingWithScrollOffset(30) + 'px';
 
-	FDiv.style.display = 'block';
+	HPSetDisplay(FDiv, "block");
 
 	ShowElements(false, 'input');
 	ShowElements(false, 'select');
@@ -779,17 +784,17 @@ function ShowElements(Show, TagName){
 		var Els = document.getElementsByTagName(TagName);
 		for (var i=0; i<Els.length; i++){
 			if (Show == true){
-				Els[i].style.visibility = 'visible';
+				HPSetVisibility(Els[i], "visible");
 			}
 			else{
-				Els[i].style.visibility = 'hidden';
+				HPSetVisibility(Els[i], "hidden");
 			}
 		}
 	}
 }
 
 function HideFeedback(){
-	document.getElementById('FeedbackDiv').style.display = 'none';
+	HPSetDisplay(document.getElementById('FeedbackDiv'), "none");
 	ShowElements(true, 'input');
 	ShowElements(true, 'select');
 	ShowElements(true, 'object');
@@ -1159,7 +1164,7 @@ function StartUp(){
 	RemoveBottomNavBarForIE();
 //Show a keypad if there is one	(added bugfix for 6.0.4.12)
 	if (document.getElementById('CharacterKeypad') != null){
-		document.getElementById('CharacterKeypad').style.display = 'block';
+		HPSetDisplay(document.getElementById('CharacterKeypad'), "block");
 	}
 
 	var i = 0;
@@ -1412,7 +1417,7 @@ function GetHint(GapNum){
 }
 
 function ShowHint(){
-	if (document.getElementById('FeedbackDiv').style.display == 'block'){return;}
+	if (HPGetDisplay(document.getElementById('FeedbackDiv')) == 'block'){return;}
 	if (Locked == true){return;}
 	var CurrGap = FindCurrent();
 	if (CurrGap < 0){return;}
@@ -1439,7 +1444,10 @@ function TypeChars(Chars){
 </script>
 
 <script defer src="../../js/sis-cloze-submit.js" integrity="sha384-Q6nAIQ+Wk3WKGRBvO4oENxZDTrPkMLTd2KT59wAp+YxFjerlImDo3YQq24MF3JAD"></script>
-
+<!-- HOT POTATOES MODERNIZATION STYLES START -->
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<!-- HOT POTATOES MODERNIZATION STYLES END -->
 </head>
 
 <body onload="StartUp()" id="TheBody"><div class="wrapfit">
@@ -1464,13 +1472,13 @@ The garbage disposal was old. It was leaking <span class="GapSpan" id="GapSpan0"
 </div>
 
 <div class="btn17Container">
-  <button class="btn-17" type="submit" form="Cloze" id="check">check</button>
-  <button class="btn-17" type="button" id="hint">hint</button>
+  <button class="btn-17 hp-button" type="submit" form="Cloze" id="check">check</button>
+  <button class="btn-17 hp-button" type="button" id="hint">hint</button>
 </div>
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
-<button id="FeedbackOKButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
+<button id="FeedbackOKButton" class="FuncButton hp-button" type="button" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
 </div>
 </div>
 
@@ -1478,7 +1486,7 @@ The garbage disposal was old. It was leaking <span class="GapSpan" id="GapSpan0"
 
 <hr>
 
-<button class="btn-74" type="button" onclick="location='JavaScript:window.close() '; return false;">
+<button class="btn-74 hp-button" type="button" onclick="location='JavaScript:window.close() '; return false;">
   close
   <span></span>
   <span></span>

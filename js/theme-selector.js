@@ -63,7 +63,6 @@
     const nextTheme = theme === "dark" ? "dark" : "light";
 
     root.dataset.theme = nextTheme;
-    root.style.colorScheme = nextTheme;
     syncThemeToggles(nextTheme);
 
     if (!persist) {
@@ -159,7 +158,6 @@
     init();
   } catch {
     root.dataset.theme = "light";
-    root.style.colorScheme = "light";
   }
 
   window.addEventListener("storage", (event) => {

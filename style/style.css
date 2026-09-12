@@ -33,6 +33,129 @@
   /* hard cap for large screens */
 }
 
+/* Story theme mapping start: inline-style-free first paint. */
+html[data-story-background="bluegreenGrunge2.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/bluegreenGrunge2.webp.jpg');
+}
+html[data-story-background="blueGrunge2.webp"] {
+  --story-page-bg-image: url('../images/bg/blueGrunge2.webp');
+}
+html[data-story-background="blueGrunge.webp"] {
+  --story-page-bg-image: url('../images/bg/blueGrunge.webp');
+}
+html[data-story-background="blueGrunge2.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/blueGrunge2.webp.jpg');
+}
+html[data-story-background="blueGrunge.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/blueGrunge.webp.jpg');
+}
+html[data-story-background="brushed_alu_dark.webp"] {
+  --story-page-bg-image: url('../images/bg/brushed_alu_dark.webp');
+}
+html[data-story-background="bsyellowGrunge2.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/bsyellowGrunge2.webp.jpg');
+}
+html[data-story-background="dk-rusttan_grunge.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/dk-rusttan_grunge.webp.jpg');
+}
+html[data-story-background="green_dust_scratch.jpg"] {
+  --story-page-bg-image: url('../images/bg/green_dust_scratch.jpg');
+}
+html[data-story-background="greenGrunge.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/greenGrunge.webp.jpg');
+}
+html[data-story-background="greenGrunge2.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/greenGrunge2.webp.jpg');
+}
+html[data-story-background="greenGrunge3.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/greenGrunge3.webp.jpg');
+}
+html[data-story-background="Grunge01.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/Grunge01.webp.jpg');
+}
+html[data-story-background="Grunge02.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/Grunge02.webp.jpg');
+}
+html[data-story-background="Grunge03.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/Grunge03.webp.jpg');
+}
+html[data-story-background="Grunge04.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/Grunge04.webp.jpg');
+}
+html[data-story-background="Grunge05.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/Grunge05.webp.jpg');
+}
+html[data-story-background="Grunge06.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/Grunge06.webp.jpg');
+}
+html[data-story-background="Grunge07.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/Grunge07.webp.jpg');
+}
+html[data-story-background="Grunge09.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/Grunge09.webp.jpg');
+}
+html[data-story-background="Grunge10.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/Grunge10.webp.jpg');
+}
+html[data-story-background="Grunge11.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/Grunge11.webp.jpg');
+}
+html[data-story-background="mochaGrunge.png"] {
+  --story-page-bg-image: url('../images/bg/mochaGrunge.png');
+}
+html[data-story-background="mochaGrunge.fw.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/mochaGrunge.fw.webp.jpg');
+}
+html[data-story-background="mochaGrunge.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/mochaGrunge.webp.jpg');
+}
+html[data-story-background="purpGrunge.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/purpGrunge.webp.jpg');
+}
+html[data-story-background="redGrunge2.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/redGrunge2.webp.jpg');
+}
+html[data-story-background="redGrunge3.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/redGrunge3.webp.jpg');
+}
+html[data-story-background="royalblueGrunge.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/royalblueGrunge.webp.jpg');
+}
+html[data-story-background="rustGrunge3.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/rustGrunge3.webp.jpg');
+}
+html[data-story-background="rustGrunge4.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/rustGrunge4.webp.jpg');
+}
+html[data-story-background="subtle-tan_grunge.webp.jpg"] {
+  --story-page-bg-image: url('../images/bg/subtle-tan_grunge.webp.jpg');
+}
+html[data-story-background="vertical-waves.png.png"] {
+  --story-page-bg-image: url('../images/bg/vertical-waves.png.png');
+}
+html[data-story-paper="binding_light.png"] {
+  --story-paper-image: url('../images/bg/paper/binding_light.png');
+}
+html[data-story-paper="ep_naturalwhite.webp"] {
+  --story-paper-image: url('../images/bg/paper/ep_naturalwhite.webp');
+}
+html[data-story-paper="fabric_1.webp"] {
+  --story-paper-image: url('../images/bg/paper/fabric_1.webp');
+}
+html[data-story-paper="ricepaper_v3.webp"] {
+  --story-paper-image: url('../images/bg/paper/ricepaper_v3.webp');
+}
+html[data-story-paper="roughcloth.jpg"] {
+  --story-paper-image: url('../images/bg/paper/roughcloth.jpg');
+}
+html[data-story-paper="seamless_paper_texture.webp"] {
+  --story-paper-image: url('../images/bg/paper/seamless_paper_texture.webp');
+}
+html[data-story-paper="subtle_grunge.webp"] {
+  --story-paper-image: url('../images/bg/paper/subtle_grunge.webp');
+}
+/* Story theme mapping end. */
+
 /* Reset and Base Styles */
 *,
 *::after,

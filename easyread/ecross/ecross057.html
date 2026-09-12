@@ -4,9 +4,14 @@
 <!-- ecross/ecross057.htm, Mon, 03 Jul 2017 07:08:56 GMT -->
 <head>
 <meta charset="utf-8">
-<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
-<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
-<meta name="viewport" content="width=device-width, initial-scale=1"> <meta name="keywords" content="ESL, crossword puzzles ">
+<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
+<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- HOT POTATOES MODERNIZATION ASSETS START -->
+<script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="easy057.html" data-story-title-url="../es/easy057.html"></script>
+<script src="../../js/hot-potatoes-ui.js" integrity="sha384-/MHyfnAGPvpJenlGmZPAnIJ15f2IH33OefocvyK2+qgGnyAQbQVIeMoLLXsJRu5e"></script>
+<!-- HOT POTATOES MODERNIZATION ASSETS END -->
+<meta name="keywords" content="ESL, crossword puzzles ">
 
 <link rel="schema.DC" href="../../../purl.org/dc/elements/1.1/index.html">
 <link rel="icon" href="/reading/favicon.ico">
@@ -795,7 +800,7 @@ function ShowMessage(Feedback){
 	FDiv.style.zIndex = topZ;
 	FDiv.style.top = TopSettingWithScrollOffset(30) + 'px';
 
-	FDiv.style.display = 'block';
+	HPSetDisplay(FDiv, "block");
 
 	ShowElements(false, 'input');
 	ShowElements(false, 'select');
@@ -814,17 +819,17 @@ function ShowElements(Show, TagName){
 		var Els = document.getElementsByTagName(TagName);
 		for (var i=0; i<Els.length; i++){
 			if (Show == true){
-				Els[i].style.visibility = 'visible';
+				HPSetVisibility(Els[i], "visible");
 			}
 			else{
-				Els[i].style.visibility = 'hidden';
+				HPSetVisibility(Els[i], "hidden");
 			}
 		}
 	}
 }
 
 function HideFeedback(){
-	document.getElementById('FeedbackDiv').style.display = 'none';
+	HPSetDisplay(document.getElementById('FeedbackDiv'), "none");
 	ShowElements(true, 'input');
 	ShowElements(true, 'select');
 	ShowElements(true, 'object');
@@ -1106,7 +1111,7 @@ function StartUp(){
 	RemoveBottomNavBarForIE();
 //Show a keypad if there is one	(added bugfix for 6.0.4.12)
 	if (document.getElementById('CharacterKeypad') != null){
-		document.getElementById('CharacterKeypad').style.display = 'block';
+		HPSetDisplay(document.getElementById('CharacterKeypad'), "block");
 	}
 
 	AcrossCaption = document.getElementById('CluesAcrossLabel').innerHTML;
@@ -1400,8 +1405,10 @@ function TypeChars(Chars){
 // End of script
 
 </script>
-
-
+<!-- HOT POTATOES MODERNIZATION STYLES START -->
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<!-- HOT POTATOES MODERNIZATION STYLES END -->
 </head>
 
 <body onload="StartUp()" id="TheBody"><div class="wrapfit">
@@ -1449,7 +1456,7 @@ function TypeChars(Chars){
 
 
 
-<button id="CheckButton2" class="FuncButton" type="submit" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
+<button id="CheckButton2" class="FuncButton hp-button" type="submit" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
 
  <table id="Clues">
 <tbody>
@@ -1489,7 +1496,7 @@ function TypeChars(Chars){
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
-<button id="FeedbackOKButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
+<button id="FeedbackOKButton" class="FuncButton hp-button" type="button" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
 </div>
 
 <!-- BeginBottomNavButtons -->

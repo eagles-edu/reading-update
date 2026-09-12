@@ -4,8 +4,12 @@
 <!-- Mirrored from www.eslfast.com/eslread/comp/comp147.htm by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 03 Jul 2017 09:25:26 GMT -->
 <head>
 <meta charset="utf-8">
-<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
-<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
+<!-- HOT POTATOES MODERNIZATION ASSETS START -->
+<script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="s147.html" data-story-title-url="../ss/s147.html"></script>
+<script src="../../js/hot-potatoes-ui.js" integrity="sha384-/MHyfnAGPvpJenlGmZPAnIJ15f2IH33OefocvyK2+qgGnyAQbQVIeMoLLXsJRu5e"></script>
+<!-- HOT POTATOES MODERNIZATION ASSETS END -->
+<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
+<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
 <meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to ron."><meta name="keywords" content="Hot Potatoes, Hot Potatoes, Half-Baked Software, Windows, University of Victoria">
 
 <link rel="schema.DC" href="../../../purl.org/dc/elements/1.1/index.html">
@@ -841,7 +845,7 @@ function ShowMessage(Feedback){
 	FDiv.style.zIndex = topZ;
 	FDiv.style.top = TopSettingWithScrollOffset(30) + 'px';
 
-	FDiv.style.display = 'block';
+	HPSetDisplay(FDiv, "block");
 
 	ShowElements(false, 'input');
 	ShowElements(false, 'select');
@@ -873,13 +877,13 @@ function ShowElements(Show, TagName, ContainerToReverse){
 		if (TagName == "object") {
 			//manipulate object elements in all browsers
 			if (Show == true){
-				Els[i].style.visibility = 'visible';
+				HPSetVisibility(Els[i], "visible");
 				//get Mac FireFox to manipulate display, to force screen redraw
-				if (C.mac && C.gecko) {Els[i].style.display = '';}
+				if (C.mac && C.gecko) {HPSetDisplay(Els[i], "");}
 			}
 			else{
-				Els[i].style.visibility = 'hidden';
-				if (C.mac && C.gecko) {Els[i].style.display = 'none';}
+				HPSetVisibility(Els[i], "hidden");
+				if (C.mac && C.gecko) {HPSetDisplay(Els[i], "none");}
 			}
 		}
 		else {
@@ -888,10 +892,10 @@ function ShowElements(Show, TagName, ContainerToReverse){
 			if (C.ie) {
 				if (C.ieVer < 7) {
 					if (Show == true){
-						Els[i].style.visibility = 'visible';
+						HPSetVisibility(Els[i], "visible");
 					}
 					else{
-						Els[i].style.visibility = 'hidden';
+						HPSetVisibility(Els[i], "hidden");
 					}
 				}
 			}
@@ -902,7 +906,7 @@ function ShowElements(Show, TagName, ContainerToReverse){
 
 
 function HideFeedback(){
-	document.getElementById('FeedbackDiv').style.display = 'none';
+	HPSetDisplay(document.getElementById('FeedbackDiv'), "none");
 	ShowElements(true, 'input');
 	ShowElements(true, 'select');
 	ShowElements(true, 'object');
@@ -1190,8 +1194,8 @@ var Finished = false;
 var Qs = null;
 var QArray = new Array();
 var ShowingAllQuestions = false;
-var ShowAllQuestionsCaption = 'Show all questions';
-var ShowOneByOneCaption = 'Show questions one by one';
+var ShowAllQuestionsCaption = 'Show all';
+var ShowOneByOneCaption = 'Show one';
 var State = new Array();
 var Feedback = '';
 var TimeOver = false;
@@ -1266,11 +1270,11 @@ function SetUpQuestions(){
 	}
 
 //Show the first item
-	QArray[0].style.display = '';
+	HPSetDisplay(QArray[0], "");
 
 //Now hide all except the first item
 	for (i=1; i<QArray.length; i++){
-		QArray[i].style.display = 'none';
+		HPSetDisplay(QArray[i], "none");
 	}
 	SetQNumReadout();
 
@@ -1283,7 +1287,7 @@ function SetFocusToTextbox(){
 		QArray[CurrQNum].getElementsByTagName('input')[0].focus();
 //and show a keypad if there is one
 		if (document.getElementById('CharacterKeypad') != null){
-			document.getElementById('CharacterKeypad').style.display = 'block';
+			HPSetDisplay(document.getElementById('CharacterKeypad'), "block");
 		}
 	}
 	else{
@@ -1291,13 +1295,13 @@ function SetFocusToTextbox(){
   		QArray[CurrQNum].getElementsByTagName('textarea')[0].focus();
 //and show a keypad if there is one
 			if (document.getElementById('CharacterKeypad') != null){
-				document.getElementById('CharacterKeypad').style.display = 'block';
+				HPSetDisplay(document.getElementById('CharacterKeypad'), "block");
 			}
 		}
 //This added for 6.0.4.11: hide accented character buttons if no textbox
 		else{
 			if (document.getElementById('CharacterKeypad') != null){
-				document.getElementById('CharacterKeypad').style.display = 'none';
+				HPSetDisplay(document.getElementById('CharacterKeypad'), "none");
 			}
 		}
 	}
@@ -1308,9 +1312,9 @@ function ChangeQ(ChangeBy){
 //question is answered correctly. Uncomment it to enable this behaviour.
 //	if (State[CurrQNum][0] == -1){return;}
 	if (((CurrQNum + ChangeBy) < 0)||((CurrQNum + ChangeBy) >= QArray.length)){return;}
-	QArray[CurrQNum].style.display = 'none';
+	HPSetDisplay(QArray[CurrQNum], "none");
 	CurrQNum += ChangeBy;
-	QArray[CurrQNum].style.display = '';
+	HPSetDisplay(QArray[CurrQNum], "");
 //Undocumented function added 10/12/2004
 	ShowSpecialReadingForQuestion();
 	SetQNumReadout();
@@ -1334,7 +1338,7 @@ function ShowSpecialReadingForQuestion(){
 					HiddenReadingShown = true;
 //Hide the ShowAllQuestions button to avoid confusion
 					if (document.getElementById('ShowMethodButton') != null){
-						document.getElementById('ShowMethodButton').style.display = 'none';
+						HPSetDisplay(document.getElementById('ShowMethodButton'), "none");
 					}
 				}
 			}
@@ -1346,22 +1350,22 @@ function SetQNumReadout(){
 	document.getElementById('QNumReadout').innerHTML = (CurrQNum+1) + ' / ' + QArray.length;
 	if ((CurrQNum+1) >= QArray.length){
 		if (document.getElementById('NextQButton') != null){
-			document.getElementById('NextQButton').style.visibility = 'hidden';
+			HPSetVisibility(document.getElementById('NextQButton'), "hidden");
 		}
 	}
 	else{
 		if (document.getElementById('NextQButton') != null){
-			document.getElementById('NextQButton').style.visibility = 'visible';
+			HPSetVisibility(document.getElementById('NextQButton'), "visible");
 		}
 	}
 	if (CurrQNum <= 0){
 		if (document.getElementById('PrevQButton') != null){
-			document.getElementById('PrevQButton').style.visibility = 'hidden';
+			HPSetVisibility(document.getElementById('PrevQButton'), "hidden");
 		}
 	}
 	else{
 		if (document.getElementById('PrevQButton') != null){
-			document.getElementById('PrevQButton').style.visibility = 'visible';
+			HPSetVisibility(document.getElementById('PrevQButton'), "visible");
 		}
 	}
 }
@@ -1414,7 +1418,7 @@ function StartUp(){
 
 //If there's only one question, no need for question navigation controls
 	if (QsToShow < 2){
-		document.getElementById('QNav').style.display = 'none';
+		HPSetDisplay(document.getElementById('QNav'), "none");
 	}
 
 //Stash the instructions so they can be redisplayed
@@ -1449,28 +1453,28 @@ function StartUp(){
 
 function ShowHideQuestions(){
 	FuncBtnOut(document.getElementById('ShowMethodButton'));
-	document.getElementById('ShowMethodButton').style.display = 'none';
+	HPSetDisplay(document.getElementById('ShowMethodButton'), "none");
 	if (ShowingAllQuestions == false){
 		for (var i=0; i<QArray.length; i++){
-				QArray[i].style.display = '';
+				HPSetDisplay(QArray[i], "");
 			}
 		document.getElementById('Questions').style.listStyleType = 'decimal';
-		document.getElementById('OneByOneReadout').style.display = 'none';
+		HPSetDisplay(document.getElementById('OneByOneReadout'), "none");
 		document.getElementById('ShowMethodButton').innerHTML = ShowOneByOneCaption;
 		ShowingAllQuestions = true;
 	}
 	else{
 		for (var i=0; i<QArray.length; i++){
 				if (i != CurrQNum){
-					QArray[i].style.display = 'none';
+					HPSetDisplay(QArray[i], "none");
 				}
 			}
 		document.getElementById('Questions').style.listStyleType = 'none';
-		document.getElementById('OneByOneReadout').style.display = '';
+		HPSetDisplay(document.getElementById('OneByOneReadout'), "");
 		document.getElementById('ShowMethodButton').innerHTML = ShowAllQuestionsCaption;
 		ShowingAllQuestions = false;
 	}
-	document.getElementById('ShowMethodButton').style.display = 'inline';
+	HPSetDisplay(document.getElementById('ShowMethodButton'), "inline");
 }
 
 function CreateStatusArray(){
@@ -1518,7 +1522,7 @@ function CheckMCAnswer(QNum, ANum, Btn){
 	}
 
 //Hide the button while processing
-	Btn.style.display = 'none';
+	HPSetDisplay(Btn, "none");
 
 //Increment the number of tries
 	State[QNum][2]++;
@@ -1591,7 +1595,7 @@ function CheckMCAnswer(QNum, ANum, Btn){
 	}
 
 //Show the button again
-	Btn.style.display = 'inline';
+	HPSetDisplay(Btn, "inline");
 
 //Finally, show the feedback
 	ShowMessage(Feedback);
@@ -1767,8 +1771,10 @@ function CheckFinished(){
 //]]>
 
 </script>
-
-
+<!-- HOT POTATOES MODERNIZATION STYLES START -->
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<!-- HOT POTATOES MODERNIZATION STYLES END -->
 </head>
 
 <body onload="StartUp()" id="TheBody"><div class="wrapit">
@@ -1794,26 +1800,26 @@ function CheckFinished(){
 <div id="QNav" class="QuestionNavigation">
 
 <p class="flextxtright">
-<button id="ShowMethodButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOver(this)" onclick="ShowHideQuestions(); return false;">Show all questions</button>
+<button id="ShowMethodButton" class="FuncButton hp-button" type="button" onclick="ShowHideQuestions(); return false;">Show all</button>
 </p>
 
 <div id="OneByOneReadout">
-<button id="PrevQButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOver(this)" onclick="ChangeQ(-1); return false;">&lt;=</button>
+<button id="PrevQButton" class="FuncButton hp-button" type="button" onclick="ChangeQ(-1); return false;">&lt;=</button>
 
 <span id="QNumReadout" class="QNum">&nbsp;</span>
 
-<button id="NextQButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOver(this)" onclick="ChangeQ(1); return false;">=&gt;</button>
+<button id="NextQButton" class="FuncButton hp-button" type="button" onclick="ChangeQ(1); return false;">=&gt;</button>
 <br>
 </div>
 
 </div>
 
 <ol class="QuizQuestions" id="Questions">
-<li class="QuizQuestion" id="Q_0" style="display: none;"><div class="QuestionText">1. Why is the narrator&#x2019;s dog named Spot?</div><ol class="MCAnswers"><li id="Q_0_0"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_0_0_Btn" onclick="CheckMCAnswer(0,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he has one big spot on his body</li><li id="Q_0_1"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_0_1_Btn" onclick="CheckMCAnswer(0,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he has spots all over his body</li><li id="Q_0_2"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_0_2_Btn" onclick="CheckMCAnswer(0,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;the narrator&#x2019;s deceased mother&#x2019;s nickname was Spot</li><li id="Q_0_3"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_0_3_Btn" onclick="CheckMCAnswer(0,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;it stands for something</li></ol></li>
-<li class="QuizQuestion" id="Q_1" style="display: none;"><div class="QuestionText">2. The dog pound is where ____________.</div><ol class="MCAnswers"><li id="Q_1_0"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_1_0_Btn" onclick="CheckMCAnswer(1,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;dogs go to play</li><li id="Q_1_1"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_1_1_Btn" onclick="CheckMCAnswer(1,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;dogs are taken care of while their owners go to work or school</li><li id="Q_1_2"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_1_2_Btn" onclick="CheckMCAnswer(1,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;all the lost dogs stay at</li><li id="Q_1_3"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_1_3_Btn" onclick="CheckMCAnswer(1,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;all the purebreds reside</li></ol></li>
-<li class="QuizQuestion" id="Q_2" style="display: none;"><div class="QuestionText">3. How did the narrator find Spot?</div><ol class="MCAnswers"><li id="Q_2_0"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_2_0_Btn" onclick="CheckMCAnswer(2,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he stapled posters of Spot all over his neighborhood</li><li id="Q_2_1"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_2_1_Btn" onclick="CheckMCAnswer(2,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;online</li><li id="Q_2_2"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_2_2_Btn" onclick="CheckMCAnswer(2,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;his friends actually found Spot</li><li id="Q_2_3"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_2_3_Btn" onclick="CheckMCAnswer(2,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he made an announcement in his school paper</li></ol></li>
-<li class="QuizQuestion" id="Q_3" style="display: none;"><div class="QuestionText">4. How long was Spot lost for?</div><ol class="MCAnswers"><li id="Q_3_0"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_3_0_Btn" onclick="CheckMCAnswer(3,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;2 weeks</li><li id="Q_3_1"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_3_1_Btn" onclick="CheckMCAnswer(3,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;9 years</li><li id="Q_3_2"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_3_2_Btn" onclick="CheckMCAnswer(3,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;9 hours</li><li id="Q_3_3"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_3_3_Btn" onclick="CheckMCAnswer(3,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;2 days</li></ol></li>
-<li class="QuizQuestion" id="Q_4" style="display: none;"><div class="QuestionText">5. How did Spot feel about being home?</div><ol class="MCAnswers"><li id="Q_4_0"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_4_0_Btn" onclick="CheckMCAnswer(4,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;sad, because he does not like his owner</li><li id="Q_4_1"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_4_1_Btn" onclick="CheckMCAnswer(4,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;mad, because the home is too small</li><li id="Q_4_2"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_4_2_Btn" onclick="CheckMCAnswer(4,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;mad, because he liked the dog pound</li><li id="Q_4_3"><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_4_3_Btn" onclick="CheckMCAnswer(4,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;happy</li></ol></li></ol>
+<li class="QuizQuestion hp-display-none" id="Q_0"><div class="QuestionText">1. Why is the narrator&#x2019;s dog named Spot?</div><ol class="MCAnswers"><li id="Q_0_0"><button class="FuncButton hp-button" type="button" id="Q_0_0_Btn" onclick="CheckMCAnswer(0,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he has one big spot on his body</li><li id="Q_0_1"><button class="FuncButton hp-button" type="button" id="Q_0_1_Btn" onclick="CheckMCAnswer(0,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he has spots all over his body</li><li id="Q_0_2"><button class="FuncButton hp-button" type="button" id="Q_0_2_Btn" onclick="CheckMCAnswer(0,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;the narrator&#x2019;s deceased mother&#x2019;s nickname was Spot</li><li id="Q_0_3"><button class="FuncButton hp-button" type="button" id="Q_0_3_Btn" onclick="CheckMCAnswer(0,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;it stands for something</li></ol></li>
+<li class="QuizQuestion hp-display-none" id="Q_1"><div class="QuestionText">2. The dog pound is where ____________.</div><ol class="MCAnswers"><li id="Q_1_0"><button class="FuncButton hp-button" type="button" id="Q_1_0_Btn" onclick="CheckMCAnswer(1,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;dogs go to play</li><li id="Q_1_1"><button class="FuncButton hp-button" type="button" id="Q_1_1_Btn" onclick="CheckMCAnswer(1,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;dogs are taken care of while their owners go to work or school</li><li id="Q_1_2"><button class="FuncButton hp-button" type="button" id="Q_1_2_Btn" onclick="CheckMCAnswer(1,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;all the lost dogs stay at</li><li id="Q_1_3"><button class="FuncButton hp-button" type="button" id="Q_1_3_Btn" onclick="CheckMCAnswer(1,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;all the purebreds reside</li></ol></li>
+<li class="QuizQuestion hp-display-none" id="Q_2"><div class="QuestionText">3. How did the narrator find Spot?</div><ol class="MCAnswers"><li id="Q_2_0"><button class="FuncButton hp-button" type="button" id="Q_2_0_Btn" onclick="CheckMCAnswer(2,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he stapled posters of Spot all over his neighborhood</li><li id="Q_2_1"><button class="FuncButton hp-button" type="button" id="Q_2_1_Btn" onclick="CheckMCAnswer(2,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;online</li><li id="Q_2_2"><button class="FuncButton hp-button" type="button" id="Q_2_2_Btn" onclick="CheckMCAnswer(2,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;his friends actually found Spot</li><li id="Q_2_3"><button class="FuncButton hp-button" type="button" id="Q_2_3_Btn" onclick="CheckMCAnswer(2,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he made an announcement in his school paper</li></ol></li>
+<li class="QuizQuestion hp-display-none" id="Q_3"><div class="QuestionText">4. How long was Spot lost for?</div><ol class="MCAnswers"><li id="Q_3_0"><button class="FuncButton hp-button" type="button" id="Q_3_0_Btn" onclick="CheckMCAnswer(3,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;2 weeks</li><li id="Q_3_1"><button class="FuncButton hp-button" type="button" id="Q_3_1_Btn" onclick="CheckMCAnswer(3,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;9 years</li><li id="Q_3_2"><button class="FuncButton hp-button" type="button" id="Q_3_2_Btn" onclick="CheckMCAnswer(3,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;9 hours</li><li id="Q_3_3"><button class="FuncButton hp-button" type="button" id="Q_3_3_Btn" onclick="CheckMCAnswer(3,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;2 days</li></ol></li>
+<li class="QuizQuestion hp-display-none" id="Q_4"><div class="QuestionText">5. How did Spot feel about being home?</div><ol class="MCAnswers"><li id="Q_4_0"><button class="FuncButton hp-button" type="button" id="Q_4_0_Btn" onclick="CheckMCAnswer(4,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;sad, because he does not like his owner</li><li id="Q_4_1"><button class="FuncButton hp-button" type="button" id="Q_4_1_Btn" onclick="CheckMCAnswer(4,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;mad, because the home is too small</li><li id="Q_4_2"><button class="FuncButton hp-button" type="button" id="Q_4_2_Btn" onclick="CheckMCAnswer(4,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;mad, because he liked the dog pound</li><li id="Q_4_3"><button class="FuncButton hp-button" type="button" id="Q_4_3_Btn" onclick="CheckMCAnswer(4,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;happy</li></ol></li></ol>
 
 
 
@@ -1823,7 +1829,7 @@ function CheckFinished(){
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
-<button id="FeedbackOKButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
+<button id="FeedbackOKButton" class="FuncButton hp-button" type="button" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
 </div>
 
 <!-- BeginBottomNavButtons -->

@@ -1,4 +1,5 @@
 blueeyes
+bsyellow
 CEFR
 cfat
 CMYK
@@ -18,9 +19,14 @@ ndy
 Pantone
 phpmyadmin
 pmahomme
+predeclared
+purp
 RAL
+ricepaper
+roughcloth
 rtl
 rtlcssrc
+rusttan
 Smx
 tablesorter
 tracekit

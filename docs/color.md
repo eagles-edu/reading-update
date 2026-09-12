@@ -1,5 +1,3 @@
-<!-- eslint-disable markdown/no-missing-label-refs -->
-
 # Color name, hex codes, RGB, CMYK, RAL and Pantone values
 
 Color Color name and codes
@@ -43,7 +41,7 @@ Pantone: 656 C
 
 The standard neutral flat gray hex code is #808080, which represents the
 pure achromatic mid-tone gray with equal RGB values of 128, 128, 128.
-[1] (<https://www.figma.com/colors/gray/>), [2] (<https://www.visily.ai/blog/gray-color>)
+1 (<https://www.figma.com/colors/gray/>), 2 (<https://www.visily.ai/blog/gray-color>)
 
 Common Neutral Flat Gray Variations
 
@@ -54,9 +52,9 @@ Ashy Flat Neutral: #929494 (A soft, balanced mid-tone often used in minimalist l
 Muted Stone Gray: #8E918F (A natural, concrete-inspired neutral gray).
 
 Darker UI Neutral: #606060 (Recommended for accessible secondary body text).
-[1] (<https://colorkit.co/color/929494/>),
-[2] (<https://icolorpalette.com/color/8e918f/>),
-[3] (<https://www.visily.ai/blog/gray-color>)
+1 (<https://colorkit.co/color/929494/>),
+2 (<https://icolorpalette.com/color/8e918f/>),
+3 (<https://www.visily.ai/blog/gray-color>)
 
 If you have a specific design context (like a website background, UI component,
 or print material), let me know so I can give you the exact shade and contrast

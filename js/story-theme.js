@@ -9,7 +9,6 @@
     "blueGrunge.webp.jpg",
     "brushed_alu_dark.webp",
     "bsyellowGrunge2.webp.jpg",
-    "dk-rusttan_grunge.webp.fw.png",
     "dk-rusttan_grunge.webp.jpg",
     "green_dust_scratch.jpg",
     "greenGrunge.webp.jpg",
@@ -50,6 +49,9 @@
   var requestedTheme = activeScript
     ? activeScript.getAttribute("data-story-theme-key")
     : "";
+  var requestedStoryUrl = activeScript
+    ? activeScript.getAttribute("data-story-title-url")
+    : "";
   var pageName =
     requestedTheme || window.location.pathname.split("/").pop() || "story";
   var hash = 0;
@@ -79,13 +81,53 @@
   preloadImage(pageBackgroundUrl);
   preloadImage(paperTextureUrl);
 
-  root.style.setProperty(
-    "--story-page-bg-image",
-    'url("' + pageBackgroundUrl + '")',
-  );
-  root.style.setProperty(
-    "--story-paper-image",
-    'url("' + paperTextureUrl + '")',
-  );
-  document.body?.setAttribute("data-story-theme", pageName);
+  root.setAttribute("data-story-background", pageBackground);
+  root.setAttribute("data-story-paper", paperTexture);
+  root.setAttribute("data-story-theme", pageName);
+
+  function readStoryTitle(storyKey, storyUrlOverride) {
+    var storyUrl;
+    if (storyUrlOverride) {
+      storyUrl = new URL(storyUrlOverride, window.location.href);
+    } else {
+      var match = /^b([1-6])\d{3}\.html$/i.exec(storyKey);
+      if (!match) return Promise.resolve("");
+      storyUrl = new URL("../b" + match[1] + "/" + storyKey, window.location.href);
+    }
+    return fetch(storyUrl.href, { credentials: "same-origin" })
+      .then(function (response) {
+        if (!response.ok) return "";
+        return response.text();
+      })
+      .then(function (source) {
+        if (!source) return "";
+        var storyDocument = new DOMParser().parseFromString(source, "text/html");
+        var heading = storyDocument.querySelector(".story-column h1, body h1");
+        var title = heading ? heading.textContent : storyDocument.title;
+        return String(title || "").replace(/\s+/g, " ").trim();
+      })
+      .catch(function () {
+        return "";
+      });
+  }
+
+  if (requestedTheme || requestedStoryUrl) {
+    var storyTitlePromise = readStoryTitle(requestedTheme, requestedStoryUrl);
+    var applyStoryTitle = function () {
+      storyTitlePromise.then(function (title) {
+        var titleNode = document.querySelector(
+          ".Titles .ExerciseTitle, .Titles h1, h1.ExerciseTitle, h1",
+        );
+        if (!title || !titleNode) return;
+        titleNode.textContent = title;
+        titleNode.setAttribute("title", title);
+      });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", applyStoryTitle, { once: true });
+    } else {
+      applyStoryTitle();
+    }
+  }
 })();
