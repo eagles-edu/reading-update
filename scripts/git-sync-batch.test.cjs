@@ -186,10 +186,15 @@ test("unstages selected files when the staged whitespace check fails", () => {
   );
 });
 
-test("interactive apply refuses non-terminal input before changing Git", () => {
+test("interactive apply previews changed paths concisely and refuses non-terminal input", () => {
   const { repo } = makeFixture();
   const originalHead = git(repo, "rev-parse", "HEAD");
-  fs.writeFileSync(path.join(repo, "pending.txt"), "pending\n");
+  for (let i = 0; i < 55; i += 1) {
+    fs.writeFileSync(
+      path.join(repo, `pending-${String(i).padStart(2, "0")}.txt`),
+      `pending ${i}\n`,
+    );
+  }
   const result = runScript(repo, [
     "--all",
     "--apply",
@@ -198,11 +203,17 @@ test("interactive apply refuses non-terminal input before changing Git", () => {
   ]);
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /requires a terminal/);
+  assert.match(result.stdout, /Paths \(first 40 of 55\):/);
+  assert.match(result.stdout, /pending-39\.txt/);
+  assert.doesNotMatch(result.stdout, /pending-40\.txt/);
+  assert.match(result.stdout, /\.\.\. 15 more path\(s\)/);
   assert.equal(git(repo, "rev-parse", "HEAD"), originalHead);
   assert.equal(git(repo, "diff", "--cached", "--name-only"), "");
   assert.equal(
-    git(repo, "status", "--porcelain", "--untracked-files=all").trim(),
-    "?? pending.txt",
+    git(repo, "status", "--porcelain", "--untracked-files=all")
+      .trim()
+      .split("\n").length,
+    55,
   );
 });
 

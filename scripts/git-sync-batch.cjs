@@ -324,15 +324,20 @@ function printPlan(records, options, branch, upstream) {
         ", ",
       )}${sortedGroups.length > 20 ? `, ... ${sortedGroups.length - 20} more` : ""}`,
   );
-  console.log("Paths:");
-  const shownPaths = options.all
-    ? records
-    : records.slice(0, PREVIEW_PATH_LIMIT);
+  const shownPaths =
+    options.all && !options.promptMessage
+      ? records
+      : records.slice(0, PREVIEW_PATH_LIMIT);
+  console.log(
+    shownPaths.length < records.length
+      ? `Paths (first ${shownPaths.length} of ${records.length}):`
+      : "Paths:",
+  );
   for (const { code, path: filePath } of shownPaths) {
     console.log(`  ${code} ${filePath}`);
   }
   if (records.length > shownPaths.length)
-    console.log(`  ... ${records.length - PREVIEW_PATH_LIMIT} more path(s)`);
+    console.log(`  ... ${records.length - shownPaths.length} more path(s)`);
   if (!options.apply) {
     console.log(
       "Dry run only. Add --apply to stage and commit. Add --push as well to push to the configured upstream.",
