@@ -13,7 +13,6 @@ const FAMILIES = [
   "begin4/cloze",
   "begin5/cloze",
   "begin6/cloze",
-  "easyread/ecloze",
 ];
 
 function runStep(label, command, args) {
@@ -53,10 +52,10 @@ function assertInstructionsShell(file) {
     return 1;
   }
 
-  const emptyInstructionsShellRe =
-    /<div id="InstructionsDiv" class="StdDiv">\s*<div id="Instructions">\s*<\/div>\s*<\/div>/i;
-  if (emptyInstructionsShellRe.test(source)) {
-    console.error(`ERROR: empty InstructionsDiv in ${file}`);
+  const injectedInstructionsRe =
+    /<div\b(?=[^>]*\bid="InstructionsDiv")(?=[^>]*\bdata-cloze-instructions="[^"]+")[^>]*>\s*<div\b(?=[^>]*\bid="Instructions")[^>]*>\s*<\/div>\s*<\/div>/i;
+  if (!injectedInstructionsRe.test(source)) {
+    console.error(`ERROR: missing JavaScript instruction source/target in ${file}`);
     return 1;
   }
 
@@ -101,7 +100,7 @@ function main() {
         "--cloze-dir",
         family,
         "--icon",
-        "/favicon.ico",
+        "/reading/favicon.ico",
       ]
     );
     if (modernize !== 0) return modernize;
@@ -116,10 +115,6 @@ function main() {
     const afterInstructions = assertInstructionsShell(representative);
     if (afterInstructions !== 0) return afterInstructions;
 
-    if (family === "easyread/ecloze") {
-      const verify = runStep("verify easyread/ecloze", "npm", ["run", "verify:ecloze"]);
-      if (verify !== 0) return verify;
-    }
   }
 
   const finalVerify = runFinalVerify();

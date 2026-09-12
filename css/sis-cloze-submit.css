@@ -139,6 +139,11 @@ body#TheBody #Instructions {
   text-indent: 0;
 }
 
+body#TheBody #Instructions > .sis-cloze-instructions {
+  margin: 0;
+  text-indent: 0;
+}
+
 hr {
   border: none;
   border-top: 1px solid var(--tertiary-color, #002786);

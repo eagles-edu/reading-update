@@ -8,6 +8,8 @@
   var ATTEMPT_KEY_PREFIX = STORAGE_PREFIX + ":attempt:"
   var IDENTITY_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365 * 2
   var PROTOTYPE_STYLE = "current"
+  var DEFAULT_INSTRUCTIONS_TEXT =
+    "Review the vocabulary, read the story, then fill in each blank. Click CHECK to see if your answers are correct."
   var TEST_EXERCISE_SUBMIT_HOST = "test.eagles.edu.vn"
   // Change this back to 8787 when the local/test backend moves back to that port.
   var EXERCISE_SUBMIT_PORT = 8786
@@ -339,6 +341,32 @@
 
     if (state.emailInput) state.emailInput.setAttribute("aria-describedby", "sis-cloze-status")
     if (state.eaglesIdInput) state.eaglesIdInput.setAttribute("aria-describedby", "sis-cloze-status")
+  }
+
+  function injectInstructionParagraph() {
+    var instructionPanel = document.getElementById("InstructionsDiv")
+    if (!instructionPanel) return
+
+    var instructions = instructionPanel.querySelector("#Instructions") || instructionPanel
+    if (instructions.querySelector("p.sis-cloze-instructions")) return
+
+    var instructionText = normalizeText(
+      instructionPanel.getAttribute("data-cloze-instructions") || instructions.textContent
+    ).replace(/^CLOZE\s*:\s*/i, "")
+    if (!instructionText) instructionText = DEFAULT_INSTRUCTIONS_TEXT
+
+    var paragraph = document.createElement("p")
+    paragraph.className = "sis-cloze-instructions"
+
+    var label = document.createElement("strong")
+    label.textContent = "CLOZE"
+    paragraph.appendChild(label)
+    paragraph.appendChild(document.createTextNode(": " + instructionText))
+
+    while (instructions.firstChild) {
+      instructions.removeChild(instructions.firstChild)
+    }
+    instructions.appendChild(paragraph)
   }
 
   function buildModernShell() {
@@ -787,6 +815,7 @@
 
   function bootstrap() {
     if (state.initialized) return
+    injectInstructionParagraph()
     ensureIdentityPanel()
     buildModernShell()
     modernizeLegacyWiring()

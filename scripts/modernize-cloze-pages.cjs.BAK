@@ -2,28 +2,75 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const readline = require("node:readline/promises");
+const { stdin, stdout } = require("node:process");
 
 const glob = require("glob");
+const parse5 = require("parse5");
+
+const { rehashHtmlSource } = require("./sri-rehash.cjs");
+const { createBackupManager } = require("./write-backup.cjs");
 
 const SCRIPT_DIR = __dirname;
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
-const CLOZE_GLOB = "begin1/cloze/*.html";
+const DEFAULT_CLOZE_DIR = "begin1/cloze";
+const DEFAULT_ICON = "/reading/favicon.ico";
+const CACHE_RELATIVE_PATH = path.join(".cache", "modernize-cloze-pages.json");
 const VIEWPORT_TAG = '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
 const FONT_STACK_CSS = "style/font-stack.css";
 const THEME_JS = "js/theme-selector.js";
 const CLOZE_CSS = "css/sis-cloze-submit.css";
 const CLOZE_JS = "js/sis-cloze-submit.js";
+const CLOZE_LABEL_CLASS = "sr-only";
+const CLOZE_LABEL_PREFIX = "Blank ";
+const DEFAULT_INSTRUCTIONS_HTML =
+  "CLOZE: Review the vocabulary, read the story, then fill in each blank. " +
+  "Click CHECK to see if your answers are correct.";
+const XML_DECLARATION_RE = /^\uFEFF?\s*<\?xml\b[^?]*\?>\s*/i;
 const PROTOTYPE_META = '<meta name="sis-cloze-prototype" content="current">';
+const CLOSE_BUTTON_HTML =
+  '<button class="btn-74" type="button" onclick="location=\'JavaScript:window.close() \'; return false;">\n' +
+  "  close\n" +
+  "  <span></span>\n" +
+  "  <span></span>\n" +
+  "  <span></span>\n" +
+  "  <span></span>\n" +
+  "</button>";
+const MODERN_CHECK_HINT_BLOCK = [
+  '<div class="btn17Container">',
+  '  <button class="btn-17" type="submit" form="Cloze" id="check">check</button>',
+  '  <button class="btn-17" type="button" id="hint">hint</button>',
+  "</div>",
+].join("\n");
+const BOTTOM_NAV_BLOCK = [
+  "<!-- BeginBottomNavButtons -->",
+  "",
+  "<hr>",
+  "",
+  CLOSE_BUTTON_HTML,
+  "",
+  "<!-- EndBottomNavButtons -->",
+].join("\n");
+const NORMALIZED_END_SUBMISSION = "<!-- EndSubmissionForm -->\n\n<br><br>\n</div>\n</body>";
+const LEGACY_CHARSET_META =
+  /\s*<meta[^>]*http-equiv="Content-Type"[^>]*content="text\/html;\s*charset=utf-8"[^>]*>\s*/i;
+const backupManager = createBackupManager(DEFAULT_ROOT, "modernize-cloze-pages");
 
 function printUsage() {
-  console.log(`Usage: ${path.basename(process.argv[1])} [--dry-run|--apply] [--root PATH]
+  console.log(`Usage: ${path.basename(process.argv[1])} [--dry-run|--apply] [--root PATH] [--cloze-dir PATH] [--icon PATH] [--head-only] [--all|--prompt]
 
-Modernize the begin1 cloze pages in a bulk, mobile-first pass.
+Modernize cloze pages in a bulk, mobile-first pass.
 
 Options:
   --dry-run   Report what would change without writing files. This is the default.
   --apply     Write changes back to disk.
   --root PATH Scan a different repository root.
+  --cloze-dir PATH
+              Scan a different cloze directory under --root. Defaults to begin1/cloze.
+  --icon PATH  Root-relative icon URL or repo-relative asset to normalize to. Defaults to /favicon.ico.
+  --head-only   Only normalize head metadata such as favicon links. Skip all body and layout rewrites.
+  --all       Process every HTML file in the cloze directory.
+  --prompt    Ask for root, cloze dir, file selection, and mode interactively before running.
   --help      Show this help.
 `);
 }
@@ -31,7 +78,14 @@ Options:
 function parseArgs(argv) {
   const args = {
     apply: false,
+    clozeDir: DEFAULT_CLOZE_DIR,
+    clozeDirExplicit: false,
+    icon: DEFAULT_ICON,
     root: DEFAULT_ROOT,
+    rootExplicit: false,
+    headOnly: false,
+    prompt: false,
+    selection: "r",
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -50,6 +104,36 @@ function parseArgs(argv) {
         throw new Error("--root requires a path");
       }
       args.root = path.resolve(argv[i]);
+      args.rootExplicit = true;
+      continue;
+    }
+    if (arg === "--cloze-dir") {
+      i += 1;
+      if (i >= argv.length) {
+        throw new Error("--cloze-dir requires a path");
+      }
+      args.clozeDir = argv[i];
+      args.clozeDirExplicit = true;
+      continue;
+    }
+    if (arg === "--icon") {
+      i += 1;
+      if (i >= argv.length) {
+        throw new Error("--icon requires a path");
+      }
+      args.icon = argv[i];
+      continue;
+    }
+    if (arg === "--head-only") {
+      args.headOnly = true;
+      continue;
+    }
+    if (arg === "--prompt" || arg === "-p") {
+      args.prompt = true;
+      continue;
+    }
+    if (arg === "--all") {
+      args.selection = "a";
       continue;
     }
     if (arg === "--help" || arg === "-h") {
@@ -60,6 +144,101 @@ function parseArgs(argv) {
   }
 
   return args;
+}
+
+function cacheFilePath(root) {
+  return path.resolve(root, CACHE_RELATIVE_PATH);
+}
+
+function loadCache(root) {
+  try {
+    const contents = fs.readFileSync(cacheFilePath(root), "utf8");
+    const parsed = JSON.parse(contents);
+    if (parsed && typeof parsed.clozeDir === "string" && parsed.clozeDir.trim()) {
+      return { clozeDir: parsed.clozeDir.trim() };
+    }
+  } catch {
+    // Ignore missing or malformed cache data.
+  }
+  return {};
+}
+
+function saveCache(root, clozeDir) {
+  const cachePath = cacheFilePath(root);
+  if (fs.existsSync(cachePath)) {
+    backupManager.backupBeforeWrite(cachePath);
+  }
+  fs.mkdirSync(path.dirname(cachePath), { recursive: true });
+  fs.writeFileSync(cachePath, `${JSON.stringify({ clozeDir }, null, 2)}\n`);
+}
+
+async function promptForOptions(args) {
+  if (!args.prompt) {
+    return args;
+  }
+
+  const rl = readline.createInterface({ input: stdin, output: stdout });
+
+  try {
+    console.log("Modernize cloze pages");
+
+    for (;;) {
+      const rootAnswer = await rl.question(`Repository root (absolute path) [${args.root}]: `);
+      const rootInput = rootAnswer.trim();
+      if (!rootInput) {
+        break;
+      }
+      if (!path.isAbsolute(rootInput)) {
+        console.log("Please enter an absolute path, or press Enter to keep the default.");
+        continue;
+      }
+      args.root = rootInput;
+      break;
+    }
+
+    const cache = loadCache(args.root);
+    if (!args.clozeDirExplicit && cache.clozeDir) {
+      args.clozeDir = cache.clozeDir;
+    }
+
+    const clozeAnswer = await rl.question(`Cloze directory [${args.clozeDir}]: `);
+    if (clozeAnswer.trim()) {
+      args.clozeDir = clozeAnswer.trim();
+    }
+
+    const selectionDefault = args.selection === "a" ? "a" : "r";
+    const selectionAnswer = await rl.question(
+      `Files to convert [r=random 3 / a=all HTML in cloze dir] [${selectionDefault}]: `
+    );
+    const selection = selectionAnswer.trim().toLowerCase();
+    if (selection === "a" || selection === "all") {
+      args.selection = "a";
+    } else if (selection === "r" || selection === "random" || selection === "random 3") {
+      args.selection = "r";
+    }
+
+    const modeDefault = args.apply ? "apply" : "dry-run";
+    const modeAnswer = await rl.question(`Mode [dry-run/apply] [${modeDefault}]: `);
+    const mode = modeAnswer.trim().toLowerCase();
+    if (mode === "apply") {
+      args.apply = true;
+    } else if (mode === "dry-run" || mode === "dry") {
+      args.apply = false;
+    }
+  } finally {
+    rl.close();
+  }
+
+  return args;
+}
+
+function pickRandomFiles(files, count) {
+  const pool = [...files];
+  for (let i = pool.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, Math.min(count, pool.length));
 }
 
 function relAsset(file, assetRoot) {
@@ -90,15 +269,667 @@ function injectBeforeFirst(source, matcher, insertion) {
   };
 }
 
-function updateHead(source, file, root) {
+function ensureRootIconLink(source, file, iconHref) {
+  const iconRe = /(<link\b[^>]*rel="icon"[^>]*href=")[^"]*(")/gi;
+  if (iconRe.test(source)) {
+    iconRe.lastIndex = 0;
+    let iconChanged = false;
+    const replaced = source.replace(iconRe, (match, prefix, suffix) => {
+      iconChanged = true;
+      return `${prefix}${iconHref}${suffix}`;
+    });
+    return {
+      source: replaced,
+      changed: iconChanged && replaced !== source,
+    };
+  }
+
+  const insertions = [
+    /<meta[^>]*name="keywords"[^>]*>\s*/i,
+    /<meta[^>]*name="author"[^>]*>\s*/i,
+    /<meta[^>]*name="viewport"[^>]*>\s*/i,
+    /<meta[^>]*charset="utf-8"[^>]*>\s*/i,
+  ];
+  for (const matcher of insertions) {
+    const injected = injectAfterFirst(source, matcher, `<link rel="icon" href="${iconHref}">\n`);
+    if (injected.changed) {
+      return injected;
+    }
+  }
+
+  return { source, changed: false };
+}
+
+function hasClass(node, className) {
+  const classAttr = node.attrs?.find((attr) => attr.name.toLowerCase() === "class");
+  if (!classAttr) return false;
+  return classAttr.value.split(/\s+/).some((value) => value.trim() === className);
+}
+
+function getAttr(node, name) {
+  const attr = node.attrs?.find((candidate) => candidate.name.toLowerCase() === name);
+  return attr ? attr.value : "";
+}
+
+function findElementById(root, id) {
+  if (root.tagName && getAttr(root, "id") === id) return root;
+  for (const child of root.childNodes || []) {
+    const match = findElementById(child, id);
+    if (match) return match;
+  }
+  if (root.content?.childNodes) {
+    for (const child of root.content.childNodes) {
+      const match = findElementById(child, id);
+      if (match) return match;
+    }
+  }
+  return null;
+}
+
+function getTextContent(node) {
+  if (!node) return "";
+  if (node.nodeName === "#text") return node.value || "";
+  if (node.tagName === "br") return " ";
+  return (node.childNodes || []).map(getTextContent).join("");
+}
+
+function normalizeInstructionText(value) {
+  return String(value || "")
+    .replace(/^\s*CLOZE\s*:\s*/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function escapeHtmlAttribute(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function normalizeInstructionSource(source, file) {
+  const document = parse5.parse(source, { sourceCodeLocationInfo: true });
+  const panel = findElementById(document, "InstructionsDiv");
+  if (!panel?.sourceCodeLocation?.startTag || !panel.sourceCodeLocation?.endTag) {
+    throw new Error(`Cannot normalize cloze instructions in ${file}: #InstructionsDiv is missing.`);
+  }
+
+  const instructions = findElementById(panel, "Instructions");
+  const storedText = getAttr(panel, "data-cloze-instructions");
+  const instructionText =
+    normalizeInstructionText(
+      storedText || getTextContent(instructions) || getTextContent(panel)
+    ) ||
+    normalizeInstructionText(DEFAULT_INSTRUCTIONS_HTML);
+  const edits = [];
+  const startTagLocation = panel.sourceCodeLocation.startTag;
+  let startTag = source.slice(startTagLocation.startOffset, startTagLocation.endOffset);
+  const attributePattern =
+    /\sdata-cloze-instructions\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/i;
+  const existingInstructionAttribute = panel.attrs?.find(
+    (attribute) => attribute.name.toLowerCase() === "data-cloze-instructions"
+  );
+
+  if (!existingInstructionAttribute || existingInstructionAttribute.value !== instructionText) {
+    const serializedAttribute = ` data-cloze-instructions="${escapeHtmlAttribute(instructionText)}"`;
+    if (attributePattern.test(startTag)) {
+      startTag = startTag.replace(attributePattern, serializedAttribute);
+    } else {
+      startTag = startTag.replace(/\s*\/?>$/, (closing) => `${serializedAttribute}${closing}`);
+    }
+    edits.push({
+      start: startTagLocation.startOffset,
+      end: startTagLocation.endOffset,
+      replacement: startTag,
+    });
+  }
+
+  const panelContentStart = panel.sourceCodeLocation.startTag.endOffset;
+  const panelContentEnd = panel.sourceCodeLocation.endTag.startOffset;
+  const normalizedPanelContent = '\n  <div id="Instructions"></div>\n';
+  if (source.slice(panelContentStart, panelContentEnd) !== normalizedPanelContent) {
+    edits.push({
+      start: panelContentStart,
+      end: panelContentEnd,
+      replacement: normalizedPanelContent,
+    });
+  }
+
+  if (edits.length === 0) return { source, changes: [] };
+  edits.sort((a, b) => b.start - a.start || b.end - a.end);
+  return {
+    source: applyEdits(source, edits),
+    changes: ["instructions-js"],
+  };
+}
+
+function collectClozeLabelEdits(source) {
+  const edits = [];
+  const document = parse5.parse(source, { sourceCodeLocationInfo: true });
+
+  const visit = (node, ancestors) => {
+    const nextAncestors = ancestors.concat(node);
+
+    if (node.tagName === "input" && node.sourceCodeLocation?.startTag) {
+      const inputType = getAttr(node, "type").trim().toLowerCase();
+      const inputClass = getAttr(node, "class");
+      const inputId = getAttr(node, "id");
+      const isGapInput =
+        inputType === "text" &&
+        inputClass.split(/\s+/).some((value) => value.trim() === "GapBox") &&
+        /^Gap\d+$/.test(inputId);
+
+      if (isGapInput) {
+        const clozeBodyAncestor = [...ancestors]
+          .reverse()
+          .find((ancestor) => ancestor.tagName === "div" && hasClass(ancestor, "ClozeBody"));
+        const gapSpanAncestor = [...ancestors]
+          .reverse()
+          .find((ancestor) => ancestor.tagName === "span" && hasClass(ancestor, "GapSpan"));
+
+        if (clozeBodyAncestor && gapSpanAncestor?.sourceCodeLocation?.startTag) {
+          const spanStart = gapSpanAncestor.sourceCodeLocation.startTag.endOffset;
+          const inputStart = node.sourceCodeLocation.startTag.startOffset;
+          const between = source.slice(spanStart, inputStart);
+          const labelPattern = new RegExp(`\\bfor=["']${inputId}["']`, "i");
+
+          if (
+            between.trim() === "" &&
+            !/<label\b/i.test(between) &&
+            !labelPattern.test(source) &&
+            !/aria-label\s*=/i.test(source.slice(inputStart, node.sourceCodeLocation.startTag.endOffset))
+          ) {
+            const gapNumber = Number.parseInt(inputId.slice(3), 10);
+            const labelText = Number.isFinite(gapNumber)
+              ? `${CLOZE_LABEL_PREFIX}${gapNumber + 1}`
+              : `${CLOZE_LABEL_PREFIX}input`;
+            edits.push({
+              end: spanStart,
+              replacement: `<label class="${CLOZE_LABEL_CLASS}" for="${inputId}">${labelText}</label>`,
+              start: spanStart,
+            });
+          }
+        }
+      }
+    }
+
+    if (node.childNodes) {
+      for (const child of node.childNodes) {
+        visit(child, nextAncestors);
+      }
+    }
+
+    if (node.content?.childNodes) {
+      for (const child of node.content.childNodes) {
+        visit(child, nextAncestors);
+      }
+    }
+  };
+
+  visit(document, []);
+  edits.sort((a, b) => b.start - a.start || b.end - a.end);
+  return edits;
+}
+
+function applyEdits(source, edits) {
+  let next = source;
+  for (const edit of edits) {
+    next = `${next.slice(0, edit.start)}${edit.replacement}${next.slice(edit.end)}`;
+  }
+  return next;
+}
+
+function normalizeBlankLines(source) {
+  return source.replace(/(\r?\n)(?:[ \t]*\r?\n){2,}/g, "$1$1");
+}
+
+function updateClozeInputs(source) {
+  const edits = collectClozeLabelEdits(source);
+  if (edits.length === 0) {
+    return { source, changes: [] };
+  }
+
+  return {
+    source: applyEdits(source, edits),
+    changes: edits.map(() => "cloze-label"),
+  };
+}
+
+function updateHeadingLevel(source) {
+  const edits = [];
+  const document = parse5.parse(source, { sourceCodeLocationInfo: true });
+  let hasH1ExerciseTitle = false;
+
+  const visit = (node) => {
+    if (node.tagName === "h1" && hasClass(node, "ExerciseTitle")) {
+      hasH1ExerciseTitle = true;
+    }
+
+    if (
+      /^h[2-6]$/i.test(node.tagName || "") &&
+      hasClass(node, "ExerciseTitle") &&
+      node.sourceCodeLocation?.startTag &&
+      node.sourceCodeLocation?.endTag
+    ) {
+      const { startOffset: startStart, endOffset: startEnd } = node.sourceCodeLocation.startTag;
+      const { startOffset: endStart, endOffset: endEnd } = node.sourceCodeLocation.endTag;
+      const startTag = source.slice(startStart, startEnd).replace(/^<h[2-6]\b/i, "<h1");
+      const endTag = source.slice(endStart, endEnd).replace(/^<\/h[2-6]\b/i, "</h1");
+      edits.push(
+        {
+          start: startStart,
+          end: startEnd,
+          replacement: startTag,
+        },
+        {
+          start: endStart,
+          end: endEnd,
+          replacement: endTag,
+        }
+      );
+    }
+
+    if (node.childNodes) {
+      for (const child of node.childNodes) {
+        visit(child);
+      }
+    }
+
+    if (node.content?.childNodes) {
+      for (const child of node.content.childNodes) {
+        visit(child);
+      }
+    }
+  };
+
+  visit(document);
+
+  if (hasH1ExerciseTitle || edits.length === 0) {
+    return { source, changes: [] };
+  }
+
+  edits.sort((a, b) => b.start - a.start || b.end - a.end);
+  return {
+    source: applyEdits(source, edits),
+    changes: edits.map(() => "heading-level"),
+  };
+}
+
+function normalizeClozeShell(source) {
   const changes = [];
   let next = source;
+
+  // Cleanup order for the modern cloze shell:
+  // 1. Strip any top nav bar entirely.
+  // 2. Remove the legacy hidden top buttons.
+  // 3. Replace the legacy bottom buttons with the modern button shell.
+  // 4. Emit the bare bottom footer (one hr + close button) with no wrapper bar.
+  const topNavRe = /<hr><!-- BeginTopNavButtons -->[\s\S]*?<!-- EndTopNavButtons -->\s*/i;
+  if (topNavRe.test(next)) {
+    next = next.replace(topNavRe, "");
+    changes.push("top-nav");
+  }
+
+  const topNavLooseRe =
+    /\s*<div class="NavButtonBar" id="TopNavBar">[\s\S]*?<!-- EndTopNavButtons -->\s*/i;
+  if (topNavLooseRe.test(next)) {
+    next = next.replace(topNavLooseRe, "");
+    changes.push("top-nav");
+  }
+
+  const legacyHiddenTopButtonsRe =
+    /<!-- These top buttons hidden; reveal if required -->[\s\S]*?-->\s*/i;
+  if (legacyHiddenTopButtonsRe.test(next)) {
+    next = next.replace(legacyHiddenTopButtonsRe, "");
+    changes.push("top-buttons");
+  }
+
+  const missingClozeShellRe =
+    /(<div id="MainDiv" class="StdDiv">\s*\n)([\s\S]*?)(\s*<div class="btn17Container">)/i;
+  if (!/id="ClozeDiv"/i.test(next) && missingClozeShellRe.test(next)) {
+    next = next.replace(
+      missingClozeShellRe,
+      `$1<div id="ClozeDiv">\n<form id="Cloze" method="post" action="#" onsubmit="return false;">\n$2</form>\n</div>\n\n$3`
+    );
+    changes.push("cloze-shell");
+  }
+
+  const checkButton2Start = next.indexOf(
+    '</form>\n        </div>\n\n        <button\n          id="CheckButton2"'
+  );
+  const checkButton2FeedbackMarker = '\n\n      <div\n        class="Feedback"\n        id="FeedbackDiv"\n      >';
+  if (checkButton2Start >= 0) {
+    const checkButton2FeedbackStart = next.indexOf(checkButton2FeedbackMarker, checkButton2Start);
+    if (checkButton2FeedbackStart >= 0) {
+      next =
+        next.slice(0, checkButton2Start) +
+        `</form>\n</div>\n\n${MODERN_CHECK_HINT_BLOCK}\n\n` +
+        next.slice(checkButton2FeedbackStart);
+      changes.push("button-shell");
+    }
+  }
+
+  const modernButtonShellRe = /<div class="btn17Container">[\s\S]*?(<div class="Feedback" id="FeedbackDiv">)/i;
+  const legacyCheckButton2ShellRe =
+    /<\/form>\s*\n\s*<\/div>\s*\n\s*<button\s*\n\s*id="CheckButton2"[\s\S]*?onclick="CheckAnswers\(\)"[\s\S]*?<\/button\s*>\s*\n\s*<button[\s\S]*?onclick="ShowHint\(\)"[\s\S]*?<\/button\s*>\s*\n\s*<\/div>\s*\n\s*(<div class="Feedback" id="FeedbackDiv">)/i;
+  const legacyPrettyButtonShellRe =
+    /<\/form>\s*\n\s*<\/div>\s*\n\s*<button[\s\S]*?onclick="CheckAnswers\(\)"[\s\S]*?<\/button\s*>\s*\n\s*<button[\s\S]*?onclick="ShowHint\(\)"[\s\S]*?<\/button\s*>\s*\n\s*<\/div>\s*\n\s*(<div class="Feedback" id="FeedbackDiv">)/i;
+  const legacyCheckHintButtonShellRe =
+    /<\/form>\s*\n\s*<\/div>\s*\n\s*<button[\s\S]*?onclick="CheckAnswers\(\)"[\s\S]*?>\s*&nbsp;Check&nbsp;<\/button\s*>\s*(?:&nbsp;|\s)*<button[\s\S]*?onclick="ShowHint\(\)"[\s\S]*?>\s*&nbsp;Hint&nbsp;<\/button\s*>\s*\n\s*<\/div>\s*\n\s*(<div class="Feedback" id="FeedbackDiv">)/i;
+  const legacyBottomButtonShellRe =
+    /<\/form>\s*\n\s*<\/div>\s*\n\s*<button[\s\S]*?onclick="CheckAnswers\(\)"[\s\S]*?<\/button\s*>\s*\n\s*<button[\s\S]*?onclick="ShowHint\(\)"[\s\S]*?<\/button\s*>\s*\n\s*<\/div>\s*\n\s*(<div class="Feedback" id="FeedbackDiv">)/i;
+  const legacyStandaloneButtonsRe =
+    /\s*<button[\s\S]*?onclick="CheckAnswers\(\)"[\s\S]*?<\/button\s*>\s*(?:&nbsp;|\s)*<button[\s\S]*?onclick="ShowHint\(\)"[\s\S]*?<\/button\s*>\s*(<div class="Feedback" id="FeedbackDiv">)/i;
+  if (legacyCheckButton2ShellRe.test(next)) {
+    next = next.replace(
+      legacyCheckButton2ShellRe,
+      `</form>\n</div>\n\n${MODERN_CHECK_HINT_BLOCK}\n\n$1`
+    );
+    changes.push("button-shell");
+  } else if (legacyBottomButtonShellRe.test(next)) {
+    next = next.replace(
+      legacyBottomButtonShellRe,
+      `</form>\n</div>\n\n${MODERN_CHECK_HINT_BLOCK}\n\n$1`
+    );
+    changes.push("button-shell");
+  } else if (legacyPrettyButtonShellRe.test(next)) {
+    next = next.replace(
+      legacyPrettyButtonShellRe,
+      `</form>\n</div>\n\n${MODERN_CHECK_HINT_BLOCK}\n\n$1`
+    );
+    changes.push("button-shell");
+  } else if (legacyCheckHintButtonShellRe.test(next)) {
+    next = next.replace(
+      legacyCheckHintButtonShellRe,
+      `</form>\n</div>\n\n${MODERN_CHECK_HINT_BLOCK}\n\n$1`
+    );
+    changes.push("button-shell");
+  } else if (legacyStandaloneButtonsRe.test(next)) {
+    next = next.replace(
+      legacyStandaloneButtonsRe,
+      `${MODERN_CHECK_HINT_BLOCK}\n\n$1`
+    );
+    changes.push("button-shell");
+  } else if (modernButtonShellRe.test(next)) {
+    const replaced = next.replace(modernButtonShellRe, `${MODERN_CHECK_HINT_BLOCK}\n\n$1`);
+    if (replaced !== next) {
+      next = replaced;
+      changes.push("button-shell");
+    }
+  }
+
+  const bodyPaddingRe = /body\s*\{\s*padding-top:\s*[^;]+;\s*\}/i;
+  if (bodyPaddingRe.test(next)) {
+    next = next.replace(bodyPaddingRe, "body {\nmargin: 0;\npadding-top: 0;\n}");
+    changes.push("body-padding");
+  }
+
+  const wrapCssRe =
+    /\.wrapfit\s*\{\s*width:\s*fit-content;\s*margin:\s*0 auto;\s*\}\s*\.wrapit\s*\{\s*margin:\s*0 auto;\s*\}/s;
+  if (wrapCssRe.test(next)) {
+    next = next.replace(
+      wrapCssRe,
+      `.wrapfit,\n.wrapit {\n   max-width: 920px;\n   width: calc(100% - 2rem);\n   margin: 2.5rem auto 3rem;\n   padding: 0 1rem;\n   box-sizing: border-box;\n}`
+    );
+    changes.push("wrap-css");
+  }
+
+  const navCssRe = /\s*\/\*BeginNavBarStyle\*\/[\s\S]*?\/\*EndNavBarStyle\*\/\s*/i;
+  if (navCssRe.test(next)) {
+    next = next.replace(navCssRe, "\n");
+    changes.push("nav-css");
+  }
+
+  const missingClozeDivRe =
+    /(<div id="MainDiv" class="StdDiv">\s*\n\s*)(<form id="Cloze"[^>]*>)/i;
+  if (!/id="ClozeDiv"/i.test(next) && missingClozeDivRe.test(next)) {
+    next = next.replace(missingClozeDivRe, `$1<div id="ClozeDiv">\n$2`);
+    changes.push("cloze-shell");
+  }
+
+  const clozeInstructionsRe = /<div class="ClozeInstructions">([\s\S]*?)<\/div>\s*/i;
+  const instructionsPanelRe =
+    /<div id="InstructionsDiv" class="StdDiv">\s*<div id="Instructions">[\s\S]*?<\/div>\s*<\/div>/i;
+  const blankInstructionsPanelRe =
+    /<div id="InstructionsDiv" class="StdDiv">\s*<div id="Instructions">\s*<\/div>\s*<\/div>/i;
+  const emptyWrapperInstructionsPanelRe =
+    /<div id="InstructionsDiv" class="StdDiv">\s*<\/div>/i;
+  if (clozeInstructionsRe.test(next)) {
+    const instructionsMatch = next.match(clozeInstructionsRe);
+    const instructionsHtml =
+      instructionsMatch && instructionsMatch[1].trim()
+        ? instructionsMatch[1].trim()
+        : DEFAULT_INSTRUCTIONS_HTML;
+    next = next.replace(clozeInstructionsRe, "");
+    changes.push("cloze-instructions");
+
+    if (instructionsPanelRe.test(next)) {
+      next = next.replace(
+        instructionsPanelRe,
+        `<div id="InstructionsDiv" class="StdDiv">\n\t<div id="Instructions">${instructionsHtml}</div>\n</div>`
+      );
+      changes.push("instructions-shell");
+    } else {
+      if (blankInstructionsPanelRe.test(next) || emptyWrapperInstructionsPanelRe.test(next)) {
+        next = next.replace(
+          blankInstructionsPanelRe.test(next)
+            ? blankInstructionsPanelRe
+            : emptyWrapperInstructionsPanelRe,
+          `<div id="InstructionsDiv" class="StdDiv">\n\t<div id="Instructions">${instructionsHtml}</div>\n</div>`
+        );
+        changes.push("instructions-shell");
+      }
+    }
+  } else {
+    if (blankInstructionsPanelRe.test(next) || emptyWrapperInstructionsPanelRe.test(next)) {
+      next = next.replace(
+        blankInstructionsPanelRe.test(next) ? blankInstructionsPanelRe : emptyWrapperInstructionsPanelRe,
+        `<div id="InstructionsDiv" class="StdDiv">\n\t<div id="Instructions">${DEFAULT_INSTRUCTIONS_HTML}</div>\n</div>`
+      );
+      changes.push("instructions-shell");
+    }
+  }
+
+  const instructionsBeforeIdentityRe =
+    /(<div id="IdentityDiv" class="StdDiv">[\s\S]*?<\/div>\s*)(<div id="InstructionsDiv" class="StdDiv">[\s\S]*?<\/div>)/i;
+  if (instructionsBeforeIdentityRe.test(next)) {
+    next = next.replace(instructionsBeforeIdentityRe, `$2\n\n$1`);
+    changes.push("panel-order");
+  }
+
+  const legacyInstructionsRe =
+    /(<div class="Titles">[\s\S]*?<\/div>\s*)(?:\r?\n\s*)<div id="Instructions"><\/div>\s*<\/div>\s*\r?\n\s*(<div id="MainDiv" class="StdDiv">)/i;
+  if (!/id="InstructionsDiv"/i.test(next) && legacyInstructionsRe.test(next)) {
+    next = next.replace(
+      legacyInstructionsRe,
+      `$1<div id="InstructionsDiv" class="StdDiv">\n\t<div id="Instructions"></div>\n</div>\n\n$2`
+    );
+    changes.push("instructions-shell");
+  }
+
+  const blankBottomNavRe = /<!-- BeginBottomNavButtons -->[\s\S]*?<!-- EndBottomNavButtons -->/i;
+  if (blankBottomNavRe.test(next)) {
+    const replaced = next.replace(blankBottomNavRe, BOTTOM_NAV_BLOCK);
+    if (replaced !== next) {
+      next = replaced;
+      changes.push("bottom-nav");
+    }
+  } else {
+    const loneBottomCloseRe = /<button class="btn-74" type="button"[\s\S]*?<\/button>/i;
+    if (loneBottomCloseRe.test(next)) {
+      const replaced = next.replace(loneBottomCloseRe, CLOSE_BUTTON_HTML);
+      if (replaced !== next) {
+        next = replaced;
+        changes.push("bottom-nav");
+      }
+    }
+  }
+
+  const bottomNavLooseRe =
+    /\s*<div class="NavButtonBar" id="BottomNavBar">[\s\S]*?<!-- EndBottomNavButtons -->\s*/i;
+  if (bottomNavLooseRe.test(next)) {
+    next = next.replace(bottomNavLooseRe, `${BOTTOM_NAV_BLOCK}\n`);
+    changes.push("bottom-nav");
+  }
+
+  const cenmarCloseRe =
+    /\s*<hr><hr><div class="flextxtcen"><a href="JavaScript:window\.close\(\)" class="cent">CLOSE<\/a><\/div><br><br><\/div>/i;
+  if (cenmarCloseRe.test(next)) {
+    next = next.replace(cenmarCloseRe, `\n\n${BOTTOM_NAV_BLOCK}\n`);
+    changes.push("bottom-nav");
+  }
+
+  const oldCloseBlockRe =
+    /\s*<hr><hr><div class="flextxtcen"><a href="JavaScript:window\.close\(\)" class="cent">CLOSE<\/a><\/div><br><br><\/div>/i;
+  if (oldCloseBlockRe.test(next)) {
+    next = next.replace(oldCloseBlockRe, `\n\n${BOTTOM_NAV_BLOCK}\n`);
+    changes.push("bottom-nav");
+  }
+
+  const legacySingleCloseBlockRe =
+    /\s*<hr>\s*<div class="cenmar[^"]*"><a href="JavaScript:window\.close\(\)"(?: class="cent")?>CLOSE<\/a><\/div>\s*<br>\s*<\/div>\s*<\/body>/i;
+  if (legacySingleCloseBlockRe.test(next)) {
+    next = next.replace(
+      legacySingleCloseBlockRe,
+      `\n\n${BOTTOM_NAV_BLOCK}\n\n<!-- BeginSubmissionForm -->\n\n<!-- EndSubmissionForm -->\n\n<br><br>\n</div>\n</body>`
+    );
+    changes.push("bottom-nav");
+  }
+
+  const legacyLooseCloseBlockRe =
+    /<hr>[\s\S]*?href="JavaScript:window\.close\(\)"[\s\S]*?<\/body>/i;
+  if (!/BeginBottomNavButtons/i.test(next) && legacyLooseCloseBlockRe.test(next)) {
+    next = next.replace(
+      legacyLooseCloseBlockRe,
+      `\n\n${BOTTOM_NAV_BLOCK}\n\n<!-- BeginSubmissionForm -->\n\n<!-- EndSubmissionForm -->\n\n<br><br>\n</div>\n</body>`
+    );
+    changes.push("bottom-nav");
+  }
+
+  const missingMainCloseBeforeFooterRe =
+    /(<div class="Feedback" id="FeedbackDiv">[\s\S]*?<button id="FeedbackOKButton"[\s\S]*?<\/button>\s*<\/div>)\s*\n\s*<!-- BeginBottomNavButtons -->/i;
+  if (missingMainCloseBeforeFooterRe.test(next)) {
+    next = next.replace(
+      missingMainCloseBeforeFooterRe,
+      "$1\n</div>\n\n<!-- BeginBottomNavButtons -->"
+    );
+    changes.push("footer");
+  }
+
+  const endSubmissionRe = /<!-- EndSubmissionForm -->[\s\S]*?<\/body>/i;
+  if (endSubmissionRe.test(next)) {
+    const replaced = next.replace(endSubmissionRe, NORMALIZED_END_SUBMISSION);
+    if (replaced !== next) {
+      next = replaced;
+      changes.push("footer");
+    }
+  }
+
+  return { source: next, changes };
+}
+
+function updateHead(source, file, root, digestCache, options = {}) {
+  const changes = [];
+  let next = source;
+
+  if (XML_DECLARATION_RE.test(next)) {
+    next = next.replace(XML_DECLARATION_RE, "");
+    changes.push("xml-declaration");
+  }
 
   const cssHref = relAsset(file, path.resolve(root, CLOZE_CSS));
   const fontStackHref = relAsset(file, path.resolve(root, FONT_STACK_CSS));
   const themeJsHref = relAsset(file, path.resolve(root, THEME_JS));
   const jsHref = relAsset(file, path.resolve(root, CLOZE_JS));
-  const iconHref = relAsset(file, path.resolve(root, "favicon.ico"));
+  const iconRef = options.icon || DEFAULT_ICON;
+  const iconPath = iconRef.startsWith("/") ? path.resolve(root, `.${iconRef}`) : path.resolve(root, iconRef);
+  const iconHref = iconRef.startsWith("/") ? iconRef : relAsset(file, iconPath);
+
+  if (options.headOnly) {
+    if (!/<meta[^>]*charset="utf-8"/i.test(next) && LEGACY_CHARSET_META.test(next)) {
+      next = next.replace(LEGACY_CHARSET_META, "");
+      next = next.replace(/<head>\s*/i, (match) => `${match}<meta charset="utf-8">\n`);
+      changes.push("charset");
+    }
+
+    if (!/<meta[^>]*name="viewport"/i.test(next)) {
+      const injected = injectAfterFirst(
+        next,
+        /<meta[^>]*charset="utf-8"[^>]*>\s*/i,
+        `${VIEWPORT_TAG}\n`
+      );
+      next = injected.source;
+      if (injected.changed) changes.push("viewport");
+    }
+
+    const iconUpdate = ensureRootIconLink(next, file, iconHref);
+    if (iconUpdate.changed) {
+      next = iconUpdate.source;
+      changes.push("icon");
+    }
+
+    if (!/sis-cloze-submit\.css/i.test(next)) {
+      const injected = injectAfterFirst(
+        next,
+        /<\/style>\s*/i,
+        `<link rel="stylesheet" href="${cssHref}">\n\n`
+      );
+      next = injected.source;
+      if (injected.changed) changes.push("css");
+    }
+
+    if (!/font-stack\.css/i.test(next)) {
+      const injected = injectAfterFirst(
+        next,
+        /<link\b[^>]*rel="icon"[^>]*>\s*/i,
+        `<link rel="preload" href="${fontStackHref}" as="style">\n<link rel="stylesheet" href="${fontStackHref}">\n`
+      );
+      next = injected.source;
+      if (injected.changed) changes.push("font-stack");
+    }
+
+    if (!/theme-selector\.js/i.test(next)) {
+      const injected = injectAfterFirst(
+        next,
+        /<link\b[^>]*rel="stylesheet"[^>]*font-stack\.css[^>]*>\s*/i,
+        `<link rel="preload" href="${themeJsHref}" as="script">\n<script src="${themeJsHref}"></script>\n`
+      );
+      next = injected.source;
+      if (injected.changed) changes.push("theme");
+    }
+
+    const jsTag = `<script defer src="${jsHref}"></script>`;
+    const escapedJsHref = jsHref.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const jsTagPattern = `<script\\b[^>]*\\bsrc="${escapedJsHref}"[^>]*></script>`;
+    const jsTagRe = new RegExp(jsTagPattern, "i");
+
+    if (!jsTagRe.test(next)) {
+      const injected = injectBeforeFirst(next, /<\/head>/i, `${jsTag}\n\n`);
+      next = injected.source;
+      if (injected.changed) changes.push("js");
+    }
+
+    const sriUpdate = rehashHtmlSource(next, file, root, { digestCache });
+    if (sriUpdate.changes.length > 0) {
+      next = sriUpdate.source;
+      changes.push(...sriUpdate.changes);
+    }
+
+    const compacted = normalizeBlankLines(next);
+    if (compacted !== next) {
+      next = compacted;
+      changes.push("blank-lines");
+    }
+
+    return { source: next, changes };
+  }
+
+  if (!/<meta[^>]*charset="utf-8"/i.test(next) && LEGACY_CHARSET_META.test(next)) {
+    next = next.replace(LEGACY_CHARSET_META, "");
+    next = next.replace(/<head>\s*/i, (match) => `${match}<meta charset="utf-8">\n`);
+    changes.push("charset");
+  }
 
   if (!/<meta[^>]*name="viewport"/i.test(next)) {
     const injected = injectAfterFirst(
@@ -150,23 +981,34 @@ function updateHead(source, file, root) {
     if (injected.changed) changes.push("theme");
   }
 
-  if (!/sis-cloze-submit\.js/i.test(next)) {
-    const misplacedJsRe = new RegExp(
-      `</head>\\s*(<script\\b[^>]*src="${jsHref.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"[^>]*><\\/script>)`,
-      "i"
-    );
-    if (misplacedJsRe.test(next)) {
-      next = next.replace(misplacedJsRe, `$1\n</head>`);
+  const jsTag = `<script defer src="${jsHref}"></script>`;
+  const escapedJsHref = jsHref.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const jsTagPattern = `<script\\b[^>]*\\bsrc="${escapedJsHref}"[^>]*></script>`;
+  const misplacedJsRe = new RegExp(`</head>\\s*(${jsTagPattern})`, "i");
+  const jsTagRe = new RegExp(jsTagPattern, "i");
+
+  if (misplacedJsRe.test(next)) {
+    next = next.replace(misplacedJsRe, `$1\n</head>`);
+    changes.push("js");
+  } else if (!jsTagRe.test(next)) {
+    const injected = injectBeforeFirst(next, /<\/head>/i, `${jsTag}\n\n`);
+    next = injected.source;
+    if (injected.changed) changes.push("js");
+  }
+
+  const duplicateJsRe = new RegExp(`(?:${jsTagPattern}\\s*){2,}`, "i");
+  if (duplicateJsRe.test(next)) {
+    const collapsed = next.replace(duplicateJsRe, `${jsTag}\n\n`);
+    if (collapsed !== next) {
+      next = collapsed;
       changes.push("js");
-    } else {
-      const injected = injectBeforeFirst(
-        next,
-        /<\/head>/i,
-        `<script defer src="${jsHref}"></script>\n\n`
-      );
-      next = injected.source;
-      if (injected.changed) changes.push("js");
     }
+  }
+
+  if (!jsTagRe.test(next)) {
+    const injected = injectBeforeFirst(next, /<\/head>/i, `${jsTag}\n\n`);
+    next = injected.source;
+    if (injected.changed) changes.push("js");
   }
 
   const schemaRe = /\s*<link\b[^>]*rel="schema\.DC"[^>]*>\s*/i;
@@ -182,18 +1024,10 @@ function updateHead(source, file, root) {
     changes.push("dc-meta");
   }
 
-  const iconRe = /(<link\b[^>]*rel="icon"[^>]*href=")[^"]*(")/gi;
-  if (iconRe.test(next)) {
-    iconRe.lastIndex = 0;
-    let iconChanged = false;
-    const replaced = next.replace(iconRe, (match, prefix, suffix) => {
-      iconChanged = true;
-      return `${prefix}${iconHref}${suffix}`;
-    });
-    if (iconChanged && replaced !== next) {
-      next = replaced;
-      changes.push("icon");
-    }
+  const iconUpdate = ensureRootIconLink(next, file, iconHref);
+  if (iconUpdate.changed) {
+    next = iconUpdate.source;
+    changes.push("icon");
   }
 
   const ieBlockRe =
@@ -203,13 +1037,57 @@ function updateHead(source, file, root) {
     changes.push("legacy-ie");
   }
 
+  const fontFamilyRe = /^[ \t]*font-family:\s*var\(--font-(?:base|header)\);\s*\r?\n?/gm;
+  if (fontFamilyRe.test(next)) {
+    fontFamilyRe.lastIndex = 0;
+    next = next.replace(fontFamilyRe, "");
+    changes.push("font-family");
+  }
+
+  const headingUpdate = updateHeadingLevel(next);
+  if (headingUpdate.changes.length > 0) {
+    next = headingUpdate.source;
+    changes.push(...headingUpdate.changes);
+  }
+
+  const shellUpdate = normalizeClozeShell(next);
+  if (shellUpdate.changes.length > 0) {
+    next = shellUpdate.source;
+    changes.push(...shellUpdate.changes);
+  }
+
+  const instructionUpdate = normalizeInstructionSource(next, file);
+  if (instructionUpdate.changes.length > 0) {
+    next = instructionUpdate.source;
+    changes.push(...instructionUpdate.changes);
+  }
+
+  const clozeLabelUpdate = updateClozeInputs(next);
+  if (clozeLabelUpdate.changes.length > 0) {
+    next = clozeLabelUpdate.source;
+    changes.push(...clozeLabelUpdate.changes);
+  }
+
+  const sriUpdate = rehashHtmlSource(next, file, root, { digestCache });
+  if (sriUpdate.changes.length > 0) {
+    next = sriUpdate.source;
+    changes.push(...sriUpdate.changes);
+  }
+
+  const compacted = normalizeBlankLines(next);
+  if (compacted !== next) {
+    next = compacted;
+    changes.push("blank-lines");
+  }
+
   return { source: next, changes };
 }
 
-function main() {
+async function main() {
   let args;
   try {
     args = parseArgs(process.argv.slice(2));
+    args = await promptForOptions(args);
   } catch (error) {
     console.error(`ERROR: ${error.message}`);
     printUsage();
@@ -221,9 +1099,9 @@ function main() {
     return 0;
   }
 
-  const files = glob.sync(CLOZE_GLOB, {
+  const clozeDir = path.resolve(args.root, args.clozeDir);
+  const allFiles = glob.sync(path.join(clozeDir, "*.html"), {
     absolute: true,
-    cwd: args.root,
     dot: true,
     ignore: [
       "**/.git/**",
@@ -232,20 +1110,27 @@ function main() {
       "**/.sto/**",
     ],
   });
+  const files = args.selection === "a" ? allFiles : pickRandomFiles(allFiles, 3);
 
   let scanned = 0;
   let changed = 0;
   const categoryCounts = new Map();
+  const digestCache = new Map();
 
   console.log(`Mode: ${args.apply ? "APPLY" : "DRY-RUN"}`);
   console.log(`Root: ${args.root}`);
+  console.log(`Cloze dir: ${clozeDir}`);
+  console.log(`Selection: ${args.selection === "a" ? "all HTML in cloze dir" : "random 3 files"}`);
   console.log(`Files: ${files.length}`);
   console.log();
 
   for (const file of files) {
     scanned += 1;
     const source = fs.readFileSync(file, "utf8");
-    const updated = updateHead(source, file, args.root);
+    const updated = updateHead(source, file, args.root, digestCache, {
+      icon: args.icon,
+      headOnly: args.headOnly,
+    });
 
     if (updated.changes.length === 0) continue;
 
@@ -257,6 +1142,8 @@ function main() {
     console.log(`${path.relative(args.root, file)}\t${updated.changes.join(", ")}`);
 
     if (args.apply && updated.source !== source) {
+      fs.copyFileSync(file, `${file}.BAK`);
+      backupManager.backupBeforeWrite(file);
       fs.writeFileSync(file, updated.source);
     }
   }
@@ -267,7 +1154,16 @@ function main() {
   for (const [category, count] of categoryCounts.entries()) {
     console.log(`${category}: ${count}`);
   }
+
+  saveCache(args.root, args.clozeDir);
   return 0;
 }
 
-process.exitCode = main();
+main()
+  .then((code) => {
+    process.exitCode = code;
+  })
+  .catch((error) => {
+    console.error(`ERROR: ${error.message}`);
+    process.exitCode = 1;
+  });

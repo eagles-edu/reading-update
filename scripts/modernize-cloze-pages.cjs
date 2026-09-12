@@ -14,7 +14,7 @@ const { createBackupManager } = require("./write-backup.cjs");
 const SCRIPT_DIR = __dirname;
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
 const DEFAULT_CLOZE_DIR = "begin1/cloze";
-const DEFAULT_ICON = "/favicon.ico";
+const DEFAULT_ICON = "/reading/favicon.ico";
 const CACHE_RELATIVE_PATH = path.join(".cache", "modernize-cloze-pages.json");
 const VIEWPORT_TAG = '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
 const FONT_STACK_CSS = "style/font-stack.css";
@@ -26,6 +26,7 @@ const CLOZE_LABEL_PREFIX = "Blank ";
 const DEFAULT_INSTRUCTIONS_HTML =
   "CLOZE: Review the vocabulary, read the story, then fill in each blank. " +
   "Click CHECK to see if your answers are correct.";
+const XML_DECLARATION_RE = /^\uFEFF?\s*<\?xml\b[^?]*\?>\s*/i;
 const PROTOTYPE_META = '<meta name="sis-cloze-prototype" content="current">';
 const CLOSE_BUTTON_HTML =
   '<button class="btn-74" type="button" onclick="location=\'JavaScript:window.close() \'; return false;">\n' +
@@ -308,6 +309,126 @@ function hasClass(node, className) {
 function getAttr(node, name) {
   const attr = node.attrs?.find((candidate) => candidate.name.toLowerCase() === name);
   return attr ? attr.value : "";
+}
+
+function findElementById(root, id) {
+  if (root.tagName && getAttr(root, "id") === id) return root;
+  for (const child of root.childNodes || []) {
+    const match = findElementById(child, id);
+    if (match) return match;
+  }
+  if (root.content?.childNodes) {
+    for (const child of root.content.childNodes) {
+      const match = findElementById(child, id);
+      if (match) return match;
+    }
+  }
+  return null;
+}
+
+function getTextContent(node) {
+  if (!node) return "";
+  if (node.nodeName === "#text") return node.value || "";
+  if (node.tagName === "br") return " ";
+  return (node.childNodes || []).map(getTextContent).join("");
+}
+
+function normalizeInstructionText(value) {
+  return String(value || "")
+    .replace(/^\s*CLOZE\s*:\s*/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function escapeHtmlAttribute(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function normalizeInstructionSource(source, file) {
+  const document = parse5.parse(source, { sourceCodeLocationInfo: true });
+  const panel = findElementById(document, "InstructionsDiv");
+  if (!panel?.sourceCodeLocation?.startTag || !panel.sourceCodeLocation?.endTag) {
+    throw new Error(`Cannot normalize cloze instructions in ${file}: #InstructionsDiv is missing.`);
+  }
+
+  const instructions = findElementById(panel, "Instructions");
+  const storedText = getAttr(panel, "data-cloze-instructions");
+  const instructionText =
+    normalizeInstructionText(
+      storedText || getTextContent(instructions) || getTextContent(panel)
+    ) ||
+    normalizeInstructionText(DEFAULT_INSTRUCTIONS_HTML);
+  const edits = [];
+  const startTagLocation = panel.sourceCodeLocation.startTag;
+  let startTag = source.slice(startTagLocation.startOffset, startTagLocation.endOffset);
+  const attributePattern =
+    /\sdata-cloze-instructions\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/i;
+  const existingInstructionAttribute = panel.attrs?.find(
+    (attribute) => attribute.name.toLowerCase() === "data-cloze-instructions"
+  );
+
+  if (!existingInstructionAttribute || existingInstructionAttribute.value !== instructionText) {
+    const serializedAttribute = ` data-cloze-instructions="${escapeHtmlAttribute(instructionText)}"`;
+    if (attributePattern.test(startTag)) {
+      startTag = startTag.replace(attributePattern, serializedAttribute);
+    } else {
+      startTag = startTag.replace(/\s*\/?>$/, (closing) => `${serializedAttribute}${closing}`);
+    }
+    edits.push({
+      start: startTagLocation.startOffset,
+      end: startTagLocation.endOffset,
+      replacement: startTag,
+    });
+  }
+
+  const panelContentStart = panel.sourceCodeLocation.startTag.endOffset;
+  const panelContentEnd = panel.sourceCodeLocation.endTag.startOffset;
+  const normalizedPanelContent = '\n  <div id="Instructions"></div>\n';
+  if (source.slice(panelContentStart, panelContentEnd) !== normalizedPanelContent) {
+    edits.push({
+      start: panelContentStart,
+      end: panelContentEnd,
+      replacement: normalizedPanelContent,
+    });
+  }
+
+  if (edits.length === 0) return { source, changes: [] };
+  edits.sort((a, b) => b.start - a.start || b.end - a.end);
+  return {
+    source: applyEdits(source, edits),
+    changes: ["instructions-js"],
+  };
+}
+
+function closeUnterminatedOuterWrapper(source, file) {
+  const document = parse5.parse(source, { sourceCodeLocationInfo: true });
+  const body = findElementById(document, "TheBody");
+  if (!body?.sourceCodeLocation?.endTag) {
+    throw new Error(`Cannot normalize cloze wrapper in ${file}: #TheBody is missing or unclosed.`);
+  }
+
+  const openOuterDivs = (body.childNodes || []).filter(
+    (child) => child.tagName === "div" && child.sourceCodeLocation?.startTag && !child.sourceCodeLocation?.endTag
+  );
+  if (openOuterDivs.length === 0) return { source, changes: [] };
+  if (openOuterDivs.length !== 1) {
+    throw new Error(`Cannot normalize cloze wrapper in ${file}: found ${openOuterDivs.length} unclosed body wrappers.`);
+  }
+
+  const wrapperClasses = getAttr(openOuterDivs[0], "class").split(/\s+/);
+  if (!wrapperClasses.includes("wrapfit") && !wrapperClasses.includes("wrapit")) {
+    throw new Error(`Cannot normalize cloze wrapper in ${file}: the unclosed body wrapper is not .wrapfit or .wrapit.`);
+  }
+
+  const insertionPoint = body.sourceCodeLocation.endTag.startOffset;
+  return {
+    source: `${source.slice(0, insertionPoint)}\n</div>\n${source.slice(insertionPoint)}`,
+    changes: ["body-wrapper"],
+  };
 }
 
 function collectClozeLabelEdits(source) {
@@ -739,6 +860,11 @@ function updateHead(source, file, root, digestCache, options = {}) {
   const changes = [];
   let next = source;
 
+  if (XML_DECLARATION_RE.test(next)) {
+    next = next.replace(XML_DECLARATION_RE, "");
+    changes.push("xml-declaration");
+  }
+
   const cssHref = relAsset(file, path.resolve(root, CLOZE_CSS));
   const fontStackHref = relAsset(file, path.resolve(root, FONT_STACK_CSS));
   const themeJsHref = relAsset(file, path.resolve(root, THEME_JS));
@@ -957,6 +1083,18 @@ function updateHead(source, file, root, digestCache, options = {}) {
     changes.push(...shellUpdate.changes);
   }
 
+  const instructionUpdate = normalizeInstructionSource(next, file);
+  if (instructionUpdate.changes.length > 0) {
+    next = instructionUpdate.source;
+    changes.push(...instructionUpdate.changes);
+  }
+
+  const wrapperUpdate = closeUnterminatedOuterWrapper(next, file);
+  if (wrapperUpdate.changes.length > 0) {
+    next = wrapperUpdate.source;
+    changes.push(...wrapperUpdate.changes);
+  }
+
   const clozeLabelUpdate = updateClozeInputs(next);
   if (clozeLabelUpdate.changes.length > 0) {
     next = clozeLabelUpdate.source;
@@ -1037,6 +1175,7 @@ async function main() {
     console.log(`${path.relative(args.root, file)}\t${updated.changes.join(", ")}`);
 
     if (args.apply && updated.source !== source) {
+      fs.copyFileSync(file, `${file}.BAK`);
       backupManager.backupBeforeWrite(file);
       fs.writeFileSync(file, updated.source);
     }

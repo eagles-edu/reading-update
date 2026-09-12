@@ -13,11 +13,14 @@ const FAMILIES = [
   "begin4/cloze",
   "begin5/cloze",
   "begin6/cloze",
-  "easyread/ecloze",
 ];
 
 const REQUIRED_PATTERNS = [
   { label: 'id="InstructionsDiv"', re: /id\s*=\s*"InstructionsDiv"/i },
+  {
+    label: 'data-cloze-instructions and empty #Instructions target',
+    re: /<div\b(?=[^>]*\bid="InstructionsDiv")(?=[^>]*\bdata-cloze-instructions="[^"]+")[^>]*>\s*<div\b(?=[^>]*\bid="Instructions")[^>]*>\s*<\/div>\s*<\/div>/i,
+  },
   { label: 'id="MainDiv"', re: /id\s*=\s*"MainDiv"/i },
   { label: 'id="ClozeDiv"', re: /id\s*=\s*"ClozeDiv"/i },
   { label: 'id="FeedbackDiv"', re: /id\s*=\s*"FeedbackDiv"/i },
@@ -35,7 +38,7 @@ const REQUIRED_PATTERNS = [
   { label: 'css/sis-cloze-submit.css', re: /css\/sis-cloze-submit\.css/i },
   { label: 'style/font-stack.css', re: /style\/font-stack\.css/i },
   { label: 'theme-selector.js', re: /theme-selector\.js/i },
-  { label: 'href="/favicon.ico"', re: /href\s*=\s*"\/favicon\.ico"/i },
+  { label: 'href="/reading/favicon.ico"', re: /href\s*=\s*"\/reading\/favicon\.ico"/i },
   { label: 'sis-cloze-submit.js', re: /sis-cloze-submit\.js/i },
 ];
 
@@ -58,6 +61,15 @@ function listFiles(dir) {
 function main() {
   const failures = [];
   let count = 0;
+
+  const runtimeScript = fs.readFileSync(path.resolve(ROOT, "js/sis-cloze-submit.js"), "utf8");
+  if (!runtimeScript.includes("sis-cloze-instructions") || !/label\.textContent\s*=\s*"CLOZE"/.test(runtimeScript)) {
+    failures.push({
+      file: "js/sis-cloze-submit.js",
+      missing: ["JavaScript-generated CLOZE instruction paragraph"],
+      forbidden: [],
+    });
+  }
 
   for (const family of FAMILIES) {
     for (const file of listFiles(family)) {
