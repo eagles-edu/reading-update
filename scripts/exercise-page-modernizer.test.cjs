@@ -9,6 +9,9 @@ const options = {
   fontIntegrity: "sha384-font-stack",
   siteStyleIntegrity: "sha384-site-style",
   layoutIntegrity: "sha384-exercise-layout",
+  uiStyleIntegrity: "sha384-cloze-style",
+  storyThemeIntegrity: "sha384-story-theme",
+  submitScriptIntegrity: "sha384-submit-script",
 };
 
 test("normalizes charset and duplicate viewports and adds ordered shared styles", () => {
@@ -53,9 +56,19 @@ test("adds the font stack when an exercise lacks the shared link", () => {
 
 test("marks only revealed dictation answer spans as correct", () => {
   const source = '<!doctype html><html><head></head><body>A.setAttribute("class", "Answer");</body></html>';
-  const result = normalizeExerciseHtml(source, { ...options, family: "dict" });
+  const result = normalizeExerciseHtml(source, {
+    ...options,
+    file: "/repo/begin1/dict/b1d001.html",
+    level: 1,
+    family: "dict",
+  });
   assert.match(result.source, /A\.setAttribute\("class", "Answer correct"\)/);
-  const repeated = normalizeExerciseHtml(result.source, { ...options, family: "dict" });
+  const repeated = normalizeExerciseHtml(result.source, {
+    ...options,
+    file: "/repo/begin1/dict/b1d001.html",
+    level: 1,
+    family: "dict",
+  });
   assert.equal(repeated.source, result.source);
 });
 
@@ -64,10 +77,33 @@ test("repairs the known B6 sentence stylesheet path and supplies its SRI", () =>
   const result = normalizeExerciseHtml(source, {
     ...options,
     file: "/repo/begin6/sent/b6mx0011.html",
+    level: 6,
     family: "sent",
   });
   assert.match(result.source, /href="\.\.\/\.\.\/style\/style\.css" integrity="sha384-site-style"/);
   assert.doesNotMatch(result.source, /href="\.\.\/style\/style\.css"/);
+});
+
+test("adds shared SIS UI and matching story theme to exercise families", () => {
+  const source = "<!doctype html><html><head></head><body></body></html>";
+  const dictation = normalizeExerciseHtml(source, {
+    ...options,
+    file: "/repo/begin1/dict/b1d001.html",
+    level: 1,
+    family: "dict",
+  });
+  const sentence = normalizeExerciseHtml(source, {
+    ...options,
+    file: "/repo/begin6/sent/b6mx0018.html",
+    level: 6,
+    family: "sent",
+  });
+
+  assert.match(dictation.source, /sis-cloze-submit\.css/);
+  assert.match(dictation.source, /data-story-theme-key="b1001\.html"/);
+  assert.match(dictation.source, /data-sis-exercise-family="dict"/);
+  assert.match(sentence.source, /data-story-theme-key="b6001\.html"/);
+  assert.match(sentence.source, /data-sis-exercise-family="sent"/);
 });
 
 test("fails closed when the document has no head", () => {

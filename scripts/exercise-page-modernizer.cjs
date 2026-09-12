@@ -11,6 +11,9 @@ const DEFAULT_ROOT = path.resolve(__dirname, "..");
 const FONT_STACK_PATH = path.join("style", "font-stack.css");
 const SITE_STYLE_PATH = path.join("style", "style.css");
 const EXERCISE_LAYOUT_PATH = path.join("css", "sis-exercise-layout.css");
+const EXERCISE_UI_STYLE_PATH = path.join("css", "sis-cloze-submit.css");
+const STORY_THEME_SCRIPT_PATH = path.join("js", "story-theme.js");
+const EXERCISE_SUBMIT_SCRIPT_PATH = path.join("js", "sis-exercise-submit.js");
 const XML_DECLARATION_RE = /^\uFEFF?[\t \r\n]*<\?xml\b[^?]*\?>[\t ]*(?:\r?\n)?/i;
 const CHARSET_META_RE = /<meta\b(?=[^>]*\bcharset\s*=)[^>]*>/gi;
 const CONTENT_TYPE_META_RE = /<meta\b(?=[^>]*\bhttp-equiv\s*=\s*["']?content-type\b)[^>]*>/gi;
@@ -101,9 +104,20 @@ function hasLink(content, rel, hrefSuffix) {
   });
 }
 
+function hasScript(content, srcSuffix) {
+  return [...content.matchAll(/<script\b[^>]*>/gi)].some(([tag]) => {
+    const attrs = parseTagAttributes(tag);
+    return (attrs.get("src") || "").endsWith(srcSuffix);
+  });
+}
+
 function linkMarkup({ rel, href, integrity, as }) {
   const asAttribute = as ? ` as="${as}"` : "";
   return `<link rel="${rel}" href="${href}"${asAttribute} integrity="${integrity}">`;
+}
+
+function scriptMarkup({ src, integrity, attributes = "" }) {
+  return `<script src="${src}" integrity="${integrity}"${attributes}></script>`;
 }
 
 function normalizeRevealedAnswerClass(source) {
@@ -139,8 +153,28 @@ function normalizeKnownSentenceStylesheet(content, options) {
   return { content: normalized, changed };
 }
 
+function matchingStoryFilename(family, level, file) {
+  const basename = path.basename(file);
+  if (family === "dict" && level === 6 && basename === "1. The Hairstyle Change.html") {
+    return "b6001.html";
+  }
+  const key = sequenceKey(family, level, basename);
+  if (!key) return "";
+  return `b${level}${String(key.story).padStart(3, "0")}.html`;
+}
+
 function normalizeExerciseHtml(source, options) {
-  const { file, root, fontIntegrity, layoutIntegrity, family } = options;
+  const {
+    file,
+    root,
+    fontIntegrity,
+    layoutIntegrity,
+    uiStyleIntegrity,
+    storyThemeIntegrity,
+    submitScriptIntegrity,
+    family,
+    level,
+  } = options;
   const newline = source.includes("\r\n") ? "\r\n" : "\n";
   const changes = [];
   let next = source.replace(XML_DECLARATION_RE, "");
@@ -208,6 +242,45 @@ function normalizeExerciseHtml(source, options) {
     changes.push("add shared responsive layout");
   }
 
+  if (family === "dict" || family === "sent") {
+    const uiStyleHref = relativeAssetHref(file, root, EXERCISE_UI_STYLE_PATH);
+    if (!hasLink(content, "stylesheet", "sis-cloze-submit.css")) {
+      const uiStyleLinks = [
+        linkMarkup({
+          rel: "preload",
+          href: uiStyleHref,
+          as: "style",
+          integrity: uiStyleIntegrity,
+        }),
+        linkMarkup({ rel: "stylesheet", href: uiStyleHref, integrity: uiStyleIntegrity }),
+      ];
+      headContent += `${newline}\t${uiStyleLinks.join(`${newline}\t`)}`;
+      changes.push("add shared cloze exercise styling");
+    }
+
+    const storyFilename = matchingStoryFilename(family, level, file);
+    if (!storyFilename) throw new Error(`Could not map ${file} to a story background`);
+    if (!hasScript(content, "story-theme.js")) {
+      const storyThemeHref = relativeAssetHref(file, root, STORY_THEME_SCRIPT_PATH);
+      headContent += `${newline}\t${scriptMarkup({
+        src: storyThemeHref,
+        integrity: storyThemeIntegrity,
+        attributes: ` data-story-theme-key="${storyFilename}"`,
+      })}`;
+      changes.push("match the linked story background");
+    }
+
+    if (!hasScript(content, "sis-exercise-submit.js")) {
+      const submitScriptHref = relativeAssetHref(file, root, EXERCISE_SUBMIT_SCRIPT_PATH);
+      headContent += `${newline}\t${scriptMarkup({
+        src: submitScriptHref,
+        integrity: submitScriptIntegrity,
+        attributes: ` defer data-sis-exercise-family="${family}"`,
+      })}`;
+      changes.push("add SIS identity and result submission");
+    }
+  }
+
   if (originalCharsetCount !== 1 || originalContentTypeCount > 0) {
     changes.push("normalize charset metadata");
   }
@@ -271,6 +344,7 @@ function pageProfile(source) {
 function targetFiles(root, family) {
   const files = [];
   const excludedBackups = [];
+  const excludedNonExercises = [];
   const unexpected = [];
   const missingDirectories = [];
 
@@ -307,14 +381,24 @@ function targetFiles(root, family) {
         name === "1. The Hairstyle Change.html";
 
       if (standardPattern.test(name) || specialDictationPage) {
-        files.push({ absolute, level, relative: path.relative(root, absolute), special: specialDictationPage });
+        const relative = path.relative(root, absolute);
+        const source = fs.readFileSync(absolute, "utf8");
+        const hasExerciseShell =
+          /<body\b[^>]*\bid=["']TheBody["']/i.test(source) &&
+          /\bid=["']InstructionsDiv["']/i.test(source) &&
+          /\bid=["']MainDiv["']/i.test(source);
+        if (!hasExerciseShell) {
+          excludedNonExercises.push(relative);
+          continue;
+        }
+        files.push({ absolute, level, relative, special: specialDictationPage });
       } else {
         unexpected.push(path.relative(root, absolute));
       }
     }
   }
 
-  return { excludedBackups, files, missingDirectories, unexpected };
+  return { excludedBackups, excludedNonExercises, files, missingDirectories, unexpected };
 }
 
 function sequenceKey(family, level, fileName) {
@@ -381,6 +465,11 @@ function reportPrescan(family, inventory, plans) {
   if (inventory.excludedBackups.length) {
     console.log(
       `Excluded saved copies (${inventory.excludedBackups.length}): ${formatSamples(inventory.excludedBackups)}`
+    );
+  }
+  if (inventory.excludedNonExercises.length) {
+    console.log(
+      `Excluded non-exercise HTML (${inventory.excludedNonExercises.length}): ${formatSamples(inventory.excludedNonExercises)}`
     );
   }
   if (inventory.missingDirectories.length) {
@@ -469,8 +558,20 @@ function main(family, argv = process.argv.slice(2)) {
   const fontFile = path.resolve(args.root, FONT_STACK_PATH);
   const siteStyleFile = path.resolve(args.root, SITE_STYLE_PATH);
   const layoutFile = path.resolve(args.root, EXERCISE_LAYOUT_PATH);
-  if (!fs.existsSync(fontFile) || !fs.existsSync(siteStyleFile) || !fs.existsSync(layoutFile)) {
-    const missingFile = [fontFile, siteStyleFile, layoutFile].find((file) => !fs.existsSync(file));
+  const uiStyleFile = path.resolve(args.root, EXERCISE_UI_STYLE_PATH);
+  const storyThemeFile = path.resolve(args.root, STORY_THEME_SCRIPT_PATH);
+  const submitScriptFile = path.resolve(args.root, EXERCISE_SUBMIT_SCRIPT_PATH);
+  if (
+    !fs.existsSync(fontFile) ||
+    !fs.existsSync(siteStyleFile) ||
+    !fs.existsSync(layoutFile) ||
+    !fs.existsSync(uiStyleFile) ||
+    !fs.existsSync(storyThemeFile) ||
+    !fs.existsSync(submitScriptFile)
+  ) {
+    const missingFile = [fontFile, siteStyleFile, layoutFile, uiStyleFile, storyThemeFile, submitScriptFile].find(
+      (file) => !fs.existsSync(file)
+    );
     console.error(`ERROR: required shared stylesheet is missing: ${missingFile}`);
     return 2;
   }
@@ -490,6 +591,9 @@ function main(family, argv = process.argv.slice(2)) {
   const fontIntegrity = integrityFor(fontFile);
   const siteStyleIntegrity = integrityFor(siteStyleFile);
   const layoutIntegrity = integrityFor(layoutFile);
+  const uiStyleIntegrity = integrityFor(uiStyleFile);
+  const storyThemeIntegrity = integrityFor(storyThemeFile);
+  const submitScriptIntegrity = integrityFor(submitScriptFile);
   const plans = [];
   const failures = [];
   for (const target of inventory.files) {
@@ -502,7 +606,11 @@ function main(family, argv = process.argv.slice(2)) {
         fontIntegrity,
         siteStyleIntegrity,
         layoutIntegrity,
+        uiStyleIntegrity,
+        storyThemeIntegrity,
+        submitScriptIntegrity,
         family,
+        level: target.level,
       });
       plans.push({ ...target, profile, source, updated: normalized.source, changes: normalized.changes });
     } catch (error) {
@@ -556,6 +664,7 @@ module.exports = {
   main,
   normalizeKnownSentenceStylesheet,
   normalizeExerciseHtml,
+  matchingStoryFilename,
   normalizeRevealedAnswerClass,
   pageProfile,
   parseArgs,

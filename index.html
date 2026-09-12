@@ -3,21 +3,28 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="preload" href="/reading/style/font-stack.css" as="style"
+  <!-- Dev serves the checkout flat; the Thuvien sync places reading assets under /reading. -->
+  <base href="/">
+  <script>
+    if (location.hostname.replace(/^www\./i, "").toLowerCase() === "thuvien.eagles.edu.vn") {
+      document.querySelector("base").href = "/reading/";
+    }
+  </script>
+  <link rel="preload" href="style/font-stack.css" as="style"
     integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
-  <link rel="stylesheet" href="/reading/style/font-stack.css"
+  <link rel="stylesheet" href="style/font-stack.css"
     integrity="sha384-OzzNnYdaselaUB5uggh+1FpUhVDD3mBFFRVDW+h11U3SWPQUp8nXw7ish2lAi4CT">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preload" href="/reading/js/theme-selector.js" as="script"
+  <link rel="preload" href="js/theme-selector.js" as="script"
     integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty">
-  <script src="/reading/js/theme-selector.js"
+  <script src="js/theme-selector.js"
     integrity="sha384-+AN2UWZHPRpIR32VxzZTv2YKxm6xt0/qieIQNcHOkEbe3UzzXumSeZNNd4YzWXty"></script>
   <meta name="description"
     content="1800+ short, leveled texts, useful vocabulary, audio support, comprehension checks, and teacher-friendly activities for class or self-study.">
   <meta name="keywords"
     content="ESL, IELTS, TOEIC, Cambridge, Young learners,English as a Second Language, easy dialogues, ESL, conversations, listening, speaking, reading, vocabulary, learn English, library">
   <meta rel="canonical" href="https://thuvien.eagles.edu.vn">
-  <link href="/reading/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+  <link href="favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
   <title>The Eagles Club | Reading Practice for English Learners</title>
 
   <style>
@@ -1350,10 +1357,10 @@
 
         <div class="nav-actions">
           <nav class="nav-links" aria-label="Primary links">
-            <a href="#levels">Levels</a>
-            <a href="#features">Features</a>
-            <a href="#library">Library</a>
-            <a href="#teachers">Teachers</a>
+            <a href="/#levels">Levels</a>
+            <a href="/#features">Features</a>
+            <a href="/#library">Library</a>
+            <a href="/#teachers">Teachers</a>
           </nav>
 
           <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false"
@@ -1444,7 +1451,7 @@
             </div>
 
             <div class="levels">
-              <a class="level-card pre-a1" href="/reading/kidsenglish/index.html">
+              <a class="level-card pre-a1" href="kidsenglish/index.html">
                 <span class="level-icon level-icon--split pre-a1">Pre-A1</span>
                 <h3>Pre-A1 Starters&copy; Reading</h3>
                 <p>
@@ -1452,7 +1459,7 @@
                   phrases.
                 </p>
               </a>
-              <a class="level-card a1" href="/reading/begin1/index.html">
+              <a class="level-card a1" href="begin1/index.html">
                 <span class="level-icon a1">A1</span>
                 <h3>A1 Movers&copy; Reading</h3>
                 <p>
@@ -1460,7 +1467,7 @@
                   tense.
                 </p>
               </a>
-              <a class="level-card a2" href="/reading/begin4/index.html">
+              <a class="level-card a2" href="begin4/index.html">
                 <span class="level-icon a2">A2</span>
                 <h3>A2 Flyers&copy; Reading</h3>
                 <p>
@@ -1468,7 +1475,7 @@
                   topics.
                 </p>
               </a>
-              <a class="level-card a2" href="/reading/begin2/index.html">
+              <a class="level-card a2" href="begin2/index.html">
                 <span class="level-icon a2">A2</span>
                 <h3>A2 KET&copy; Reading</h3>
                 <p>
@@ -1476,7 +1483,7 @@
                   vocabulary.
                 </p>
               </a>
-              <a class="level-card b1" href="/reading/begin5/index.html">
+              <a class="level-card b1" href="begin5/index.html">
                 <span class="level-icon b1">B1</span>
                 <h3>B1 PET&copy; Reading</h3>
                 <p>
@@ -1484,7 +1491,7 @@
                   structure.
                 </p>
               </a>
-              <a class="level-card b2" href="/reading/essays/index.html">
+              <a class="level-card b2" href="essays/index.html">
                 <span class="level-icon b2">B2</span>
                 <h3>IELTS Reading</h3>
                 <p>
@@ -1509,7 +1516,7 @@
           <div class="sample-title-row">
             <div class="mascot-wrap" aria-hidden="true">
               <div class="mascot-card">
-                <img src="/reading/images/baldy.svg" alt="Baldy">
+                <img src="images/baldy.svg" alt="Baldy">
               </div>
             </div>
             <h2 id="sample-reading-title" class="sample-title">

@@ -46,7 +46,12 @@
     "seamless_paper_texture.webp",
     "subtle_grunge.webp",
   ];
-  var pageName = window.location.pathname.split("/").pop() || "story";
+  var activeScript = document.currentScript;
+  var requestedTheme = activeScript
+    ? activeScript.getAttribute("data-story-theme-key")
+    : "";
+  var pageName =
+    requestedTheme || window.location.pathname.split("/").pop() || "story";
   var hash = 0;
 
   for (var index = 0; index < pageName.length; index += 1) {

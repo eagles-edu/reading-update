@@ -4,8 +4,7 @@ body#TheBody {
   color: #161616;
   margin: 0;
   padding: 0.75rem;
-
-background:
+  background:
     radial-gradient(circle at top left, rgba(181, 0, 16, 0.08), transparent 24rem),
     radial-gradient(circle at top right, rgba(0, 39, 134, 0.09), transparent 26rem),
     #d3d9e5;
@@ -122,6 +121,25 @@ body#TheBody #MainDiv {
   background: rgba(255, 255, 255, 0.96);
 }
 
+body#TheBody.sis-exercise-story-theme {
+  background-color: var(--story-page-bg-color, #929494);
+  background-image: var(--story-page-bg-image, url("../images/bg/blueGrunge.webp"));
+  background-position: center;
+  background-repeat: repeat;
+  background-size: auto;
+}
+
+body#TheBody.sis-exercise-story-theme #InstructionsDiv,
+body#TheBody.sis-exercise-story-theme #MainDiv,
+body#TheBody.sis-exercise-story-theme #GuessDiv {
+  background-color: var(--story-panel-bg, rgba(255, 255, 255, 0.92));
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)),
+    var(--story-paper-image, none);
+  background-position: center;
+  background-repeat: repeat;
+}
+
 body#TheBody #InstructionsDiv {
   background: var(--secondary-color, #f5f8ff);
   border: 1px solid var(--tertiary-color, #002786);
@@ -129,10 +147,17 @@ body#TheBody #InstructionsDiv {
   padding: 1rem;
 }
 
+body#TheBody.sis-exercise-story-theme #InstructionsDiv {
+  background-color: var(--secondary-color, #f5f8ff);
+  background-image:
+    linear-gradient(rgba(245, 248, 255, 0.86), rgba(245, 248, 255, 0.86)),
+    var(--story-paper-image, none);
+}
+
 body#TheBody #Instructions {
   font-size: clamp(1rem, 0.94rem + 0.45vw, 1.12rem);
-  font-weight: 700;
-  line-height: 1.75;
+  font-weight: 400;
+  line-height: 1.35;
   margin-inline: auto;
   max-width: 100%;
   padding: 0.5rem;
@@ -221,6 +246,15 @@ body#TheBody .sis-cloze-region--feedback {
   padding: 1rem;
 }
 
+body#TheBody.sis-exercise-story-theme .sis-cloze-panel {
+  background-color: var(--secondary-color, #f5f8ff);
+  background-image:
+    linear-gradient(rgba(245, 248, 255, 0.86), rgba(245, 248, 255, 0.86)),
+    var(--story-paper-image, none);
+  background-position: center;
+  background-repeat: repeat;
+}
+
 .sis-cloze-panel__instruction {
   color: #334155;
   font-size: 1rem;
@@ -290,6 +324,109 @@ body#TheBody .sis-cloze-region--feedback {
 
 .sis-cloze-status--success {
   color: #0f766e;
+}
+
+.sis-exercise-retry {
+  margin-top: 0.75rem;
+}
+
+.sis-exercise-retry[hidden] {
+  display: none;
+}
+
+body#TheBody.sis-exercise-story-theme #GuessDiv {
+  border: 1px solid var(--tertiary-color, #002786);
+  border-radius: 1rem;
+  box-shadow: 0 16px 36px rgba(0, 39, 134, 0.12);
+  margin: 0 auto 0.75rem;
+  padding: 0.75rem;
+  width: min(100%, 920px);
+}
+
+body#TheBody.sis-exercise-story-theme #MainDiv .FuncButton,
+body#TheBody.sis-exercise-story-theme #MainDiv .NavButton {
+  border-radius: 0.75rem;
+  min-height: 2.75rem;
+  padding: 0.65rem 0.9rem;
+}
+
+body#TheBody.sis-exercise-story-theme #MainDiv button.btn-17 {
+  justify-content: center;
+  margin: 0.35rem;
+}
+
+body#TheBody.sis-exercise-story-theme .NavButtonBar {
+  background-color: var(--primary-color, #002786);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 20px rgba(0, 39, 134, 0.16);
+  margin: 0.5rem auto;
+  max-width: 920px;
+  padding: 0.2rem;
+}
+
+body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButton,
+body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButtonUp,
+body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButtonDown {
+  background-color: #ffffff;
+  border: 1px solid #d2dcf0;
+  border-radius: 0.6rem;
+  color: #002786;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButton:focus-visible,
+body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButton:hover,
+body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButtonUp:focus-visible,
+body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButtonUp:hover,
+body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButtonDown:focus-visible,
+body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButtonDown:hover {
+  background-color: #e7efff;
+  color: #002786;
+}
+
+body#TheBody.sis-exercise-story-theme #SegmentDiv {
+  line-height: 2.3;
+  margin: 1rem 0 0.5rem;
+  overflow-wrap: anywhere;
+}
+
+body#TheBody.sis-exercise-story-theme #SegmentDiv a.ExSegment {
+  background: #f5f8ff;
+  border: 1px solid #9aa8ba;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 39, 134, 0.12);
+  color: #002786;
+  display: inline-block;
+  line-height: 1.5;
+  margin: 0.2rem;
+  padding: 0.35rem 0.65rem;
+  text-decoration: none;
+}
+
+body#TheBody.sis-exercise-story-theme #SegmentDiv a.ExSegment:focus-visible,
+body#TheBody.sis-exercise-story-theme #SegmentDiv a.ExSegment:hover {
+  background: #002786;
+  color: #fff;
+  /* eslint-disable-next-line css/use-baseline */
+  outline: 2px solid #002786;
+  outline-offset: 2px;
+}
+
+body#TheBody #InstructionsDiv .sis-exercise-instructions {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+  text-indent: 0;
+}
+
+body#TheBody #InstructionsDiv .sis-exercise-instructions strong {
+  font-weight: 700;
+}
+
+body#TheBody .sis-cloze-panel__instruction {
+  text-indent: 0;
 }
 
 @media (min-width: 720px) {
