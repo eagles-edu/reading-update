@@ -2,20 +2,32 @@
   "use strict";
 
   var activeScript = document.currentScript;
-  var family = activeScript ? activeScript.getAttribute("data-sis-exercise-family") : "";
+  var family = activeScript
+    ? activeScript.getAttribute("data-sis-exercise-family")
+    : "";
   if (family !== "dict" && family !== "sent") {
     family = /\/sent\//i.test(window.location.pathname) ? "sent" : "dict";
   }
 
-  var SOURCE_SYSTEM = family === "sent" ? "sentence-scramble-web" : "dictation-web";
+  var SOURCE_SYSTEM =
+    family === "sent" ? "sentence-scramble-web" : "dictation-web";
   var IDENTITY_KEY = "sis.cloze:identity";
   var IDENTITY_COOKIE = "sis_cloze_identity";
   var ATTEMPT_KEY_PREFIX = "sis.exercise:attempt:";
+  var EXERCISE_PROGRESS_KEY_PREFIX = "sis.exercise:progress:";
+  var REQUIRED_SET_QUESTIONS = 5;
+  var HINTS_WITHOUT_PENALTY_PER_QUESTION = 2;
+  var MAX_HINTS_PER_SET = 14;
+  var HINT_PENALTY_PERCENT_PER_EXTRA_HINT = 7;
   var IDENTITY_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365 * 2;
   var TEST_EXERCISE_SUBMIT_HOST = "test.eagles.edu.vn";
   var EXERCISE_SUBMIT_PORT = 8786;
   var EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   var EAGLES_ID_PATTERN = /^[a-z]+\d{3}$/;
+  var IDENTITY_REQUIRED_STATUS_MESSAGE =
+    "Enter your student email and Eagles ID to unlock Check and Hint.";
+  var IDENTITY_READY_STATUS_MESSAGE =
+    "Your saved details are ready. Complete the exercise to send your result.";
   var state = {
     initialized: false,
     submitting: false,
@@ -29,8 +41,13 @@
     submitButton: null,
     retryButton: null,
     attemptId: "",
+    attemptIdKey: "",
     answersRevealedAll: false,
     revealedAnswerIndexes: Object.create(null),
+    exerciseProgressKey: "",
+    exerciseProgress: null,
+    adjustedQuestionScores: Object.create(null),
+    sentenceScoreAdjusted: false,
   };
 
   function normalizeText(value) {
@@ -91,7 +108,8 @@
     if (!raw) return { email: "", eaglesId: "" };
     try {
       var parsed = JSON.parse(raw);
-      if (!parsed || typeof parsed !== "object") return { email: "", eaglesId: "" };
+      if (!parsed || typeof parsed !== "object")
+        return { email: "", eaglesId: "" };
       return {
         email: normalizeText(parsed.email),
         eaglesId: normalizeText(parsed.eaglesId).toLowerCase(),
@@ -104,29 +122,192 @@
   function readFormIdentity() {
     return {
       email: normalizeText(state.emailInput && state.emailInput.value),
-      eaglesId: normalizeText(state.eaglesIdInput && state.eaglesIdInput.value).toLowerCase(),
+      eaglesId: normalizeText(
+        state.eaglesIdInput && state.eaglesIdInput.value,
+      ).toLowerCase(),
     };
   }
 
   function identityIsValid(identity) {
     var normalized = identity || readFormIdentity();
-    return EMAIL_PATTERN.test(normalized.email) && EAGLES_ID_PATTERN.test(normalized.eaglesId);
+    return (
+      EMAIL_PATTERN.test(normalized.email) &&
+      EAGLES_ID_PATTERN.test(normalized.eaglesId)
+    );
   }
 
   function persistIdentity(identity) {
     if (!identityIsValid(identity)) return;
-    var serialized = JSON.stringify({ email: identity.email, eaglesId: identity.eaglesId });
+    var serialized = JSON.stringify({
+      email: identity.email,
+      eaglesId: identity.eaglesId,
+    });
     writeStorage(IDENTITY_KEY, serialized);
     writeCookie(IDENTITY_COOKIE, serialized);
   }
 
   function pageKey() {
-    return normalizeText(location.pathname).replace(/[^a-z0-9]+/gi, "-").replace(/^-+|-+$/g, "") || "exercise";
+    return (
+      normalizeText(location.pathname)
+        .replace(/[^a-z0-9]+/gi, "-")
+        .replace(/^-+|-+$/g, "") || "exercise"
+    );
+  }
+
+  function exerciseSetInfo() {
+    var pathname = normalizeText(location.pathname) || "exercise";
+    var filename = pathname.slice(pathname.lastIndexOf("/") + 1);
+    if (family === "sent") {
+      var sentencePage = /^(.*)([1-5])(\.html?)$/i.exec(filename);
+      if (sentencePage) {
+        return {
+          key:
+            pathname.slice(0, pathname.length - filename.length) +
+            sentencePage[1],
+          questionKey: String(Number(sentencePage[2])).padStart(2, "0"),
+          totalQuestions: REQUIRED_SET_QUESTIONS,
+        };
+      }
+      return {
+        key: pageKey(),
+        questionKey: "01",
+        totalQuestions: REQUIRED_SET_QUESTIONS,
+      };
+    }
+
+    var questionCount = document.querySelectorAll(
+      "#Questions > .QuizQuestion",
+    ).length;
+    return {
+      key: pageKey(),
+      questionKey: "",
+      totalQuestions: questionCount,
+    };
+  }
+
+  function emptyExerciseProgress() {
+    return {
+      version: 1,
+      hintsByQuestion: Object.create(null),
+      completedByQuestion: Object.create(null),
+    };
+  }
+
+  function readExerciseProgress(key) {
+    var progress = emptyExerciseProgress();
+    var raw = readStorage(key);
+    if (!raw) return progress;
+    try {
+      var saved = JSON.parse(raw);
+      if (!saved || saved.version !== 1 || typeof saved !== "object")
+        return progress;
+      var hintCounts = saved.hintsByQuestion;
+      if (hintCounts && typeof hintCounts === "object") {
+        Object.keys(hintCounts).forEach(function (questionKey) {
+          var count = Number(hintCounts[questionKey]);
+          if (Number.isInteger(count) && count > 0)
+            progress.hintsByQuestion[questionKey] = count;
+        });
+      }
+      var completed = saved.completedByQuestion;
+      if (completed && typeof completed === "object") {
+        Object.keys(completed).forEach(function (questionKey) {
+          var result = completed[questionKey];
+          var score = Number(result && result.scorePercent);
+          if (!result || !Number.isFinite(score)) return;
+          progress.completedByQuestion[questionKey] = {
+            correct: result.correct === true,
+            scorePercent: Math.max(0, Math.min(100, score)),
+          };
+        });
+      }
+    } catch {
+      return progress;
+    }
+    return progress;
+  }
+
+  function currentExerciseProgress() {
+    var identity = readFormIdentity();
+    var info = exerciseSetInfo();
+    var key =
+      EXERCISE_PROGRESS_KEY_PREFIX +
+      SOURCE_SYSTEM +
+      ":" +
+      info.key +
+      ":" +
+      (identity.eaglesId || "unidentified");
+    if (state.exerciseProgressKey !== key) {
+      state.exerciseProgressKey = key;
+      state.exerciseProgress = readExerciseProgress(key);
+    }
+    return state.exerciseProgress;
+  }
+
+  function saveExerciseProgress() {
+    if (!state.exerciseProgressKey || !state.exerciseProgress) return;
+    writeStorage(
+      state.exerciseProgressKey,
+      JSON.stringify(state.exerciseProgress),
+    );
+  }
+
+  function currentQuestionKey(questionIndex) {
+    if (family === "sent") return exerciseSetInfo().questionKey;
+    var normalizedIndex = Number(questionIndex);
+    return Number.isInteger(normalizedIndex) && normalizedIndex >= 0
+      ? String(normalizedIndex)
+      : "";
+  }
+
+  function hintCountForQuestion(questionKey) {
+    if (!questionKey) return 0;
+    var progress = currentExerciseProgress();
+    var count = Number(progress.hintsByQuestion[questionKey]);
+    return Number.isInteger(count) && count > 0 ? count : 0;
+  }
+
+  function totalHintsUsed() {
+    var progress = currentExerciseProgress();
+    return Object.keys(progress.hintsByQuestion).reduce(function (
+      total,
+      questionKey,
+    ) {
+      var count = Number(progress.hintsByQuestion[questionKey]);
+      return total + (Number.isInteger(count) && count > 0 ? count : 0);
+    }, 0);
+  }
+
+  function recordHint(questionKey) {
+    if (!questionKey) return false;
+    var progress = currentExerciseProgress();
+    if (totalHintsUsed() >= MAX_HINTS_PER_SET) return false;
+    progress.hintsByQuestion[questionKey] =
+      hintCountForQuestion(questionKey) + 1;
+    saveExerciseProgress();
+    return true;
+  }
+
+  function extraHintPenalty(questionKey) {
+    return (
+      Math.max(
+        0,
+        hintCountForQuestion(questionKey) - HINTS_WITHOUT_PENALTY_PER_QUESTION,
+      ) * HINT_PENALTY_PERCENT_PER_EXTRA_HINT
+    );
   }
 
   function getAttemptId() {
-    if (state.attemptId) return state.attemptId;
-    var key = ATTEMPT_KEY_PREFIX + SOURCE_SYSTEM + ":" + pageKey();
+    var identity = readFormIdentity();
+    var key =
+      ATTEMPT_KEY_PREFIX +
+      SOURCE_SYSTEM +
+      ":" +
+      exerciseSetInfo().key +
+      ":" +
+      (identity.eaglesId || "unidentified");
+    if (state.attemptId && state.attemptIdKey === key) return state.attemptId;
+    state.attemptIdKey = key;
     var existing = readStorage(key);
     if (existing) {
       state.attemptId = existing;
@@ -135,11 +316,13 @@
     state.attemptId =
       SOURCE_SYSTEM +
       ":" +
-      pageKey() +
+      exerciseSetInfo().key.replace(/[^a-z0-9]+/gi, "-") +
       ":" +
       (window.crypto && typeof window.crypto.randomUUID === "function"
         ? window.crypto.randomUUID()
-        : Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10));
+        : Date.now().toString(36) +
+          "-" +
+          Math.random().toString(36).slice(2, 10));
     writeStorage(key, state.attemptId);
     return state.attemptId;
   }
@@ -152,7 +335,11 @@
       location.host === "localhost:5500" ||
       location.host === "127.0.0.1:5500"
     ) {
-      return "http://127.0.0.1:" + String(EXERCISE_SUBMIT_PORT) + "/api/exercise-submission";
+      return (
+        "http://127.0.0.1:" +
+        String(EXERCISE_SUBMIT_PORT) +
+        "/api/exercise-submission"
+      );
     }
     if (location.host === TEST_EXERCISE_SUBMIT_HOST) {
       return (
@@ -172,64 +359,240 @@
     return Number.isFinite(score) ? Math.max(0, Math.min(100, score)) : null;
   }
 
+  function updateVisibleScore(score) {
+    var scoreText = Number(score).toFixed(2).replace(/\.00$/, "");
+    var targets = [
+      document.querySelector("#InstructionsDiv"),
+      document.querySelector("#FeedbackContent"),
+    ];
+    for (var index = 0; index < targets.length; index += 1) {
+      var target = targets[index];
+      if (!target || !target.innerHTML) continue;
+      target.innerHTML = target.innerHTML.replace(
+        /(Your score is\s*)\d+(?:\.\d+)?\s*%/i,
+        "$1" + scoreText + "%",
+      );
+    }
+  }
+
+  function dictationQuestionIndexes() {
+    var states = Array.isArray(window.State) ? window.State : [];
+    var indexes = [];
+    for (var index = 0; index < states.length; index += 1) {
+      if (Array.isArray(states[index])) indexes.push(index);
+    }
+    return indexes;
+  }
+
+  function dictationQuestionIsComplete(questionIndex) {
+    var questionState =
+      Array.isArray(window.State) && window.State[questionIndex];
+    return Array.isArray(questionState) && Number(questionState[0]) >= 0;
+  }
+
+  function restoreAdjustedQuestionScore(questionIndex) {
+    var adjustedScore = state.adjustedQuestionScores[String(questionIndex)];
+    var questionState =
+      Array.isArray(window.State) && window.State[questionIndex];
+    if (!adjustedScore || !Array.isArray(questionState)) return;
+    if (
+      Math.abs(Number(questionState[0]) - adjustedScore.adjusted) < 0.000001
+    ) {
+      questionState[0] = adjustedScore.raw;
+    }
+    delete state.adjustedQuestionScores[String(questionIndex)];
+  }
+
+  function applyDictationHintPenalties() {
+    var indexes = dictationQuestionIndexes();
+    var changed = false;
+    for (var index = 0; index < indexes.length; index += 1) {
+      var questionIndex = indexes[index];
+      if (!dictationQuestionIsComplete(questionIndex)) continue;
+      var questionKey = String(questionIndex);
+      var questionState = window.State[questionIndex];
+      var existing = state.adjustedQuestionScores[questionKey];
+      if (
+        existing &&
+        Math.abs(Number(questionState[0]) - existing.adjusted) < 0.000001
+      )
+        continue;
+
+      var rawScore = Number(questionState[0]);
+      if (!Number.isFinite(rawScore)) continue;
+      var deduction = extraHintPenalty(questionKey) / 100;
+      var adjusted = Math.max(0, rawScore - deduction);
+      questionState[0] = adjusted;
+      state.adjustedQuestionScores[questionKey] = {
+        raw: rawScore,
+        adjusted: adjusted,
+        correct: rawScore >= 1,
+      };
+      changed = true;
+    }
+    if (changed && typeof window.CalculateOverallScore === "function") {
+      window.CalculateOverallScore();
+      var score = finiteScore();
+      if (score != null) updateVisibleScore(score);
+    }
+  }
+
+  function recordSentenceCompletion() {
+    if (
+      family !== "sent" ||
+      window.Locked !== true ||
+      state.sentenceScoreAdjusted
+    )
+      return;
+    var info = exerciseSetInfo();
+    var progress = currentExerciseProgress();
+    var rawScore = finiteScore();
+    if (rawScore == null) rawScore = 100;
+    var adjustedScore = Math.max(
+      0,
+      rawScore - extraHintPenalty(info.questionKey),
+    );
+    window.Score = adjustedScore;
+    state.sentenceScoreAdjusted = true;
+    updateVisibleScore(adjustedScore);
+    progress.completedByQuestion[info.questionKey] = {
+      correct: true,
+      scorePercent: adjustedScore,
+    };
+    saveExerciseProgress();
+  }
+
+  function isExerciseSetComplete() {
+    var info = exerciseSetInfo();
+    if (family === "sent") {
+      if (info.totalQuestions !== REQUIRED_SET_QUESTIONS) return false;
+      var completed = currentExerciseProgress().completedByQuestion;
+      for (
+        var questionNumber = 1;
+        questionNumber <= REQUIRED_SET_QUESTIONS;
+        questionNumber += 1
+      ) {
+        if (!completed[String(questionNumber).padStart(2, "0")]) return false;
+      }
+      return true;
+    }
+
+    var indexes = dictationQuestionIndexes();
+    if (info.totalQuestions <= 0 || indexes.length !== info.totalQuestions)
+      return false;
+    for (var index = 0; index < indexes.length; index += 1) {
+      if (!dictationQuestionIsComplete(indexes[index])) return false;
+    }
+    return true;
+  }
+
   function getAnswerCounts() {
     var score = finiteScore();
     if (family === "sent") {
-      var sentenceAnswerRevealed =
-        state.answersRevealedAll || Object.keys(state.revealedAnswerIndexes).length > 0;
-      var completed = window.Locked === true;
-      var sentenceCorrectCount = completed && !sentenceAnswerRevealed ? 1 : 0;
+      var completedSentences = currentExerciseProgress().completedByQuestion;
+      var sentenceCorrectCount = 0;
+      var sentenceScoreTotal = 0;
+      var completedCount = 0;
+      for (
+        var sentenceNumber = 1;
+        sentenceNumber <= REQUIRED_SET_QUESTIONS;
+        sentenceNumber += 1
+      ) {
+        var sentenceResult =
+          completedSentences[String(sentenceNumber).padStart(2, "0")];
+        if (!sentenceResult) continue;
+        completedCount += 1;
+        sentenceScoreTotal += sentenceResult.scorePercent;
+        if (sentenceResult.correct) sentenceCorrectCount += 1;
+      }
       return {
-        totalQuestions: 1,
+        totalQuestions: REQUIRED_SET_QUESTIONS,
         correctCount: sentenceCorrectCount,
-        pendingCount: 0,
-        incorrectCount: 1 - sentenceCorrectCount,
-        scorePercent: sentenceAnswerRevealed
-          ? 0
-          : score == null
-            ? completed
-              ? 100
-              : 0
-            : score,
+        pendingCount: Math.max(REQUIRED_SET_QUESTIONS - completedCount, 0),
+        incorrectCount: Math.max(completedCount - sentenceCorrectCount, 0),
+        scorePercent:
+          completedCount === REQUIRED_SET_QUESTIONS
+            ? Number((sentenceScoreTotal / REQUIRED_SET_QUESTIONS).toFixed(2))
+            : score == null
+              ? 0
+              : score,
       };
     }
 
     var states = Array.isArray(window.State) ? window.State : [];
-    var questionIndexes = [];
-    for (var stateIndex = 0; stateIndex < states.length; stateIndex += 1) {
-      if (Array.isArray(states[stateIndex])) questionIndexes.push(stateIndex);
-    }
-    var totalQuestions = questionIndexes.length || (Array.isArray(window.I) ? window.I.length : 0);
+    var questionIndexes = dictationQuestionIndexes();
+    var totalQuestions = exerciseSetInfo().totalQuestions;
     var correctCount = 0;
     var pendingCount = 0;
     for (var index = 0; index < questionIndexes.length; index += 1) {
       var questionIndex = questionIndexes[index];
       if (
         state.answersRevealedAll ||
-        Object.prototype.hasOwnProperty.call(state.revealedAnswerIndexes, questionIndex)
+        Object.prototype.hasOwnProperty.call(
+          state.revealedAnswerIndexes,
+          questionIndex,
+        )
       ) {
         continue;
       }
-      var questionScore = Number(states[questionIndex][0]);
+      var adjustedQuestion =
+        state.adjustedQuestionScores[String(questionIndex)];
+      var questionScore = Number(
+        adjustedQuestion ? adjustedQuestion.raw : states[questionIndex][0],
+      );
       if (questionScore >= 1) correctCount += 1;
       else if (questionScore < 0) pendingCount += 1;
     }
-    var incorrectCount = Math.max(totalQuestions - correctCount - pendingCount, 0);
+    var incorrectCount = Math.max(
+      totalQuestions - correctCount - pendingCount,
+      0,
+    );
     var hasRevealedAnswer =
-      state.answersRevealedAll || Object.keys(state.revealedAnswerIndexes).length > 0;
-    var calculatedScore = totalQuestions > 0
-      ? Number(((correctCount / totalQuestions) * 100).toFixed(2))
-      : 0;
-    var scorePercent = hasRevealedAnswer || score == null ? calculatedScore : score;
-    return { totalQuestions, correctCount, pendingCount, incorrectCount, scorePercent };
+      state.answersRevealedAll ||
+      Object.keys(state.revealedAnswerIndexes).length > 0;
+    var completedWeight = 0;
+    var completedScore = 0;
+    for (
+      var scoreIndex = 0;
+      scoreIndex < questionIndexes.length;
+      scoreIndex += 1
+    ) {
+      var completedQuestionIndex = questionIndexes[scoreIndex];
+      var completedQuestionState = states[completedQuestionIndex];
+      if (Number(completedQuestionState[0]) < 0) continue;
+      var weight =
+        Array.isArray(window.I) && window.I[completedQuestionIndex]
+          ? Number(window.I[completedQuestionIndex][0]) || 1
+          : 1;
+      completedWeight += weight;
+      completedScore += weight * Number(completedQuestionState[0]);
+    }
+    var calculatedScore =
+      completedWeight > 0
+        ? Number(((completedScore / completedWeight) * 100).toFixed(2))
+        : 0;
+    var scorePercent =
+      hasRevealedAnswer || score == null ? calculatedScore : score;
+    return {
+      totalQuestions,
+      correctCount,
+      pendingCount,
+      incorrectCount,
+      scorePercent,
+    };
   }
 
   function setStatus(message, kind) {
     if (!state.statusNode) return;
     state.statusNode.textContent = message || "";
-    state.statusNode.classList.remove("sis-cloze-status--error", "sis-cloze-status--success");
-    if (kind === "error") state.statusNode.classList.add("sis-cloze-status--error");
-    if (kind === "success") state.statusNode.classList.add("sis-cloze-status--success");
+    state.statusNode.classList.remove(
+      "sis-cloze-status--error",
+      "sis-cloze-status--success",
+    );
+    if (kind === "error")
+      state.statusNode.classList.add("sis-cloze-status--error");
+    if (kind === "success")
+      state.statusNode.classList.add("sis-cloze-status--success");
   }
 
   function focusMissingIdentity() {
@@ -243,42 +606,93 @@
     }
   }
 
+  function questionIndexForButton(button) {
+    if (family !== "dict" || !button) return -1;
+    var onclick = normalizeText(button.getAttribute("onclick"));
+    var match = /(?:CheckShortAnswer|ShowHint|ShowAnswers)\s*\(\s*(\d+)/i.exec(
+      onclick,
+    );
+    return match ? Number(match[1]) : -1;
+  }
+
   function updateActionButtons() {
-    var disabled =
-      !identityIsValid() || state.submitting || state.submitted || window.Locked === true;
+    if (family === "sent") recordSentenceCompletion();
+    if (family === "dict") applyDictationHintPenalties();
+
+    var identityValid = identityIsValid();
+    var commonDisabled =
+      !identityValid ||
+      state.submitting ||
+      state.submitted ||
+      window.Locked === true;
+    var hintsExhausted = totalHintsUsed() >= MAX_HINTS_PER_SET;
     for (var index = 0; index < state.actionButtons.length; index += 1) {
-      state.actionButtons[index].disabled = disabled;
-      state.actionButtons[index].setAttribute("aria-disabled", disabled ? "true" : "false");
+      var button = state.actionButtons[index];
+      var action = getActionFromButton(button);
+      var questionIndex = questionIndexForButton(button);
+      var questionComplete =
+        family === "dict" &&
+        questionIndex >= 0 &&
+        dictationQuestionIsComplete(questionIndex);
+      var disabled =
+        commonDisabled ||
+        (action === "hint" && hintsExhausted) ||
+        (action === "hint" && questionComplete) ||
+        (action === "check" && questionComplete);
+      button.disabled = disabled;
+      button.setAttribute("aria-disabled", disabled ? "true" : "false");
     }
     if (state.submitButton) {
       var disableSubmit =
-        !identityIsValid() || state.submitting || state.submitted || window.Locked !== true;
+        !identityValid ||
+        state.submitting ||
+        state.submitted ||
+        !isExerciseSetComplete();
       state.submitButton.disabled = disableSubmit;
-      state.submitButton.setAttribute("aria-disabled", disableSubmit ? "true" : "false");
+      state.submitButton.setAttribute(
+        "aria-disabled",
+        disableSubmit ? "true" : "false",
+      );
+    }
+    if (
+      hintsExhausted &&
+      identityValid &&
+      !state.submitting &&
+      !state.submitted
+    ) {
+      setStatus(
+        "The 14-hint limit for this exercise set has been reached. No more hints are available.",
+        "error",
+      );
     }
   }
 
   function sendWithFetch(url, payload) {
-    return window.fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify(payload),
-      keepalive: true,
-    }).then(function (response) {
-      if (response.ok) return response;
-      return response.text().then(function (text) {
-        var message = "Submission failed (" + response.status + ")";
-        if (text) {
-          try {
-            var parsed = JSON.parse(text);
-            if (parsed && parsed.error) message = String(parsed.error);
-          } catch {
-            message = text;
+    return window
+      .fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      })
+      .then(function (response) {
+        if (response.ok) return response;
+        return response.text().then(function (text) {
+          var message = "Submission failed (" + response.status + ")";
+          if (text) {
+            try {
+              var parsed = JSON.parse(text);
+              if (parsed && parsed.error) message = String(parsed.error);
+            } catch {
+              message = text;
+            }
           }
-        }
-        throw new Error(message);
+          throw new Error(message);
+        });
       });
-    });
   }
 
   function sendWithXhr(url, payload) {
@@ -301,13 +715,20 @@
 
   function sendSubmission(payload) {
     var url = resolveSubmitUrl();
-    return window.fetch ? sendWithFetch(url, payload) : sendWithXhr(url, payload);
+    return window.fetch
+      ? sendWithFetch(url, payload)
+      : sendWithXhr(url, payload);
   }
 
   function buildPayload() {
     var identity = readFormIdentity();
     if (!identityIsValid(identity)) {
-      throw new Error("Enter your student email and Eagles ID before checking answers.");
+      throw new Error(IDENTITY_REQUIRED_STATUS_MESSAGE);
+    }
+    if (!isExerciseSetComplete()) {
+      throw new Error(
+        "Complete all 5 questions in this exercise set before submitting.",
+      );
     }
     var counts = getAnswerCounts();
     return {
@@ -329,13 +750,25 @@
   function submitAttempt() {
     if (state.submitted) return Promise.resolve(true);
     if (state.submitting && state.submitPromise) return state.submitPromise;
-    if (window.Locked !== true) return Promise.resolve(false);
+    if (!isExerciseSetComplete()) {
+      setStatus(
+        "Complete all 5 questions in this exercise set before submitting.",
+        "error",
+      );
+      updateActionButtons();
+      return Promise.resolve(false);
+    }
 
     var payload;
     try {
       payload = buildPayload();
     } catch (error) {
-      setStatus(error && error.message ? String(error.message) : "Enter your details first.", "error");
+      setStatus(
+        error && error.message
+          ? String(error.message)
+          : "Enter your details first.",
+        "error",
+      );
       focusMissingIdentity();
       updateActionButtons();
       return Promise.resolve(false);
@@ -352,13 +785,20 @@
       .then(function () {
         state.submitted = true;
         if (state.retryButton) state.retryButton.hidden = true;
-        setStatus("Submitted. A receipt has been emailed to " + payload.email + ".", "success");
+        setStatus(
+          "Submitted. A receipt has been emailed to " + payload.email + ".",
+          "success",
+        );
         return true;
       })
       .catch(function (error) {
-        var message = error && error.message ? String(error.message) : "Submission failed";
+        var message =
+          error && error.message ? String(error.message) : "Submission failed";
         if (state.retryButton) state.retryButton.hidden = false;
-        setStatus("Submission failed. Retry when you are back online. " + message, "error");
+        setStatus(
+          "Submission failed. Retry when you are back online. " + message,
+          "error",
+        );
         return false;
       })
       .finally(function () {
@@ -375,7 +815,10 @@
     if (target.querySelector(".sis-exercise-instructions")) return;
     var instructionText = normalizeText(target.textContent);
     var labelText = family === "sent" ? "SENTENCE SCRAMBLE" : "DICTATION";
-    instructionText = instructionText.replace(new RegExp("^" + labelText + "\\s*:\\s*", "i"), "");
+    instructionText = instructionText.replace(
+      new RegExp("^" + labelText + "\\s*:\\s*", "i"),
+      "",
+    );
     var paragraph = document.createElement("p");
     paragraph.className = "sis-exercise-instructions";
     var label = document.createElement("strong");
@@ -395,15 +838,15 @@
     panel.className = "sis-cloze-panel";
     panel.setAttribute("aria-label", "SIS result details");
     panel.innerHTML =
-      '<p class="sis-cloze-panel__instruction">Enter your Eagles ID and student email to send your result to SIS.</p>' +
+      '<p class="sis-cloze-panel__instruction">Enter your student email and Eagles ID to unlock Check and Hint and send your result to SIS.</p>' +
       '<div class="sis-cloze-panel__grid">' +
-      '<label class="sis-cloze-field" for="sis-exercise-eagles-id">' +
-      '<span class="sis-cloze-field__label">Eagles ID</span>' +
-      '<input id="sis-exercise-eagles-id" data-sis-exercise-eagles-id type="text" autocomplete="username" autocapitalize="none" spellcheck="false" inputmode="text" pattern="^[a-z]+\\d{3}$" placeholder="tammy001" required>' +
-      "</label>" +
       '<label class="sis-cloze-field" for="sis-exercise-email">' +
       '<span class="sis-cloze-field__label">Student email</span>' +
       '<input id="sis-exercise-email" data-sis-exercise-email type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required>' +
+      "</label>" +
+      '<label class="sis-cloze-field" for="sis-exercise-eagles-id">' +
+      '<span class="sis-cloze-field__label">Eagles ID</span>' +
+      '<input id="sis-exercise-eagles-id" data-sis-exercise-eagles-id type="text" autocomplete="username" autocapitalize="none" spellcheck="false" inputmode="text" pattern="^[a-z]+\\d{3}$" placeholder="tammy001" required>' +
       "</label>" +
       "</div>" +
       '<p id="sis-exercise-status" class="sis-cloze-status" data-sis-exercise-status aria-live="polite"></p>' +
@@ -413,9 +856,13 @@
   }
 
   function buildModernShell() {
-    var wrapper = document.querySelector("body#TheBody > .wrapit, body#TheBody > .wrapfit");
+    var wrapper = document.querySelector(
+      "body#TheBody > .wrapit, body#TheBody > .wrapfit",
+    );
     if (!wrapper || wrapper.dataset.sisExerciseShellBuilt === "true") return;
-    var instructionPanel = wrapper.querySelector(":scope > .hp-instructions-panel");
+    var instructionPanel = wrapper.querySelector(
+      ":scope > .hp-instructions-panel",
+    );
     var titles = instructionPanel
       ? instructionPanel.querySelector(":scope > .Titles")
       : wrapper.querySelector(":scope > .Titles");
@@ -430,12 +877,17 @@
     var identityPanel = wrapper.querySelector(":scope > .sis-cloze-panel");
     var closeContainer = wrapper.querySelector(":scope > .cenmar");
     var trailingBreak = closeContainer && closeContainer.nextSibling;
-    var retryButton = identityPanel && identityPanel.querySelector("[data-sis-exercise-retry]");
+    var retryButton =
+      identityPanel && identityPanel.querySelector("[data-sis-exercise-retry]");
     if ((!instructionPanel && (!titles || !instructions)) || !main) return;
 
     if (guess) {
       var containsOnlyWhitespace = true;
-      for (var nodeIndex = 0; nodeIndex < guess.childNodes.length; nodeIndex += 1) {
+      for (
+        var nodeIndex = 0;
+        nodeIndex < guess.childNodes.length;
+        nodeIndex += 1
+      ) {
         var child = guess.childNodes[nodeIndex];
         if (child.nodeType !== 3 || normalizeText(child.textContent)) {
           containsOnlyWhitespace = false;
@@ -449,8 +901,14 @@
 
     var shell = document.createElement("main");
     shell.className = "sis-cloze-shell sis-exercise-shell";
-    shell.setAttribute("aria-label", family === "sent" ? "Sentence scramble exercise" : "Dictation exercise");
-    wrapper.insertBefore(shell, topNav || instructionPanel || titles || identityPanel || main);
+    shell.setAttribute(
+      "aria-label",
+      family === "sent" ? "Sentence scramble exercise" : "Dictation exercise",
+    );
+    wrapper.insertBefore(
+      shell,
+      topNav || instructionPanel || titles || identityPanel || main,
+    );
     if (topNav) shell.appendChild(topNav);
     var header = document.createElement("header");
     header.className = "sis-cloze-region sis-cloze-region--header";
@@ -470,8 +928,6 @@
     var exerciseRegion = document.createElement("section");
     exerciseRegion.className = "sis-cloze-region sis-cloze-region--exercise";
     exerciseRegion.setAttribute("aria-label", "Exercise content");
-    if (guess) exerciseRegion.appendChild(guess);
-    exerciseRegion.appendChild(main);
     var submitRegion = document.createElement("div");
     submitRegion.className = "sis-exercise-submit-row";
     submitRegion.setAttribute("aria-label", "Submit exercise result");
@@ -481,13 +937,59 @@
     submitButton.textContent = "Submit";
     submitButton.setAttribute("data-sis-exercise-submit", "");
     submitButton.setAttribute("aria-label", "Submit");
-    submitButton.setAttribute("aria-description", "Submit your completed exercise result to SIS.");
-    submitButton.setAttribute("data-hp-tooltip", "Submit your completed exercise result to SIS.");
+    submitButton.setAttribute(
+      "aria-description",
+      "Submit your completed exercise result to SIS.",
+    );
+    submitButton.setAttribute(
+      "data-hp-tooltip",
+      "Submit your completed exercise result to SIS.",
+    );
     submitButton.disabled = true;
     submitButton.setAttribute("aria-disabled", "true");
     submitRegion.appendChild(submitButton);
     if (retryButton) submitRegion.appendChild(retryButton);
-    exerciseRegion.appendChild(submitRegion);
+
+    if (family === "sent") {
+      if (guess) guess.classList.remove("hp-display-none");
+
+      var segment = main.querySelector(":scope > #SegmentDiv");
+      var controls = document.createElement("div");
+      controls.className = "sis-exercise-controls";
+      controls.setAttribute("role", "group");
+      controls.setAttribute("aria-label", "Sentence exercise controls");
+
+      var exerciseButtons = Array.prototype.slice.call(
+        main.querySelectorAll(":scope > .FuncButton"),
+      );
+      for (
+        var buttonIndex = 0;
+        buttonIndex < exerciseButtons.length;
+        buttonIndex += 1
+      ) {
+        controls.appendChild(exerciseButtons[buttonIndex]);
+      }
+
+      if (segment && segment.parentNode === main) {
+        main.insertBefore(controls, segment.nextSibling);
+      } else {
+        main.appendChild(controls);
+      }
+      controls.appendChild(submitRegion);
+      if (guess) exerciseRegion.appendChild(guess);
+      exerciseRegion.appendChild(main);
+    } else {
+      var submitControls = document.createElement("div");
+      submitControls.className = "sis-exercise-controls";
+      submitControls.setAttribute("role", "group");
+      submitControls.setAttribute(
+        "aria-label",
+        "Dictation submission controls",
+      );
+      submitControls.appendChild(submitRegion);
+      main.appendChild(submitControls);
+      exerciseRegion.appendChild(main);
+    }
     var feedbackRegion = document.createElement("section");
     feedbackRegion.className = "sis-cloze-region sis-cloze-region--feedback";
     feedbackRegion.setAttribute("aria-label", "Exercise feedback");
@@ -499,14 +1001,21 @@
       feedbackRegion.classList.add("hp-display-none");
       var feedbackText = feedback.querySelector(".FeedbackText");
       var syncFeedbackVisibility = function () {
-        var hasMessage = feedbackText && normalizeText(feedbackText.textContent);
-        var isHidden = !hasMessage || window.getComputedStyle(feedback).display === "none";
+        var hasMessage =
+          feedbackText && normalizeText(feedbackText.textContent);
+        var isHidden =
+          !hasMessage || window.getComputedStyle(feedback).display === "none";
         feedbackRegion.classList.toggle("hp-display-none", isHidden);
       };
       syncFeedbackVisibility();
       if (typeof window.MutationObserver === "function") {
-        state.feedbackObserver = new window.MutationObserver(syncFeedbackVisibility);
-        state.feedbackObserver.observe(feedback, { attributes: true, attributeFilter: ["class", "style"] });
+        state.feedbackObserver = new window.MutationObserver(
+          syncFeedbackVisibility,
+        );
+        state.feedbackObserver.observe(feedback, {
+          attributes: true,
+          attributeFilter: ["class", "style"],
+        });
         if (feedbackText) {
           state.feedbackObserver.observe(feedbackText, {
             characterData: true,
@@ -527,10 +1036,15 @@
       footerRegion.setAttribute("aria-label", "Close exercise");
       footerRegion.appendChild(closeContainer);
       shell.appendChild(footerRegion);
-      while (trailingBreak && trailingBreak.nodeType === 3 && !normalizeText(trailingBreak.textContent)) {
+      while (
+        trailingBreak &&
+        trailingBreak.nodeType === 3 &&
+        !normalizeText(trailingBreak.textContent)
+      ) {
         trailingBreak = trailingBreak.nextSibling;
       }
-      if (trailingBreak && trailingBreak.nodeName === "BR") trailingBreak.remove();
+      if (trailingBreak && trailingBreak.nodeName === "BR")
+        trailingBreak.remove();
     }
     state.submitButton = submitButton;
     wrapper.dataset.sisExerciseShellBuilt = "true";
@@ -540,6 +1054,8 @@
 
   function getActionFromButton(button) {
     var onclick = normalizeText(button.getAttribute("onclick")).toLowerCase();
+    if (family === "sent" && /checkanswer\s*\(\s*1\s*\)/.test(onclick))
+      return "hint";
     if (/checkshortanswer\s*\(|checkanswer\s*\(/.test(onclick)) return "check";
     if (/showhint\s*\(/.test(onclick)) return "hint";
     if (/showanswers\s*\(/.test(onclick)) return "answer";
@@ -547,7 +1063,11 @@
   }
 
   function collectActionButtons() {
-    var buttons = Array.prototype.slice.call(document.querySelectorAll("button, input[type='button'], input[type='submit']"));
+    var buttons = Array.prototype.slice.call(
+      document.querySelectorAll(
+        "button, input[type='button'], input[type='submit']",
+      ),
+    );
     state.actionButtons = [];
     for (var index = 0; index < buttons.length; index += 1) {
       var button = buttons[index];
@@ -566,6 +1086,42 @@
     }
   }
 
+  function normalizeDictationControls() {
+    var groups = new Map();
+    for (var index = 0; index < state.actionButtons.length; index += 1) {
+      var button = state.actionButtons[index];
+      var parent = button.parentElement;
+      if (!parent) continue;
+      if (!groups.has(parent)) groups.set(parent, []);
+      groups.get(parent).push(button);
+    }
+
+    groups.forEach(function (buttons, parent) {
+      var controls = parent.querySelector(":scope > .sis-exercise-controls");
+      if (!controls) {
+        controls = document.createElement("div");
+        controls.className = "sis-exercise-controls";
+        controls.setAttribute("role", "group");
+        controls.setAttribute("aria-label", "Dictation question controls");
+        parent.insertBefore(controls, buttons[0]);
+      }
+      for (
+        var buttonIndex = 0;
+        buttonIndex < buttons.length;
+        buttonIndex += 1
+      ) {
+        controls.appendChild(buttons[buttonIndex]);
+      }
+
+      var preceding = controls.previousElementSibling;
+      while (preceding && preceding.tagName === "BR") {
+        var previous = preceding.previousElementSibling;
+        preceding.remove();
+        preceding = previous;
+      }
+    });
+  }
+
   function bindIdentityEvents() {
     var inputs = [state.emailInput, state.eaglesIdInput];
     for (var index = 0; index < inputs.length; index += 1) {
@@ -575,9 +1131,9 @@
         var identity = readFormIdentity();
         if (identityIsValid(identity)) {
           persistIdentity(identity);
-          setStatus("Your details are ready. Complete the exercise to send your result.", "");
+          setStatus(IDENTITY_READY_STATUS_MESSAGE, "");
         } else {
-          setStatus("Enter a valid student email and Eagles ID to continue.", "");
+          setStatus(IDENTITY_REQUIRED_STATUS_MESSAGE, "");
         }
         updateActionButtons();
       });
@@ -593,20 +1149,92 @@
     var original = window[name];
     if (typeof original !== "function" || original.__sisExerciseWrapped) return;
     var wrapped = function () {
+      var args = arguments;
+      var questionIndex = Number(args[0]);
+      var isSentenceHint =
+        family === "sent" && name === "CheckAnswer" && Number(args[0]) === 1;
+      var isHintAction = name === "ShowHint" || isSentenceHint;
+      var questionKey = currentQuestionKey(questionIndex);
       if (!identityIsValid()) {
         setStatus(invalidMessage, "error");
         focusMissingIdentity();
         return false;
       }
+
+      if (isHintAction) {
+        if (
+          (family === "sent" && window.Locked === true) ||
+          (family === "dict" && dictationQuestionIsComplete(questionIndex))
+        ) {
+          return false;
+        }
+        if (totalHintsUsed() >= MAX_HINTS_PER_SET || !recordHint(questionKey)) {
+          setStatus(
+            "The 14-hint limit for this exercise set has been reached. No more hints are available.",
+            "error",
+          );
+          updateActionButtons();
+          return false;
+        }
+      } else if (
+        family === "sent" &&
+        name === "CheckAnswer" &&
+        window.Locked === true
+      ) {
+        return false;
+      } else if (
+        family === "dict" &&
+        name === "CheckShortAnswer" &&
+        dictationQuestionIsComplete(questionIndex)
+      ) {
+        return false;
+      }
+
+      var sentencePenaltyBeforeHint = isSentenceHint ? window.Penalties : null;
+      var dictationHintState =
+        isHintAction &&
+        family === "dict" &&
+        Array.isArray(window.State) &&
+        Array.isArray(window.State[questionIndex])
+          ? {
+              answerScore: window.State[questionIndex][3],
+              hintPenalty: window.State[questionIndex][4],
+              score: window.State[questionIndex][0],
+              tries: window.State[questionIndex][2],
+            }
+          : null;
+
+      if (family === "dict" && name !== "ShowHint" && name !== "CheckAnswer") {
+        restoreAdjustedQuestionScore(questionIndex);
+      }
       if (name === "ShowAnswers") {
-        var questionIndex = Number(arguments[0]);
         if (Number.isInteger(questionIndex) && questionIndex >= 0) {
           state.revealedAnswerIndexes[questionIndex] = true;
         } else {
           state.answersRevealedAll = true;
         }
       }
-      var result = original.apply(this, arguments);
+      var result = original.apply(this, args);
+
+      if (isSentenceHint && sentencePenaltyBeforeHint != null) {
+        window.Penalties = sentencePenaltyBeforeHint;
+      }
+      if (dictationHintState) {
+        var questionState = window.State[questionIndex];
+        var becameComplete =
+          Number(dictationHintState.score) < 0 && Number(questionState[0]) >= 0;
+        if (becameComplete) restoreAdjustedQuestionScore(questionIndex);
+        questionState[2] = dictationHintState.tries;
+        questionState[4] = dictationHintState.hintPenalty;
+        if (becameComplete) {
+          var attemptCount =
+            Number(questionState[2]) + Number(questionState[4]);
+          questionState[0] =
+            Number(questionState[4]) >= 1
+              ? 0
+              : Number(questionState[3]) / (100 * Math.max(attemptCount, 1));
+        }
+      }
       if (name === "ShowAnswers") {
         setStatus("Revealed answers count as incorrect.", "error");
       }
@@ -631,11 +1259,19 @@
 
   function bind() {
     state.emailInput = document.querySelector("[data-sis-exercise-email]");
-    state.eaglesIdInput = document.querySelector("[data-sis-exercise-eagles-id]");
+    state.eaglesIdInput = document.querySelector(
+      "[data-sis-exercise-eagles-id]",
+    );
     state.statusNode = document.querySelector("[data-sis-exercise-status]");
     state.submitButton = document.querySelector("[data-sis-exercise-submit]");
     state.retryButton = document.querySelector("[data-sis-exercise-retry]");
-    if (!state.emailInput || !state.eaglesIdInput || !state.statusNode || !state.submitButton) return;
+    if (
+      !state.emailInput ||
+      !state.eaglesIdInput ||
+      !state.statusNode ||
+      !state.submitButton
+    )
+      return;
 
     var saved = readIdentity();
     state.emailInput.value = saved.email;
@@ -643,19 +1279,21 @@
     state.emailInput.setAttribute("aria-describedby", "sis-exercise-status");
     state.eaglesIdInput.setAttribute("aria-describedby", "sis-exercise-status");
     collectActionButtons();
+    if (family === "dict") normalizeDictationControls();
     bindIdentityEvents();
     state.submitButton.addEventListener("click", submitAttempt);
-    if (state.retryButton) state.retryButton.addEventListener("click", submitAttempt);
-    wrapAction("CheckShortAnswer", "Enter your student email and Eagles ID before checking answers.");
-    wrapAction("CheckAnswer", "Enter your student email and Eagles ID before checking or using a hint.");
-    wrapAction("ShowHint", "Enter your student email and Eagles ID before using a hint.");
-    wrapAction("ShowAnswers", "Enter your student email and Eagles ID before viewing answers.");
+    if (state.retryButton)
+      state.retryButton.addEventListener("click", submitAttempt);
+    wrapAction("CheckShortAnswer", IDENTITY_REQUIRED_STATUS_MESSAGE);
+    wrapAction("CheckAnswer", IDENTITY_REQUIRED_STATUS_MESSAGE);
+    wrapAction("ShowHint", IDENTITY_REQUIRED_STATUS_MESSAGE);
+    wrapAction("ShowAnswers", IDENTITY_REQUIRED_STATUS_MESSAGE);
     wrapFinish();
     updateActionButtons();
     if (identityIsValid()) {
-      setStatus("Your saved details are ready. Complete the exercise to send your result.", "");
+      setStatus(IDENTITY_READY_STATUS_MESSAGE, "");
     } else {
-      setStatus("Enter your student email and Eagles ID to unlock Check and Hint.", "");
+      setStatus(IDENTITY_REQUIRED_STATUS_MESSAGE, "");
     }
   }
 
@@ -669,7 +1307,8 @@
     state.initialized = true;
   }
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bootstrap);
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", bootstrap);
   else bootstrap();
 
   window.SISExerciseBridge = {

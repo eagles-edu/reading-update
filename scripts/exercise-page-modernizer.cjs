@@ -153,6 +153,25 @@ function normalizeKnownSentenceStylesheet(content, options) {
   return { content: normalized, changed };
 }
 
+function normalizeSentenceAnswerPane(source, family) {
+  if (family !== "sent") return { source, changed: false };
+
+  let changed = false;
+  const normalized = source.replace(/<div\b[^>]*>/gi, (tag) => {
+    if (parseTagAttributes(tag).get("id") !== "GuessDiv") return tag;
+
+    return tag.replace(/\bclass\s*=\s*(["'])(.*?)\1/i, (match, quote, classValue) => {
+      const classes = classValue.split(/\s+/).filter(Boolean);
+      const visibleClasses = classes.filter((className) => className !== "hp-display-none");
+      if (visibleClasses.length === classes.length) return match;
+      changed = true;
+      return `class=${quote}${visibleClasses.join(" ")}${quote}`;
+    });
+  });
+
+  return { source: normalized, changed };
+}
+
 function matchingStoryFilename(family, level, file) {
   const basename = path.basename(file);
   if (family === "dict" && level === 6 && basename === "1. The Hairstyle Change.html") {
@@ -179,6 +198,10 @@ function normalizeExerciseHtml(source, options) {
   const changes = [];
   let next = source.replace(XML_DECLARATION_RE, "");
   if (next !== source) changes.push("remove XML declaration");
+
+  const answerPane = normalizeSentenceAnswerPane(next, family);
+  next = answerPane.source;
+  if (answerPane.changed) changes.push("restore the visible sentence answer pane");
 
   const headMatch = next.match(/<head\b[^>]*>[\s\S]*?<\/head\s*>/i);
   if (!headMatch) throw new Error(`HTML head is missing in ${file}`);

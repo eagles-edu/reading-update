@@ -11,7 +11,7 @@ const SCRIPT_DIR = __dirname;
 const ROOT = path.resolve(SCRIPT_DIR, "..");
 const DEFAULT_INTERVAL_MS = 1000;
 const ASSET_EXTENSIONS = new Set([".css", ".js", ".mjs", ".cjs"]);
-const WATCH_DIRS = ["style", "js"];
+const WATCH_DIRS = ["css", "style", "js"];
 const STATUS_PREFIX = "[sri:watch]";
 
 function printUsage() {
@@ -116,14 +116,23 @@ function readHtmlTargets(root) {
   });
 }
 
-function collectHtmlTargets(root, assetAbsPath, htmlFiles) {
-  const matches = [];
+function collectHtmlTargets(
+  root,
+  assetAbsPaths,
+  htmlFiles,
+  readFile = fs.readFileSync,
+) {
+  const targetAssets = new Set(assetAbsPaths);
+  const matches = new Set();
 
   for (const file of htmlFiles) {
-    const source = fs.readFileSync(file, "utf8");
+    const source = readFile(file, "utf8");
     const references = collectReferencedAssetPaths(source, file, root);
-    if (references.has(assetAbsPath)) {
-      matches.push(file);
+    for (const assetPath of references) {
+      if (targetAssets.has(assetPath)) {
+        matches.add(file);
+        break;
+      }
     }
   }
 
@@ -153,18 +162,26 @@ function runRehashForFiles(root, files) {
 
   const result = cp.spawnSync(
     process.execPath,
-    [path.join(SCRIPT_DIR, "sri-rehash.cjs"), "--apply", "--root", root, ...files],
+    [
+      path.join(SCRIPT_DIR, "sri-rehash.cjs"),
+      "--apply",
+      "--root",
+      root,
+      ...files,
+    ],
     {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "pipe"],
-    }
+    },
   );
 
   if (result.stdout) process.stdout.write(result.stdout);
   if (result.stderr) process.stderr.write(result.stderr);
 
   if (result.status !== 0) {
-    throw new Error(`sri-rehash exited with status ${result.status ?? "unknown"}`);
+    throw new Error(
+      `sri-rehash exited with status ${result.status ?? "unknown"}`,
+    );
   }
 }
 
@@ -207,18 +224,22 @@ function main() {
 
     try {
       printStatus("SCANNING", `assets: ${assetsToProcess.join(", ")}`);
-      const htmlTargets = new Set();
-      for (const assetRelPath of assetsToProcess) {
-        const assetAbsPath = path.resolve(args.root, assetRelPath);
-        for (const file of collectHtmlTargets(args.root, assetAbsPath, htmlFiles)) {
-          htmlTargets.add(file);
-        }
-      }
+      const assetAbsPaths = assetsToProcess.map((assetRelPath) =>
+        path.resolve(args.root, assetRelPath),
+      );
+      const htmlTargets = collectHtmlTargets(
+        args.root,
+        assetAbsPaths,
+        htmlFiles,
+      );
 
       if (htmlTargets.size === 0) {
         printStatus("IDLE", "no matching HTML targets found");
       } else {
-        printStatus("SCANNING", `html: ${summarizeTargets([...htmlTargets], args.root)}`);
+        printStatus(
+          "SCANNING",
+          `html: ${summarizeTargets([...htmlTargets], args.root)}`,
+        );
         runRehashForFiles(args.root, [...htmlTargets]);
       }
     } catch (error) {
@@ -291,3 +312,8 @@ function main() {
 if (require.main === module) {
   process.exitCode = main();
 }
+
+module.exports = {
+  collectAssetState,
+  collectHtmlTargets,
+};

@@ -5,8 +5,16 @@ body#TheBody {
   margin: 0;
   padding: 0.75rem;
   background:
-    radial-gradient(circle at top left, rgba(181, 0, 16, 0.08), transparent 24rem),
-    radial-gradient(circle at top right, rgba(0, 39, 134, 0.09), transparent 26rem),
+    radial-gradient(
+      circle at top left,
+      rgba(181, 0, 16, 0.08),
+      transparent 24rem
+    ),
+    radial-gradient(
+      circle at top right,
+      rgba(0, 39, 134, 0.09),
+      transparent 26rem
+    ),
     #d3d9e5;
 }
 
@@ -14,7 +22,6 @@ body#TheBody,
 body#TheBody button,
 body#TheBody input,
 body#TheBody textarea {
-
   font-family: var(
     --font-base,
     system-ui,
@@ -53,7 +60,6 @@ body#TheBody .sr-only {
   position: absolute;
   white-space: nowrap;
   width: 1px;
-
 }
 
 body#TheBody .wrapfit,
@@ -122,19 +128,19 @@ body#TheBody .ExerciseTitle {
 
 html[data-story-theme] body#TheBody .ExerciseTitle {
   display: -webkit-box;
-  font-size: clamp(0.9rem, 0.65rem + 1.15vw, 1.15rem);
+  font-size: clamp(1.2rem, 1rem + 0.82vw, 1.55rem);
   line-height: 1.2;
   margin: 0;
-  max-height: 2.4em;
-  overflow: hidden;
+  max-height: none;
+  overflow: visible;
   overflow-wrap: anywhere;
   padding: 0;
-  text-overflow: ellipsis;
+  text-overflow: clip;
   text-align: center;
   -webkit-box-orient: vertical;
   /* eslint-disable-next-line css/use-baseline*/
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
+  line-clamp: unset;
+  -webkit-line-clamp: unset;
 }
 
 body#TheBody #InstructionsDiv,
@@ -151,7 +157,10 @@ body#TheBody #MainDiv {
 
 html[data-story-theme] body#TheBody {
   background-color: var(--story-page-bg-color, #929494);
-  background-image: var(--story-page-bg-image, url("../images/bg/blueGrunge.webp"));
+  background-image: var(
+    --story-page-bg-image,
+    url("../images/bg/blueGrunge.webp")
+  );
   background-position: center;
   background-repeat: repeat;
   background-size: auto;
@@ -220,7 +229,7 @@ body#TheBody .ClozeBody {
 body#TheBody .GapBox {
   background: #fbffff;
   border: 1px solid #8896a8;
-  border-radius: .78rem;
+  border-radius: 0.78rem;
   box-sizing: border-box;
   color: #161616;
   line-height: 1.8;
@@ -408,7 +417,9 @@ body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButton:focus-visible,
 body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButton:hover,
 body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButtonUp:focus-visible,
 body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButtonUp:hover,
-body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButtonDown:focus-visible,
+body#TheBody.sis-exercise-story-theme
+  .NavButtonBar
+  .NavButtonDown:focus-visible,
 body#TheBody.sis-exercise-story-theme .NavButtonBar .NavButtonDown:hover {
   background-color: #e7efff;
   color: #002786;
@@ -473,4 +484,42 @@ body#TheBody .sis-cloze-panel__instruction {
     margin-right: var(--hp-horizontal-gap, 12px);
     width: auto;
   }
+}
+
+body#TheBody .sis-cloze-shell .sis-exercise-controls button.hp-button.btn-17,
+body#TheBody .sis-cloze-shell .sis-exercise-controls input.hp-button.btn-17 {
+  box-shadow: none;
+  overflow: hidden;
+}
+
+body#TheBody
+  .sis-cloze-shell
+  .sis-exercise-controls
+  button.hp-button.btn-17:hover:not(:disabled),
+body#TheBody
+  .sis-cloze-shell
+  .sis-exercise-controls
+  input.hp-button.btn-17:hover:not(:disabled) {
+  box-shadow: none;
+}
+
+body#TheBody
+  .sis-cloze-shell
+  .sis-exercise-controls
+  button.hp-button.btn-17::before,
+body#TheBody
+  .sis-cloze-shell
+  .sis-exercise-controls
+  button.hp-button.btn-17::after,
+body#TheBody
+  .sis-cloze-shell
+  .sis-exercise-controls
+  input.hp-button.btn-17::before,
+body#TheBody
+  .sis-cloze-shell
+  .sis-exercise-controls
+  input.hp-button.btn-17::after {
+  animation: none;
+  box-shadow: none;
+  content: none;
 }

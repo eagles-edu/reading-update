@@ -1,4 +1,4 @@
-<div id="Instructions" class="instruct">
+
 
 :root {
     --strFontFace: var(--font-base);
@@ -32,7 +32,7 @@
 	border-top-color: var(--strFuncLightColor);
 	border-right-color: var(--strFuncShadeColor);
 	border-bottom-color:  var(--strFuncShadeColor);
-	
+
 	color: var(--strTextColor);
 	background-color: var(--strButtBGColor);
 
@@ -121,7 +121,7 @@ button {
                /* NEW */
 	font-size: calc(17px + (24 - 17) * ((100vw - 300px) / (1600 - 300)));
 	line-height: 1.5em;
-     
+
 }
 
 p {
@@ -131,7 +131,7 @@ p {
 	text-align: left;
 	text-indent: .35in;
 }
-			
+
 			/* make all short-answer textareas fluid and respect their container */
 .ShortAnswerBox {
 	width: 100%;

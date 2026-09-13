@@ -1,0 +1,25 @@
+- generic [ref=e2]:
+  - heading "82. Pie-Eating Contest" [level=1] [ref=e3]
+  - generic [ref=e4]:
+    - checkbox "loop audio playback" [ref=e6]
+    - text: Repeat
+  - paragraph [ref=e7]: She goes to the carnival. She enters the pie-eating contest. She sits down on a chair. There are many pies in front of her. She cannot use her hands. She begins to eat. She eats the apple pie first. It takes her five minutes to finish it. She eats ten more pies.
+  - generic [ref=e8]:
+    - separator [ref=e9]
+    - link "Vocabulary" [ref=e10] [cursor=pointer]:
+      - /url: ../w1/w1082.html
+    - link "Cloze" [ref=e11] [cursor=pointer]:
+      - /url: ../cloze/b1cloze082.html
+    - link "Sentences" [ref=e12] [cursor=pointer]:
+      - /url: ../sent/b1mx08201.html
+    - link "Dictation" [ref=e13] [cursor=pointer]:
+      - /url: ../dict/b1d082.html
+    - separator [ref=e14]
+    - link "Previous" [ref=e15] [cursor=pointer]:
+      - /url: b1081.html
+      - img "Previous" [ref=e16]
+    - link "MENU" [ref=e17] [cursor=pointer]:
+      - /url: ../index.html
+    - link "Next" [ref=e18] [cursor=pointer]:
+      - /url: b1083.html
+      - img "Next" [ref=e19]

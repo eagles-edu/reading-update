@@ -1,3 +1,4 @@
+ani
 blueeyes
 bsyellow
 CEFR
@@ -19,9 +20,11 @@ ndy
 Pantone
 phpmyadmin
 pmahomme
+postflight
 predeclared
 purp
 RAL
+rghtalgn
 ricepaper
 roughcloth
 rtl

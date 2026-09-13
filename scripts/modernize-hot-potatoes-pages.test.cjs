@@ -3,14 +3,279 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const test = require("node:test");
+const { collectAssetState } = require("./sri-rehash-watch.cjs");
 
 const {
+  applyPagePlans,
+  applySafetyError,
   extractHeadStyleBlocks,
+  MAX_SAFE_APPLY_PAGES,
+  normalizeFeedbackPage,
   normalizePage,
   normalizeStyleValue,
+  parseArgs,
   scanTargets,
   storyTarget,
 } = require("./modernize-hot-potatoes-pages.cjs");
+
+test("bulk page applies fail closed unless an explicit scoped override is supplied", () => {
+  assert.equal(applySafetyError({ allowBulk: false, scopes: [] }, MAX_SAFE_APPLY_PAGES), null);
+  assert.match(
+    applySafetyError({ allowBulk: false, scopes: ["begin1"] }, MAX_SAFE_APPLY_PAGES + 1),
+    /safe limit is 50/,
+  );
+  assert.match(
+    applySafetyError({ allowBulk: true, scopes: [] }, MAX_SAFE_APPLY_PAGES + 1),
+    /explicit --scope/,
+  );
+  assert.equal(applySafetyError({ allowBulk: true, scopes: ["begin1"] }, MAX_SAFE_APPLY_PAGES + 1), null);
+  assert.throws(() => parseArgs(["--allow-bulk"]), /requires at least one explicit --scope/);
+  assert.deepEqual(parseArgs(["--allow-bulk", "--scope", "begin1"]).scopes, ["begin1"]);
+});
+
+test("apply refuses a batch over the limit before creating backups or changing files", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "hot-potatoes-bulk-gate-"));
+  let backupCalls = 0;
+  try {
+    const plans = Array.from({ length: MAX_SAFE_APPLY_PAGES + 1 }, (_, index) => {
+      const relative = `begin1/dict/page-${index}.html`;
+      const absolute = path.join(root, relative);
+      fs.mkdirSync(path.dirname(absolute), { recursive: true });
+      fs.writeFileSync(absolute, `original-${index}`);
+      return { absolute, relative, source: `original-${index}`, updated: `updated-${index}` };
+    });
+
+    assert.throws(
+      () =>
+        applyPagePlans(
+          plans,
+          { allowBulk: false, apply: true, root, scopes: ["begin1"] },
+          {
+            runRoot: path.join(root, "backup"),
+            backupBeforeWrite() {
+              backupCalls += 1;
+            },
+          },
+        ),
+      /Refusing to apply 51 changed pages/,
+    );
+    assert.equal(backupCalls, 0);
+    for (const plan of plans) assert.equal(fs.readFileSync(plan.absolute, "utf8"), plan.source);
+  } finally {
+    fs.rmSync(root, { force: true, recursive: true });
+  }
+});
+
+test("apply verifies every backup before writing any page", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "hot-potatoes-backup-check-"));
+  const backupRoot = path.join(root, "backup");
+  try {
+    const plans = ["one", "two"].map((name) => {
+      const relative = `begin1/dict/${name}.html`;
+      const absolute = path.join(root, relative);
+      fs.mkdirSync(path.dirname(absolute), { recursive: true });
+      fs.writeFileSync(absolute, `original-${name}`);
+      return { absolute, relative, source: `original-${name}`, updated: `updated-${name}` };
+    });
+    const backupManager = {
+      runRoot: backupRoot,
+      backupBeforeWrite(file) {
+        const relative = path.relative(root, file);
+        const target = path.join(backupRoot, relative);
+        fs.mkdirSync(path.dirname(target), { recursive: true });
+        fs.copyFileSync(file, target);
+        if (relative.endsWith("two.html")) fs.writeFileSync(target, "wrong backup");
+      },
+    };
+
+    assert.throws(
+      () => applyPagePlans(plans, { allowBulk: false, apply: true, root, scopes: ["begin1"] }, backupManager),
+      /two\.html: backup verification failed/,
+    );
+    for (const plan of plans) assert.equal(fs.readFileSync(plan.absolute, "utf8"), plan.source);
+  } finally {
+    fs.rmSync(root, { force: true, recursive: true });
+  }
+});
+
+test("apply writes changed pages only after byte-identical backups are ready", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "hot-potatoes-safe-apply-"));
+  const backupRoot = path.join(root, "backup");
+  try {
+    const plans = ["one", "two"].map((name) => {
+      const relative = `begin1/dict/${name}.html`;
+      const absolute = path.join(root, relative);
+      fs.mkdirSync(path.dirname(absolute), { recursive: true });
+      fs.writeFileSync(absolute, `original-${name}`);
+      return { absolute, relative, source: `original-${name}`, updated: `updated-${name}` };
+    });
+    const backupManager = {
+      runRoot: backupRoot,
+      backupBeforeWrite(file) {
+        const relative = path.relative(root, file);
+        const target = path.join(backupRoot, relative);
+        fs.mkdirSync(path.dirname(target), { recursive: true });
+        fs.copyFileSync(file, target);
+      },
+    };
+
+    const result = applyPagePlans(
+      plans,
+      { allowBulk: false, apply: true, root, scopes: ["begin1"] },
+      backupManager,
+    );
+    assert.equal(result.changedCount, 2);
+    for (const plan of plans) {
+      assert.equal(fs.readFileSync(plan.absolute, "utf8"), plan.updated);
+      assert.equal(fs.readFileSync(path.join(backupRoot, plan.relative), "utf8"), plan.source);
+    }
+  } finally {
+    fs.rmSync(root, { force: true, recursive: true });
+  }
+});
+
+test("a failed atomic replacement rolls back pages already written in the batch", () => {
+  const root = fs.mkdtempSync(
+    path.join(os.tmpdir(), "hot-potatoes-apply-rollback-"),
+  );
+  const backupRoot = path.join(root, "backup");
+  const plans = ["one", "two"].map((name) => {
+    const relative = `begin1/dict/${name}.html`;
+    const absolute = path.join(root, relative);
+    fs.mkdirSync(path.dirname(absolute), { recursive: true });
+    fs.writeFileSync(absolute, `original-${name}`);
+    return {
+      absolute,
+      relative,
+      source: `original-${name}`,
+      updated: `updated-${name}`,
+    };
+  });
+  const backupManager = {
+    runRoot: backupRoot,
+    backupBeforeWrite(file) {
+      const relative = path.relative(root, file);
+      const target = path.join(backupRoot, relative);
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      fs.copyFileSync(file, target);
+    },
+  };
+  const originalRename = fs.renameSync;
+  let replacementCount = 0;
+
+  fs.renameSync = function failSecondReplacement(...args) {
+    replacementCount += 1;
+    if (replacementCount === 2) throw new Error("injected replacement failure");
+    return originalRename.apply(this, args);
+  };
+  try {
+    assert.throws(
+      () =>
+        applyPagePlans(
+          plans,
+          { allowBulk: false, apply: true, root, scopes: ["begin1"] },
+          backupManager,
+        ),
+      /Apply failed: injected replacement failure\. All pages written before the failure were restored/,
+    );
+  } finally {
+    fs.renameSync = originalRename;
+  }
+
+  try {
+    for (const plan of plans) {
+      assert.equal(fs.readFileSync(plan.absolute, "utf8"), plan.source);
+      assert.equal(
+        fs.readFileSync(path.join(backupRoot, plan.relative), "utf8"),
+        plan.source,
+      );
+    }
+    assert.deepEqual(fs.readdirSync(path.dirname(plans[0].absolute)), [
+      "one.html",
+      "two.html",
+    ]);
+  } finally {
+    fs.rmSync(root, { force: true, recursive: true });
+  }
+});
+
+test("apply rejects stale preflight content instead of overwriting current work", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "hot-potatoes-stale-plan-"));
+  let backupCalls = 0;
+  try {
+    const absolute = path.join(root, "begin1/dict/page.html");
+    fs.mkdirSync(path.dirname(absolute), { recursive: true });
+    fs.writeFileSync(absolute, "new concurrent content");
+    const plan = {
+      absolute,
+      relative: "begin1/dict/page.html",
+      source: "old preflight content",
+      updated: "modernized content",
+    };
+
+    assert.throws(
+      () =>
+        applyPagePlans(
+          [plan],
+          { allowBulk: false, apply: true, root, scopes: ["begin1"] },
+          {
+            runRoot: path.join(root, "backup"),
+            backupBeforeWrite() {
+              backupCalls += 1;
+            },
+          },
+        ),
+      /changed after preflight/,
+    );
+    assert.equal(backupCalls, 0);
+    assert.equal(fs.readFileSync(absolute, "utf8"), "new concurrent content");
+  } finally {
+    fs.rmSync(root, { force: true, recursive: true });
+  }
+});
+
+test("cloze Check and Hint keep focus rings but disable effects that paint outside their bounds", () => {
+  const root = path.resolve(__dirname, "..");
+  const css = fs.readFileSync(path.join(root, "css/sis-cloze-submit.css"), "utf8");
+  const clozeControlRule = css.match(
+    /body#TheBody \.sis-cloze-shell \.sis-exercise-controls button\.hp-button\.btn-17::before,[\s\S]*?\n\}/,
+  )?.[0];
+
+  assert.ok(clozeControlRule, "cloze controls need a scoped pseudo-element rule");
+  assert.match(clozeControlRule, /animation:\s*none/);
+  assert.match(clozeControlRule, /box-shadow:\s*none/);
+  assert.match(clozeControlRule, /content:\s*none/);
+  assert.match(
+    css,
+    /body#TheBody \.sis-cloze-shell \.sis-exercise-controls button\.hp-button\.btn-17,\s*body#TheBody \.sis-cloze-shell \.sis-exercise-controls input\.hp-button\.btn-17\s*\{[^}]*overflow:\s*visible/s,
+  );
+  assert.doesNotMatch(
+    css,
+    /body#TheBody \.sis-cloze-shell \.sis-exercise-controls button\.hp-button\.btn-17\s*\{[^}]*overflow:\s*hidden/s,
+  );
+});
+
+test("the SRI watcher tracks shared CSS, JavaScript, and theme assets", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "hot-potatoes-sri-watch-"));
+  try {
+    for (const [relative, contents] of [
+      ["css/sis-hot-potatoes.css", ".exercise { color: blue; }"],
+      ["js/hot-potatoes-ui.js", "document.documentElement.dataset.ready = 'true';"],
+      ["style/font-stack.css", ":root { color-scheme: light; }"],
+    ]) {
+      const target = path.join(root, relative);
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      fs.writeFileSync(target, contents);
+    }
+
+    assert.deepEqual(
+      [...collectAssetState(root).keys()].sort(),
+      ["css/sis-hot-potatoes.css", "js/hot-potatoes-ui.js", "style/font-stack.css"],
+    );
+  } finally {
+    fs.rmSync(root, { force: true, recursive: true });
+  }
+});
 
 test("inline display and visibility declarations map to shared classes", () => {
   assert.deepEqual(normalizeStyleValue("display: none;"), ["hp-display-none"]);
@@ -103,6 +368,40 @@ test("Hot Potatoes scans can be limited to one content root", () => {
   }
 });
 
+test("writing exercises receive only the shared feedback assets", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "hot-potatoes-feedback-scope-"));
+  try {
+    const target = path.join(root, "writing", "quiz.html");
+    fs.mkdirSync(path.dirname(target), { recursive: true });
+    const source = `<!doctype html>
+<html><head><meta charset="utf-8"><meta name="author" content="Created with Hot Potatoes"><title>Writing Quiz</title>
+<style>div.Feedback { background: #c0c0c0; }</style></head>
+<body><div class="Feedback" id="FeedbackDiv"><div id="FeedbackContent"></div></div></body></html>`;
+    fs.writeFileSync(target, source);
+
+    const scanned = scanTargets(root, ["writing"]);
+    assert.equal(scanned.ambiguous.length, 0);
+    assert.equal(scanned.pages.length, 1);
+    assert.equal(scanned.pages[0].feedbackOnly, true);
+    assert.equal(scanned.pages[0].story, null);
+
+    const assets = {
+      feedbackCssIntegrity: "sha384-feedback-css",
+      feedbackUiIntegrity: "sha384-feedback-ui",
+    };
+    const first = normalizeFeedbackPage(scanned.pages[0], { ...assets, file: target, root });
+    const second = normalizeFeedbackPage({ ...scanned.pages[0], source: first.source }, { ...assets, file: target, root });
+
+    assert.equal(first.source, second.source);
+    assert.match(first.source, /src="\.\.\/js\/hot-potatoes-feedback\.js" integrity="sha384-feedback-ui"/);
+    assert.match(first.source, /href="\.\.\/css\/hot-potatoes-feedback\.css" integrity="sha384-feedback-css"/);
+    assert.doesNotMatch(first.source, /sis-hot-potatoes\.css|hot-potatoes-ui\.js|story-theme\.js/);
+    assert.match(first.source, /<style>div\.Feedback \{ background: #c0c0c0; \}<\/style>/);
+  } finally {
+    fs.rmSync(root, { force: true, recursive: true });
+  }
+});
+
 test("page migration preserves head style blocks and rewrites inline state and controls idempotently", () => {
   const root = path.resolve(".");
   const source = `<!doctype html>
@@ -141,6 +440,8 @@ function NavBtnOut(Btn) { Btn.className = "NavButton"; }</script>
   };
   const assets = {
     cssIntegrity: "sha384-css",
+    feedbackCssIntegrity: "sha384-feedback-css",
+    feedbackUiIntegrity: "sha384-feedback-ui",
     storyIntegrity: "sha384-story",
     uiIntegrity: "sha384-ui",
   };
@@ -180,4 +481,6 @@ function NavBtnOut(Btn) { Btn.className = "NavButton"; }</script>
   assert.match(first.source, /aria-label="Next" data-hp-tooltip="Open the next exercise\. This is 1 of 5\." aria-description="Open the next exercise\. This is 1 of 5\."\s*>Next<\/button>/);
   assert.match(first.source, /data-story-title-url="\.\.\/b1\/b1001\.html"/);
   assert.match(first.source, /href="\.\.\/\.\.\/css\/sis-hot-potatoes\.css"/);
+  assert.match(first.source, /src="\.\.\/\.\.\/js\/hot-potatoes-feedback\.js" integrity="sha384-feedback-ui"/);
+  assert.match(first.source, /href="\.\.\/\.\.\/css\/hot-potatoes-feedback\.css" integrity="sha384-feedback-css"/);
 });

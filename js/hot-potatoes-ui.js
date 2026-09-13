@@ -100,8 +100,12 @@
     var bounds = tooltip.getBoundingClientRect();
     var left = anchor.left + (anchor.width - bounds.width) / 2;
     left = Math.max(8, Math.min(left, window.innerWidth - bounds.width - 8));
-    var top = anchor.top - bounds.height - 8;
-    if (top < 8) top = anchor.bottom + 8;
+    var feedbackDialog = button.closest("#FeedbackDiv");
+    var dialogBounds = feedbackDialog ? feedbackDialog.getBoundingClientRect() : null;
+    var top = dialogBounds
+      ? dialogBounds.top - bounds.height - 8
+      : anchor.top - bounds.height - 8;
+    if (top < 8) top = dialogBounds ? dialogBounds.bottom + 8 : anchor.bottom + 8;
     if (top + bounds.height > window.innerHeight - 8) {
       top = Math.max(8, window.innerHeight - bounds.height - 8);
     }

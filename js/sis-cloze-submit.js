@@ -15,6 +15,8 @@
   var EXERCISE_SUBMIT_PORT = 8786
   var EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   var EAGLES_ID_PATTERN = /^[a-z]+\d{3}$/
+  var IDENTITY_REQUIRED_STATUS_MESSAGE =
+    "Enter your student email and Eagles ID to unlock Check and Hint."
   var IDLE_STATUS_MESSAGE =
     "Your saved details are ready. Complete the exercise to send your result."
   var CLOSE_BUTTON_HTML =
@@ -335,10 +337,10 @@
     panel.className = "sis-cloze-panel"
     panel.setAttribute("aria-label", "Exercise submission details")
     panel.innerHTML =
-      '<p class="sis-cloze-panel__instruction">Enter your details before checking answers.</p>' +
+      '<p class="sis-cloze-panel__instruction">Enter your student email and Eagles ID to unlock Check and Hint and send your result to SIS.</p>' +
       '<div class="sis-cloze-panel__grid">' +
       '<label class="sis-cloze-field" for="sis-cloze-email">' +
-      '<span class="sis-cloze-field__label">Email</span>' +
+      '<span class="sis-cloze-field__label">Student email</span>' +
       '<input id="sis-cloze-email" data-sis-cloze-email type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required>' +
       "</label>" +
       '<label class="sis-cloze-field" for="sis-cloze-eagles-id">' +
@@ -463,9 +465,6 @@
     footerRegion.setAttribute("aria-label", "Exercise actions")
     footerRegion.innerHTML = CLOSE_BUTTON_HTML
 
-    var submitRegion = document.createElement("div")
-    submitRegion.className = "sis-exercise-submit-row"
-    submitRegion.setAttribute("aria-label", "Submit exercise result")
     var submitButton = document.createElement("button")
     submitButton.className = "btn-17 hp-button sis-exercise-submit"
     submitButton.type = "button"
@@ -476,8 +475,17 @@
     submitButton.setAttribute("data-hp-tooltip", "Submit your completed exercise result to SIS.")
     submitButton.disabled = true
     submitButton.setAttribute("aria-disabled", "true")
-    submitRegion.appendChild(submitButton)
-    exerciseRegion.appendChild(submitRegion)
+    var actionRow = main && main.querySelector(".btn17Container")
+    if (main && !actionRow) {
+      actionRow = document.createElement("div")
+      actionRow.className = "btn17Container"
+      main.appendChild(actionRow)
+    }
+    if (actionRow) {
+      actionRow.setAttribute("role", "group")
+      actionRow.setAttribute("aria-label", "Cloze answer and submission controls")
+      actionRow.appendChild(submitButton)
+    }
     state.submitButton = submitButton
 
     if (topNav) shell.appendChild(topNav)
@@ -664,7 +672,7 @@
   function buildSubmissionPayload() {
     var identity = readFormIdentity()
     if (!isIdentityReady(identity)) {
-      throw new Error("Enter your email and Eagles ID before checking answers.")
+      throw new Error(IDENTITY_REQUIRED_STATUS_MESSAGE)
     }
 
     var counts = getAnswerCounts()
@@ -814,7 +822,7 @@
     if (typeof original !== "function") return function () {}
     return function () {
       if (!isIdentityReady()) {
-        setStatus("Enter your email and Eagles ID before checking answers.", "error")
+        setStatus(IDENTITY_REQUIRED_STATUS_MESSAGE, "error")
         focusMissingIdentityField()
         return false
       }
@@ -833,7 +841,7 @@
     if (typeof original !== "function") return function () {}
     return function () {
       if (!isIdentityReady()) {
-        setStatus("Enter your email and Eagles ID before using a hint.", "error")
+        setStatus(IDENTITY_REQUIRED_STATUS_MESSAGE, "error")
         focusMissingIdentityField()
         return false
       }
@@ -894,7 +902,7 @@
           persistIdentity(identity)
           setStatus(IDLE_STATUS_MESSAGE, "")
         } else {
-          setStatus("", "")
+          setStatus(IDENTITY_REQUIRED_STATUS_MESSAGE, "")
         }
         updateButtonState()
       })
@@ -904,7 +912,7 @@
           persistIdentity(identity)
           setStatus(IDLE_STATUS_MESSAGE, "")
         } else {
-          setStatus("", "")
+          setStatus(IDENTITY_REQUIRED_STATUS_MESSAGE, "")
         }
         updateButtonState()
       })
@@ -946,7 +954,7 @@
     wrapGlobalHandlers()
     updateButtonState()
 
-    if (isIdentityReady()) setStatus(IDLE_STATUS_MESSAGE, "")
+    setStatus(isIdentityReady() ? IDLE_STATUS_MESSAGE : IDENTITY_REQUIRED_STATUS_MESSAGE, "")
 
     state.initialized = true
   }

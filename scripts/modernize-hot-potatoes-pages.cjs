@@ -7,6 +7,7 @@ const acorn = require("acorn");
 const { createBackupManager } = require("./write-backup.cjs");
 
 const DEFAULT_ROOT = path.resolve(__dirname, "..");
+const MAX_SAFE_APPLY_PAGES = 50;
 const ROOTS = Object.freeze([
   "begin1",
   "begin2",
@@ -22,9 +23,12 @@ const ROOTS = Object.freeze([
   "kidsenglish3",
   "people",
   "supereasy",
+  "writing",
 ]);
 const SHARED_CSS = "css/sis-hot-potatoes.css";
 const SHARED_UI = "js/hot-potatoes-ui.js";
+const FEEDBACK_CSS = "css/hot-potatoes-feedback.css";
+const FEEDBACK_UI = "js/hot-potatoes-feedback.js";
 const STORY_THEME = "js/story-theme.js";
 const STYLE_CLASS = Object.freeze({
   "display:none": "hp-display-none",
@@ -44,8 +48,9 @@ Modernize identified Hot Potatoes HTML pages.
 
 Options:
   --dry-run   Report planned changes without writing files (default).
-  --apply     Back up and write the shared assets and normalized pages.
+  --apply     Verify backups, then write normalized pages (maximum ${MAX_SAFE_APPLY_PAGES} by default).
   --scope     Restrict the scan to one configured content root; repeatable.
+  --allow-bulk Permit more than ${MAX_SAFE_APPLY_PAGES} changed pages; requires explicit --scope.
   --root PATH Scan a different repository root.
   --help      Show this help.
 `,
@@ -53,11 +58,12 @@ Options:
 }
 
 function parseArgs(argv) {
-  const args = { apply: false, help: false, root: DEFAULT_ROOT, scopes: [] };
+  const args = { allowBulk: false, apply: false, help: false, root: DEFAULT_ROOT, scopes: [] };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--apply") args.apply = true;
     else if (arg === "--dry-run") args.apply = false;
+    else if (arg === "--allow-bulk") args.allowBulk = true;
     else if (arg === "--root") {
       index += 1;
       if (index >= argv.length) throw new Error("--root requires a path");
@@ -72,6 +78,9 @@ function parseArgs(argv) {
       if (!args.scopes.includes(scope)) args.scopes.push(scope);
     } else if (arg === "--help" || arg === "-h") args.help = true;
     else throw new Error(`Unknown option: ${arg}`);
+  }
+  if (args.allowBulk && !args.scopes.length) {
+    throw new Error("--allow-bulk requires at least one explicit --scope");
   }
   return args;
 }
@@ -199,6 +208,17 @@ function scanTargets(root, roots = ROOTS) {
         continue;
       }
       const source = fs.readFileSync(absolute, "utf8");
+      if (relativeDirectory === "writing") {
+        const hasFeedbackModal = /id\s*=\s*["']FeedbackDiv["']/i.test(source);
+        const hasFeedbackContent = /id\s*=\s*["']FeedbackContent["']/i.test(source);
+        if (!hasFeedbackModal && !hasFeedbackContent) continue;
+        if (!hasFeedbackModal || !hasFeedbackContent) {
+          ambiguous.push(`${relative}: feedback panel has no FeedbackContent element`);
+          continue;
+        }
+        pages.push({ absolute, feedbackOnly: true, relative, source, story: null });
+        continue;
+      }
       if (hasAmbiguousHotPotatoesMetadata(source)) {
         ambiguous.push(`${relative}: Hot Potatoes metadata without body#TheBody`);
         continue;
@@ -690,14 +710,16 @@ function wrapTitleWithInstructions(source, file, counters) {
 function removeManagedScriptTags(source) {
   return source.replace(/<script\b([^>]*)>[\s\S]*?<\/script\s*>/gi, (tag, attributes) => {
     const src = readTagAttribute(`<script ${attributes}>`, "src");
-    return /(?:^|\/)story-theme\.js(?:\?|$)/i.test(src) || /(?:^|\/)hot-potatoes-ui\.js(?:\?|$)/i.test(src)
+    return /(?:^|\/)story-theme\.js(?:\?|$)/i.test(src) ||
+      /(?:^|\/)hot-potatoes-ui\.js(?:\?|$)/i.test(src) ||
+      /(?:^|\/)hot-potatoes-feedback\.js(?:\?|$)/i.test(src)
       ? ""
       : tag;
   });
 }
 
 function injectAssets(source, options) {
-  const { file, root, cssIntegrity, uiIntegrity, storyIntegrity, story } = options;
+  const { file, root, cssIntegrity, feedbackCssIntegrity, feedbackUiIntegrity, uiIntegrity, storyIntegrity, story } = options;
   const headMatch = source.match(/<head\b[^>]*>[\s\S]*?<\/head\s*>/i);
   if (!headMatch) throw new Error(`${path.relative(root, file)}: missing head element`);
   const openTag = headMatch[0].match(/^<head\b[^>]*>/i)?.[0];
@@ -709,24 +731,29 @@ function injectAssets(source, options) {
   headContent = headContent.replace(MANAGED_STYLES_RE, "");
   headContent = headContent.replace(/<link\b[^>]*>/gi, (tag) => {
     const href = readTagAttribute(tag, "href");
-    return href.endsWith("sis-hot-potatoes.css") ? "" : tag;
+    return href.endsWith("sis-hot-potatoes.css") || href.endsWith("hot-potatoes-feedback.css") ? "" : tag;
   });
 
   const themeHref = relativeHref(file, path.resolve(root, STORY_THEME));
   const uiHref = relativeHref(file, path.resolve(root, SHARED_UI));
   const cssHref = relativeHref(file, path.resolve(root, SHARED_CSS));
+  const feedbackUiHref = relativeHref(file, path.resolve(root, FEEDBACK_UI));
+  const feedbackCssHref = relativeHref(file, path.resolve(root, FEEDBACK_CSS));
   const storyUrl = relativeHref(file, story.absolute);
   const newline = source.includes("\r\n") ? "\r\n" : "\n";
   const assetBlock = [
     "<!-- HOT POTATOES MODERNIZATION ASSETS START -->",
     `<script src="${themeHref}" integrity="${storyIntegrity}" data-story-theme-key="${escapeAttribute(story.key)}" data-story-title-url="${escapeAttribute(storyUrl)}"></script>`,
     `<script src="${uiHref}" integrity="${uiIntegrity}"></script>`,
+    `<script src="${feedbackUiHref}" integrity="${feedbackUiIntegrity}"></script>`,
     "<!-- HOT POTATOES MODERNIZATION ASSETS END -->",
   ].join(newline);
   const styleBlock = [
     "<!-- HOT POTATOES MODERNIZATION STYLES START -->",
     `<link rel="preload" href="${cssHref}" as="style" integrity="${cssIntegrity}">`,
     `<link rel="stylesheet" href="${cssHref}" integrity="${cssIntegrity}">`,
+    `<link rel="preload" href="${feedbackCssHref}" as="style" integrity="${feedbackCssIntegrity}">`,
+    `<link rel="stylesheet" href="${feedbackCssHref}" integrity="${feedbackCssIntegrity}">`,
     "<!-- HOT POTATOES MODERNIZATION STYLES END -->",
   ].join(newline);
 
@@ -744,6 +771,72 @@ function injectAssets(source, options) {
 
   const replacementHead = `${openTag}${headContent}${closeTag}`;
   return `${source.slice(0, headMatch.index)}${replacementHead}${source.slice(headMatch.index + headMatch[0].length)}`;
+}
+
+function normalizeFeedbackPage(page, options) {
+  const { file, root, feedbackCssIntegrity, feedbackUiIntegrity } = options;
+  let source = removeManagedScriptTags(page.source);
+  const headMatch = source.match(/<head\b[^>]*>[\s\S]*?<\/head\s*>/i);
+  if (!headMatch) throw new Error(`${page.relative}: missing head element`);
+  const openTag = headMatch[0].match(/^<head\b[^>]*>/i)?.[0];
+  const closeTag = headMatch[0].match(/<\/head\s*>$/i)?.[0];
+  if (!openTag || !closeTag) throw new Error(`${page.relative}: cannot isolate head element`);
+
+  let headContent = headMatch[0].slice(openTag.length, headMatch[0].length - closeTag.length);
+  headContent = headContent.replace(MANAGED_ASSETS_RE, "");
+  headContent = headContent.replace(MANAGED_STYLES_RE, "");
+  headContent = headContent.replace(/<link\b[^>]*>/gi, (tag) => {
+    const href = readTagAttribute(tag, "href");
+    return href.endsWith("hot-potatoes-feedback.css") ? "" : tag;
+  });
+
+  const feedbackUiHref = relativeHref(file, path.resolve(root, FEEDBACK_UI));
+  const feedbackCssHref = relativeHref(file, path.resolve(root, FEEDBACK_CSS));
+  const newline = source.includes("\r\n") ? "\r\n" : "\n";
+  const assetBlock = [
+    "<!-- HOT POTATOES MODERNIZATION ASSETS START -->",
+    `<script src="${feedbackUiHref}" integrity="${feedbackUiIntegrity}"></script>`,
+    "<!-- HOT POTATOES MODERNIZATION ASSETS END -->",
+  ].join(newline);
+  const styleBlock = [
+    "<!-- HOT POTATOES MODERNIZATION STYLES START -->",
+    `<link rel="preload" href="${feedbackCssHref}" as="style" integrity="${feedbackCssIntegrity}">`,
+    `<link rel="stylesheet" href="${feedbackCssHref}" integrity="${feedbackCssIntegrity}">`,
+    "<!-- HOT POTATOES MODERNIZATION STYLES END -->",
+  ].join(newline);
+
+  const metaMatches = [...headContent.matchAll(/<meta\b[^>]*>/gi)];
+  let insertionPoint = 0;
+  for (const match of metaMatches) {
+    if (/\bcharset\s*=|\bname\s*=\s*["']viewport["']/i.test(match[0])) {
+      insertionPoint = match.index + match[0].length;
+    }
+  }
+  const before = headContent.slice(0, insertionPoint).replace(/[\t \r\n]*$/, "");
+  const after = headContent.slice(insertionPoint).replace(/^[\t \r\n]*/, "");
+  headContent = `${before}${newline}${assetBlock}${newline}${after}`.replace(/[\t \r\n]*$/, "");
+  headContent = `${headContent.replace(/[\t \r\n]*$/, "")}${newline}${styleBlock}${newline}`;
+
+  const replacementHead = `${openTag}${headContent}${closeTag}`;
+  source = `${source.slice(0, headMatch.index)}${replacementHead}${source.slice(headMatch.index + headMatch[0].length)}`;
+  return {
+    counters: {
+      adsMoved: 0,
+      answerFields: 0,
+      animatedButtons: 0,
+      buttons: 0,
+      closeButtons: 0,
+      closeLinks: 0,
+      emptyFeedbackPanelsHidden: 0,
+      horizontalRules: 0,
+      legacyHandlers: 0,
+      styleAttributes: 0,
+      titleHeadingsNormalized: 0,
+      titlePanelsWrapped: 0,
+    },
+    source,
+    stats: { buttonFunctions: 0, reads: 0, writes: 0 },
+  };
 }
 
 function extractHeadStyleBlocks(source) {
@@ -841,7 +934,7 @@ function normalizeButtonLabels(source) {
 }
 
 function normalizePage(page, options) {
-  const { root, cssIntegrity, uiIntegrity, storyIntegrity } = options;
+  const { root, cssIntegrity, feedbackCssIntegrity, feedbackUiIntegrity, uiIntegrity, storyIntegrity } = options;
   const originalStyles = extractHeadStyleBlocks(page.source);
   const runtime = collectRuntimePatches(page.source, { file: page.relative });
   let source = applyPatches(page.source, runtime.patches);
@@ -850,6 +943,8 @@ function normalizePage(page, options) {
   source = removeManagedScriptTags(source);
   source = injectAssets(source, {
     cssIntegrity,
+    feedbackCssIntegrity,
+    feedbackUiIntegrity,
     file: page.absolute,
     root,
     story: page.story,
@@ -878,6 +973,8 @@ function normalizePage(page, options) {
 function collectAssetInfo(root) {
   const files = {
     css: path.resolve(root, SHARED_CSS),
+    feedbackCss: path.resolve(root, FEEDBACK_CSS),
+    feedbackUi: path.resolve(root, FEEDBACK_UI),
     story: path.resolve(root, STORY_THEME),
     ui: path.resolve(root, SHARED_UI),
   };
@@ -885,6 +982,8 @@ function collectAssetInfo(root) {
   if (missing.length) throw new Error(`Missing shared asset: ${missing.map(([key]) => key).join(", ")}`);
   return {
     cssIntegrity: integrityFor(files.css),
+    feedbackCssIntegrity: integrityFor(files.feedbackCss),
+    feedbackUiIntegrity: integrityFor(files.feedbackUi),
     storyIntegrity: integrityFor(files.story),
     uiIntegrity: integrityFor(files.ui),
   };
@@ -960,6 +1059,111 @@ function summarize(plans, inventory, apply) {
   }
 }
 
+function applySafetyError(args, changedPageCount) {
+  if (changedPageCount <= MAX_SAFE_APPLY_PAGES) return null;
+  if (args.allowBulk && args.scopes.length) return null;
+  return `Refusing to apply ${changedPageCount} changed pages. The safe limit is ${MAX_SAFE_APPLY_PAGES}; rerun the dry-run for the intended scope, then pass --allow-bulk and one or more explicit --scope arguments to approve a larger batch.`;
+}
+
+function writeFileAtomically(file, contents) {
+  const mode = fs.existsSync(file) ? fs.statSync(file).mode : 0o644;
+  const temporary = path.join(
+    path.dirname(file),
+    `.${path.basename(file)}.modernize-${process.pid}-${crypto.randomBytes(6).toString("hex")}.tmp`,
+  );
+  try {
+    fs.writeFileSync(temporary, contents, { mode });
+    fs.chmodSync(temporary, mode);
+    fs.renameSync(temporary, file);
+  } catch (error) {
+    try {
+      fs.rmSync(temporary, { force: true });
+    } catch (cleanupError) {
+      throw new AggregateError(
+        [error, cleanupError],
+        `Could not clean up temporary file ${temporary}`,
+        { cause: cleanupError },
+      );
+    }
+    throw error;
+  }
+}
+
+function applyPagePlans(plans, args, backupManager = createBackupManager(args.root, "modernize-hot-potatoes")) {
+  const changed = plans.filter((plan) => plan.updated !== plan.source);
+  const safetyError = applySafetyError(args, changed.length);
+  if (safetyError) throw new Error(safetyError);
+  if (!changed.length) return { changedCount: 0, runRoot: backupManager.runRoot };
+
+  for (const plan of changed) {
+    const current = fs.readFileSync(plan.absolute, "utf8");
+    if (current !== plan.source) {
+      throw new Error(`${plan.relative}: changed after preflight; refusing to overwrite concurrent work.`);
+    }
+  }
+
+  for (const plan of changed) backupManager.backupBeforeWrite(plan.absolute);
+  const backups = new Map();
+  for (const plan of changed) {
+    const backup = path.resolve(backupManager.runRoot, path.relative(args.root, plan.absolute));
+    const original = fs.readFileSync(backup);
+    if (!original.equals(Buffer.from(plan.source, "utf8"))) {
+      throw new Error(`${plan.relative}: backup verification failed; no page was written.`);
+    }
+    backups.set(plan.absolute, original);
+  }
+
+  const staged = [];
+  const committed = [];
+  try {
+    for (const plan of changed) {
+      const mode = fs.statSync(plan.absolute).mode;
+      const temporary = path.join(
+        path.dirname(plan.absolute),
+        `.${path.basename(plan.absolute)}.modernize-${process.pid}-${crypto.randomBytes(6).toString("hex")}.tmp`,
+      );
+      staged.push({ plan, temporary });
+      fs.writeFileSync(temporary, plan.updated, { mode });
+      fs.chmodSync(temporary, mode);
+    }
+
+    for (const entry of staged) {
+      const current = fs.readFileSync(entry.plan.absolute, "utf8");
+      if (current !== entry.plan.source) {
+        throw new Error(`${entry.plan.relative}: changed during apply; refusing to overwrite concurrent work.`);
+      }
+      fs.renameSync(entry.temporary, entry.plan.absolute);
+      committed.push(entry.plan);
+    }
+    for (const plan of changed) {
+      if (fs.readFileSync(plan.absolute, "utf8") !== plan.updated) {
+        throw new Error(`${plan.relative}: post-write verification failed.`);
+      }
+    }
+  } catch (error) {
+    const rollbackErrors = [];
+    for (const plan of committed.reverse()) {
+      try {
+        const current = fs.readFileSync(plan.absolute, "utf8");
+        if (current !== plan.updated) {
+          rollbackErrors.push(`${plan.relative}: changed after this apply wrote it; concurrent work was left untouched`);
+          continue;
+        }
+        writeFileAtomically(plan.absolute, backups.get(plan.absolute));
+      } catch (rollbackError) {
+        rollbackErrors.push(`${plan.relative}: ${rollbackError.message}`);
+      }
+    }
+    for (const entry of staged) fs.rmSync(entry.temporary, { force: true });
+    const rollbackSummary = rollbackErrors.length
+      ? ` Rollback needs attention: ${rollbackErrors.join("; ")}. Verified originals remain in ${backupManager.runRoot}.`
+      : " All pages written before the failure were restored from verified backups.";
+    throw new Error(`Apply failed: ${error.message}.${rollbackSummary}`, { cause: error });
+  }
+
+  return { changedCount: changed.length, runRoot: backupManager.runRoot };
+}
+
 function main(argv = process.argv.slice(2)) {
   let args;
   try {
@@ -985,14 +1189,16 @@ function main(argv = process.argv.slice(2)) {
   const scanned = scanTargets(args.root, args.scopes.length ? args.scopes : ROOTS);
   const inventory = {
     ...scanned,
-    unmapped: scanned.pages.filter((page) => !page.story).map((page) => page.relative),
+    unmapped: scanned.pages.filter((page) => !page.story && !page.feedbackOnly).map((page) => page.relative),
   };
   const plans = [];
   const failures = [];
   for (const page of inventory.pages) {
-    if (!page.story) continue;
+    if (!page.story && !page.feedbackOnly) continue;
     try {
-      const result = normalizePage(page, { ...shared, root: args.root });
+      const result = page.feedbackOnly
+        ? normalizeFeedbackPage(page, { ...shared, file: page.absolute, root: args.root })
+        : normalizePage(page, { ...shared, root: args.root });
       plans.push({ ...page, result, source: page.source, updated: result.source });
     } catch (error) {
       failures.push(error.message);
@@ -1014,27 +1220,36 @@ function main(argv = process.argv.slice(2)) {
     return 0;
   }
 
-  const backupManager = createBackupManager(args.root, "modernize-hot-potatoes");
-  try {
-    for (const plan of changed) backupManager.backupBeforeWrite(plan.absolute);
-    for (const plan of changed) fs.writeFileSync(plan.absolute, plan.updated, "utf8");
-  } catch (error) {
-    console.error(`ERROR: page write failed after backups were created at ${backupManager.runRoot}: ${error.message}`);
+  const safetyError = applySafetyError(args, changed.length);
+  if (safetyError) {
+    console.error(`ERROR: ${safetyError}`);
     return 2;
   }
 
-  console.log(`Applied ${changed.length} page changes. Backups: ${backupManager.runRoot}`);
+  try {
+    const result = applyPagePlans(plans, args);
+    console.log(`Applied ${result.changedCount} page changes. Verified backups: ${result.runRoot}`);
+  } catch (error) {
+    console.error(`ERROR: ${error.message}`);
+    return 2;
+  }
+
   return 0;
 }
 
 if (require.main === module) process.exitCode = main();
 
 module.exports = {
+  applyPagePlans,
+  applySafetyError,
   collectRuntimePatches,
   extractHeadStyleBlocks,
   main,
+  normalizeFeedbackPage,
   normalizePage,
   normalizeStyleValue,
+  MAX_SAFE_APPLY_PAGES,
+  parseArgs,
   scanTargets,
   storyTarget,
   transformMarkup,

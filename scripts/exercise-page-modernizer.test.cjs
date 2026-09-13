@@ -30,32 +30,89 @@ test("normalizes charset and duplicate viewports and adds ordered shared styles"
 
   const result = normalizeExerciseHtml(source, options);
   assert.equal((result.source.match(/<meta\b[^>]*charset=/gi) || []).length, 1);
-  assert.equal((result.source.match(/<meta\b[^>]*name="viewport"/gi) || []).length, 1);
+  assert.equal(
+    (result.source.match(/<meta\b[^>]*name="viewport"/gi) || []).length,
+    1,
+  );
   assert.match(result.source, /<meta charset="utf-8">/);
-  assert.match(result.source, /href="\.\.\/\.\.\/style\/font-stack\.css"[^>]*integrity="sha384-font-stack"/);
-  assert.match(result.source, /href="\.\.\/\.\.\/css\/sis-exercise-layout\.css"[^>]*integrity="sha384-exercise-layout"/);
-  assert.ok(result.source.indexOf("</style>") < result.source.indexOf("sis-exercise-layout.css"));
+  assert.match(
+    result.source,
+    /href="\.\.\/\.\.\/style\/font-stack\.css"[^>]*integrity="sha384-font-stack"/,
+  );
+  assert.match(
+    result.source,
+    /href="\.\.\/\.\.\/css\/sis-exercise-layout\.css"[^>]*integrity="sha384-exercise-layout"/,
+  );
+  assert.ok(
+    result.source.indexOf("</style>") <
+      result.source.indexOf("sis-exercise-layout.css"),
+  );
   assert.match(result.source, /<main>keep body<\/main>/);
   assert.doesNotMatch(result.source, /<\?xml\b|http-equiv="Content-Type"/i);
   assert.doesNotMatch(result.source, /^[\t ]+$/m);
 });
 
 test("is idempotent after the first normalization", () => {
-  const source = "<!doctype html><html><head><meta charset='UTF-8'></head><body></body></html>";
+  const source =
+    "<!doctype html><html><head><meta charset='UTF-8'></head><body></body></html>";
   const first = normalizeExerciseHtml(source, options);
   const second = normalizeExerciseHtml(first.source, options);
   assert.equal(second.source, first.source);
 });
 
+test("restores the visible answer pane on sentence exercises", () => {
+  const source =
+    '<!doctype html><html><head></head><body><div id="GuessDiv" class="StdDiv hp-display-none"></div></body></html>';
+  const sentenceOptions = {
+    ...options,
+    file: "/repo/begin1/sent/b1mx00101.html",
+    level: 1,
+    family: "sent",
+  };
+  const result = normalizeExerciseHtml(source, sentenceOptions);
+
+  assert.match(result.source, /id="GuessDiv" class="StdDiv"/);
+  assert.ok(
+    result.changes.includes("restore the visible sentence answer pane"),
+  );
+  const repeated = normalizeExerciseHtml(result.source, sentenceOptions);
+  assert.equal(repeated.source, result.source);
+  assert.equal(
+    repeated.changes.includes("restore the visible sentence answer pane"),
+    false,
+  );
+});
+
+test("keeps the intentionally hidden answer pane in dictation exercises", () => {
+  const source =
+    '<!doctype html><html><head></head><body><div id="GuessDiv" class="StdDiv hp-display-none"></div></body></html>';
+  const result = normalizeExerciseHtml(source, {
+    ...options,
+    file: "/repo/begin1/dict/b1d001.html",
+    level: 1,
+    family: "dict",
+  });
+
+  assert.match(result.source, /id="GuessDiv" class="StdDiv hp-display-none"/);
+});
+
 test("adds the font stack when an exercise lacks the shared link", () => {
-  const source = "<!doctype html><html><head><title>Sentences</title></head><body></body></html>";
+  const source =
+    "<!doctype html><html><head><title>Sentences</title></head><body></body></html>";
   const result = normalizeExerciseHtml(source, options);
-  assert.match(result.source, /rel="preload" href="\.\.\/\.\.\/style\/font-stack\.css"/);
-  assert.match(result.source, /rel="stylesheet" href="\.\.\/\.\.\/style\/font-stack\.css"/);
+  assert.match(
+    result.source,
+    /rel="preload" href="\.\.\/\.\.\/style\/font-stack\.css"/,
+  );
+  assert.match(
+    result.source,
+    /rel="stylesheet" href="\.\.\/\.\.\/style\/font-stack\.css"/,
+  );
 });
 
 test("marks only revealed dictation answer spans as correct", () => {
-  const source = '<!doctype html><html><head></head><body>A.setAttribute("class", "Answer");</body></html>';
+  const source =
+    '<!doctype html><html><head></head><body>A.setAttribute("class", "Answer");</body></html>';
   const result = normalizeExerciseHtml(source, {
     ...options,
     file: "/repo/begin1/dict/b1d001.html",
@@ -73,14 +130,18 @@ test("marks only revealed dictation answer spans as correct", () => {
 });
 
 test("repairs the known B6 sentence stylesheet path and supplies its SRI", () => {
-  const source = '<!doctype html><html><head><link rel="stylesheet" href="../style/style.css"></head><body></body></html>';
+  const source =
+    '<!doctype html><html><head><link rel="stylesheet" href="../style/style.css"></head><body></body></html>';
   const result = normalizeExerciseHtml(source, {
     ...options,
     file: "/repo/begin6/sent/b6mx0011.html",
     level: 6,
     family: "sent",
   });
-  assert.match(result.source, /href="\.\.\/\.\.\/style\/style\.css" integrity="sha384-site-style"/);
+  assert.match(
+    result.source,
+    /href="\.\.\/\.\.\/style\/style\.css" integrity="sha384-site-style"/,
+  );
   assert.doesNotMatch(result.source, /href="\.\.\/style\/style\.css"/);
 });
 
@@ -100,12 +161,27 @@ test("adds shared SIS UI and matching story theme to exercise families", () => {
   });
 
   assert.match(dictation.source, /sis-cloze-submit\.css/);
+  assert.match(
+    dictation.source,
+    /src="\.\.\/\.\.\/js\/sis-exercise-submit\.js"[^>]*data-sis-exercise-family="dict"/,
+  );
   assert.match(dictation.source, /data-story-theme-key="b1001\.html"/);
   assert.match(dictation.source, /data-sis-exercise-family="dict"/);
+  assert.match(
+    sentence.source,
+    /src="\.\.\/\.\.\/js\/sis-exercise-submit\.js"[^>]*data-sis-exercise-family="sent"/,
+  );
   assert.match(sentence.source, /data-story-theme-key="b6001\.html"/);
   assert.match(sentence.source, /data-sis-exercise-family="sent"/);
 });
 
 test("fails closed when the document has no head", () => {
-  assert.throws(() => normalizeExerciseHtml("<!doctype html><html><body></body></html>", options), /head is missing/);
+  assert.throws(
+    () =>
+      normalizeExerciseHtml(
+        "<!doctype html><html><body></body></html>",
+        options,
+      ),
+    /head is missing/,
+  );
 });

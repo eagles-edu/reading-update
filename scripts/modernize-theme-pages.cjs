@@ -31,9 +31,9 @@ function printUsage() {
 Modernize theme-toggle pages and story pages.
 
 Story pages use the shared story stylesheet for the background system,
-typography, responsive text and container widths, and horizontal rules, with
-the shared font stack loaded first. The story bootstrap selects and preloads
-each page's background and paper texture before the story stylesheet is parsed.
+typography, responsive text and container widths, and horizontal rules. The
+story bootstrap runs before the first stylesheet so it can select and preload
+each page's background and paper texture before the browser can paint the page.
 
 Options:
   --dry-run   Report what would change without writing files. This is the default.
@@ -115,7 +115,10 @@ function injectAfterFirst(source, matcher, insertion) {
 }
 
 function shouldModernize(source) {
-  return /const\s+storageKey\s*=\s*"theme";/.test(source) || /data-theme-toggle/.test(source);
+  return (
+    /const\s+storageKey\s*=\s*"theme";/.test(source) ||
+    /data-theme-toggle/.test(source)
+  );
 }
 
 function isStoryPage(source, file, root) {
@@ -125,8 +128,7 @@ function isStoryPage(source, file, root) {
   const scopedStoryFile =
     SCOPED_STORY_PATHS.some((storyPathPrefix) =>
       relativeFile.toLowerCase().startsWith(`${storyPathPrefix}/`),
-    ) &&
-    /<audio\b/i.test(source);
+    ) && /<audio\b/i.test(source);
   return (
     /\bstory-page\b/i.test(source) ||
     (storyPath && !notFoundPage) ||
@@ -139,7 +141,8 @@ function isIncludedFile(file, root, includePaths) {
   const relativeFile = path.relative(root, file).split(path.sep).join("/");
   return includePaths.some(
     (includePath) =>
-      relativeFile === includePath || relativeFile.startsWith(`${includePath}/`),
+      relativeFile === includePath ||
+      relativeFile.startsWith(`${includePath}/`),
   );
 }
 
@@ -192,11 +195,15 @@ function removeContainerStyle(source) {
     .split(";")
     .map((declaration) => declaration.trim())
     .filter(Boolean);
-  const containerProperties = /^(?:width|margin)(?:-(?:top|right|bottom|left))?$/i;
-  if (declarations.length === 0 || declarations.some((declaration) => {
-    const property = declaration.split(":", 1)[0].trim();
-    return !containerProperties.test(property);
-  })) {
+  const containerProperties =
+    /^(?:width|margin)(?:-(?:top|right|bottom|left))?$/i;
+  if (
+    declarations.length === 0 ||
+    declarations.some((declaration) => {
+      const property = declaration.split(":", 1)[0].trim();
+      return !containerProperties.test(property);
+    })
+  ) {
     return { source, changed: false };
   }
 
@@ -216,7 +223,8 @@ function ensureStoryShell(source) {
   next = body.source;
   if (body.changed) changes.push("story-body");
 
-  const knownWrapperRe = /<div\b(?=[^>]*\bclass\s*=\s*["'][^"']*\b(?:wrapfit|wrapit)\b[^"']*["'])[^>]*>/i;
+  const knownWrapperRe =
+    /<div\b(?=[^>]*\bclass\s*=\s*["'][^"']*\b(?:wrapfit|wrapit)\b[^"']*["'])[^>]*>/i;
   let wrapper = knownWrapperRe.test(next)
     ? addClassToTag(next, knownWrapperRe, "wrapfit")
     : addClassToFirstBodyDiv(next, "wrapfit");
@@ -252,23 +260,34 @@ function ensureStoryBootstrap(source, file, root) {
     `<link\\b(?=[^>]*\\bhref=["']${cssHrefPattern}["'])[^>]*>`,
     "i",
   );
+  const firstStylesheetRe = /<link\b(?=[^>]*\brel=["']stylesheet["'])[^>]*>/i;
   const scriptMatch = source.match(scriptRe);
   const stylesheetMatch = source.match(stylesheetRe);
 
-  if (!stylesheetMatch) return { source, changes: ["story-stylesheet-missing"] };
+  if (!stylesheetMatch)
+    return { source, changes: ["story-stylesheet-missing"] };
+
+  const firstStylesheetMatch =
+    source.match(firstStylesheetRe) || stylesheetMatch;
 
   const normalizedScript = scriptMatch
-    ? scriptMatch[0].replace(/\sdefer(?=\s|>)/i, "")
+    ? scriptMatch[0].replace(/\s(?:async|defer)(?=\s|>)/gi, "")
     : `<script src="${storyHref}"></script>`;
   const scriptIndex = scriptMatch ? scriptMatch.index : -1;
-  const stylesheetIndex = stylesheetMatch.index;
-  if (scriptMatch && scriptIndex < stylesheetIndex && normalizedScript === scriptMatch[0]) {
+  const firstStylesheetIndex = firstStylesheetMatch.index;
+  if (
+    scriptMatch &&
+    scriptIndex < firstStylesheetIndex &&
+    normalizedScript === scriptMatch[0]
+  ) {
     return { source, changes: [] };
   }
 
   let next = scriptMatch ? source.replace(scriptMatch[0], "") : source;
-  const refreshedStylesheetMatch = next.match(stylesheetRe);
-  if (!refreshedStylesheetMatch) return { source, changes: ["story-stylesheet-missing"] };
+  const refreshedStylesheetMatch =
+    next.match(firstStylesheetRe) || next.match(stylesheetRe);
+  if (!refreshedStylesheetMatch)
+    return { source, changes: ["story-stylesheet-missing"] };
   const lineStart = next.lastIndexOf("\n", refreshedStylesheetMatch.index) + 1;
   const linePrefix = next.slice(lineStart, refreshedStylesheetMatch.index);
   const indent = /^[ \t]*$/.test(linePrefix) ? linePrefix : "";
@@ -298,12 +317,14 @@ function ensureStoryFontStack(source, file, root) {
   const preloadMatch = source.match(preloadRe);
   if (stylesheetMatch && preloadMatch) return { source, changes: [] };
 
-  const anchor = stylesheetMatch || source.match(
-    new RegExp(
-      `<link\\b(?=[^>]*\\bhref=["']${escapeRegExp(relAsset(file, path.resolve(root, STORY_CSS)))}["'])[^>]*>`,
-      "i",
-    ),
-  );
+  const anchor =
+    stylesheetMatch ||
+    source.match(
+      new RegExp(
+        `<link\\b(?=[^>]*\\bhref=["']${escapeRegExp(relAsset(file, path.resolve(root, STORY_CSS)))}["'])[^>]*>`,
+        "i",
+      ),
+    );
   if (!anchor) return { source, changes: ["story-font-stack-missing-anchor"] };
 
   const lineStart = source.lastIndexOf("\n", anchor.index) + 1;
@@ -410,7 +431,9 @@ function main() {
     if (updated.changes.length === 0) continue;
 
     let nextSource = updated.source;
-    const sriUpdate = rehashHtmlSource(nextSource, file, args.root, { digestCache });
+    const sriUpdate = rehashHtmlSource(nextSource, file, args.root, {
+      digestCache,
+    });
     if (sriUpdate.changes.length > 0) {
       nextSource = sriUpdate.source;
       updated.changes.push(...sriUpdate.changes);
@@ -421,7 +444,9 @@ function main() {
       categoryCounts.set(change, (categoryCounts.get(change) || 0) + 1);
     }
 
-    console.log(`${path.relative(args.root, file)}\t${updated.changes.join(", ")}`);
+    console.log(
+      `${path.relative(args.root, file)}\t${updated.changes.join(", ")}`,
+    );
 
     if (args.apply && nextSource !== source) {
       backupManager.backupBeforeWrite(file);
@@ -439,4 +464,6 @@ function main() {
   return 0;
 }
 
-process.exitCode = main();
+if (require.main === module) process.exitCode = main();
+
+module.exports = { ensureStoryBootstrap };
