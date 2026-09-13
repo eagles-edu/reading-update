@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
 <script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="s111.html" data-story-title-url="../ss/s111.html"></script>
-<script src="../../js/hot-potatoes-ui.js" integrity="sha384-/MHyfnAGPvpJenlGmZPAnIJ15f2IH33OefocvyK2+qgGnyAQbQVIeMoLLXsJRu5e"></script>
+<script src="../../js/hot-potatoes-ui.js" integrity="sha384-XEX4guhC8PJufxrJIt9R5d7H1xh/S7Ed4wcMgOs542oR4vCVC/bvcI/8FLSrl10K"></script>
 <!-- HOT POTATOES MODERNIZATION ASSETS END -->
 <link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
 <link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
@@ -791,30 +791,18 @@ var C = new Client();
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
-function NavBtnOver(Btn){
-	if (Btn.className != 'NavButtonDown'){Btn.className = 'NavButtonUp';}
-}
+function NavBtnOver() {}
 
-function NavBtnOut(Btn){
-	Btn.className = 'NavButton';
-}
+function NavBtnOut() {}
 
-function NavBtnDown(Btn){
-	Btn.className = 'NavButtonDown';
-}
+function NavBtnDown() {}
 //[/strNavBarJS]
 
-function FuncBtnOver(Btn){
-	if (Btn.className != 'FuncButtonDown'){Btn.className = 'FuncButtonUp';}
-}
+function FuncBtnOver() {}
 
-function FuncBtnOut(Btn){
-	Btn.className = 'FuncButton';
-}
+function FuncBtnOut() {}
 
-function FuncBtnDown(Btn){
-	Btn.className = 'FuncButtonDown';
-}
+function FuncBtnDown() {}
 
 function FocusAButton(){
 	if (document.getElementById('CheckButton1') != null){
@@ -1194,8 +1182,8 @@ var Finished = false;
 var Qs = null;
 var QArray = new Array();
 var ShowingAllQuestions = false;
-var ShowAllQuestionsCaption = 'Show all';
-var ShowOneByOneCaption = 'Show one';
+var ShowAllQuestionsCaption = 'All';
+var ShowOneByOneCaption = 'One';
 var State = new Array();
 var Feedback = '';
 var TimeOver = false;
@@ -1773,8 +1761,8 @@ function CheckFinished(){
 
 </script>
 <!-- HOT POTATOES MODERNIZATION STYLES START -->
-<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
-<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-gh8sfZM3O+UbE1HEb0kbHpmPQURa2l2kw26jI397XygzgvYfrXUEiFciBRLt/fkF">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-gh8sfZM3O+UbE1HEb0kbHpmPQURa2l2kw26jI397XygzgvYfrXUEiFciBRLt/fkF">
 <!-- HOT POTATOES MODERNIZATION STYLES END -->
 </head>
 
@@ -1787,15 +1775,15 @@ function CheckFinished(){
 
 <!-- EndTopNavButtons -->
 
-<div class="Titles">
-	<h3 class="ExerciseTitle">111. Bobby the Fat Boy</h3>
+<div class="hp-instructions-panel"><div class="Titles">
+	<h1 class="ExerciseTitle">111. Bobby the Fat Boy</h1>
 
 </div>
 
 
    <div id="InstructionsDiv" class="StdDiv">
 	<div id="Instructions"> </div>
-</div>
+</div></div>
 
 
 <div id="MainDiv" class="StdDiv">
@@ -1803,26 +1791,26 @@ function CheckFinished(){
 <div id="QNav" class="QuestionNavigation">
 
 <p class="flextxtright">
-<button id="ShowMethodButton" class="FuncButton hp-button" type="button" onclick="ShowHideQuestions(); return false;">Show all</button>
+<button id="ShowMethodButton" class="FuncButton hp-button btn-17" type="button" onclick="ShowHideQuestions(); return false;" aria-label="All" data-hp-tooltip="Show all questions at once." aria-description="Show all questions at once.">All</button>
 </p>
 
 <div id="OneByOneReadout">
-<button id="PrevQButton" class="FuncButton hp-button" type="button" onclick="ChangeQ(-1); return false;">&lt;=</button>
+<button id="PrevQButton" class="FuncButton hp-button btn-17" type="button" onclick="ChangeQ(-1); return false;" aria-label="Previous" data-hp-tooltip="Show the previous question." aria-description="Show the previous question.">Previous</button>
 
 <span id="QNumReadout" class="QNum">&nbsp;</span>
 
-<button id="NextQButton" class="FuncButton hp-button" type="button" onclick="ChangeQ(1); return false;">=&gt;</button>
+<button id="NextQButton" class="FuncButton hp-button btn-17" type="button" onclick="ChangeQ(1); return false;" aria-label="Next" data-hp-tooltip="Show the next question." aria-description="Show the next question.">Next</button>
 <br>
 </div>
 
 </div>
 
 <ol class="QuizQuestions" id="Questions">
-<li class="QuizQuestion hp-display-none" id="Q_0"><div class="QuestionText">1. No matter how much Bobby ate, he never ___________.</div><ol class="MCAnswers"><li id="Q_0_0"><button class="FuncButton hp-button" type="button" id="Q_0_0_Btn" onclick="CheckMCAnswer(0,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;gained weight</li><li id="Q_0_1"><button class="FuncButton hp-button" type="button" id="Q_0_1_Btn" onclick="CheckMCAnswer(0,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;got a stomachache</li><li id="Q_0_2"><button class="FuncButton hp-button" type="button" id="Q_0_2_Btn" onclick="CheckMCAnswer(0,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;got full</li><li id="Q_0_3"><button class="FuncButton hp-button" type="button" id="Q_0_3_Btn" onclick="CheckMCAnswer(0,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;got taller</li></ol></li>
-<li class="QuizQuestion hp-display-none" id="Q_1"><div class="QuestionText">2. How does Bobby feel about his weight?</div><ol class="MCAnswers"><li id="Q_1_0"><button class="FuncButton hp-button" type="button" id="Q_1_0_Btn" onclick="CheckMCAnswer(1,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he doesn&#x2019;t care</li><li id="Q_1_1"><button class="FuncButton hp-button" type="button" id="Q_1_1_Btn" onclick="CheckMCAnswer(1,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;worried</li><li id="Q_1_2"><button class="FuncButton hp-button" type="button" id="Q_1_2_Btn" onclick="CheckMCAnswer(1,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;sad</li><li id="Q_1_3"><button class="FuncButton hp-button" type="button" id="Q_1_3_Btn" onclick="CheckMCAnswer(1,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he wants to be bigger</li></ol></li>
-<li class="QuizQuestion hp-display-none" id="Q_2"><div class="QuestionText">3. Bobby likes to tell ___________ to his friends.</div><ol class="MCAnswers"><li id="Q_2_0"><button class="FuncButton hp-button" type="button" id="Q_2_0_Btn" onclick="CheckMCAnswer(2,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;news reports</li><li id="Q_2_1"><button class="FuncButton hp-button" type="button" id="Q_2_1_Btn" onclick="CheckMCAnswer(2,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;jokes</li><li id="Q_2_2"><button class="FuncButton hp-button" type="button" id="Q_2_2_Btn" onclick="CheckMCAnswer(2,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;scary stories</li><li id="Q_2_3"><button class="FuncButton hp-button" type="button" id="Q_2_3_Btn" onclick="CheckMCAnswer(2,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;stories about himself</li></ol></li>
-<li class="QuizQuestion hp-display-none" id="Q_3"><div class="QuestionText">4. What was the nickname the bullies gave Bobby?</div><ol class="MCAnswers"><li id="Q_3_0"><button class="FuncButton hp-button" type="button" id="Q_3_0_Btn" onclick="CheckMCAnswer(3,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;Bobbing Head</li><li id="Q_3_1"><button class="FuncButton hp-button" type="button" id="Q_3_1_Btn" onclick="CheckMCAnswer(3,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;Fat Boy Bobby</li><li id="Q_3_2"><button class="FuncButton hp-button" type="button" id="Q_3_2_Btn" onclick="CheckMCAnswer(3,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;Hambobby</li><li id="Q_3_3"><button class="FuncButton hp-button" type="button" id="Q_3_3_Btn" onclick="CheckMCAnswer(3,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;Fobby Bobby</li></ol></li>
-<li class="QuizQuestion hp-display-none" id="Q_4"><div class="QuestionText">5. How did Bobby react to the mean nickname?</div><ol class="MCAnswers"><li id="Q_4_0"><button class="FuncButton hp-button" type="button" id="Q_4_0_Btn" onclick="CheckMCAnswer(4,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he cried</li><li id="Q_4_1"><button class="FuncButton hp-button" type="button" id="Q_4_1_Btn" onclick="CheckMCAnswer(4,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he punched the bullies</li><li id="Q_4_2"><button class="FuncButton hp-button" type="button" id="Q_4_2_Btn" onclick="CheckMCAnswer(4,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he brushed it off</li><li id="Q_4_3"><button class="FuncButton hp-button" type="button" id="Q_4_3_Btn" onclick="CheckMCAnswer(4,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he laughed</li></ol></li></ol>
+<li class="QuizQuestion hp-display-none" id="Q_0"><div class="QuestionText">1. No matter how much Bobby ate, he never ___________.</div><ol class="MCAnswers"><li id="Q_0_0"><button class="FuncButton hp-button btn-17" type="button" id="Q_0_0_Btn" onclick="CheckMCAnswer(0,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;gained weight</li><li id="Q_0_1"><button class="FuncButton hp-button btn-17" type="button" id="Q_0_1_Btn" onclick="CheckMCAnswer(0,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;got a stomachache</li><li id="Q_0_2"><button class="FuncButton hp-button btn-17" type="button" id="Q_0_2_Btn" onclick="CheckMCAnswer(0,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;got full</li><li id="Q_0_3"><button class="FuncButton hp-button btn-17" type="button" id="Q_0_3_Btn" onclick="CheckMCAnswer(0,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;got taller</li></ol></li>
+<li class="QuizQuestion hp-display-none" id="Q_1"><div class="QuestionText">2. How does Bobby feel about his weight?</div><ol class="MCAnswers"><li id="Q_1_0"><button class="FuncButton hp-button btn-17" type="button" id="Q_1_0_Btn" onclick="CheckMCAnswer(1,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he doesn&#x2019;t care</li><li id="Q_1_1"><button class="FuncButton hp-button btn-17" type="button" id="Q_1_1_Btn" onclick="CheckMCAnswer(1,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;worried</li><li id="Q_1_2"><button class="FuncButton hp-button btn-17" type="button" id="Q_1_2_Btn" onclick="CheckMCAnswer(1,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;sad</li><li id="Q_1_3"><button class="FuncButton hp-button btn-17" type="button" id="Q_1_3_Btn" onclick="CheckMCAnswer(1,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he wants to be bigger</li></ol></li>
+<li class="QuizQuestion hp-display-none" id="Q_2"><div class="QuestionText">3. Bobby likes to tell ___________ to his friends.</div><ol class="MCAnswers"><li id="Q_2_0"><button class="FuncButton hp-button btn-17" type="button" id="Q_2_0_Btn" onclick="CheckMCAnswer(2,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;news reports</li><li id="Q_2_1"><button class="FuncButton hp-button btn-17" type="button" id="Q_2_1_Btn" onclick="CheckMCAnswer(2,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;jokes</li><li id="Q_2_2"><button class="FuncButton hp-button btn-17" type="button" id="Q_2_2_Btn" onclick="CheckMCAnswer(2,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;scary stories</li><li id="Q_2_3"><button class="FuncButton hp-button btn-17" type="button" id="Q_2_3_Btn" onclick="CheckMCAnswer(2,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;stories about himself</li></ol></li>
+<li class="QuizQuestion hp-display-none" id="Q_3"><div class="QuestionText">4. What was the nickname the bullies gave Bobby?</div><ol class="MCAnswers"><li id="Q_3_0"><button class="FuncButton hp-button btn-17" type="button" id="Q_3_0_Btn" onclick="CheckMCAnswer(3,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;Bobbing Head</li><li id="Q_3_1"><button class="FuncButton hp-button btn-17" type="button" id="Q_3_1_Btn" onclick="CheckMCAnswer(3,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;Fat Boy Bobby</li><li id="Q_3_2"><button class="FuncButton hp-button btn-17" type="button" id="Q_3_2_Btn" onclick="CheckMCAnswer(3,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;Hambobby</li><li id="Q_3_3"><button class="FuncButton hp-button btn-17" type="button" id="Q_3_3_Btn" onclick="CheckMCAnswer(3,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;Fobby Bobby</li></ol></li>
+<li class="QuizQuestion hp-display-none" id="Q_4"><div class="QuestionText">5. How did Bobby react to the mean nickname?</div><ol class="MCAnswers"><li id="Q_4_0"><button class="FuncButton hp-button btn-17" type="button" id="Q_4_0_Btn" onclick="CheckMCAnswer(4,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he cried</li><li id="Q_4_1"><button class="FuncButton hp-button btn-17" type="button" id="Q_4_1_Btn" onclick="CheckMCAnswer(4,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he punched the bullies</li><li id="Q_4_2"><button class="FuncButton hp-button btn-17" type="button" id="Q_4_2_Btn" onclick="CheckMCAnswer(4,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he brushed it off</li><li id="Q_4_3"><button class="FuncButton hp-button btn-17" type="button" id="Q_4_3_Btn" onclick="CheckMCAnswer(4,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;he laughed</li></ol></li></ol>
 
 
 
@@ -1832,7 +1820,7 @@ function CheckFinished(){
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
-<button id="FeedbackOKButton" class="FuncButton hp-button" type="button" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
+<button id="FeedbackOKButton" class="FuncButton hp-button btn-17" type="button" onclick="HideFeedback(); return false;" aria-label="OK" data-hp-tooltip="Close this message." aria-description="Close this message.">OK</button>
 </div>
 
 <!-- BeginBottomNavButtons -->
@@ -1846,7 +1834,7 @@ function CheckFinished(){
 <!-- EndSubmissionForm -->
 
 
-<div class="cenmar"><hr><a href="JavaScript:window.close()">CLOSE</a><hr></div> <br><br></div></body>
+<div class="cenmar"><button type="button" data-hp-close class="hp-button btn-74" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise.">CLOSE<span></span><span></span><span></span><span></span></button></div> <br><br></div></body>
 
 
 <!-- Mirrored from www.eslfast.com/eslread/comp/comp111.htm by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 03 Jul 2017 08:51:19 GMT -->

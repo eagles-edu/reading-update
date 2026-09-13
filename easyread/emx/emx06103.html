@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
 <script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="easy061.html" data-story-title-url="../es/easy061.html"></script>
-<script src="../../js/hot-potatoes-ui.js" integrity="sha384-/MHyfnAGPvpJenlGmZPAnIJ15f2IH33OefocvyK2+qgGnyAQbQVIeMoLLXsJRu5e"></script>
+<script src="../../js/hot-potatoes-ui.js" integrity="sha384-XEX4guhC8PJufxrJIt9R5d7H1xh/S7Ed4wcMgOs542oR4vCVC/bvcI/8FLSrl10K"></script>
 <!-- HOT POTATOES MODERNIZATION ASSETS END -->
 <link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
 <link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
@@ -808,30 +808,18 @@ var C = new Client();
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
-function NavBtnOver(Btn){
-	if (Btn.className != 'NavButtonDown'){Btn.className = 'NavButtonUp';}
-}
+function NavBtnOver() {}
 
-function NavBtnOut(Btn){
-	Btn.className = 'NavButton';
-}
+function NavBtnOut() {}
 
-function NavBtnDown(Btn){
-	Btn.className = 'NavButtonDown';
-}
+function NavBtnDown() {}
 //[/strNavBarJS]
 
-function FuncBtnOver(Btn){
-	if (Btn.className != 'FuncButtonDown'){Btn.className = 'FuncButtonUp';}
-}
+function FuncBtnOver() {}
 
-function FuncBtnOut(Btn){
-	Btn.className = 'FuncButton';
-}
+function FuncBtnOut() {}
 
-function FuncBtnDown(Btn){
-	Btn.className = 'FuncButtonDown';
-}
+function FuncBtnDown() {}
 
 function FocusAButton(){
 	if (document.getElementById('CheckButton1') != null){
@@ -1498,14 +1486,14 @@ function DisplayExercise(StuffToDisplay){
 
 </script>
 <!-- HOT POTATOES MODERNIZATION STYLES START -->
-<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
-<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-gh8sfZM3O+UbE1HEb0kbHpmPQURa2l2kw26jI397XygzgvYfrXUEiFciBRLt/fkF">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-gh8sfZM3O+UbE1HEb0kbHpmPQURa2l2kw26jI397XygzgvYfrXUEiFciBRLt/fkF">
 <!-- HOT POTATOES MODERNIZATION STYLES END -->
 </head>
 
 <body onload="StartUp()" id="TheBody"><div class="wrapit">
 
-<hr><!-- BeginTopNavButtons -->
+<!-- BeginTopNavButtons -->
 
 
 <div class="NavButtonBar" id="TopNavBar">
@@ -1515,7 +1503,7 @@ function DisplayExercise(StuffToDisplay){
 
 
 
-<button class="NavButton hp-button" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)" onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='emx06104.html'; return false;">3 of 5 Next</button>
+<button class="NavButton hp-button" type="button" onclick="location='emx06104.html'; return false;" aria-label="Next" data-hp-tooltip="Open the next exercise. This is 3 of 5." aria-description="Open the next exercise. This is 3 of 5.">Next</button>
 
 
 </div>
@@ -1524,7 +1512,7 @@ function DisplayExercise(StuffToDisplay){
 
 <!-- EndTopNavButtons -->
 
-<div class="Titles">
+<div class="hp-instructions-panel"><div class="Titles">
 	<h1 class="ExerciseTitle">Sentences</h1>
 
 
@@ -1537,28 +1525,26 @@ function DisplayExercise(StuffToDisplay){
 
 <div id="InstructionsDiv" class="StdDiv">
 	<div id="Instructions">Click on the words to put them into a correct sentence. When you finish, click on &#x201C;Check.&#x201D; Click on &#x201C;Hint&#x201D; to see the next correct word.</div>
-</div>
+</div></div>
 
 
 
-<div id="GuessDiv" class="StdDiv">
-
-</div>
+<div id="GuessDiv" class="StdDiv hp-display-none"></div>
 
 <div id="MainDiv" class="StdDiv">
 
-<button id="CheckButton1" class="FuncButton hp-button" type="submit" onclick="CheckAnswer(0)">&nbsp;Check&nbsp;</button>
+<button id="CheckButton1" class="FuncButton hp-button btn-17" type="submit" onclick="CheckAnswer(0)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
 
 
-<button class="FuncButton hp-button" type="button" onclick="Undo()">&nbsp;Undo&nbsp;</button>
-
-
-
-<button class="FuncButton hp-button" type="button" onclick="location.reload()">&nbsp;Restart&nbsp;</button>
+<button class="FuncButton hp-button btn-17" type="button" onclick="Undo()" aria-label="Undo" data-hp-tooltip="Undo your last change." aria-description="Undo your last change.">Undo</button>
 
 
 
-<button class="FuncButton hp-button" type="button" onclick="CheckAnswer(1)">&nbsp;Hint&nbsp;</button>
+<button class="FuncButton hp-button btn-17" type="button" onclick="location.reload()" aria-label="Restart" data-hp-tooltip="Start this exercise again." aria-description="Start this exercise again.">Restart</button>
+
+
+
+<button class="FuncButton hp-button btn-17" type="button" onclick="CheckAnswer(1)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button>
 
 
 <div id="SegmentDiv">
@@ -1571,7 +1557,7 @@ function DisplayExercise(StuffToDisplay){
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
-<button id="FeedbackOKButton" class="FuncButton hp-button" type="button" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
+<button id="FeedbackOKButton" class="FuncButton hp-button btn-17" type="button" onclick="HideFeedback(); return false;" aria-label="OK" data-hp-tooltip="Close this message." aria-description="Close this message.">OK</button>
 </div>
 
 <!-- BeginBottomNavButtons -->
@@ -1584,7 +1570,7 @@ function DisplayExercise(StuffToDisplay){
 
 
 
-<button class="NavButton hp-button" type="button" onfocus="NavBtnOver(this)" onblur="NavBtnOut(this)" onmouseover="NavBtnOver(this)" onmouseout="NavBtnOut(this)" onmousedown="NavBtnDown(this)" onmouseup="NavBtnOut(this)" onclick="location='emx06104.html'; return false;">3 of 5 Next</button>
+<button class="NavButton hp-button" type="button" onclick="location='emx06104.html'; return false;" aria-label="Next" data-hp-tooltip="Open the next exercise. This is 3 of 5." aria-description="Open the next exercise. This is 3 of 5.">Next</button>
 
 
 </div>
@@ -1596,7 +1582,7 @@ function DisplayExercise(StuffToDisplay){
 
 <!-- BeginSubmissionForm -->
 
-<!-- EndSubmissionForm --><hr>
+<!-- EndSubmissionForm -->
 
 <br><br><br><br><br></div></body>
 

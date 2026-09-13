@@ -21,6 +21,8 @@ backups with `scripts/write-backup.cjs`, and writes only changed pages. The
 transformation also names generated ShortAnswer fields that lack an accessible
 name. It is idempotent. A different checkout can be scanned with
 `node scripts/modernize-hot-potatoes-pages.cjs --dry-run --root PATH`.
+Use `--scope begin1` through `--scope begin6` to preflight and apply one level
+at a time; `--scope` can be repeated to select several configured roots.
 
 The scan identifies pages by Hot Potatoes metadata or the generated
 `body#TheBody` and `FuncButton` structure under the configured exercise roots.
@@ -36,12 +38,15 @@ into utility classes in `css/sis-hot-potatoes.css`. It migrates runtime
 `js/hot-potatoes-ui.js`, which uses those classes. Unsupported inline CSS or
 runtime patterns are reported as transformation failures rather than dropped.
 The migration also normalizes Hot Potatoes controls, removes generated Potato
-hover/focus handlers, and updates the labels to “Show answers” and “Show all” /
-“Show one”.
+hover/focus handlers, neutralizes the legacy runtime button-state functions so
+they cannot strip the shared button class, and updates the labels to “Show
+answers” and “Show all” / “Show one”. JavaScript Close links become real Close
+buttons using the shared Check/Hint skin and delegated close behavior.
 
 The shared layout centers exercise content, uses 12px vertical gaps, adapts
 panes to screen width, and keeps the saved-details idle message compact. Each
-exercise points to its companion story for a clamped title and deterministic
+exercise hides its empty feedback panel until feedback exists, and points to
+its companion story for a clamped title and deterministic
 background/paper theme. `js/story-theme.js` sets theme data attributes before
 paint; `style/style.css` and `css/sis-hot-potatoes.css` map those attributes to
 predeclared image URLs, so the theme does not need inline style writes.

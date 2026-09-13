@@ -1,9 +1,12 @@
 /* eslint-disable css/no-important, css/use-baseline, css/no-invalid-properties */
 
 :root {
+  --hp-horizontal-gap: 12px;
   --hp-vertical-gap: 12px;
   --hp-page-width: 1123px;
   --hp-panel-width: 980px;
+  --hp-panel-radius: 1rem;
+  --hp-control-radius: 0.75rem;
   --hp-button-bg: #002786;
   --hp-button-bg-hover: #17449a;
   --hp-button-fg: #fff;
@@ -161,6 +164,29 @@ body#TheBody .wrapfit {
   width: 100% !important;
 }
 
+body#TheBody > .wrapit,
+body#TheBody > .wrapfit {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--hp-vertical-gap) var(--hp-horizontal-gap);
+}
+
+body#TheBody > .wrapit > *,
+body#TheBody > .wrapfit > * {
+  margin-block: 0 !important;
+}
+
+body#TheBody > .wrapit > * + *,
+body#TheBody > .wrapfit > * + * {
+  margin-block-start: 0 !important;
+}
+
+body#TheBody > .wrapit > br,
+body#TheBody > .wrapfit > br {
+  display: none !important;
+}
+
 body#TheBody .Titles,
 body#TheBody #InstructionsDiv,
 body#TheBody #MainDiv,
@@ -172,6 +198,20 @@ body#TheBody #BottomNavBar {
   margin-inline: auto;
   max-width: var(--hp-panel-width);
   min-width: 0;
+  width: 100%;
+}
+
+body#TheBody .hp-instructions-panel {
+  border: 1px solid var(--tertiary-color, #002786);
+  border-radius: 1rem;
+  box-shadow: 0 16px 36px rgb(0 39 134 / 12%);
+  box-sizing: border-box;
+  display: grid;
+  gap: var(--hp-vertical-gap);
+  margin-inline: auto;
+  max-width: var(--hp-panel-width);
+  min-width: 0;
+  padding: 12px;
   width: 100%;
 }
 
@@ -201,8 +241,21 @@ body#TheBody .wrapfit > * + * {
   margin-block-start: var(--hp-vertical-gap) !important;
 }
 
+body#TheBody > .wrapit > *,
+body#TheBody > .wrapfit > * {
+  margin-block: 0 !important;
+}
+
+body#TheBody > .wrapit > * + *,
+body#TheBody > .wrapfit > * + * {
+  margin-block-start: 0 !important;
+}
+
 body#TheBody .StdDiv {
-  margin-block-end: var(--hp-vertical-gap) !important;
+  border: 1px solid var(--tertiary-color, #002786);
+  border-radius: var(--hp-panel-radius);
+  box-shadow: 0 16px 36px rgb(0 39 134 / 12%);
+  margin-block-end: 0 !important;
   max-width: var(--hp-panel-width);
   min-width: 0;
   overflow-wrap: anywhere;
@@ -213,8 +266,24 @@ body#TheBody .StdDiv {
 body#TheBody #InstructionsDiv,
 body#TheBody #MainDiv,
 body#TheBody #GuessDiv {
-  margin-block: 0 var(--hp-vertical-gap) !important;
+  border-radius: var(--hp-panel-radius);
+  margin-block: 0 !important;
   padding: 12px;
+}
+
+body#TheBody #InstructionsDiv,
+body#TheBody #MainDiv,
+body#TheBody #GuessDiv,
+body#TheBody .sis-cloze-panel,
+body#TheBody .hp-instructions-panel {
+  border-radius: var(--hp-panel-radius) !important;
+  max-width: var(--hp-panel-width);
+  min-width: 0;
+  width: 100%;
+}
+
+body#TheBody .sis-exercise-shell #GuessDiv:empty {
+  display: none !important;
 }
 
 body#TheBody #InstructionsDiv > *:first-child,
@@ -256,22 +325,56 @@ body#TheBody .HPButtonRow {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--hp-vertical-gap);
+  gap: var(--hp-horizontal-gap);
   justify-content: center;
 }
 
+body#TheBody #QNav > .flextxtright {
+  margin: 0 !important;
+  padding: 0;
+}
+
+body#TheBody #QNav #OneByOneReadout {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--hp-vertical-gap) var(--hp-horizontal-gap);
+  justify-content: center;
+  margin: 0 !important;
+  width: auto !important;
+}
+
+body#TheBody #QNav #OneByOneReadout > br {
+  display: none !important;
+}
+
+body#TheBody #QNav .hp-button {
+  margin: 0 !important;
+}
+
 body#TheBody button.hp-button,
-body#TheBody input.hp-button,
-body#TheBody #MainDiv button.hp-button,
-body#TheBody #MainDiv input.hp-button {
+body#TheBody input.hp-button {
   appearance: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  max-inline-size: 100%;
+  margin-block: 0 !important;
+  margin-inline: 0 !important;
+  min-block-size: 44px;
+  min-inline-size: 5rem;
+  vertical-align: middle;
+  white-space: normal;
+  width: auto !important;
+}
+
+body#TheBody button.hp-button:not(.btn-17):not(.btn-74):not(.NavButton):not(.NavButtonUp):not(.NavButtonDown),
+body#TheBody input.hp-button:not(.btn-17):not(.btn-74):not(.NavButton):not(.NavButtonUp):not(.NavButtonDown) {
   align-items: center;
   background: var(--hp-button-bg);
   border: 1px solid #001e67;
   border-radius: 0.75rem;
   box-shadow: 0 2px 5px rgb(0 39 134 / 16%);
   color: var(--hp-button-fg);
-  cursor: pointer;
   display: inline-flex;
   font: 600 0.875rem/1.2 var(--font-base, system-ui, sans-serif);
   justify-content: center;
@@ -280,36 +383,25 @@ body#TheBody #MainDiv input.hp-button {
   max-width: 100%;
   min-block-size: 44px;
   min-inline-size: 5rem;
-  overflow: visible;
+  overflow: hidden;
   padding: 0.55rem 0.75rem;
   text-align: center;
   text-decoration: none;
   text-indent: 0;
   text-transform: none;
-  transition: background-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
-  vertical-align: middle;
-  white-space: normal;
-  width: auto !important;
+  transition: background-color 120ms ease, box-shadow 120ms ease, color 120ms ease, transform 120ms ease;
 }
 
-body#TheBody button.hp-button::before,
-body#TheBody button.hp-button::after,
-body#TheBody input.hp-button::before,
-body#TheBody input.hp-button::after {
-  animation: none !important;
-  content: none !important;
-}
-
-body#TheBody button.hp-button:hover:not(:disabled),
-body#TheBody input.hp-button:hover:not(:disabled) {
+body#TheBody button.hp-button:not(.btn-17):not(.btn-74):not(.NavButton):not(.NavButtonUp):not(.NavButtonDown):hover:not(:disabled),
+body#TheBody input.hp-button:not(.btn-17):not(.btn-74):not(.NavButton):not(.NavButtonUp):not(.NavButtonDown):hover:not(:disabled) {
   background: var(--hp-button-bg-hover);
   box-shadow: 0 3px 8px rgb(0 39 134 / 24%);
   color: #fff;
   transform: translateY(-1px);
 }
 
-body#TheBody button.hp-button:active:not(:disabled),
-body#TheBody input.hp-button:active:not(:disabled) {
+body#TheBody button.hp-button:not(.btn-17):not(.btn-74):not(.NavButton):not(.NavButtonUp):not(.NavButtonDown):active:not(:disabled),
+body#TheBody input.hp-button:not(.btn-17):not(.btn-74):not(.NavButton):not(.NavButtonUp):not(.NavButtonDown):active:not(:disabled) {
   box-shadow: inset 0 2px 4px rgb(0 0 0 / 22%);
   transform: translateY(0);
 }
@@ -320,10 +412,10 @@ body#TheBody input.hp-button:focus-visible {
   outline-offset: 2px;
 }
 
-body#TheBody button.hp-button:disabled,
-body#TheBody input.hp-button:disabled,
-body#TheBody button.hp-button[aria-disabled="true"],
-body#TheBody input.hp-button[aria-disabled="true"] {
+body#TheBody button.hp-button:not(.btn-17):not(.btn-74):not(.NavButton):not(.NavButtonUp):not(.NavButtonDown):disabled,
+body#TheBody input.hp-button:not(.btn-17):not(.btn-74):not(.NavButton):not(.NavButtonUp):not(.NavButtonDown):disabled,
+body#TheBody button.hp-button:not(.btn-17):not(.btn-74):not(.NavButton):not(.NavButtonUp):not(.NavButtonDown)[aria-disabled="true"],
+body#TheBody input.hp-button:not(.btn-17):not(.btn-74):not(.NavButton):not(.NavButtonUp):not(.NavButtonDown)[aria-disabled="true"] {
   background: var(--hp-button-disabled-bg);
   border-color: #aab5c8;
   box-shadow: none;
@@ -333,31 +425,200 @@ body#TheBody input.hp-button[aria-disabled="true"] {
   transform: none;
 }
 
+body#TheBody button.hp-button.btn-17,
+body#TheBody input.hp-button.btn-17 {
+  --bg_color: #002786;
+  --border_color: transparent;
+  --color: #fff;
+  align-items: center;
+  background: var(--bg_color);
+  border: 1px solid var(--border_color);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
+  color: var(--color);
+  display: inline-flex;
+  font: 700 14px/1.2 Arial, Helvetica, sans-serif;
+  justify-content: center;
+  letter-spacing: 1.2px;
+  overflow: visible;
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  transition: color 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
+  user-select: none;
+  width: 7rem !important;
+  max-width: 100%;
+  min-inline-size: 7rem;
+  padding: 0.65rem 0.5rem;
+}
+
+body#TheBody button.hp-button.btn-17::after,
+body#TheBody button.hp-button.btn-17::before,
+body#TheBody input.hp-button.btn-17::after,
+body#TheBody input.hp-button.btn-17::before {
+  animation: anm-17 0.8s linear infinite;
+  content: "";
+}
+
+body#TheBody button.hp-button.btn-17:hover:not(:disabled),
+body#TheBody input.hp-button.btn-17:hover:not(:disabled) {
+  --bg_color: #95111e;
+  --color: #fff;
+  background: var(--bg_color);
+  color: var(--color);
+}
+
+body#TheBody button.hp-button.btn-17:active:not(:disabled),
+body#TheBody input.hp-button.btn-17:active:not(:disabled) {
+  --bg_color: #002786;
+  --color: #fff;
+  background: var(--bg_color);
+  box-shadow: inset 0 2px 4px rgb(0 0 0 / 24%);
+  color: var(--color);
+}
+
+body#TheBody button.hp-button.btn-17:disabled,
+body#TheBody input.hp-button.btn-17:disabled,
+body#TheBody button.hp-button.btn-17:disabled::after,
+body#TheBody button.hp-button.btn-17:disabled::before,
+body#TheBody input.hp-button.btn-17:disabled::after,
+body#TheBody input.hp-button.btn-17:disabled::before {
+  animation: none;
+  background: #dcdcdc;
+  box-shadow: none;
+  color: #0f0f0f;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+body#TheBody button.hp-button.btn-74,
+body#TheBody input.hp-button.btn-74 {
+  --color_74: #002786;
+  align-items: center;
+  background: transparent;
+  border: 2px solid var(--color_74);
+  border-radius: 12px;
+  color: var(--color_74);
+  display: flex;
+  font: 700 15px/1.2 sans-serif;
+  justify-content: center;
+  letter-spacing: 0.1em;
+  margin-inline: auto;
+  overflow: hidden;
+  padding: 14px 25px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 1.25s;
+  width: fit-content !important;
+  z-index: 1;
+}
+
+body#TheBody button.hp-button.btn-74 span,
+body#TheBody input.hp-button.btn-74 span {
+  background-color: var(--color_74);
+  border-radius: 50%;
+  height: 100%;
+  left: calc((var(--delay_74) - 1) * 25%);
+  position: absolute;
+  transform: translateY(150%);
+  transition: 0.75s;
+  transition-delay: calc((var(--delay_74) - 1) * 0.1s);
+  width: 25%;
+  z-index: -1;
+}
+
+body#TheBody button.hp-button.btn-74:hover,
+body#TheBody input.hp-button.btn-74:hover {
+  color: whitesmoke;
+}
+
+body#TheBody button.hp-button.btn-74:hover span,
+body#TheBody input.hp-button.btn-74:hover span {
+  transform: translateY(0) scale(2);
+}
+
+body#TheBody .btn-74 span:nth-child(1) { --delay_74: 1; }
+body#TheBody .btn-74 span:nth-child(2) { --delay_74: 2; }
+body#TheBody .btn-74 span:nth-child(3) { --delay_74: 3; }
+body#TheBody .btn-74 span:nth-child(4) { --delay_74: 4; }
+
+body#TheBody button.hp-button.btn-74:disabled,
+body#TheBody input.hp-button.btn-74:disabled {
+  background: #dcdcdc;
+  box-shadow: none;
+  color: #7e7e7e;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+@keyframes anm-17 {
+  0% {
+    box-shadow: 0 0 0 0 rgb(255 255 255 / 10%), 0 0 0 20px rgb(255 255 255 / 10%),
+      0 0 0 40px rgb(255 255 255 / 10%), 0 0 0 60px rgb(255 255 255 / 10%);
+  }
+
+  100% {
+    box-shadow: 0 0 0 20px rgb(255 255 255 / 10%), 0 0 0 40px rgb(255 255 255 / 10%),
+      0 0 0 60px rgb(255 255 255 / 10%), 0 0 0 80px rgb(255 255 255 / 0%);
+  }
+}
+
+body#TheBody .btn17Container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--hp-horizontal-gap);
+  justify-content: center;
+  margin: var(--hp-vertical-gap) auto;
+  width: 100%;
+}
+
+body#TheBody button.hp-button[data-hp-close] {
+  display: flex;
+  margin-inline: auto !important;
+}
+
+body#TheBody .NavButtonBar > .hp-button,
+body#TheBody #QNav > .hp-button,
+body#TheBody .ButtonDiv > .hp-button,
+body#TheBody .HPButtonRow > .hp-button,
+body#TheBody .btn17Container > .hp-button {
+  margin: 0 !important;
+}
+
 body#TheBody .sis-cloze-shell {
-  gap: var(--hp-vertical-gap);
+  display: grid;
+  gap: var(--hp-vertical-gap) var(--hp-horizontal-gap);
+  grid-template-columns: minmax(0, 1fr);
   margin: 0 auto;
-  max-width: var(--hp-page-width);
-  padding: 0 0 12px;
+  max-width: var(--hp-panel-width);
+  padding: 0;
   width: 100%;
 }
 
 body#TheBody .sis-cloze-shell > * {
   margin-block: 0 !important;
   min-width: 0;
+  width: 100%;
 }
 
 body#TheBody .sis-cloze-region {
-  gap: var(--hp-vertical-gap);
+  display: grid;
+  gap: var(--hp-vertical-gap) var(--hp-horizontal-gap);
+  grid-template-columns: minmax(0, 1fr);
   min-width: 0;
+  width: 100%;
 }
 
 body#TheBody .sis-cloze-region--header {
-  gap: var(--hp-vertical-gap);
+  gap: var(--hp-vertical-gap) var(--hp-horizontal-gap);
 }
 
-body#TheBody .sis-cloze-region--header .Titles {
+body#TheBody .sis-cloze-region--header .hp-instructions-panel > .Titles {
   margin: 0;
-  padding: 0.45rem 0.75rem;
+  padding: 0;
 }
 
 body#TheBody .sis-cloze-region--header .ExerciseTitle {
@@ -373,9 +634,22 @@ body#TheBody .sis-cloze-region--header .ExerciseTitle {
 body#TheBody .sis-cloze-status {
   font-size: clamp(0.78rem, 0.72rem + 0.2vw, 0.9rem);
   line-height: 1.3;
-  margin: 0;
+  margin: var(--hp-vertical-gap) 0 0;
   min-height: 0;
   overflow-wrap: anywhere;
+}
+
+body#TheBody .sis-cloze-shell .sis-cloze-panel {
+  margin-inline: auto;
+  max-width: var(--hp-panel-width);
+  width: 100%;
+}
+
+body#TheBody > .wrapit > .sis-cloze-panel,
+body#TheBody > .wrapfit > .sis-cloze-panel {
+  margin: 0 auto !important;
+  max-width: var(--hp-panel-width) !important;
+  width: 100% !important;
 }
 
 body#TheBody .sis-cloze-panel,
@@ -388,11 +662,77 @@ body#TheBody .sis-exercise-retry {
 
 body#TheBody .sis-cloze-panel__grid,
 body#TheBody .sis-cloze-field {
-  gap: var(--hp-vertical-gap);
+  gap: var(--hp-vertical-gap) var(--hp-horizontal-gap);
 }
 
 body#TheBody .sis-exercise-retry {
   justify-self: center;
+}
+
+body#TheBody button.sis-exercise-retry[hidden] {
+  display: none !important;
+}
+
+body#TheBody .sis-exercise-submit-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--hp-vertical-gap) var(--hp-horizontal-gap);
+  justify-content: center;
+  margin-block-start: 0;
+  min-width: 0;
+  width: 100%;
+}
+
+body#TheBody .sis-exercise-submit-row:empty {
+  display: none;
+}
+
+body#TheBody .sis-cloze-region--footer,
+body#TheBody .sis-cloze-region--footer .cenmar {
+  margin-inline: auto;
+  max-width: var(--hp-panel-width);
+  min-width: 0;
+  width: 100%;
+}
+
+body#TheBody .sis-cloze-region--footer .cenmar {
+  margin-block: 0 !important;
+}
+
+body#TheBody .hp-tooltip {
+  background: #10244a;
+  border: 1px solid #fff;
+  border-radius: var(--hp-control-radius);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 30%);
+  color: #fff;
+  font: 600 0.8125rem/1.35 var(--font-base, system-ui, sans-serif);
+  left: 0;
+  max-width: min(18rem, calc(100vw - 24px));
+  padding: 8px 12px;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  z-index: 10000;
+}
+
+body#TheBody .hp-tooltip[hidden] {
+  display: none !important;
+}
+
+body#TheBody .ShortAnswer form > div {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--hp-vertical-gap) var(--hp-horizontal-gap);
+}
+
+body#TheBody .ShortAnswer form > div > .ShortAnswerBox {
+  flex: 1 0 100%;
+}
+
+body#TheBody .ShortAnswer form > div > br {
+  display: none !important;
 }
 
 body#TheBody .hp-display-none {
@@ -426,6 +766,7 @@ html[data-story-theme] body#TheBody {
 html[data-story-theme] body#TheBody #InstructionsDiv,
 html[data-story-theme] body#TheBody #MainDiv,
 html[data-story-theme] body#TheBody #GuessDiv,
+html[data-story-theme] body#TheBody .StdDiv,
 html[data-story-theme] body#TheBody .sis-cloze-panel {
   background-color: var(--story-panel-bg, rgb(255 255 255 / 92%));
   background-image:
@@ -445,14 +786,52 @@ html[data-story-theme] body#TheBody .Titles {
   box-shadow: 0 5px 14px rgb(0 39 134 / 10%);
 }
 
+html[data-story-theme] body#TheBody .hp-instructions-panel {
+  background-color: var(--story-panel-bg, rgb(255 255 255 / 92%));
+  background-image:
+    linear-gradient(rgb(255 255 255 / 84%), rgb(255 255 255 / 84%)),
+    var(--story-paper-image, none);
+  background-position: center;
+  background-repeat: repeat;
+}
+
+html[data-story-theme] body#TheBody .hp-instructions-panel > .Titles,
+body#TheBody .hp-instructions-panel > .Titles {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0;
+  box-shadow: none !important;
+  margin: 0 !important;
+  max-width: none;
+  padding: 0;
+  width: 100%;
+}
+
+html[data-story-theme] body#TheBody .hp-instructions-panel > #InstructionsDiv,
+body#TheBody .hp-instructions-panel > #InstructionsDiv {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0;
+  box-shadow: none !important;
+  margin: 0 !important;
+  max-width: none;
+  padding: 0;
+  width: 100%;
+}
+
+body#TheBody #InstructionsDiv #Instructions {
+  margin: 0;
+  padding: 0 !important;
+  text-indent: 0;
+}
+
+body#TheBody .hp-instructions-panel > * + * {
+  margin-block-start: 0 !important;
+}
+
 @media (min-width: 800px) {
   body#TheBody {
     padding: 24px;
-  }
-
-  body#TheBody .sis-exercise-shell {
-    grid-template-columns: minmax(15rem, 0.38fr) minmax(0, 0.62fr);
-    margin-inline: auto;
   }
 
   body#TheBody .sis-cloze-region--header,

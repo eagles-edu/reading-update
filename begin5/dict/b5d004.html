@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
 <script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="b5004.html" data-story-title-url="../b5/b5004.html"></script>
-<script src="../../js/hot-potatoes-ui.js" integrity="sha384-/MHyfnAGPvpJenlGmZPAnIJ15f2IH33OefocvyK2+qgGnyAQbQVIeMoLLXsJRu5e"></script>
+<script src="../../js/hot-potatoes-ui.js" integrity="sha384-XEX4guhC8PJufxrJIt9R5d7H1xh/S7Ed4wcMgOs542oR4vCVC/bvcI/8FLSrl10K"></script>
 <!-- HOT POTATOES MODERNIZATION ASSETS END -->
 <link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
 <link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
@@ -878,30 +878,18 @@ var C = new Client();
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
-function NavBtnOver(Btn){
-	if (Btn.className != 'NavButtonDown'){Btn.className = 'NavButtonUp';}
-}
+function NavBtnOver() {}
 
-function NavBtnOut(Btn){
-	Btn.className = 'NavButton';
-}
+function NavBtnOut() {}
 
-function NavBtnDown(Btn){
-	Btn.className = 'NavButtonDown';
-}
+function NavBtnDown() {}
 //[/strNavBarJS]
 
-function FuncBtnOver(Btn){
-	if (Btn.className != 'FuncButtonDown'){Btn.className = 'FuncButtonUp';}
-}
+function FuncBtnOver() {}
 
-function FuncBtnOut(Btn){
-	Btn.className = 'FuncButton';
-}
+function FuncBtnOut() {}
 
-function FuncBtnDown(Btn){
-	Btn.className = 'FuncButtonDown';
-}
+function FuncBtnDown() {}
 
 function FocusAButton(){
 	if (document.getElementById('CheckButton1') != null){
@@ -1281,8 +1269,8 @@ var Finished = false;
 var Qs = null;
 var QArray = new Array();
 var ShowingAllQuestions = false;
-var ShowAllQuestionsCaption = 'Show all';
-var ShowOneByOneCaption = 'Show one';
+var ShowAllQuestionsCaption = 'All';
+var ShowOneByOneCaption = 'One';
 var State = new Array();
 var Feedback = '';
 var TimeOver = false;
@@ -2103,13 +2091,13 @@ function ShowHint(QNum){
 </script>
 	<link rel="preload" href="../../css/sis-exercise-layout.css" as="style" integrity="sha384-IYeiMNoNtuVghqyUDEulXpE1SC+y2maJ14n7NxkIOHkbMjFDDwiVWIAQMTfNZ8F8">
 	<link rel="stylesheet" href="../../css/sis-exercise-layout.css" integrity="sha384-IYeiMNoNtuVghqyUDEulXpE1SC+y2maJ14n7NxkIOHkbMjFDDwiVWIAQMTfNZ8F8">
-	<link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-/iMGGg256Wgu2rutWcrgP9MYBdA/uh727ut9BWSP8bhW0PD2ym0TIg900tiFzDNO">
-	<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-/iMGGg256Wgu2rutWcrgP9MYBdA/uh727ut9BWSP8bhW0PD2ym0TIg900tiFzDNO">
+	<link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-VYtCCNGHsneslMZTnD3IXTIzjhDIxoK60lSlqaDi4OkEr2pIVULH1lYCFouVkksy">
+	<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-VYtCCNGHsneslMZTnD3IXTIzjhDIxoK60lSlqaDi4OkEr2pIVULH1lYCFouVkksy">
 
-	<script src="../../js/sis-exercise-submit.js" integrity="sha384-9zUKVWWo3sT6hbXxp/7W4IA6WgL2yeHXXFE7WV9YrwEd1v5t57NodvxO10MqN697" defer data-sis-exercise-family="dict"></script>
+	<script src="../../js/sis-exercise-submit.js" integrity="sha384-XOWmpVSPKpCxXlmULFIKph7jSJvT0hrTB2owP6TuCmCmh0d9PDKtGc+ZG+7sfxQC" defer data-sis-exercise-family="dict"></script>
 <!-- HOT POTATOES MODERNIZATION STYLES START -->
-<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
-<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-gh8sfZM3O+UbE1HEb0kbHpmPQURa2l2kw26jI397XygzgvYfrXUEiFciBRLt/fkF">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-gh8sfZM3O+UbE1HEb0kbHpmPQURa2l2kw26jI397XygzgvYfrXUEiFciBRLt/fkF">
 <!-- HOT POTATOES MODERNIZATION STYLES END -->
 </head>
 
@@ -2134,8 +2122,8 @@ function ShowHint(QNum){
 
 <!-- EndTopNavButtons -->
 
-<div class="Titles">
-	<h2 class="ExerciseTitle">4. Losing a Loved One</h2>
+<div class="hp-instructions-panel"><div class="Titles">
+	<h1 class="ExerciseTitle">4. Losing a Loved One</h1>
 
 
 
@@ -2143,7 +2131,7 @@ function ShowHint(QNum){
 
   <div id="InstructionsDiv" class="StdDiv">
 	<div id="Instructions">Click on the play button to hear the sentence; type exactly what you hear. (Start the sentence with a capital letter, and start a proper noun with a capital letter. End the sentence with a period, question mark, or exclamation mark.) Click on CHECK to see if your sentence is completely correct.</div>
-</div>
+</div></div>
 
 
 
@@ -2153,15 +2141,15 @@ function ShowHint(QNum){
 <div id="QNav" class="QuestionNavigation">
 
 <p class="flextxtright">
-<button id="ShowMethodButton" class="FuncButton hp-button" type="button" onclick="ShowHideQuestions(); return false;">Show all</button>
+<button id="ShowMethodButton" class="FuncButton hp-button btn-17" type="button" onclick="ShowHideQuestions(); return false;" aria-label="All" data-hp-tooltip="Show all questions at once." aria-description="Show all questions at once.">All</button>
 </p>
 
 <div id="OneByOneReadout">
-<button id="PrevQButton" class="FuncButton hp-button" type="button" onclick="ChangeQ(-1); return false;">&lt;=</button>
+<button id="PrevQButton" class="FuncButton hp-button btn-17" type="button" onclick="ChangeQ(-1); return false;" aria-label="Previous" data-hp-tooltip="Show the previous question." aria-description="Show the previous question.">Previous</button>
 
 <span id="QNumReadout" class="QNum">&nbsp;</span>
 
-<button id="NextQButton" class="FuncButton hp-button" type="button" onclick="ChangeQ(1); return false;">=&gt;</button>
+<button id="NextQButton" class="FuncButton hp-button btn-17" type="button" onclick="ChangeQ(1); return false;" aria-label="Next" data-hp-tooltip="Show the next question." aria-description="Show the next question.">Next</button>
 <br>
 </div>
 
@@ -2177,9 +2165,9 @@ function ShowHint(QNum){
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b5/audio/d/d0b19a04/b5d0041.mp3" type="audio/mp3"></audio>
 
-<div><textarea id="Q_0_Guess" onfocus="TrackFocus('Q_0_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 1"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(0)">Check</button>
+<div><textarea id="Q_0_Guess" onfocus="TrackFocus('Q_0_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 1"></textarea><br><br><button class="FuncButton hp-button btn-17" type="submit" onclick="CheckShortAnswer(0)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
 
-<button class="FuncButton hp-button" type="button" onclick="ShowHint(0)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(0)">Show answers</button></div></form></div></li>
+<button class="FuncButton hp-button btn-17" type="button" onclick="ShowHint(0)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button><button class="FuncButton hp-button btn-17" type="button" onclick="ShowAnswers(0)" aria-label="Answers" data-hp-tooltip="Reveal the correct answer. Revealed answers count as incorrect." aria-description="Reveal the correct answer. Revealed answers count as incorrect.">Answers</button></div></form></div></li>
 <li class="QuizQuestion hp-display-none" id="Q_1"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_1_SA"><form method="post" action="#" onsubmit="return false;">
 
 <audio
@@ -2189,7 +2177,7 @@ function ShowHint(QNum){
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b5/audio/d/a765c419/b5d0042.mp3" type="audio/mp3"></audio>
 
-<div><textarea id="Q_1_Guess" onfocus="TrackFocus('Q_1_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 2"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(1)">Check</button><button class="FuncButton hp-button" type="button" onclick="ShowHint(1)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(1)">Show answers</button></div></form></div></li>
+<div><textarea id="Q_1_Guess" onfocus="TrackFocus('Q_1_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 2"></textarea><br><br><button class="FuncButton hp-button btn-17" type="submit" onclick="CheckShortAnswer(1)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button><button class="FuncButton hp-button btn-17" type="button" onclick="ShowHint(1)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button><button class="FuncButton hp-button btn-17" type="button" onclick="ShowAnswers(1)" aria-label="Answers" data-hp-tooltip="Reveal the correct answer. Revealed answers count as incorrect." aria-description="Reveal the correct answer. Revealed answers count as incorrect.">Answers</button></div></form></div></li>
 <li class="QuizQuestion hp-display-none" id="Q_2"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_2_SA"><form method="post" action="#" onsubmit="return false;">
 
 <audio
@@ -2199,7 +2187,7 @@ function ShowHint(QNum){
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b5/audio/d/d74b13c3/b5d0043.mp3" type="audio/mp3"></audio>
 
-<div><textarea id="Q_2_Guess" onfocus="TrackFocus('Q_2_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 3"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(2)">Check</button><button class="FuncButton hp-button" type="button" onclick="ShowHint(2)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(2)">Show answers</button></div></form></div></li>
+<div><textarea id="Q_2_Guess" onfocus="TrackFocus('Q_2_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 3"></textarea><br><br><button class="FuncButton hp-button btn-17" type="submit" onclick="CheckShortAnswer(2)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button><button class="FuncButton hp-button btn-17" type="button" onclick="ShowHint(2)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button><button class="FuncButton hp-button btn-17" type="button" onclick="ShowAnswers(2)" aria-label="Answers" data-hp-tooltip="Reveal the correct answer. Revealed answers count as incorrect." aria-description="Reveal the correct answer. Revealed answers count as incorrect.">Answers</button></div></form></div></li>
 <li class="QuizQuestion hp-display-none" id="Q_3"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_3_SA"><form method="post" action="#" onsubmit="return false;">
 
 <audio
@@ -2209,9 +2197,9 @@ function ShowHint(QNum){
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b5/audio/d/c1dd896e/b5d0044.mp3" type="audio/mp3"></audio>
 
-<div><textarea id="Q_3_Guess" onfocus="TrackFocus('Q_3_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 4"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(3)">Check</button>
+<div><textarea id="Q_3_Guess" onfocus="TrackFocus('Q_3_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 4"></textarea><br><br><button class="FuncButton hp-button btn-17" type="submit" onclick="CheckShortAnswer(3)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
 
-<button class="FuncButton hp-button" type="button" onclick="ShowHint(3)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(3)">Show answers</button></div></form></div></li>
+<button class="FuncButton hp-button btn-17" type="button" onclick="ShowHint(3)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button><button class="FuncButton hp-button btn-17" type="button" onclick="ShowAnswers(3)" aria-label="Answers" data-hp-tooltip="Reveal the correct answer. Revealed answers count as incorrect." aria-description="Reveal the correct answer. Revealed answers count as incorrect.">Answers</button></div></form></div></li>
 <li class="QuizQuestion hp-display-none" id="Q_4"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_4_SA"><form method="post" action="#" onsubmit="return false;">
 
 <audio
@@ -2221,9 +2209,9 @@ function ShowHint(QNum){
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b5/audio/d/2332422d/b5d0045.mp3" type="audio/mp3"></audio>
 
-<div><textarea id="Q_4_Guess" onfocus="TrackFocus('Q_4_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3" aria-label="Your answer for question 5"></textarea><br><br><button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(4)">Check</button>
+<div><textarea id="Q_4_Guess" onfocus="TrackFocus('Q_4_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="3" aria-label="Your answer for question 5"></textarea><br><br><button class="FuncButton hp-button btn-17" type="submit" onclick="CheckShortAnswer(4)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
 
-<button class="FuncButton hp-button" type="button" onclick="ShowHint(4)">Hint</button><button class="FuncButton hp-button" type="button" onclick="ShowAnswers(4)">Show answers</button></div></form></div></li></ol>
+<button class="FuncButton hp-button btn-17" type="button" onclick="ShowHint(4)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button><button class="FuncButton hp-button btn-17" type="button" onclick="ShowAnswers(4)" aria-label="Answers" data-hp-tooltip="Reveal the correct answer. Revealed answers count as incorrect." aria-description="Reveal the correct answer. Revealed answers count as incorrect.">Answers</button></div></form></div></li></ol>
 
 
 
@@ -2233,7 +2221,7 @@ function ShowHint(QNum){
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
-<button id="FeedbackOKButton" class="FuncButton hp-button" type="button" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
+<button id="FeedbackOKButton" class="FuncButton hp-button btn-17" type="button" onclick="HideFeedback(); return false;" aria-label="OK" data-hp-tooltip="Close this message." aria-description="Close this message.">OK</button>
 </div>
 
 <!-- BeginBottomNavButtons -->
@@ -2259,7 +2247,7 @@ function ShowHint(QNum){
 
  <!-- EndSubmissionForm -->
 
-<hr><hr>   <div class="cenmar"><a href="JavaScript:window.close()">CLOSE</a></div><br><br></div></body>
+   <div class="cenmar"><button type="button" data-hp-close class="hp-button btn-74" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise.">CLOSE<span></span><span></span><span></span><span></span></button></div><br><br></div></body>
 
 
 <!-- /begin5/dict/b5d004.htm , Sun, 02 Jul 2017 04:41:48 GMT -->

@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
 <script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="people044.html" data-story-title-url="../p/people044.html"></script>
-<script src="../../js/hot-potatoes-ui.js" integrity="sha384-/MHyfnAGPvpJenlGmZPAnIJ15f2IH33OefocvyK2+qgGnyAQbQVIeMoLLXsJRu5e"></script>
+<script src="../../js/hot-potatoes-ui.js" integrity="sha384-XEX4guhC8PJufxrJIt9R5d7H1xh/S7Ed4wcMgOs542oR4vCVC/bvcI/8FLSrl10K"></script>
 <!-- HOT POTATOES MODERNIZATION ASSETS END -->
 <link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
 <link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
@@ -736,30 +736,18 @@ var C = new Client();
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
-function NavBtnOver(Btn){
-	if (Btn.className != 'NavButtonDown'){Btn.className = 'NavButtonUp';}
-}
+function NavBtnOver() {}
 
-function NavBtnOut(Btn){
-	Btn.className = 'NavButton';
-}
+function NavBtnOut() {}
 
-function NavBtnDown(Btn){
-	Btn.className = 'NavButtonDown';
-}
+function NavBtnDown() {}
 //[/strNavBarJS]
 
-function FuncBtnOver(Btn){
-	if (Btn.className != 'FuncButtonDown'){Btn.className = 'FuncButtonUp';}
-}
+function FuncBtnOver() {}
 
-function FuncBtnOut(Btn){
-	Btn.className = 'FuncButton';
-}
+function FuncBtnOut() {}
 
-function FuncBtnDown(Btn){
-	Btn.className = 'FuncButtonDown';
-}
+function FuncBtnDown() {}
 
 function FocusAButton(){
 	if (document.getElementById('CheckButton1') != null){
@@ -1139,8 +1127,8 @@ var Finished = false;
 var Qs = null;
 var QArray = new Array();
 var ShowingAllQuestions = false;
-var ShowAllQuestionsCaption = 'Show all';
-var ShowOneByOneCaption = 'Show one';
+var ShowAllQuestionsCaption = 'All';
+var ShowOneByOneCaption = 'One';
 var State = new Array();
 var Feedback = '';
 var TimeOver = false;
@@ -1718,8 +1706,8 @@ function CheckFinished(){
 
 </script>
 <!-- HOT POTATOES MODERNIZATION STYLES START -->
-<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
-<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-gh8sfZM3O+UbE1HEb0kbHpmPQURa2l2kw26jI397XygzgvYfrXUEiFciBRLt/fkF">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-gh8sfZM3O+UbE1HEb0kbHpmPQURa2l2kw26jI397XygzgvYfrXUEiFciBRLt/fkF">
 <!-- HOT POTATOES MODERNIZATION STYLES END -->
 </head>
 
@@ -1731,8 +1719,8 @@ function CheckFinished(){
 
 <!-- EndTopNavButtons -->
 
-<div class="Titles">
-	<h3 class="ExerciseTitle">44. Billie Jean King: An Advocate of Equal Rights for Women</h3>
+<div class="hp-instructions-panel"><div class="Titles">
+	<h1 class="ExerciseTitle">44. Billie Jean King: An Advocate of Equal Rights for Women</h1>
 
 
 
@@ -1740,7 +1728,7 @@ function CheckFinished(){
 
 </div><div id="InstructionsDiv" class="StdDiv">
 	<div id="Instructions"></div>
-</div>
+</div></div>
 
 
 
@@ -1750,15 +1738,15 @@ function CheckFinished(){
 <div id="QNav" class="QuestionNavigation">
 
 <p class="flextxtright">
-<button id="ShowMethodButton" class="FuncButton hp-button" type="button" onclick="ShowHideQuestions(); return false;">Show all</button>
+<button id="ShowMethodButton" class="FuncButton hp-button btn-17" type="button" onclick="ShowHideQuestions(); return false;" aria-label="All" data-hp-tooltip="Show all questions at once." aria-description="Show all questions at once.">All</button>
 </p>
 
 <div id="OneByOneReadout">
-<button id="PrevQButton" class="FuncButton hp-button" type="button" onclick="ChangeQ(-1); return false;">&lt;=</button>
+<button id="PrevQButton" class="FuncButton hp-button btn-17" type="button" onclick="ChangeQ(-1); return false;" aria-label="Previous" data-hp-tooltip="Show the previous question." aria-description="Show the previous question.">Previous</button>
 
 <span id="QNumReadout" class="QNum">&nbsp;</span>
 
-<button id="NextQButton" class="FuncButton hp-button" type="button" onclick="ChangeQ(1); return false;">=&gt;</button>
+<button id="NextQButton" class="FuncButton hp-button btn-17" type="button" onclick="ChangeQ(1); return false;" aria-label="Next" data-hp-tooltip="Show the next question." aria-description="Show the next question.">Next</button>
 <br>
 </div>
 
@@ -1767,49 +1755,49 @@ function CheckFinished(){
 <ol class="QuizQuestions" id="Questions">
 <li class="QuizQuestion hp-display-none" id="Q_0"><div class="QuestionText">1. At one time, women were not allowed to ____________.</div><ol class="MCAnswers"><li id="Q_0_0">
 
-<button class="FuncButton hp-button" type="button" id="Q_0_0_Btn" onclick="CheckMCAnswer(0,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;eat</li><li id="Q_0_1">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_0_0_Btn" onclick="CheckMCAnswer(0,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;eat</li><li id="Q_0_1">
 
-<button class="FuncButton hp-button" type="button" id="Q_0_1_Btn" onclick="CheckMCAnswer(0,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;vote</li><li id="Q_0_2">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_0_1_Btn" onclick="CheckMCAnswer(0,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;vote</li><li id="Q_0_2">
 
-<button class="FuncButton hp-button" type="button" id="Q_0_2_Btn" onclick="CheckMCAnswer(0,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;own property</li><li id="Q_0_3">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_0_2_Btn" onclick="CheckMCAnswer(0,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;own property</li><li id="Q_0_3">
 
-<button class="FuncButton hp-button" type="button" id="Q_0_3_Btn" onclick="CheckMCAnswer(0,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;both b and c</li></ol></li>
+<button class="FuncButton hp-button btn-17" type="button" id="Q_0_3_Btn" onclick="CheckMCAnswer(0,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;both b and c</li></ol></li>
 <li class="QuizQuestion hp-display-none" id="Q_1"><div class="QuestionText">2. What sport did King play?</div><ol class="MCAnswers"><li id="Q_1_0">
 
-<button class="FuncButton hp-button" type="button" id="Q_1_0_Btn" onclick="CheckMCAnswer(1,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;basketball</li><li id="Q_1_1">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_1_0_Btn" onclick="CheckMCAnswer(1,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;basketball</li><li id="Q_1_1">
 
-<button class="FuncButton hp-button" type="button" id="Q_1_1_Btn" onclick="CheckMCAnswer(1,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;tennis</li><li id="Q_1_2">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_1_1_Btn" onclick="CheckMCAnswer(1,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;tennis</li><li id="Q_1_2">
 
-<button class="FuncButton hp-button" type="button" id="Q_1_2_Btn" onclick="CheckMCAnswer(1,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;golf</li><li id="Q_1_3">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_1_2_Btn" onclick="CheckMCAnswer(1,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;golf</li><li id="Q_1_3">
 
-<button class="FuncButton hp-button" type="button" id="Q_1_3_Btn" onclick="CheckMCAnswer(1,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;soccer</li></ol></li>
+<button class="FuncButton hp-button btn-17" type="button" id="Q_1_3_Btn" onclick="CheckMCAnswer(1,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;soccer</li></ol></li>
 <li class="QuizQuestion hp-display-none" id="Q_2"><div class="QuestionText">3. What was King's greatest accomplishment?</div><ol class="MCAnswers"><li id="Q_2_0">
 
-<button class="FuncButton hp-button" type="button" id="Q_2_0_Btn" onclick="CheckMCAnswer(2,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;her marriage</li><li id="Q_2_1">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_2_0_Btn" onclick="CheckMCAnswer(2,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;her marriage</li><li id="Q_2_1">
 
-<button class="FuncButton hp-button" type="button" id="Q_2_1_Btn" onclick="CheckMCAnswer(2,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;beating Bobby Riggs</li><li id="Q_2_2">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_2_1_Btn" onclick="CheckMCAnswer(2,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;beating Bobby Riggs</li><li id="Q_2_2">
 
-<button class="FuncButton hp-button" type="button" id="Q_2_2_Btn" onclick="CheckMCAnswer(2,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;winning 39 Grand Slam titles</li><li id="Q_2_3">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_2_2_Btn" onclick="CheckMCAnswer(2,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;winning 39 Grand Slam titles</li><li id="Q_2_3">
 
-<button class="FuncButton hp-button" type="button" id="Q_2_3_Btn" onclick="CheckMCAnswer(2,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;competing in a doubles tournament</li></ol></li>
+<button class="FuncButton hp-button btn-17" type="button" id="Q_2_3_Btn" onclick="CheckMCAnswer(2,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;competing in a doubles tournament</li></ol></li>
 <li class="QuizQuestion hp-display-none" id="Q_3"><div class="QuestionText">4. Riggs believed that King would _____________.</div><ol class="MCAnswers"><li id="Q_3_0">
 
-<button class="FuncButton hp-button" type="button" id="Q_3_0_Btn" onclick="CheckMCAnswer(3,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;lose against him</li><li id="Q_3_1">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_3_0_Btn" onclick="CheckMCAnswer(3,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;lose against him</li><li id="Q_3_1">
 
-<button class="FuncButton hp-button" type="button" id="Q_3_1_Btn" onclick="CheckMCAnswer(3,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;win</li><li id="Q_3_2">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_3_1_Btn" onclick="CheckMCAnswer(3,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;win</li><li id="Q_3_2">
 
-<button class="FuncButton hp-button" type="button" id="Q_3_2_Btn" onclick="CheckMCAnswer(3,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;quit tennis</li><li id="Q_3_3">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_3_2_Btn" onclick="CheckMCAnswer(3,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;quit tennis</li><li id="Q_3_3">
 
-<button class="FuncButton hp-button" type="button" id="Q_3_3_Btn" onclick="CheckMCAnswer(3,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;put up a fair fight</li></ol></li>
+<button class="FuncButton hp-button btn-17" type="button" id="Q_3_3_Btn" onclick="CheckMCAnswer(3,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;put up a fair fight</li></ol></li>
 <li class="QuizQuestion hp-display-none" id="Q_4"><div class="QuestionText">5. Why was King's victory so important?</div><ol class="MCAnswers"><li id="Q_4_0">
 
-<button class="FuncButton hp-button" type="button" id="Q_4_0_Btn" onclick="CheckMCAnswer(4,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;it showed that young people were just as good at tennis as <br><br>old people</li><li id="Q_4_1">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_4_0_Btn" onclick="CheckMCAnswer(4,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;it showed that young people were just as good at tennis as <br><br>old people</li><li id="Q_4_1">
 
-<button class="FuncButton hp-button" type="button" id="Q_4_1_Btn" onclick="CheckMCAnswer(4,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;it showed that White people were not better at sports than <br><br>people of other ethnicities</li><li id="Q_4_2">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_4_1_Btn" onclick="CheckMCAnswer(4,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;it showed that White people were not better at sports than <br><br>people of other ethnicities</li><li id="Q_4_2">
 
-<button class="FuncButton hp-button" type="button" id="Q_4_2_Btn" onclick="CheckMCAnswer(4,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;it showed that women were just as good as men</li><li id="Q_4_3">
+<button class="FuncButton hp-button btn-17" type="button" id="Q_4_2_Btn" onclick="CheckMCAnswer(4,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;it showed that women were just as good as men</li><li id="Q_4_3">
 
-<button class="FuncButton hp-button" type="button" id="Q_4_3_Btn" onclick="CheckMCAnswer(4,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;she won a lot of money</li></ol></li></ol>
+<button class="FuncButton hp-button btn-17" type="button" id="Q_4_3_Btn" onclick="CheckMCAnswer(4,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;she won a lot of money</li></ol></li></ol>
 
 
 
@@ -1819,7 +1807,7 @@ function CheckFinished(){
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
-<button id="FeedbackOKButton" class="FuncButton hp-button" type="button" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
+<button id="FeedbackOKButton" class="FuncButton hp-button btn-17" type="button" onclick="HideFeedback(); return false;" aria-label="OK" data-hp-tooltip="Close this message." aria-description="Close this message.">OK</button>
 </div>
 
 <!-- BeginBottomNavButtons -->
@@ -1834,7 +1822,7 @@ function CheckFinished(){
 
 
 
-<hr><div class="cenmar"><a href="JavaScript:window.close()">CLOSE</a></div><hr><br></div></body>
+<div class="cenmar"><button type="button" data-hp-close class="hp-button btn-74" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise.">CLOSE<span></span><span></span><span></span><span></span></button></div><br></div></body>
 
 
 <!-- /people/comp/pcomp044.htm, Mon, 03 Jul 2017 12:45:47 GMT -->

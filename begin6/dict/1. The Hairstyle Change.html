@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
 <script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="b6001.html" data-story-title-url="../b6/b6001.html"></script>
-<script src="../../js/hot-potatoes-ui.js" integrity="sha384-/MHyfnAGPvpJenlGmZPAnIJ15f2IH33OefocvyK2+qgGnyAQbQVIeMoLLXsJRu5e"></script>
+<script src="../../js/hot-potatoes-ui.js" integrity="sha384-XEX4guhC8PJufxrJIt9R5d7H1xh/S7Ed4wcMgOs542oR4vCVC/bvcI/8FLSrl10K"></script>
 <!-- HOT POTATOES MODERNIZATION ASSETS END -->
 <link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
 <link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
@@ -923,30 +923,18 @@
         //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
         //[strNavBarJS]
-        function NavBtnOver( Btn ) {
-            if ( Btn.className != 'NavButtonDown' ) { Btn.className = 'NavButtonUp'; }
-        }
+        function NavBtnOver() {}
 
-        function NavBtnOut( Btn ) {
-            Btn.className = 'NavButton';
-        }
+        function NavBtnOut() {}
 
-        function NavBtnDown( Btn ) {
-            Btn.className = 'NavButtonDown';
-        }
+        function NavBtnDown() {}
         //[/strNavBarJS]
 
-        function FuncBtnOver( Btn ) {
-            if ( Btn.className != 'FuncButtonDown' ) { Btn.className = 'FuncButtonUp'; }
-        }
+        function FuncBtnOver() {}
 
-        function FuncBtnOut( Btn ) {
-            Btn.className = 'FuncButton';
-        }
+        function FuncBtnOut() {}
 
-        function FuncBtnDown( Btn ) {
-            Btn.className = 'FuncButtonDown';
-        }
+        function FuncBtnDown() {}
 
         function FocusAButton() {
             if ( document.getElementById( 'CheckButton1' ) != null ) {
@@ -1310,8 +1298,8 @@
         var Qs = null;
         var QArray = new Array();
         var ShowingAllQuestions = false;
-        var ShowAllQuestionsCaption = 'Show all';
-        var ShowOneByOneCaption = 'Show one';
+        var ShowAllQuestionsCaption = 'All';
+        var ShowOneByOneCaption = 'One';
         var State = new Array();
         var Feedback = '';
         var TimeOver = false;
@@ -2118,13 +2106,13 @@
     </script>
 	<link rel="preload" href="../../css/sis-exercise-layout.css" as="style" integrity="sha384-IYeiMNoNtuVghqyUDEulXpE1SC+y2maJ14n7NxkIOHkbMjFDDwiVWIAQMTfNZ8F8">
 	<link rel="stylesheet" href="../../css/sis-exercise-layout.css" integrity="sha384-IYeiMNoNtuVghqyUDEulXpE1SC+y2maJ14n7NxkIOHkbMjFDDwiVWIAQMTfNZ8F8">
-	<link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-/iMGGg256Wgu2rutWcrgP9MYBdA/uh727ut9BWSP8bhW0PD2ym0TIg900tiFzDNO">
-	<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-/iMGGg256Wgu2rutWcrgP9MYBdA/uh727ut9BWSP8bhW0PD2ym0TIg900tiFzDNO">
+	<link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-VYtCCNGHsneslMZTnD3IXTIzjhDIxoK60lSlqaDi4OkEr2pIVULH1lYCFouVkksy">
+	<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-VYtCCNGHsneslMZTnD3IXTIzjhDIxoK60lSlqaDi4OkEr2pIVULH1lYCFouVkksy">
 
-	<script src="../../js/sis-exercise-submit.js" integrity="sha384-9zUKVWWo3sT6hbXxp/7W4IA6WgL2yeHXXFE7WV9YrwEd1v5t57NodvxO10MqN697" defer data-sis-exercise-family="dict"></script>
+	<script src="../../js/sis-exercise-submit.js" integrity="sha384-XOWmpVSPKpCxXlmULFIKph7jSJvT0hrTB2owP6TuCmCmh0d9PDKtGc+ZG+7sfxQC" defer data-sis-exercise-family="dict"></script>
 <!-- HOT POTATOES MODERNIZATION STYLES START -->
-<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
-<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-gh8sfZM3O+UbE1HEb0kbHpmPQURa2l2kw26jI397XygzgvYfrXUEiFciBRLt/fkF">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-gh8sfZM3O+UbE1HEb0kbHpmPQURa2l2kw26jI397XygzgvYfrXUEiFciBRLt/fkF">
 <!-- HOT POTATOES MODERNIZATION STYLES END -->
 </head>
 
@@ -2135,8 +2123,8 @@
 
         <!-- EndTopNavButtons -->
 
-        <div class="Titles">
-            <h2 class="ExerciseTitle">1. The Hairstyle Change</h2>
+        <div class="hp-instructions-panel"><div class="Titles">
+            <h1 class="ExerciseTitle">1. The Hairstyle Change</h1>
 
             <h2 class="ExerciseSubtitle">Dictation</h2>
 
@@ -2144,24 +2132,23 @@
 
         <div id="InstructionsDiv" class="StdDiv">
             <div id="Instructions"></div>
-        </div>
+        </div></div>
 
         <div id="MainDiv" class="StdDiv">
 
             <div id="QNav" class="QuestionNavigation">
 
                 <p class="flextxtright">
-                    <button id="ShowMethodButton" class="FuncButton hp-display-inline hp-button" type="button"
-                      onclick="ShowHideQuestions(); return false;">Show questions one by
-                        one</button>
+                    <button id="ShowMethodButton" class="FuncButton hp-display-inline hp-button btn-17" type="button"
+                      onclick="ShowHideQuestions(); return false;" aria-label="One" data-hp-tooltip="Show one question at a time." aria-description="Show one question at a time.">One</button>
                 </p>
                 <!-- [html-validate-disable-block no-inline-style] -->
                 <div id="OneByOneReadout" class="hp-display-none">
-                    <button id="PrevQButton" class="FuncButton hp-visibility-hidden hp-button" type="button" onclick="ChangeQ(-1); return false;">&lt;=</button>
+                    <button id="PrevQButton" class="FuncButton hp-visibility-hidden hp-button btn-17" type="button" onclick="ChangeQ(-1); return false;" aria-label="Previous" data-hp-tooltip="Show the previous question." aria-description="Show the previous question.">Previous</button>
 
                     <span id="QNumReadout" class="QNum">1 / 8</span>
 
-                    <button id="NextQButton" class="FuncButton hp-visibility-visible hp-button" type="button" onclick="ChangeQ(1); return false;">=&gt;</button>
+                    <button id="NextQButton" class="FuncButton hp-visibility-visible hp-button btn-17" type="button" onclick="ChangeQ(1); return false;" aria-label="Next" data-hp-tooltip="Show the next question." aria-description="Show the next question.">Next</button>
                     <br>
                 </div>
                 <!-- [html-validate-enable no-inline-style] -->
@@ -2182,10 +2169,10 @@
                               class="ShortAnswerBox" cols="29" rows="3" aria-label="Your answer for question 1"></textarea>
                               <br><br>
 
-                              <button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(0)">Check</button>
-                              <button class="FuncButton hp-button" type="button" onclick="ShowHint(0)">Hint</button>
-                              <button class="FuncButton hp-button" type="button" nmouseout="FuncBtnOut(this)"
-                              onclick="ShowAnswers(0)">Show answers</button></div>
+                              <button class="FuncButton hp-button btn-17" type="submit" onclick="CheckShortAnswer(0)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
+                              <button class="FuncButton hp-button btn-17" type="button" onclick="ShowHint(0)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button>
+                              <button class="FuncButton hp-button btn-17" type="button" nmouseout="FuncBtnOut(this)"
+                              onclick="ShowAnswers(0)" aria-label="Answers" data-hp-tooltip="Reveal the correct answer. Revealed answers count as incorrect." aria-description="Reveal the correct answer. Revealed answers count as incorrect.">Answers</button></div>
                     </div>
                 </li>
                 <li class="QuizQuestion" id="Q_1">
@@ -2200,11 +2187,11 @@
                               class="ShortAnswerBox" cols="29" rows="2" aria-label="Your answer for question 2"></textarea>
                               <br><br>
 
-                              <button class="FuncButton hp-button"
+                              <button class="FuncButton hp-button btn-17"
                               type="submit"
-                              onclick="CheckShortAnswer(1)">Check</button>
-                              <button class="FuncButton hp-button" type="button" onclick="ShowHint(1)">Hint</button>
-                              <button class="FuncButton hp-button" type="button" onclick="ShowAnswers(1)">Show answers</button>
+                              onclick="CheckShortAnswer(1)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
+                              <button class="FuncButton hp-button btn-17" type="button" onclick="ShowHint(1)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button>
+                              <button class="FuncButton hp-button btn-17" type="button" onclick="ShowAnswers(1)" aria-label="Answers" data-hp-tooltip="Reveal the correct answer. Revealed answers count as incorrect." aria-description="Reveal the correct answer. Revealed answers count as incorrect.">Answers</button>
                             </div>
                     </div>
                 </li>
@@ -2220,8 +2207,8 @@
                               class="ShortAnswerBox" cols="29" rows="2" aria-label="Your answer for question 3"></textarea>
                               <br><br>
 
-                              <button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(2)">Check</button><button class="FuncButton hp-button" type="button" onclick="ShowHint(2)">Hint</button>
-                              <button class="FuncButton hp-button" type="button" onclick="ShowAnswers(2)">Show answers</button>
+                              <button class="FuncButton hp-button btn-17" type="submit" onclick="CheckShortAnswer(2)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button><button class="FuncButton hp-button btn-17" type="button" onclick="ShowHint(2)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button>
+                              <button class="FuncButton hp-button btn-17" type="button" onclick="ShowAnswers(2)" aria-label="Answers" data-hp-tooltip="Reveal the correct answer. Revealed answers count as incorrect." aria-description="Reveal the correct answer. Revealed answers count as incorrect.">Answers</button>
                             </div>
                     </div>
                 </li>
@@ -2237,8 +2224,8 @@
                               class="ShortAnswerBox" cols="29" rows="2" aria-label="Your answer for question 4"></textarea>
                               <br><br>
 
-                              <button class="FuncButton hp-button" type="submit" nmousedown="FuncBtnDown(this)" onclick="CheckShortAnswer(3)">Check</button><button class="FuncButton hp-button" type="button" onclick="ShowHint(3)">Hint</button>
-                              <button class="FuncButton hp-button" type="button" onclick="ShowAnswers(3)">Show answers</button>
+                              <button class="FuncButton hp-button btn-17" type="submit" nmousedown="FuncBtnDown(this)" onclick="CheckShortAnswer(3)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button><button class="FuncButton hp-button btn-17" type="button" onclick="ShowHint(3)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button>
+                              <button class="FuncButton hp-button btn-17" type="button" onclick="ShowAnswers(3)" aria-label="Answers" data-hp-tooltip="Reveal the correct answer. Revealed answers count as incorrect." aria-description="Reveal the correct answer. Revealed answers count as incorrect.">Answers</button>
                             </div>
                     </div>
                 </li>
@@ -2254,11 +2241,11 @@
                               class="ShortAnswerBox" cols="29" rows="3" aria-label="Your answer for question 5"></textarea>
                               <br><br>
 
-                              <button class="FuncButton hp-button"
+                              <button class="FuncButton hp-button btn-17"
                               type="submit"
-                              onclick="CheckShortAnswer(4)">Check</button>
-                              <button class="FuncButton hp-button" type="button" onclick="ShowHint(4)">Hint</button>
-                              <button class="FuncButton hp-button" type="button" onclick="ShowAnswers(4)">Show answers</button>
+                              onclick="CheckShortAnswer(4)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
+                              <button class="FuncButton hp-button btn-17" type="button" onclick="ShowHint(4)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button>
+                              <button class="FuncButton hp-button btn-17" type="button" onclick="ShowAnswers(4)" aria-label="Answers" data-hp-tooltip="Reveal the correct answer. Revealed answers count as incorrect." aria-description="Reveal the correct answer. Revealed answers count as incorrect.">Answers</button>
                             </div>
                     </div>
                 </li>
@@ -2274,9 +2261,9 @@
                               class="ShortAnswerBox" cols="29" rows="2" aria-label="Your answer for question 6"></textarea>
                               <br><br>
 
-                              <button class="FuncButton hp-button" type="submit" onclick="CheckShortAnswer(5)">Check</button>
-                              <button class="FuncButton hp-button" type="button" onclick="ShowHint(5)">Hint</button>
-                              <button class="FuncButton hp-button" type="button" onclick="ShowAnswers(5)">Show answers</button>
+                              <button class="FuncButton hp-button btn-17" type="submit" onclick="CheckShortAnswer(5)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
+                              <button class="FuncButton hp-button btn-17" type="button" onclick="ShowHint(5)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button>
+                              <button class="FuncButton hp-button btn-17" type="button" onclick="ShowAnswers(5)" aria-label="Answers" data-hp-tooltip="Reveal the correct answer. Revealed answers count as incorrect." aria-description="Reveal the correct answer. Revealed answers count as incorrect.">Answers</button>
                             </div>
                     </div>
                 </li>
@@ -2292,11 +2279,11 @@
                               class="ShortAnswerBox" cols="29" rows="3" aria-label="Your answer for question 7"></textarea>
                               <br><br>
 
-                              <button class="FuncButton hp-button"
+                              <button class="FuncButton hp-button btn-17"
                               type="submit"
-                              onclick="CheckShortAnswer(6)">Check</button><button class="FuncButton hp-button" type="button"
-                              onclick="ShowHint(6)">Hint</button><button class="FuncButton hp-button" type="button"
-                              onclick="ShowAnswers(6)">Show answers</button></div>
+                              onclick="CheckShortAnswer(6)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button><button class="FuncButton hp-button btn-17" type="button"
+                              onclick="ShowHint(6)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button><button class="FuncButton hp-button btn-17" type="button"
+                              onclick="ShowAnswers(6)" aria-label="Answers" data-hp-tooltip="Reveal the correct answer. Revealed answers count as incorrect." aria-description="Reveal the correct answer. Revealed answers count as incorrect.">Answers</button></div>
                     </div>
                 </li>
                 <li class="QuizQuestion" id="Q_7">
@@ -2308,11 +2295,11 @@
                         </audio>
 
                         <div><textarea id="Q_7_Guess" onfocus="TrackFocus(&#39;Q_7_Guess&#39;)" onblur="LeaveGap()"
-                              class="ShortAnswerBox" cols="29" rows="2" aria-label="Your answer for question 8"></textarea><br><br><button class="FuncButton hp-button"
+                              class="ShortAnswerBox" cols="29" rows="2" aria-label="Your answer for question 8"></textarea><br><br><button class="FuncButton hp-button btn-17"
                               type="submit"
-                              onclick="CheckShortAnswer(7)">Check</button><button class="FuncButton hp-button" type="button"
-                              onclick="ShowHint(7)">Hint</button><button class="FuncButton hp-button" type="button"
-                              onclick="ShowAnswers(7)">Show answers</button>
+                              onclick="CheckShortAnswer(7)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button><button class="FuncButton hp-button btn-17" type="button"
+                              onclick="ShowHint(7)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button><button class="FuncButton hp-button btn-17" type="button"
+                              onclick="ShowAnswers(7)" aria-label="Answers" data-hp-tooltip="Reveal the correct answer. Revealed answers count as incorrect." aria-description="Reveal the correct answer. Revealed answers count as incorrect.">Answers</button>
                         </div>
                     </div>
                 </li>
@@ -2322,8 +2309,8 @@
 
         <div class="Feedback" id="FeedbackDiv">
             <div class="FeedbackText" id="FeedbackContent"></div>
-            <button id="FeedbackOKButton" class="FuncButton hp-button" type="button"
-              onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
+            <button id="FeedbackOKButton" class="FuncButton hp-button btn-17" type="button"
+              onclick="HideFeedback(); return false;" aria-label="OK" data-hp-tooltip="Close this message." aria-description="Close this message.">OK</button>
         </div>
 
         <!-- BeginBottomNavButtons -->
@@ -2336,7 +2323,7 @@
 
         <br>
     </div>
-    <div class="cenmar textres12 fw500"> <a href="JavaScript:window.close()"> <b>CLOSE</b> </a> </div>
+    <div class="cenmar textres12 fw500"> <button type="button" data-hp-close class="hp-button btn-74" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise."> <b>CLOSE</b> <span></span><span></span><span></span><span></span></button> </div>
     <br>
 
     <script>

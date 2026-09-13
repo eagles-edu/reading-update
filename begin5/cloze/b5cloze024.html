@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
 <script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="b5024.html" data-story-title-url="../b5/b5024.html"></script>
-<script src="../../js/hot-potatoes-ui.js" integrity="sha384-/MHyfnAGPvpJenlGmZPAnIJ15f2IH33OefocvyK2+qgGnyAQbQVIeMoLLXsJRu5e"></script>
+<script src="../../js/hot-potatoes-ui.js" integrity="sha384-XEX4guhC8PJufxrJIt9R5d7H1xh/S7Ed4wcMgOs542oR4vCVC/bvcI/8FLSrl10K"></script>
 <!-- HOT POTATOES MODERNIZATION ASSETS END -->
 <meta name="sis-cloze-prototype" content="current">
 <link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
@@ -655,7 +655,7 @@ p {
 
 </style>
 
-<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-/iMGGg256Wgu2rutWcrgP9MYBdA/uh727ut9BWSP8bhW0PD2ym0TIg900tiFzDNO">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-VYtCCNGHsneslMZTnD3IXTIzjhDIxoK60lSlqaDi4OkEr2pIVULH1lYCFouVkksy">
 
 <script>
 
@@ -719,30 +719,18 @@ var C = new Client();
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
-function NavBtnOver(Btn){
-	if (Btn.className != 'NavButtonDown'){Btn.className = 'NavButtonUp';}
-}
+function NavBtnOver() {}
 
-function NavBtnOut(Btn){
-	Btn.className = 'NavButton';
-}
+function NavBtnOut() {}
 
-function NavBtnDown(Btn){
-	Btn.className = 'NavButtonDown';
-}
+function NavBtnDown() {}
 //[/strNavBarJS]
 
-function FuncBtnOver(Btn){
-	if (Btn.className != 'FuncButtonDown'){Btn.className = 'FuncButtonUp';}
-}
+function FuncBtnOver() {}
 
-function FuncBtnOut(Btn){
-	Btn.className = 'FuncButton';
-}
+function FuncBtnOut() {}
 
-function FuncBtnDown(Btn){
-	Btn.className = 'FuncButtonDown';
-}
+function FuncBtnDown() {}
 
 function FocusAButton(){
 	if (document.getElementById('CheckButton1') != null){
@@ -1520,23 +1508,23 @@ function TypeChars(Chars){
 
 </script>
 
-<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-Q6nAIQ+Wk3WKGRBvO4oENxZDTrPkMLTd2KT59wAp+YxFjerlImDo3YQq24MF3JAD"></script>
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-EJGysYvd5yTo+I1pKLzuc1KPaWLO8v3TZdnD79Mj3rk5KydJVQmmejODr6vNmxj5"></script>
 <!-- HOT POTATOES MODERNIZATION STYLES START -->
-<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
-<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-DuaLAzZf9XPM69tde5E6S/vkfseGBXu/wpmWPgMrRE5mGsslQztf7mOwrFmilkPx">
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-gh8sfZM3O+UbE1HEb0kbHpmPQURa2l2kw26jI397XygzgvYfrXUEiFciBRLt/fkF">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-gh8sfZM3O+UbE1HEb0kbHpmPQURa2l2kw26jI397XygzgvYfrXUEiFciBRLt/fkF">
 <!-- HOT POTATOES MODERNIZATION STYLES END -->
 </head>
 
 <body onload="StartUp()" id="TheBody"><div class="wrapfit">
 
-<div class="Titles">
+<div class="hp-instructions-panel"><div class="Titles">
 	<h1 class="ExerciseTitle">24. An Interrupted Wedding</h1>
 
 </div>
 
 <div id="InstructionsDiv" class="StdDiv" data-cloze-instructions="1: Study the new words. 2: Listen to the story. 3: Read the story out loud. 4: Fill-in the blanks below. 5: Check your answers.">
   <div id="Instructions"></div>
-</div>
+</div></div>
 
 <div id="MainDiv" class="StdDiv">
 
@@ -1549,21 +1537,21 @@ Frances and Ryan were getting married. They dated <span class="GapSpan" id="GapS
 </div>
 
 <div class="btn17Container">
-  <button class="btn-17 hp-button" type="submit" form="Cloze" id="check">check</button>
-  <button class="btn-17 hp-button" type="button" id="hint">hint</button>
+  <button class="btn-17 hp-button" type="submit" form="Cloze" id="check" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
+  <button class="btn-17 hp-button" type="button" id="hint" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button>
 </div>
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
-<button id="FeedbackOKButton" class="FuncButton hp-button" type="button" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
+<button id="FeedbackOKButton" class="FuncButton hp-button btn-17" type="button" onclick="HideFeedback(); return false;" aria-label="OK" data-hp-tooltip="Close this message." aria-description="Close this message.">OK</button>
 </div>
 </div>
 
 <!-- BeginBottomNavButtons -->
 
-<hr>
 
-<button class="btn-74 hp-button" type="button" onclick="location='JavaScript:window.close() '; return false;">
+
+<button class="btn-74 hp-button" type="button" data-hp-close="" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise.">
   close
   <span></span>
   <span></span>

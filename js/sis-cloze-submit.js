@@ -15,9 +15,10 @@
   var EXERCISE_SUBMIT_PORT = 8786
   var EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   var EAGLES_ID_PATTERN = /^[a-z]+\d{3}$/
+  var IDLE_STATUS_MESSAGE =
+    "Your saved details are ready. Complete the exercise to send your result."
   var CLOSE_BUTTON_HTML =
-    '<button class="btn-74" type="button" onclick="location=\'JavaScript:window.close() \'; return false;">' +
-    "\n  close\n  <span></span>\n  <span></span>\n  <span></span>\n  <span></span>\n</button>"
+    '<button class="btn-74 hp-button hp-close-button" type="button" data-hp-close aria-label="Close" aria-description="Close this exercise." data-hp-tooltip="Close this exercise.">Close<span></span><span></span><span></span><span></span></button>'
 
   var state = {
     initialized: false,
@@ -29,9 +30,12 @@
     emailInput: null,
     eaglesIdInput: null,
     statusNode: null,
+    submitButton: null,
+    feedbackObserver: null,
     checkButtons: [],
     hintButtons: [],
     attemptId: "",
+    answersRevealed: false,
   }
 
   function normalizeText(value) {
@@ -185,6 +189,15 @@
 
   function getAnswerCounts() {
     var totalQuestions = getQuestionCount()
+    if (state.answersRevealed) {
+      return {
+        totalQuestions: totalQuestions,
+        correctCount: 0,
+        pendingCount: 0,
+        incorrectCount: totalQuestions,
+        scorePercent: 0,
+      }
+    }
     var correctCount = 0
 
     if (Array.isArray(window.State)) {
@@ -275,6 +288,12 @@
     for (var j = 0; j < state.hintButtons.length; j += 1) {
       state.hintButtons[j].disabled = disableHints
       state.hintButtons[j].setAttribute("aria-disabled", disableHints ? "true" : "false")
+    }
+
+    if (state.submitButton) {
+      var disableSubmit = !identityReady || state.submitting || state.submitted || window.Locked !== true
+      state.submitButton.disabled = disableSubmit
+      state.submitButton.setAttribute("aria-disabled", disableSubmit ? "true" : "false")
     }
 
   }
@@ -375,8 +394,11 @@
 
     var titles = wrapfit.querySelector(".Titles")
     var instructions = document.getElementById("InstructionsDiv")
+    var instructionPanel = wrapfit.querySelector(".hp-instructions-panel")
     var main = wrapfit.querySelector("#MainDiv")
     var feedback = wrapfit.querySelector("#FeedbackDiv")
+    var topNav = wrapfit.querySelector("#TopNavBar")
+    var bottomNav = wrapfit.querySelector("#BottomNavBar")
     var identityPanel = document.querySelector(".sis-cloze-panel")
 
     var shell = document.createElement("main")
@@ -385,12 +407,13 @@
 
     var header = document.createElement("header")
     header.className = "sis-cloze-region sis-cloze-region--header"
-    if (titles) {
-      header.appendChild(titles)
+    if (!instructionPanel) {
+      instructionPanel = document.createElement("section")
+      instructionPanel.className = "hp-instructions-panel"
+      if (titles) instructionPanel.appendChild(titles)
+      if (instructions && instructions.parentNode) instructionPanel.appendChild(instructions)
     }
-    if (instructions && instructions.parentNode) {
-      header.appendChild(instructions)
-    }
+    header.appendChild(instructionPanel)
 
     var identityRegion = document.createElement("section")
     identityRegion.className = "sis-cloze-region sis-cloze-region--identity"
@@ -414,19 +437,57 @@
       feedback.setAttribute("aria-modal", "true")
       feedback.setAttribute("aria-live", "assertive")
       feedbackRegion.appendChild(feedback)
+      feedbackRegion.classList.add("hp-display-none")
+      var feedbackText = feedback.querySelector(".FeedbackText")
+      var syncFeedbackRegionVisibility = function () {
+        var hasFeedbackText = feedbackText && normalizeText(feedbackText.textContent)
+        var isHidden = !hasFeedbackText || window.getComputedStyle(feedback).display === "none"
+        feedbackRegion.classList.toggle("hp-display-none", isHidden)
+      }
+      syncFeedbackRegionVisibility()
+      if (typeof window.MutationObserver === "function") {
+        state.feedbackObserver = new window.MutationObserver(syncFeedbackRegionVisibility)
+        state.feedbackObserver.observe(feedback, { attributes: true, attributeFilter: ["class", "style"] })
+        if (feedbackText) {
+          state.feedbackObserver.observe(feedbackText, {
+            characterData: true,
+            childList: true,
+            subtree: true,
+          })
+        }
+      }
     }
 
     var footerRegion = document.createElement("section")
     footerRegion.className = "sis-cloze-region sis-cloze-region--footer"
     footerRegion.setAttribute("aria-label", "Exercise actions")
-    footerRegion.innerHTML = "<hr>" + CLOSE_BUTTON_HTML
+    footerRegion.innerHTML = CLOSE_BUTTON_HTML
 
+    var submitRegion = document.createElement("div")
+    submitRegion.className = "sis-exercise-submit-row"
+    submitRegion.setAttribute("aria-label", "Submit exercise result")
+    var submitButton = document.createElement("button")
+    submitButton.className = "btn-17 hp-button sis-exercise-submit"
+    submitButton.type = "button"
+    submitButton.textContent = "Submit"
+    submitButton.setAttribute("data-sis-cloze-submit", "")
+    submitButton.setAttribute("aria-label", "Submit")
+    submitButton.setAttribute("aria-description", "Submit your completed exercise result to SIS.")
+    submitButton.setAttribute("data-hp-tooltip", "Submit your completed exercise result to SIS.")
+    submitButton.disabled = true
+    submitButton.setAttribute("aria-disabled", "true")
+    submitRegion.appendChild(submitButton)
+    exerciseRegion.appendChild(submitRegion)
+    state.submitButton = submitButton
+
+    if (topNav) shell.appendChild(topNav)
     shell.appendChild(header)
     shell.appendChild(identityRegion)
     shell.appendChild(exerciseRegion)
     if (feedbackRegion.childNodes.length > 0) {
       shell.appendChild(feedbackRegion)
     }
+    if (bottomNav) shell.appendChild(bottomNav)
     shell.appendChild(footerRegion)
 
     wrapfit.replaceWith(shell)
@@ -435,9 +496,9 @@
     document.body.classList.add("sis-cloze-modernized")
   }
 
-  function stripLegacyHandlers(node) {
+  function stripLegacyHandlers(node, preserveClick) {
     if (!node || typeof node.removeAttribute !== "function") return
-    node.removeAttribute("onclick")
+    if (!preserveClick) node.removeAttribute("onclick")
     node.removeAttribute("onmouseover")
     node.removeAttribute("onfocus")
     node.removeAttribute("onmouseout")
@@ -458,7 +519,12 @@
       button.id === "check" ||
       label === "check" ||
       onClick.indexOf("checkanswers") !== -1
+    var hasAnswerSignal =
+      label === "answers" ||
+      label === "show answers" ||
+      onClick.indexOf("showanswers") !== -1
 
+    if (hasAnswerSignal) return "answer"
     if (hasHintSignal) return "hint"
     if (hasCheckSignal) return "check"
     if (button.id === "FeedbackOKButton" || label === "ok") return "ok"
@@ -488,8 +554,10 @@
       var legacyOnClick = button.getAttribute("onclick")
       var isModernCheck = button.classList && button.classList.contains("btn-17")
       var isModernClose = button.classList && button.classList.contains("btn-74")
-      var isModernReplacement = isModernCheck || isModernClose
-      stripLegacyHandlers(button)
+      var isSharedClose = button.hasAttribute("data-hp-close")
+      var action = getButtonAction(button, label, legacyOnClick)
+      var isModernReplacement = isModernCheck || isModernClose || isSharedClose
+      stripLegacyHandlers(button, action === "")
 
       if (!isModernReplacement && !button.__sisModernButtonBound) {
         button.__sisModernButtonBound = true
@@ -513,13 +581,12 @@
         })
       }
 
-      var action = getButtonAction(button, label, legacyOnClick)
-      if (action === "check" || (isModernCheck && action !== "hint")) {
+      if (action === "check") {
         button.addEventListener("click", function (event) {
           event.preventDefault()
           if (typeof window.CheckAnswers === "function") window.CheckAnswers()
         })
-      } else if (action === "close" || isModernClose || label === "close") {
+      } else if (!isSharedClose && (action === "close" || isModernClose || label === "close")) {
         button.addEventListener("click", function (event) {
           event.preventDefault()
           if (typeof window.close === "function") {
@@ -529,6 +596,29 @@
           }
           return false
         })
+      } else if (action === "answer") {
+        var answerCall = /\bShowAnswers\s*\(([^)]*)\)/i.exec(legacyOnClick || "")
+        var answerArgs = answerCall && answerCall[1].trim()
+          ? answerCall[1].split(",").map(function (argument) {
+              var value = argument.trim()
+              if (/^\d+$/.test(value)) return Number(value)
+              if (/^(?:"[^"]*"|'[^']*')$/.test(value)) return value.slice(1, -1)
+              return null
+            }).filter(function (value) {
+              return value !== null
+            })
+          : []
+        button.addEventListener(
+          "click",
+          (function (args) {
+            return function (event) {
+              event.preventDefault()
+              if (typeof window.ShowAnswers === "function") {
+                window.ShowAnswers.apply(window, args)
+              }
+            }
+          })(answerArgs)
+        )
       } else if (action === "hint" || label === "hint") {
         button.addEventListener("click", function (event) {
           event.preventDefault()
@@ -731,14 +821,10 @@
 
       state.checkingAnswers = true
       try {
-        var result = original.apply(this, arguments)
-        var scorePercent = typeof window.Score === "number" ? Number(window.Score) : getAnswerCounts().scorePercent
-        if (scorePercent >= 100 && window.Locked === true) {
-          submitAttempt()
-        }
-        return result
+        return original.apply(this, arguments)
       } finally {
         state.checkingAnswers = false
+        updateButtonState()
       }
     }
   }
@@ -752,6 +838,16 @@
         return false
       }
       return original.apply(this, arguments)
+    }
+  }
+
+  function guardShowAnswers(original) {
+    if (typeof original !== "function") return original
+    return function () {
+      state.answersRevealed = true
+      var result = original.apply(this, arguments)
+      setStatus("Revealed answers count as incorrect.", "error")
+      return result
     }
   }
 
@@ -773,9 +869,17 @@
   function wrapGlobalHandlers() {
     window.CheckAnswers = guardCheckAnswers(window.CheckAnswers)
     window.ShowHint = guardShowHint(window.ShowHint)
+    window.ShowAnswers = guardShowAnswers(window.ShowAnswers)
     window.ShowMessage = guardShowMessage(window.ShowMessage)
-    window.Finish = function () {
-      return submitAttempt()
+    var originalFinish = window.Finish
+    if (typeof originalFinish === "function" && !originalFinish.__sisClozeWrapped) {
+      var wrappedFinish = function () {
+        var result = originalFinish.apply(this, arguments)
+        updateButtonState()
+        return result
+      }
+      wrappedFinish.__sisClozeWrapped = true
+      window.Finish = wrappedFinish
     }
   }
 
@@ -788,6 +892,8 @@
         var identity = readFormIdentity()
         if (isIdentityReady(identity)) {
           persistIdentity(identity)
+          setStatus(IDLE_STATUS_MESSAGE, "")
+        } else {
           setStatus("", "")
         }
         updateButtonState()
@@ -796,6 +902,8 @@
         var identity = readFormIdentity()
         if (isIdentityReady(identity)) {
           persistIdentity(identity)
+          setStatus(IDLE_STATUS_MESSAGE, "")
+        } else {
           setStatus("", "")
         }
         updateButtonState()
@@ -826,6 +934,8 @@
     if (!state.emailInput || !state.eaglesIdInput || !state.statusNode) return
 
     collectButtons()
+    state.submitButton = state.submitButton || document.querySelector("[data-sis-cloze-submit]")
+    if (state.submitButton) state.submitButton.addEventListener("click", submitAttempt)
     syncIdentityFromStorage()
 
     if (!readStorage(attemptStorageKey())) {
@@ -836,14 +946,7 @@
     wrapGlobalHandlers()
     updateButtonState()
 
-    if (!isIdentityReady()) {
-      var stored = readIdentity()
-      if (stored.email || stored.eaglesId) {
-        setStatus("Finish the email and Eagles ID fields to continue.", "")
-      } else {
-        setStatus("Enter your email and Eagles ID to unlock Check and Hint.", "")
-      }
-    }
+    if (isIdentityReady()) setStatus(IDLE_STATUS_MESSAGE, "")
 
     state.initialized = true
   }

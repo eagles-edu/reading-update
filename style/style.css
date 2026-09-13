@@ -541,13 +541,16 @@ ul {
     margin-left: 34px;
   }
 
+  p {
+    padding-bottom: 0;
+  }
+
   dd,
   dl,
   figcaption,
   figure,
   img,
   ol,
-  p,
   ul {
     padding-bottom: inherit;
   }
@@ -1269,4 +1272,8 @@ ol.QuizQuestions,
 hr, .w100pct {
   width: 100%;
   max-width: var(--content-max);
+}
+
+.tm01-5em {
+  margin-top: 1.5em !important;
 }

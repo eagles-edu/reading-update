@@ -24,9 +24,13 @@
     emailInput: null,
     eaglesIdInput: null,
     statusNode: null,
+    feedbackObserver: null,
     actionButtons: [],
+    submitButton: null,
     retryButton: null,
     attemptId: "",
+    answersRevealedAll: false,
+    revealedAnswerIndexes: Object.create(null),
   };
 
   function normalizeText(value) {
@@ -171,35 +175,52 @@
   function getAnswerCounts() {
     var score = finiteScore();
     if (family === "sent") {
+      var sentenceAnswerRevealed =
+        state.answersRevealedAll || Object.keys(state.revealedAnswerIndexes).length > 0;
       var completed = window.Locked === true;
+      var sentenceCorrectCount = completed && !sentenceAnswerRevealed ? 1 : 0;
       return {
         totalQuestions: 1,
-        correctCount: completed ? 1 : 0,
+        correctCount: sentenceCorrectCount,
         pendingCount: 0,
-        incorrectCount: 0,
-        scorePercent: score == null ? (completed ? 100 : 0) : score,
+        incorrectCount: 1 - sentenceCorrectCount,
+        scorePercent: sentenceAnswerRevealed
+          ? 0
+          : score == null
+            ? completed
+              ? 100
+              : 0
+            : score,
       };
     }
 
     var states = Array.isArray(window.State) ? window.State : [];
-    var activeStates = states.filter(function (questionState) {
-      return Array.isArray(questionState);
-    });
-    var totalQuestions = activeStates.length || (Array.isArray(window.I) ? window.I.length : 0);
+    var questionIndexes = [];
+    for (var stateIndex = 0; stateIndex < states.length; stateIndex += 1) {
+      if (Array.isArray(states[stateIndex])) questionIndexes.push(stateIndex);
+    }
+    var totalQuestions = questionIndexes.length || (Array.isArray(window.I) ? window.I.length : 0);
     var correctCount = 0;
     var pendingCount = 0;
-    for (var index = 0; index < activeStates.length; index += 1) {
-      var questionScore = Number(activeStates[index][0]);
+    for (var index = 0; index < questionIndexes.length; index += 1) {
+      var questionIndex = questionIndexes[index];
+      if (
+        state.answersRevealedAll ||
+        Object.prototype.hasOwnProperty.call(state.revealedAnswerIndexes, questionIndex)
+      ) {
+        continue;
+      }
+      var questionScore = Number(states[questionIndex][0]);
       if (questionScore >= 1) correctCount += 1;
       else if (questionScore < 0) pendingCount += 1;
     }
     var incorrectCount = Math.max(totalQuestions - correctCount - pendingCount, 0);
-    var scorePercent =
-      score == null
-        ? totalQuestions > 0
-          ? Number(((correctCount / totalQuestions) * 100).toFixed(2))
-          : 0
-        : score;
+    var hasRevealedAnswer =
+      state.answersRevealedAll || Object.keys(state.revealedAnswerIndexes).length > 0;
+    var calculatedScore = totalQuestions > 0
+      ? Number(((correctCount / totalQuestions) * 100).toFixed(2))
+      : 0;
+    var scorePercent = hasRevealedAnswer || score == null ? calculatedScore : score;
     return { totalQuestions, correctCount, pendingCount, incorrectCount, scorePercent };
   }
 
@@ -228,6 +249,12 @@
     for (var index = 0; index < state.actionButtons.length; index += 1) {
       state.actionButtons[index].disabled = disabled;
       state.actionButtons[index].setAttribute("aria-disabled", disabled ? "true" : "false");
+    }
+    if (state.submitButton) {
+      var disableSubmit =
+        !identityIsValid() || state.submitting || state.submitted || window.Locked !== true;
+      state.submitButton.disabled = disableSubmit;
+      state.submitButton.setAttribute("aria-disabled", disableSubmit ? "true" : "false");
     }
   }
 
@@ -380,7 +407,7 @@
       "</label>" +
       "</div>" +
       '<p id="sis-exercise-status" class="sis-cloze-status" data-sis-exercise-status aria-live="polite"></p>' +
-      '<button class="btn-17 sis-exercise-retry" type="button" data-sis-exercise-retry hidden>Retry result submission</button>';
+      '<button class="btn-17 hp-button sis-exercise-retry" type="button" data-sis-exercise-retry aria-label="Retry" aria-description="Retry submitting your result to SIS." data-hp-tooltip="Retry submitting your result to SIS." hidden>Retry</button>';
     main.parentNode.insertBefore(panel, main);
     return panel;
   }
@@ -388,22 +415,54 @@
   function buildModernShell() {
     var wrapper = document.querySelector("body#TheBody > .wrapit, body#TheBody > .wrapfit");
     if (!wrapper || wrapper.dataset.sisExerciseShellBuilt === "true") return;
-    var titles = wrapper.querySelector(":scope > .Titles");
-    var instructions = wrapper.querySelector(":scope > #InstructionsDiv");
+    var instructionPanel = wrapper.querySelector(":scope > .hp-instructions-panel");
+    var titles = instructionPanel
+      ? instructionPanel.querySelector(":scope > .Titles")
+      : wrapper.querySelector(":scope > .Titles");
+    var instructions = instructionPanel
+      ? instructionPanel.querySelector(":scope > #InstructionsDiv")
+      : wrapper.querySelector(":scope > #InstructionsDiv");
     var guess = wrapper.querySelector(":scope > #GuessDiv");
     var main = wrapper.querySelector(":scope > #MainDiv");
     var feedback = wrapper.querySelector(":scope > #FeedbackDiv");
+    var topNav = wrapper.querySelector(":scope > #TopNavBar");
+    var bottomNav = wrapper.querySelector(":scope > #BottomNavBar");
     var identityPanel = wrapper.querySelector(":scope > .sis-cloze-panel");
-    if (!titles || !instructions || !main) return;
+    var closeContainer = wrapper.querySelector(":scope > .cenmar");
+    var trailingBreak = closeContainer && closeContainer.nextSibling;
+    var retryButton = identityPanel && identityPanel.querySelector("[data-sis-exercise-retry]");
+    if ((!instructionPanel && (!titles || !instructions)) || !main) return;
+
+    if (guess) {
+      var containsOnlyWhitespace = true;
+      for (var nodeIndex = 0; nodeIndex < guess.childNodes.length; nodeIndex += 1) {
+        var child = guess.childNodes[nodeIndex];
+        if (child.nodeType !== 3 || normalizeText(child.textContent)) {
+          containsOnlyWhitespace = false;
+          break;
+        }
+      }
+      if (containsOnlyWhitespace) {
+        while (guess.firstChild) guess.removeChild(guess.firstChild);
+      }
+    }
 
     var shell = document.createElement("main");
     shell.className = "sis-cloze-shell sis-exercise-shell";
     shell.setAttribute("aria-label", family === "sent" ? "Sentence scramble exercise" : "Dictation exercise");
-    wrapper.insertBefore(shell, titles);
+    wrapper.insertBefore(shell, topNav || instructionPanel || titles || identityPanel || main);
+    if (topNav) shell.appendChild(topNav);
     var header = document.createElement("header");
     header.className = "sis-cloze-region sis-cloze-region--header";
-    header.appendChild(titles);
-    header.appendChild(instructions);
+    if (instructionPanel) {
+      header.appendChild(instructionPanel);
+    } else {
+      var contentPanel = document.createElement("section");
+      contentPanel.className = "hp-instructions-panel";
+      contentPanel.appendChild(titles);
+      contentPanel.appendChild(instructions);
+      header.appendChild(contentPanel);
+    }
     var identityRegion = document.createElement("section");
     identityRegion.className = "sis-cloze-region sis-cloze-region--identity";
     identityRegion.setAttribute("aria-label", "SIS result details");
@@ -413,6 +472,22 @@
     exerciseRegion.setAttribute("aria-label", "Exercise content");
     if (guess) exerciseRegion.appendChild(guess);
     exerciseRegion.appendChild(main);
+    var submitRegion = document.createElement("div");
+    submitRegion.className = "sis-exercise-submit-row";
+    submitRegion.setAttribute("aria-label", "Submit exercise result");
+    var submitButton = document.createElement("button");
+    submitButton.className = "btn-17 hp-button sis-exercise-submit";
+    submitButton.type = "button";
+    submitButton.textContent = "Submit";
+    submitButton.setAttribute("data-sis-exercise-submit", "");
+    submitButton.setAttribute("aria-label", "Submit");
+    submitButton.setAttribute("aria-description", "Submit your completed exercise result to SIS.");
+    submitButton.setAttribute("data-hp-tooltip", "Submit your completed exercise result to SIS.");
+    submitButton.disabled = true;
+    submitButton.setAttribute("aria-disabled", "true");
+    submitRegion.appendChild(submitButton);
+    if (retryButton) submitRegion.appendChild(retryButton);
+    exerciseRegion.appendChild(submitRegion);
     var feedbackRegion = document.createElement("section");
     feedbackRegion.className = "sis-cloze-region sis-cloze-region--feedback";
     feedbackRegion.setAttribute("aria-label", "Exercise feedback");
@@ -421,11 +496,43 @@
       feedback.setAttribute("aria-modal", "true");
       feedback.setAttribute("aria-live", "assertive");
       feedbackRegion.appendChild(feedback);
+      feedbackRegion.classList.add("hp-display-none");
+      var feedbackText = feedback.querySelector(".FeedbackText");
+      var syncFeedbackVisibility = function () {
+        var hasMessage = feedbackText && normalizeText(feedbackText.textContent);
+        var isHidden = !hasMessage || window.getComputedStyle(feedback).display === "none";
+        feedbackRegion.classList.toggle("hp-display-none", isHidden);
+      };
+      syncFeedbackVisibility();
+      if (typeof window.MutationObserver === "function") {
+        state.feedbackObserver = new window.MutationObserver(syncFeedbackVisibility);
+        state.feedbackObserver.observe(feedback, { attributes: true, attributeFilter: ["class", "style"] });
+        if (feedbackText) {
+          state.feedbackObserver.observe(feedbackText, {
+            characterData: true,
+            childList: true,
+            subtree: true,
+          });
+        }
+      }
     }
     shell.appendChild(header);
     shell.appendChild(identityRegion);
     shell.appendChild(exerciseRegion);
     if (feedback) shell.appendChild(feedbackRegion);
+    if (bottomNav) shell.appendChild(bottomNav);
+    if (closeContainer) {
+      var footerRegion = document.createElement("footer");
+      footerRegion.className = "sis-cloze-region sis-cloze-region--footer";
+      footerRegion.setAttribute("aria-label", "Close exercise");
+      footerRegion.appendChild(closeContainer);
+      shell.appendChild(footerRegion);
+      while (trailingBreak && trailingBreak.nodeType === 3 && !normalizeText(trailingBreak.textContent)) {
+        trailingBreak = trailingBreak.nextSibling;
+      }
+      if (trailingBreak && trailingBreak.nodeName === "BR") trailingBreak.remove();
+    }
+    state.submitButton = submitButton;
     wrapper.dataset.sisExerciseShellBuilt = "true";
     document.body.dataset.sisExerciseFamily = family;
     document.body.classList.add("sis-exercise-story-theme");
@@ -491,8 +598,18 @@
         focusMissingIdentity();
         return false;
       }
+      if (name === "ShowAnswers") {
+        var questionIndex = Number(arguments[0]);
+        if (Number.isInteger(questionIndex) && questionIndex >= 0) {
+          state.revealedAnswerIndexes[questionIndex] = true;
+        } else {
+          state.answersRevealedAll = true;
+        }
+      }
       var result = original.apply(this, arguments);
-      if (window.Locked === true) submitAttempt();
+      if (name === "ShowAnswers") {
+        setStatus("Revealed answers count as incorrect.", "error");
+      }
       updateActionButtons();
       return result;
     };
@@ -501,18 +618,24 @@
   }
 
   function wrapFinish() {
-    window.Finish = function () {
-      if (window.Locked === true) return submitAttempt();
-      return false;
+    var original = window.Finish;
+    if (typeof original !== "function" || original.__sisExerciseWrapped) return;
+    var wrapped = function () {
+      var result = original.apply(this, arguments);
+      updateActionButtons();
+      return result;
     };
+    wrapped.__sisExerciseWrapped = true;
+    window.Finish = wrapped;
   }
 
   function bind() {
     state.emailInput = document.querySelector("[data-sis-exercise-email]");
     state.eaglesIdInput = document.querySelector("[data-sis-exercise-eagles-id]");
     state.statusNode = document.querySelector("[data-sis-exercise-status]");
+    state.submitButton = document.querySelector("[data-sis-exercise-submit]");
     state.retryButton = document.querySelector("[data-sis-exercise-retry]");
-    if (!state.emailInput || !state.eaglesIdInput || !state.statusNode || !state.retryButton) return;
+    if (!state.emailInput || !state.eaglesIdInput || !state.statusNode || !state.submitButton) return;
 
     var saved = readIdentity();
     state.emailInput.value = saved.email;
@@ -521,7 +644,8 @@
     state.eaglesIdInput.setAttribute("aria-describedby", "sis-exercise-status");
     collectActionButtons();
     bindIdentityEvents();
-    state.retryButton.addEventListener("click", submitAttempt);
+    state.submitButton.addEventListener("click", submitAttempt);
+    if (state.retryButton) state.retryButton.addEventListener("click", submitAttempt);
     wrapAction("CheckShortAnswer", "Enter your student email and Eagles ID before checking answers.");
     wrapAction("CheckAnswer", "Enter your student email and Eagles ID before checking or using a hint.");
     wrapAction("ShowHint", "Enter your student email and Eagles ID before using a hint.");

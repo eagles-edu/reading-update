@@ -38,13 +38,14 @@ const MANAGED_STYLES_RE = /(?:\r?\n)?[ \t]*<!--[ \t]*HOT POTATOES MODERNIZATION 
 
 function usage() {
   console.log(
-    `Usage: node ${path.basename(process.argv[1])} [--dry-run|--apply] [--root PATH]
+    `Usage: node ${path.basename(process.argv[1])} [--dry-run|--apply] [--scope NAME] [--root PATH]
 
 Modernize identified Hot Potatoes HTML pages.
 
 Options:
   --dry-run   Report planned changes without writing files (default).
   --apply     Back up and write the shared assets and normalized pages.
+  --scope     Restrict the scan to one configured content root; repeatable.
   --root PATH Scan a different repository root.
   --help      Show this help.
 `,
@@ -52,7 +53,7 @@ Options:
 }
 
 function parseArgs(argv) {
-  const args = { apply: false, help: false, root: DEFAULT_ROOT };
+  const args = { apply: false, help: false, root: DEFAULT_ROOT, scopes: [] };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--apply") args.apply = true;
@@ -61,6 +62,14 @@ function parseArgs(argv) {
       index += 1;
       if (index >= argv.length) throw new Error("--root requires a path");
       args.root = path.resolve(argv[index]);
+    } else if (arg === "--scope") {
+      index += 1;
+      if (index >= argv.length) throw new Error("--scope requires a content root name");
+      const scope = argv[index];
+      if (!ROOTS.includes(scope)) {
+        throw new Error(`--scope must be one of: ${ROOTS.join(", ")}`);
+      }
+      if (!args.scopes.includes(scope)) args.scopes.push(scope);
     } else if (arg === "--help" || arg === "-h") args.help = true;
     else throw new Error(`Unknown option: ${arg}`);
   }
@@ -177,11 +186,11 @@ function storyTarget(root, file) {
   };
 }
 
-function scanTargets(root) {
+function scanTargets(root, roots = ROOTS) {
   const pages = [];
   const ambiguous = [];
   const skippedBackups = [];
-  for (const relativeDirectory of ROOTS) {
+  for (const relativeDirectory of roots) {
     const absoluteDirectory = path.resolve(root, relativeDirectory);
     for (const absolute of walkHtml(absoluteDirectory)) {
       const relative = path.relative(root, absolute).split(path.sep).join("/");
@@ -228,14 +237,18 @@ function cssMember(node) {
 function collectRuntimePatches(source, options = {}) {
   const { file = "<input>" } = options;
   const patches = [];
-  const stats = { reads: 0, writes: 0 };
+  const stats = { buttonFunctions: 0, reads: 0, writes: 0 };
   const scripts = /<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi;
+  const legacyButtonFunction = /\bfunction\s+(?:Func|Nav)Btn(?:Over|Out|Down)\s*\(/i;
   let match;
 
   while ((match = scripts.exec(source))) {
     const attributes = match[1];
     const content = match[2];
-    if (/\bsrc\s*=/i.test(attributes) || !/\.\s*style\s*\.\s*(?:display|visibility)\b/i.test(content)) {
+    if (
+      /\bsrc\s*=/i.test(attributes) ||
+      (!/\.\s*style\s*\.\s*(?:display|visibility)\b/i.test(content) && !legacyButtonFunction.test(content))
+    ) {
       continue;
     }
     let ast;
@@ -260,6 +273,19 @@ function collectRuntimePatches(source, options = {}) {
       if (!node || typeof node !== "object") return;
       if (Array.isArray(node)) {
         for (const child of node) visit(child);
+        return;
+      }
+
+      if (
+        node.type === "FunctionDeclaration" &&
+        /^(?:Func|Nav)Btn(?:Over|Out|Down)$/i.test(node.id?.name || "")
+      ) {
+        localPatches.push({
+          end: node.end,
+          start: node.start,
+          value: `function ${node.id.name}() {}`,
+        });
+        stats.buttonFunctions += 1;
         return;
       }
 
@@ -383,17 +409,27 @@ function addClasses(tag, classes) {
 }
 
 function addAttribute(tag, name, value) {
-  if (new RegExp(`\\s${name}\\s*=`, "i").test(tag)) return tag;
+  if (new RegExp(`\\s${name}(?:\\s*=|\\s|/?>)`, "i").test(tag)) return tag;
   return tag.replace(/(\s*\/?\s*>)$/, (closing) =>
     ` ${name}="${escapeAttribute(value)}"${closing}`,
   );
+}
+
+function removeAttribute(tag, name) {
+  const attribute = new RegExp(`\\s+${name}\\s*=\\s*(?:"[^"]*"|'[^']*'|[^\\s>]+)`, "i");
+  return tag.replace(attribute, "");
+}
+
+function ensureCloseButtonSpans(content) {
+  const spans = (content.match(/<span\b/gi) || []).length;
+  return content + "<span></span>".repeat(Math.max(0, 4 - spans));
 }
 
 function removeLegacyButtonHandlers(tag) {
   const eventAttributes = /\s+(onfocus|onblur|onmouseover|onmouseout|onmousedown|onmouseup)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi;
   return tag.replace(eventAttributes, (attribute, _name, doubleQuoted, singleQuoted, unquoted) => {
     const value = String(doubleQuoted ?? singleQuoted ?? unquoted ?? "").trim();
-    return /^FuncBtn(?:Over|Out|Down)\s*\(\s*this\s*\)\s*;?$/i.test(value) ? "" : attribute;
+    return /^(?:Func|Nav)Btn(?:Over|Out|Down)\s*\(\s*this\s*\)\s*;?$/i.test(value) ? "" : attribute;
   });
 }
 
@@ -415,6 +451,10 @@ function transformOpenTag(tag, file, counters) {
   }
 
   const classesBeforeButtons = readTagAttribute(next, "class").split(/\s+/);
+  const onclick = readTagAttribute(next, "onclick");
+  const isWindowClose = /\bwindow\.close\s*\(\s*\)/i.test(onclick);
+  const hasCloseMarker = /\sdata-hp-close(?:\s*=|\s|>)/i.test(next);
+  const isCloseButton = isWindowClose || hasCloseMarker;
   const isShortAnswerField = tagName === "textarea" && classesBeforeButtons.includes("ShortAnswerBox");
   const hasAccessibleName = ["aria-label", "aria-labelledby", "title"].some((attribute) =>
     readTagAttribute(next, attribute).trim(),
@@ -432,6 +472,20 @@ function transformOpenTag(tag, file, counters) {
   const isButton = tagName === "button" || (tagName === "input" && ["button", "submit", "reset"].includes(inputType));
   if (isButton) {
     classes.push("hp-button");
+    if (isCloseButton) {
+      classes.push("btn-74");
+      if (isWindowClose) next = removeAttribute(next, "onclick");
+      next = addAttribute(next, "data-hp-close", "");
+      next = replaceAttribute(next, "aria-label", "Close");
+      next = replaceAttribute(next, "data-hp-tooltip", "Close this exercise.");
+      next = replaceAttribute(next, "aria-description", "Close this exercise.");
+      if (isWindowClose || !classesBeforeButtons.includes("btn-74") || !hasCloseMarker) {
+        counters.closeButtons += 1;
+      }
+    } else if (classesBeforeButtons.some((name) => /^FuncButton(?:Up|Down)?$/i.test(name))) {
+      classes.push("btn-17");
+      if (!classesBeforeButtons.includes("btn-17")) counters.animatedButtons += 1;
+    }
     counters.buttons += 1;
     const before = next;
     next = removeLegacyButtonHandlers(next);
@@ -443,9 +497,64 @@ function transformOpenTag(tag, file, counters) {
 }
 
 function transformMarkup(source, file) {
-  const counters = { answerFields: 0, buttons: 0, legacyHandlers: 0, styleAttributes: 0 };
-  const protectedOrTag = /<!--[\s\S]*?-->|<(script|style|textarea)\b[^>]*>[\s\S]*?<\/\1\s*>|<![^>]*>|<\/?[A-Za-z][^<>]*>/gi;
-  const next = source.replace(protectedOrTag, (token) => {
+  const counters = {
+    answerFields: 0,
+    adsMoved: 0,
+    animatedButtons: 0,
+    buttons: 0,
+    closeButtons: 0,
+    closeLinks: 0,
+    emptyFeedbackPanelsHidden: 0,
+    horizontalRules: 0,
+    legacyHandlers: 0,
+    styleAttributes: 0,
+    titleHeadingsNormalized: 0,
+    titlePanelsWrapped: 0,
+  };
+  const protectedOrTag = /<!--[\s\S]*?-->|<(script|style|textarea)\b[^>]*>[\s\S]*?<\/\1\s*>|<a\b[^>]*>[\s\S]*?<\/a\s*>|<button\b[^>]*>[\s\S]*?<\/button\s*>|<![^>]*>|<\/?[A-Za-z][^<>]*>/gi;
+  let next = source.replace(protectedOrTag, (token) => {
+    if (/^<hr\b/i.test(token)) {
+      counters.horizontalRules += 1;
+      return "";
+    }
+    if (/^<a\b/i.test(token)) {
+      const openTag = token.match(/^<a\b[^>]*>/i)?.[0];
+      const closeTarget = readTagAttribute(openTag || "", "href");
+      if (!/^\s*javascript\s*:\s*window\.close\s*\(\s*\)\s*;?\s*$/i.test(closeTarget)) {
+        return token;
+      }
+
+      const preservedAttributes = (openTag || "")
+        .replace(/^<a\b/i, "")
+        .replace(/>$/, "")
+        .replace(
+          /\s+(?:href|target|rel|download|ping|hreflang|referrerpolicy|on[a-z]+)\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi,
+          "",
+        );
+      const contentStart = openTag.length;
+      const closingTag = token.match(/<\/a\s*>$/i)?.[0] || "</a>";
+      const contentEnd = token.length - closingTag.length;
+      const content = token.slice(contentStart, contentEnd);
+      const buttonTag = transformOpenTag(
+        `<button${preservedAttributes} type="button" data-hp-close>`,
+        file,
+        counters,
+      );
+      counters.closeLinks += 1;
+      return `${buttonTag}${ensureCloseButtonSpans(content)}</button>`;
+    }
+    if (/^<button\b/i.test(token)) {
+      const openTag = token.match(/^<button\b[^>]*>/i)?.[0];
+      const closingTag = token.match(/<\/button\s*>$/i)?.[0] || "</button>";
+      const contentStart = openTag.length;
+      const contentEnd = token.length - closingTag.length;
+      const originalClose =
+        /\sdata-hp-close(?:\s*=|\s|>)/i.test(openTag) ||
+        /\bwindow\.close\s*\(\s*\)/i.test(readTagAttribute(openTag, "onclick"));
+      const buttonTag = transformOpenTag(openTag, file, counters);
+      const content = token.slice(contentStart, contentEnd);
+      return `${buttonTag}${originalClose ? ensureCloseButtonSpans(content) : content}${closingTag}`;
+    }
     if (/^<textarea\b/i.test(token)) {
       const openingEnd = token.indexOf(">") + 1;
       return `${transformOpenTag(token.slice(0, openingEnd), file, counters)}${token.slice(openingEnd)}`;
@@ -453,7 +562,129 @@ function transformMarkup(source, file) {
     if (/^<!--|^<script\b|^<style\b|^<!/i.test(token)) return token;
     return transformOpenTag(token, file, counters);
   });
+  next = hideEmptyGuessDivs(next, file, counters);
+  next = normalizeExerciseTitleHeadings(next, file, counters);
+  next = wrapTitleWithInstructions(next, file, counters);
   return { source: next, counters };
+}
+
+function hideEmptyGuessDivs(source, file, counters) {
+  const openings = [...source.matchAll(/<div\b(?=[^>]*\bid\s*=\s*(["'])GuessDiv\1)[^>]*>/gi)];
+  if (!openings.length) return source;
+  if (openings.length !== 1) throw new Error(`${file}: multiple GuessDiv panels are ambiguous`);
+
+  const opening = openings[0];
+  const end = findMatchingDivEnd(source, opening);
+  if (end < 0) throw new Error(`${file}: cannot safely locate the GuessDiv boundary`);
+  const block = source.slice(opening.index, end);
+  const closing = /<\/div\s*>$/i.exec(block);
+  if (!closing) throw new Error(`${file}: cannot locate the GuessDiv closing tag`);
+  const contentStart = opening.index + opening[0].length;
+  const contentEnd = end - closing[0].length;
+  const content = source.slice(contentStart, contentEnd);
+  if (!/^(?:\s|<!--[\s\S]*?-->)*$/.test(content)) return source;
+
+  const nextOpening = addClasses(opening[0], ["hp-display-none"]);
+  const cleanContent = content.replace(/<!--[\s\S]*?-->|[\t\r\n\f ]+/g, (token) =>
+    token.startsWith("<!--") ? token : "",
+  );
+  if (nextOpening !== opening[0] || cleanContent !== content) counters.emptyFeedbackPanelsHidden += 1;
+  return `${source.slice(0, opening.index)}${nextOpening}${cleanContent}${source.slice(contentEnd)}`;
+}
+
+function normalizeExerciseTitleHeadings(source, file, counters) {
+  const protectedMarkup = /<!--[\s\S]*?-->|<(script|style|textarea)\b[^>]*>[\s\S]*?<\/\1\s*>/gi;
+  const visible = source.replace(protectedMarkup, (token) => " ".repeat(token.length));
+  const openingPattern = /<h([2-6])\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bExerciseTitle\b[^"']*\2)[^>]*>/gi;
+  const edits = [];
+
+  for (const opening of visible.matchAll(openingPattern)) {
+    const level = opening[1];
+    const closingPattern = new RegExp(`</h${level}\\s*>`, "gi");
+    closingPattern.lastIndex = opening.index + opening[0].length;
+    const closing = closingPattern.exec(visible);
+    if (!closing) throw new Error(`${file}: exercise title heading has no matching close tag`);
+    edits.push({ index: opening.index, originalLength: opening[0].length, value: opening[0].replace(/^<h[2-6]/i, "<h1") });
+    edits.push({ index: closing.index, originalLength: closing[0].length, value: "</h1>" });
+  }
+
+  for (const edit of edits.sort((left, right) => right.index - left.index)) {
+    source = `${source.slice(0, edit.index)}${edit.value}${source.slice(edit.index + edit.originalLength)}`;
+  }
+  counters.titleHeadingsNormalized += edits.length / 2;
+  return source;
+}
+
+function findMatchingDivEnd(source, openingMatch) {
+  const tags = /<!--[\s\S]*?-->|<script\b[^>]*>[\s\S]*?<\/script\s*>|<style\b[^>]*>[\s\S]*?<\/style\s*>|<\/?div\b[^>]*>/gi;
+  tags.lastIndex = openingMatch.index + openingMatch[0].length;
+  let depth = 1;
+  let match;
+  while ((match = tags.exec(source))) {
+    if (match[0].startsWith("<!--") || /^<(?:script|style)\b/i.test(match[0])) continue;
+    if (/^<\//.test(match[0])) depth -= 1;
+    else if (!/\/\s*>$/.test(match[0])) depth += 1;
+    if (depth === 0) return tags.lastIndex;
+  }
+  return -1;
+}
+
+function wrapTitleWithInstructions(source, file, counters) {
+  const titlePattern = /<div\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bTitles\b[^"']*\1)[^>]*>/gi;
+  const instructionPattern = /<div\b(?=[^>]*\bid\s*=\s*(["'])InstructionsDiv\1)[^>]*>/gi;
+  const titles = [...source.matchAll(titlePattern)];
+  const instructions = [...source.matchAll(instructionPattern)];
+
+  if (titles.length !== 1 || instructions.length !== 1) {
+    throw new Error(
+      `${file}: expected one title and one instruction panel; found ${titles.length} title and ${instructions.length} instruction panels`,
+    );
+  }
+
+  const title = titles[0];
+  const instruction = instructions[0];
+  const titleEnd = findMatchingDivEnd(source, title);
+  const instructionEnd = findMatchingDivEnd(source, instruction);
+  if (titleEnd < 0 || instructionEnd < 0 || titleEnd > instruction.index || instructionEnd <= instruction.index) {
+    throw new Error(`${file}: cannot safely locate the title and instruction panel boundaries`);
+  }
+
+  const wrapperPattern = /<div\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bhp-instructions-panel\b[^"']*\1)[^>]*>/gi;
+  const existingWrappers = [...source.matchAll(wrapperPattern)];
+  if (existingWrappers.length > 1) {
+    throw new Error(`${file}: multiple instruction panel wrappers are ambiguous`);
+  }
+  if (existingWrappers.length === 1) {
+    const wrapper = existingWrappers[0];
+    const wrapperEnd = findMatchingDivEnd(source, wrapper);
+    if (
+      wrapperEnd >= 0 &&
+      wrapper.index < title.index &&
+      wrapper.index < instruction.index &&
+      wrapperEnd >= instructionEnd
+    ) {
+      counters.titlePanelsWrapped += 1;
+      return source;
+    }
+    throw new Error(`${file}: existing instruction panel wrapper does not contain its title and instructions`);
+  }
+
+  const between = source.slice(titleEnd, instruction.index);
+  const movedAds = [];
+  const cleanBetween = between.replace(
+    /(?:\s*<!--[\t \r\n]*ResponsiveIndex[^>]*-->[\t \r\n]*)?<ins\b(?=[^>]*\bdata-ad-(?:client|slot)\s*=)[^>]*>[\s\S]*?<\/ins\s*>/gi,
+    (ad) => {
+      movedAds.push(ad);
+      return "";
+    },
+  );
+  if (!/^(?:\s|<!--[\s\S]*?-->)*$/.test(cleanBetween)) {
+    throw new Error(`${file}: title and instructions are separated by unmatched markup`);
+  }
+
+  counters.adsMoved += movedAds.length;
+  counters.titlePanelsWrapped += 1;
+  return `${source.slice(0, title.index)}${movedAds.join("")}<div class="hp-instructions-panel">${source.slice(title.index, titleEnd)}${cleanBetween}${source.slice(instruction.index, instructionEnd)}</div>${source.slice(instructionEnd)}`;
 }
 
 function removeManagedScriptTags(source) {
@@ -520,16 +751,102 @@ function extractHeadStyleBlocks(source) {
   return [...head.matchAll(/<style\b[^>]*>[\s\S]*?<\/style\s*>/gi)].map(([block]) => block);
 }
 
+function replaceAttribute(tag, name, value) {
+  const attribute = new RegExp(`\\s${name}\\s*=\\s*(?:"[^"]*"|'[^']*'|[^\\s>]+)`, "i");
+  if (!attribute.test(tag)) return addAttribute(tag, name, value);
+  return tag.replace(attribute, ` ${name}="${escapeAttribute(value)}"`);
+}
+
+function buttonLabelDetails(rawLabel, openingTag) {
+  const label = String(rawLabel)
+    .replace(/&nbsp;|&#160;|&#x0*a0;/gi, " ")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&amp;/gi, "&")
+    .replace(/\s+/g, " ")
+    .trim();
+  const click = readTagAttribute(openingTag, "onclick");
+
+  if (/^show\s+all(?:\s+questions)?$/i.test(label)) {
+    return { label: "All", tooltip: "Show all questions at once." };
+  }
+  if (/^show\s+(?:questions\s+)?one(?:\s+by\s+one)?$/i.test(label)) {
+    return { label: "One", tooltip: "Show one question at a time." };
+  }
+  if (/^show\s+answers?$/i.test(label) || /^answers?$/i.test(label)) {
+    return { label: "Answers", tooltip: "Reveal the correct answer. Revealed answers count as incorrect." };
+  }
+  if (/^check$/i.test(label)) return { label: "Check", tooltip: "Check your answer." };
+  if (/^hint$/i.test(label)) return { label: "Hint", tooltip: "Reveal the next clue." };
+  if (/^undo$/i.test(label)) return { label: "Undo", tooltip: "Undo your last change." };
+  if (/^(?:restart|reset)$/i.test(label)) return { label: "Restart", tooltip: "Start this exercise again." };
+  if (/^(?:<=|&lt;=|prev(?:ious)?)$/i.test(label)) {
+    return { label: "Previous", tooltip: /ChangeQ\s*\(\s*-1/i.test(click) ? "Show the previous question." : "Open the previous exercise." };
+  }
+  if (/^(?:=>|=&gt;|next)$/i.test(label)) {
+    return { label: "Next", tooltip: /ChangeQ\s*\(\s*1/i.test(click) ? "Show the next question." : "Open the next exercise." };
+  }
+  const progressNext = /^(\d+)\s+of\s+(\d+)\s+next$/i.exec(label);
+  if (progressNext) {
+    return {
+      label: "Next",
+      tooltip: `Open the next exercise. This is ${progressNext[1]} of ${progressNext[2]}.`,
+    };
+  }
+  if (/^close$/i.test(label)) return { label: "Close", tooltip: "Close this exercise." };
+  if (/^ok$/i.test(label)) return { label: "OK", tooltip: "Close this message." };
+  return null;
+}
+
+function normalizeButtonLabels(source) {
+  let next = source.replace(/<button\b([^>]*)>([\s\S]*?)<\/button\s*>/gi, (whole, attributes, content) => {
+    const originalTag = `<button${attributes}>`;
+    const openingTag = readTagAttribute(originalTag, "type").trim()
+      ? originalTag
+      : replaceAttribute(originalTag, "type", "button");
+    if (/<[a-z!/][^>]*>/i.test(content)) return `${openingTag}${content}</button>`;
+    const details = buttonLabelDetails(content, openingTag);
+    if (!details) return whole;
+    const currentLabel = content.replace(/\s+/g, " ").trim();
+    const existingLabel = readTagAttribute(openingTag, "aria-label").trim();
+    const existingTooltip = readTagAttribute(openingTag, "data-hp-tooltip").trim();
+    const tooltip = currentLabel === details.label && existingLabel === details.label && existingTooltip
+      ? existingTooltip
+      : details.tooltip;
+    let nextTag = replaceAttribute(openingTag, "aria-label", details.label);
+    nextTag = replaceAttribute(nextTag, "data-hp-tooltip", tooltip);
+    nextTag = replaceAttribute(nextTag, "aria-description", tooltip);
+    return `${nextTag}${details.label}</button>`;
+  });
+  next = next.replace(/<input\b[^>]*>/gi, (tag) => {
+    const inputType = readTagAttribute(tag, "type").toLowerCase();
+    if (!["button", "submit", "reset"].includes(inputType)) return tag;
+    const value = readTagAttribute(tag, "value");
+    const details = buttonLabelDetails(value, tag);
+    if (!details) return tag;
+    const existingLabel = readTagAttribute(tag, "aria-label").trim();
+    const existingTooltip = readTagAttribute(tag, "data-hp-tooltip").trim();
+    const tooltip = value.replace(/\s+/g, " ").trim() === details.label && existingLabel === details.label && existingTooltip
+      ? existingTooltip
+      : details.tooltip;
+    let normalized = replaceAttribute(tag, "value", details.label);
+    normalized = replaceAttribute(normalized, "aria-label", details.label);
+    normalized = replaceAttribute(normalized, "data-hp-tooltip", tooltip);
+    return replaceAttribute(normalized, "aria-description", tooltip);
+  });
+  next = next
+    .replace(/(ShowAllQuestionsCaption\s*=\s*["'])Show all(?: questions)?(["'])/gi, "$1All$2")
+    .replace(/(ShowOneByOneCaption\s*=\s*["'])Show (?:questions )?one(?: by one)?(["'])/gi, "$1One$2");
+  return next;
+}
+
 function normalizePage(page, options) {
   const { root, cssIntegrity, uiIntegrity, storyIntegrity } = options;
   const originalStyles = extractHeadStyleBlocks(page.source);
   const runtime = collectRuntimePatches(page.source, { file: page.relative });
   let source = applyPatches(page.source, runtime.patches);
   const markup = transformMarkup(source, page.relative);
-  source = markup.source
-    .replace(/Show all questions/gi, "Show all")
-    .replace(/Show questions one by one/gi, "Show one")
-    .replace(/Show Answer\b/gi, "Show answers");
+  source = normalizeButtonLabels(markup.source);
   source = removeManagedScriptTags(source);
   source = injectAssets(source, {
     cssIntegrity,
@@ -577,15 +894,40 @@ function summarize(plans, inventory, apply) {
   const changed = plans.filter((plan) => plan.updated !== plan.source);
   const totals = changed.reduce(
     (result, plan) => {
+      result.adsMoved += plan.result.counters.adsMoved;
       result.answerFields += plan.result.counters.answerFields;
+      result.animatedButtons += plan.result.counters.animatedButtons;
       result.styleAttributes += plan.result.counters.styleAttributes;
       result.buttons += plan.result.counters.buttons;
+      result.closeButtons += plan.result.counters.closeButtons;
+      result.closeLinks += plan.result.counters.closeLinks;
+      result.emptyFeedbackPanelsHidden += plan.result.counters.emptyFeedbackPanelsHidden;
+      result.horizontalRules += plan.result.counters.horizontalRules;
       result.legacyHandlers += plan.result.counters.legacyHandlers;
+      result.runtimeButtonFunctions += plan.result.stats.buttonFunctions;
       result.runtimeReads += plan.result.stats.reads;
       result.runtimeWrites += plan.result.stats.writes;
+      result.titleHeadingsNormalized += plan.result.counters.titleHeadingsNormalized;
+      result.titlePanelsWrapped += plan.result.counters.titlePanelsWrapped;
       return result;
     },
-    { answerFields: 0, buttons: 0, legacyHandlers: 0, runtimeReads: 0, runtimeWrites: 0, styleAttributes: 0 },
+    {
+      adsMoved: 0,
+      answerFields: 0,
+      animatedButtons: 0,
+      buttons: 0,
+      closeButtons: 0,
+      closeLinks: 0,
+      emptyFeedbackPanelsHidden: 0,
+      horizontalRules: 0,
+      legacyHandlers: 0,
+      runtimeButtonFunctions: 0,
+      runtimeReads: 0,
+      runtimeWrites: 0,
+      styleAttributes: 0,
+      titleHeadingsNormalized: 0,
+      titlePanelsWrapped: 0,
+    },
   );
 
   console.log(`Mode: ${apply ? "APPLY" : "DRY-RUN"}`);
@@ -593,12 +935,21 @@ function summarize(plans, inventory, apply) {
   console.log(`Pages with companion stories: ${inventory.pages.filter((page) => page.story).length}`);
   console.log(`Unmapped companion stories: ${inventory.unmapped.length}`);
   console.log(`Ambiguous Hot Potatoes files: ${inventory.ambiguous.length}`);
+  console.log(`Interstitial ad slots moved before instruction panels: ${totals.adsMoved}`);
   if (inventory.skippedBackups.length) console.log(`Saved -bu copies excluded: ${inventory.skippedBackups.length}`);
   console.log(`Would change: ${changed.length} pages`);
   console.log(`Inline style attributes: ${totals.styleAttributes}`);
   console.log(`ShortAnswer fields given accessible names: ${totals.answerFields}`);
   console.log(`Buttons normalized: ${totals.buttons}`);
+  console.log(`Animated functional buttons normalized: ${totals.animatedButtons}`);
+  console.log(`Special Close buttons normalized: ${totals.closeButtons}`);
+  console.log(`JavaScript Close links migrated to buttons: ${totals.closeLinks}`);
+  console.log(`Empty feedback panels hidden until feedback: ${totals.emptyFeedbackPanelsHidden}`);
+  console.log(`Horizontal rules removed: ${totals.horizontalRules}`);
+  console.log(`Title heading levels normalized to h1: ${totals.titleHeadingsNormalized}`);
+  console.log(`Titles moved into instruction panels: ${totals.titlePanelsWrapped}`);
   console.log(`Legacy hover handlers removed: ${totals.legacyHandlers}`);
+  console.log(`Legacy runtime button-state functions neutralized: ${totals.runtimeButtonFunctions}`);
   console.log(`Runtime visibility reads migrated: ${totals.runtimeReads}`);
   console.log(`Runtime visibility writes migrated: ${totals.runtimeWrites}`);
   for (const item of inventory.unmapped.slice(0, 24)) console.log(`  Unmapped story: ${item}`);
@@ -631,7 +982,7 @@ function main(argv = process.argv.slice(2)) {
     return 2;
   }
 
-  const scanned = scanTargets(args.root);
+  const scanned = scanTargets(args.root, args.scopes.length ? args.scopes : ROOTS);
   const inventory = {
     ...scanned,
     unmapped: scanned.pages.filter((page) => !page.story).map((page) => page.relative),
