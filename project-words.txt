@@ -6,6 +6,7 @@ cfat
 CMYK
 cqi
 Fic
+fontxz
 GCMD
 HSL
 HSV
@@ -14,9 +15,11 @@ Jvdm
 lcidely
 Linh
 locutus
+logfile
 Lywvvln
 lzpuf
 ndy
+OOM
 Pantone
 phpmyadmin
 pmahomme
@@ -24,6 +27,7 @@ postflight
 predeclared
 purp
 RAL
+rebrands
 rghtalgn
 ricepaper
 roughcloth
@@ -32,12 +36,14 @@ rtlcssrc
 rusttan
 Smx
 tablesorter
+textsf
 tracekit
 uitablefilter
 Vhp
 vovabulary
 Vsk
 wdz
+WSL
 Xtk
 Yhq
 Ykp

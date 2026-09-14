@@ -40,6 +40,7 @@ It’s fast, memory‑friendly, and produces a clear digest of what changed.
       3. [3) One-off run with **inline** pairs (no map file)](#3-one-off-run-with-inline-pairs-no-map-file)
    9. [Sample digest (dry-run)](#sample-digest-dry-run)
    10. [Troubleshooting](#troubleshooting)
+   11. [Running the Hot Potatoes Page Modernizer](#running-the-hot-potatoes-page-modernizer)
 
 ---
 
@@ -253,3 +254,99 @@ SUMMARY: No files changed (dry-run). Re-run with -e to apply, or add -b .bak to 
 - **“No mapping entries loaded”** → Provide `-m` or `-i`, or create `scripts/domains.map`.
 - **OOM / “Killed”** → Narrow scope with `-r`, a tighter `-E`, and more `-x` excludes.
 - **Wrong paths** → Ensure `-r` points at your **actual webroot** (varies by OS/hosting/web server).
+
+## Running the Hot Potatoes Page Modernizer
+
+Run these commands from the repository root with the Node version specified in
+`package.json` and project dependencies installed.
+
+Preview the B1 (`begin1`) migration first. Dry-run is read-only:
+
+```bash
+node scripts/modernize-hot-potatoes-pages.cjs --dry-run --scope begin1
+```
+
+To preview every configured directory, omit `--scope`:
+
+```bash
+node scripts/modernize-hot-potatoes-pages.cjs --dry-run
+```
+
+Every run re-evaluates every identified page, including pages touched by an
+earlier attempt. It compares each endpoint with its family prototype and
+reports `PASS`, `UPDATE`, or `BLOCKED`; a version comment never skips the
+comparison. The comment records the modernization version, family, prototype,
+and companion story. Bump `CURRENT_MODERNIZATION_VERSION` whenever the target
+contract changes.
+
+The selected prototypes are `begin5/cloze/b5cloze008.html` for cloze,
+`begin1/dict/b1d001.html` for dictation, `begin1/sent/b1mx00101.html` for
+sentence scramble, and `begin1/cloze/b1cloze001.html` for the shared Hot
+Potatoes contract. The `story` value in each page comment identifies its
+paired story, such as `begin1/b1/b1001.html`; it is the source for that page's
+dynamic title and theme. The audit checks the prototype's required structure
+and assets against every target, then plans safe family-specific asset and
+presentation updates. Known family variations are normalized only when their
+full expected structure is present; for example, the dictation scanner repairs
+the verified legacy `supereasy/dict/se_d039.html` outer `cenmar` shell while
+preserving its nested Close footer. Missing required structure, unresolved
+stories, and other unsafe differences are reported as prototype anomalies and
+block apply.
+
+Only `--apply` writes exercise pages. `PASS` means the current page already
+matches its prototype and required assets. `UPDATE` means the dry-run produced
+a validated normalized page. `BLOCKED` means a prototype anomaly or unresolved
+mapping needs review; apply refuses the entire run while any such anomaly
+remains. Review those counts and the listed samples before applying.
+
+Review the page count, proposed changes, unmapped companion stories, ambiguous
+pages, and diagnostics. Apply the same scope only after reviewing that output:
+
+```bash
+node scripts/modernize-hot-potatoes-pages.cjs --apply --scope begin1
+```
+
+The default apply limit is 50 changed pages. If the reviewed dry-run reports
+more than 50 changes, include `--allow-bulk` with that same explicit scope:
+
+```bash
+node scripts/modernize-hot-potatoes-pages.cjs --apply --scope begin1 --allow-bulk
+```
+
+`--allow-bulk` approves the entire planned `begin1` scope in one run; it does
+not apply 50 pages and then continue with the next 50. The CLI has no page
+offset or batch-size option.
+
+To apply the entire configured directory set, first review the full dry-run
+above, then name every scope explicitly. This is one bulk operation across all
+listed roots, not a series of 50-page batches:
+
+```bash
+node scripts/modernize-hot-potatoes-pages.cjs --apply --allow-bulk \
+  --scope begin1 \
+  --scope begin2 \
+  --scope begin3 \
+  --scope begin4 \
+  --scope begin5 \
+  --scope begin6 \
+  --scope easyread \
+  --scope eslread \
+  --scope essays \
+  --scope kidsenglish \
+  --scope kidsenglish2 \
+  --scope kidsenglish3 \
+  --scope people \
+  --scope supereasy \
+  --scope writing
+```
+
+Apply repeats the preflight, refuses ambiguous or unmapped pages, verifies
+backups before writing, and rolls back a failed batch. Keep its printed backup
+directory until postflight checks pass. Run the regression suite afterward:
+
+```bash
+npm run test:modernize:hot-potatoes
+```
+
+See [the Hot Potatoes modernization and recovery procedure](docs/moderate-hot-potatoes.md)
+for the full backup, restore, and SRI workflow.

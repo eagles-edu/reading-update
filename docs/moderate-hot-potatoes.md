@@ -23,8 +23,39 @@ both `--allow-bulk` and one or more explicit `--scope` arguments. Each target is
 checked again immediately before replacement; writes use same-directory
 temporary files and atomic renames, and a failed batch restores already-written
 pages from the verified backups. The transformation also names generated
-ShortAnswer fields that lack an accessible name. It is idempotent. A different
-checkout can be scanned with `node scripts/modernize-hot-potatoes-pages.cjs
+ShortAnswer fields that lack an accessible name. Every run re-evaluates all
+identified pages, including pages touched by an earlier attempt. Each endpoint
+is compared with its selected family prototype and classified `PASS`,
+`UPDATE`, or `BLOCKED`. The per-page comment records the version, family,
+prototype, and companion story. A matching comment never skips structural,
+asset, or SRI checks. Bump `CURRENT_MODERNIZATION_VERSION` whenever the target
+contract changes. Missing required structure, unresolved companion stories,
+and unsafe transformations are printed as prototype anomalies and block the
+entire apply.
+
+The checked prototypes are `begin5/cloze/b5cloze008.html` for cloze,
+`begin1/dict/b1d001.html` for dictation, `begin1/sent/b1mx00101.html` for
+sentence scramble, and `begin1/cloze/b1cloze001.html` for the shared
+Hot Potatoes contract. The companion story path (for example,
+`begin1/b1/b1001.html`) is separately checked and drives the page's title and
+theme.
+
+The normalizer handles known prototype differences without touching exercise
+answers: it converts plain title text to `h1.ExerciseTitle` and can restore an
+empty title heading from that page's own document title; it adds the current
+`.wrapfit` hook and action row to cloze pages that use the supported `.wrapit`
+shell; and it adds a current animated Close control at the wrapper footer when
+dictation or sentence pages have none. It also repairs the verified
+`supereasy/dict/se_d039.html` layout where an outer `cenmar` encloses the full
+exercise and a nested `cenmar` contains its Close control. That exception is
+accepted only when the title, instruction, main, feedback, and nested Close
+structure all match; other unexpected wrappers stay visible as anomaly alerts
+and block apply. The linked-story script still replaces the temporary heading
+text with the companion story title at runtime. The tests cover these repairs,
+SRI-managed family assets, idempotence, and the rule that a current version
+comment never suppresses a repair.
+
+A different checkout can be scanned with `node scripts/modernize-hot-potatoes-pages.cjs
 --dry-run --root PATH`. Use `--scope begin1` through `--scope begin6` to
 preflight and apply one level at a time; `--scope` can be repeated to select
 several configured roots. For example, after reviewing
@@ -39,6 +70,10 @@ node scripts/modernize-hot-potatoes-pages.cjs --apply --scope begin1 --allow-bul
 The apply gate counts changed pages, not scanned pages. `--allow-bulk` without
 an explicit scope is an error. Do not add scopes or the bulk override until the
 dry-run's changed-page count and samples have been reviewed.
+
+`--allow-bulk` approves the entire planned set for the explicit scope in one
+run. It does not apply 50 pages and queue the rest; the CLI has no page-offset
+or batch-size option. Do not treat it as a 50-page continuation flag.
 
 The scan identifies pages by Hot Potatoes metadata or the generated
 `body#TheBody` and `FuncButton` structure under the configured exercise roots.
@@ -69,8 +104,12 @@ predeclared image URLs, so the theme does not need inline style writes.
 The global theme selector stores its light/dark choice as a data attribute, and
 the shared font stylesheet applies the corresponding `color-scheme` property.
 
-The page transformer injects the shared stylesheet and scripts with current
-SRI hashes. After changing those shared assets, refresh the affected exercise
+The page transformer injects each selected prototype's shared and
+family-specific stylesheets and scripts with current SRI hashes, then stamps
+the page with the current modernization version. Cloze uses
+`css/sis-cloze-submit.css` and `js/sis-cloze-submit.js`; dictation and sentence
+scramble use `css/sis-exercise-layout.css`, `css/sis-cloze-submit.css`, and
+`js/sis-exercise-submit.js`. After changing those shared assets, refresh the affected exercise
 and story page references with the SRI tooling, then verify the exact affected
 page set rather than rehashing hidden backups or unrelated legacy pages.
 The SRI watcher tracks `css/`, `style/`, and `js/` assets. A watcher process

@@ -8,6 +8,7 @@ const { createBackupManager } = require("./write-backup.cjs");
 
 const DEFAULT_ROOT = path.resolve(__dirname, "..");
 const MAX_SAFE_APPLY_PAGES = 50;
+const CURRENT_MODERNIZATION_VERSION = "2026-09-14.3";
 const ROOTS = Object.freeze([
   "begin1",
   "begin2",
@@ -30,6 +31,64 @@ const SHARED_UI = "js/hot-potatoes-ui.js";
 const FEEDBACK_CSS = "css/hot-potatoes-feedback.css";
 const FEEDBACK_UI = "js/hot-potatoes-feedback.js";
 const STORY_THEME = "js/story-theme.js";
+const PAGE_PROFILES = Object.freeze({
+  shared: Object.freeze({
+    family: "shared",
+    prototype: "begin1/cloze/b1cloze001.html",
+    required: ["body#TheBody", ".hp-instructions-panel", "h1.ExerciseTitle", "#InstructionsDiv", "#MainDiv", ".btn-74"],
+    assets: [
+      ["link", SHARED_CSS],
+      ["script", SHARED_UI],
+      ["link", FEEDBACK_CSS],
+      ["script", FEEDBACK_UI],
+      ["script", STORY_THEME],
+    ],
+  }),
+  cloze: Object.freeze({
+    family: "cloze",
+    prototype: "begin5/cloze/b5cloze008.html",
+    required: ["body#TheBody", "body#TheBody > .wrapfit", ".hp-instructions-panel", "h1.ExerciseTitle", "#InstructionsDiv", "#MainDiv", "#ClozeDiv", "#FeedbackDiv"],
+    assets: [
+      ["link", SHARED_CSS],
+      ["script", SHARED_UI],
+      ["link", FEEDBACK_CSS],
+      ["script", FEEDBACK_UI],
+      ["script", STORY_THEME],
+      ["link", "css/sis-cloze-submit.css"],
+      ["script", "js/sis-cloze-submit.js"],
+    ],
+  }),
+  dict: Object.freeze({
+    family: "dict",
+    prototype: "begin1/dict/b1d001.html",
+    required: ["body#TheBody", "body#TheBody > .exercise-wrapper", ".hp-instructions-panel", "h1.ExerciseTitle", "#InstructionsDiv", "#MainDiv", "#FeedbackDiv", ".btn-74"],
+    assets: [
+      ["link", SHARED_CSS],
+      ["script", SHARED_UI],
+      ["link", FEEDBACK_CSS],
+      ["script", FEEDBACK_UI],
+      ["script", STORY_THEME],
+      ["link", "css/sis-exercise-layout.css"],
+      ["link", "css/sis-cloze-submit.css"],
+      ["script", "js/sis-exercise-submit.js", "dict"],
+    ],
+  }),
+  sent: Object.freeze({
+    family: "sent",
+    prototype: "begin1/sent/b1mx00101.html",
+    required: ["body#TheBody", "body#TheBody > .exercise-wrapper", ".hp-instructions-panel", "h1.ExerciseTitle", "#InstructionsDiv", "#MainDiv", "#FeedbackDiv", ".btn-74"],
+    assets: [
+      ["link", SHARED_CSS],
+      ["script", SHARED_UI],
+      ["link", FEEDBACK_CSS],
+      ["script", FEEDBACK_UI],
+      ["script", STORY_THEME],
+      ["link", "css/sis-exercise-layout.css"],
+      ["link", "css/sis-cloze-submit.css"],
+      ["script", "js/sis-exercise-submit.js", "sent"],
+    ],
+  }),
+});
 const STYLE_CLASS = Object.freeze({
   "display:none": "hp-display-none",
   "display:block": "hp-display-block",
@@ -39,6 +98,128 @@ const STYLE_CLASS = Object.freeze({
 });
 const MANAGED_ASSETS_RE = /(?:\r?\n)?[ \t]*<!--[ \t]*HOT POTATOES MODERNIZATION ASSETS START[ \t]*-->[\s\S]*?<!--[ \t]*HOT POTATOES MODERNIZATION ASSETS END[ \t]*-->[ \t]*(?:\r?\n)?/i;
 const MANAGED_STYLES_RE = /(?:\r?\n)?[ \t]*<!--[ \t]*HOT POTATOES MODERNIZATION STYLES START[ \t]*-->[\s\S]*?<!--[ \t]*HOT POTATOES MODERNIZATION STYLES END[ \t]*-->[ \t]*(?:\r?\n)?/i;
+const MODERNIZATION_VERSION_RE = /[ \t]*<!--[ \t]*HOT POTATOES MODERNIZATION VERSION:[ \t]*([^\r\n]*?)[ \t]*-->[ \t]*(?:\r?\n)?/gi;
+const PROTOTYPE_VALIDATION_CACHE = new Map();
+
+function modernizationProfile(page) {
+  if (page.feedbackOnly) {
+    return {
+      family: "feedback",
+      prototype: "shared-feedback-contract",
+      required: ["#FeedbackDiv", "#FeedbackContent"],
+      assets: [["link", FEEDBACK_CSS], ["script", FEEDBACK_UI]],
+    };
+  }
+  const segments = path.dirname(page.relative).split("/");
+  const directory = segments.at(-1).toLowerCase();
+  if (segments.some((segment) => /cloze/i.test(segment))) return PAGE_PROFILES.cloze;
+  if (directory === "dict") return PAGE_PROFILES.dict;
+  if (["sent", "emx", "kemx", "semx"].includes(directory)) return PAGE_PROFILES.sent;
+  return PAGE_PROFILES.shared;
+}
+
+function modernizationVersionValue(profile, story) {
+  const storyPath = story?.relative || "none";
+  return `version=${CURRENT_MODERNIZATION_VERSION}; family=${profile.family}; prototype=${profile.prototype}; story=${storyPath}`;
+}
+
+function hasCurrentModernizationVersion(source, profile, story) {
+  const markers = [...source.matchAll(MODERNIZATION_VERSION_RE)];
+  return markers.length === 1 && markers[0][1].trim() === modernizationVersionValue(profile, story);
+}
+
+function modernizationVersionComment(profile, story) {
+  return `<!-- HOT POTATOES MODERNIZATION VERSION: ${modernizationVersionValue(profile, story)} -->`;
+}
+
+function selectorPresent(source, selector) {
+  if (selector === "body#TheBody") return /<body\b[^>]*\bid\s*=\s*(["'])TheBody\1/i.test(source);
+  if (["body#TheBody > .wrapfit", "body#TheBody > .wrapit", "body#TheBody > .exercise-wrapper"].includes(selector)) {
+    const body = /<body\b[^>]*\bid\s*=\s*(["'])TheBody\1[^>]*>/i.exec(source);
+    if (!body) return false;
+    const tail = source.slice(body.index + body[0].length).replace(/^(?:\s+|<!--[\s\S]*?-->)+/, "");
+    const wrapper = /^<div\b[^>]*>/i.exec(tail);
+    if (!wrapper) return false;
+    const classes = readTagAttribute(wrapper[0], "class").split(/\s+/);
+    if (selector.endsWith(".wrapfit")) return classes.includes("wrapfit");
+    if (selector.endsWith(".wrapit")) return classes.includes("wrapit");
+    return classes.includes("wrapit") || classes.includes("wrapfit");
+  }
+  if (selector === ".hp-instructions-panel") return /\bclass\s*=\s*(["'])[^"']*\bhp-instructions-panel\b[^"']*\1/i.test(source);
+  if (selector === "h1.ExerciseTitle") return /<h1\b[^>]*\bclass\s*=\s*(["'])[^"']*\bExerciseTitle\b[^"']*\1/i.test(source);
+  if (selector === ".btn17Container") return /\bclass\s*=\s*(["'])[^"']*\bbtn17Container\b[^"']*\1/i.test(source);
+  if (selector === ".btn-74") return /\bclass\s*=\s*(["'])[^"']*\bbtn-74\b[^"']*\1/i.test(source);
+  if (/^#[\w-]+$/.test(selector)) return new RegExp(`\\bid\\s*=\\s*(["'])${selector.slice(1)}\\1`, "i").test(source);
+  return false;
+}
+
+function assetPresent(source, type, assetPath, family) {
+  const tagName = type === "link" ? "link" : "script";
+  const attributeName = type === "link" ? "href" : "src";
+  const tags = source.match(new RegExp(`<${tagName}\\b[^>]*>`, "gi")) || [];
+  return tags.some((tag) => {
+    const value = readTagAttribute(tag, attributeName).split(/[?#]/, 1)[0];
+    if (value !== assetPath && !value.endsWith(`/${path.basename(assetPath)}`)) return false;
+    if (family && readTagAttribute(tag, "data-sis-exercise-family") !== family) return false;
+    return type !== "link" || /\brel\s*=\s*(["'])[^"']*\bstylesheet\b[^"']*\1/i.test(tag);
+  });
+}
+
+function assertPrototypeContract(root, profile) {
+  if (!profile.prototype.includes("/")) return;
+  const cacheKey = `${path.resolve(root)}\u0000${profile.prototype}`;
+  if (PROTOTYPE_VALIDATION_CACHE.has(cacheKey)) {
+    const cachedError = PROTOTYPE_VALIDATION_CACHE.get(cacheKey);
+    if (cachedError) throw new Error(cachedError);
+    return;
+  }
+  const prototypePath = path.resolve(root, profile.prototype);
+  if (!fs.existsSync(prototypePath)) {
+    const message = `missing prototype ${profile.prototype}`;
+    PROTOTYPE_VALIDATION_CACHE.set(cacheKey, message);
+    throw new Error(message);
+  }
+  const prototype = fs.readFileSync(prototypePath, "utf8");
+  const missingSelectors = profile.required.filter((selector) => !selectorPresent(prototype, selector));
+  const missingAssets = profile.assets.filter(([type, assetPath, family]) => !assetPresent(prototype, type, assetPath, family));
+  if (missingSelectors.length || missingAssets.length) {
+    const details = [...missingSelectors.map((selector) => `selector ${selector}`), ...missingAssets.map(([, assetPath]) => `asset ${assetPath}`)];
+    const message = `${profile.prototype}: PROTOTYPE ANOMALY; reference contract is incomplete (${details.join(", ")})`;
+    PROTOTYPE_VALIDATION_CACHE.set(cacheKey, message);
+    throw new Error(message);
+  }
+  PROTOTYPE_VALIDATION_CACHE.set(cacheKey, "");
+}
+
+function validatePageAgainstPrototype(source, root, profile, relative) {
+  assertPrototypeContract(root, profile);
+  const missingSelectors = profile.required.filter((selector) => !selectorPresent(source, selector));
+  const missingAssets = profile.assets.filter(([type, assetPath, family]) => !assetPresent(source, type, assetPath, family));
+  if (missingSelectors.length || missingAssets.length) {
+    const details = [...missingSelectors.map((selector) => `selector ${selector}`), ...missingAssets.map(([, assetPath]) => `asset ${assetPath}`)];
+    throw new Error(`${relative}: PROTOTYPE ANOMALY against ${profile.prototype} (${details.join(", ")})`);
+  }
+}
+
+function removeModernizationVersionMarkers(source) {
+  return source.replace(MODERNIZATION_VERSION_RE, "");
+}
+
+function compactHeadSpacing(source, newline) {
+  const preserved = [];
+  const placeholders = source.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, (block) => {
+    const token = `__HOT_POTATOES_HEAD_BLOCK_${preserved.length}__`;
+    preserved.push(block);
+    return token;
+  });
+  let normalized = placeholders.replace(/^[\t ]+$/gm, "");
+  normalized = normalized.replace(/\r?\n(?:[\t ]*\r?\n){2,}/g, `${newline}${newline}`);
+  normalized = normalized.replace(/(?:[\t ]*\r?\n){2,}(?=<!--[ \t]*HOT POTATOES MODERNIZATION STYLES START)/i, newline);
+  for (let index = 0; index < preserved.length; index += 1) {
+    normalized = normalized.replace(`__HOT_POTATOES_HEAD_BLOCK_${index}__`, preserved[index]);
+  }
+  return normalized;
+}
 
 function usage() {
   console.log(
@@ -529,6 +710,7 @@ function transformMarkup(source, file) {
     legacyHandlers: 0,
     styleAttributes: 0,
     titleHeadingsNormalized: 0,
+    titleHeadingsCreated: 0,
     titlePanelsWrapped: 0,
   };
   const protectedOrTag = /<!--[\s\S]*?-->|<(script|style|textarea)\b[^>]*>[\s\S]*?<\/\1\s*>|<a\b[^>]*>[\s\S]*?<\/a\s*>|<button\b[^>]*>[\s\S]*?<\/button\s*>|<![^>]*>|<\/?[A-Za-z][^<>]*>/gi;
@@ -588,6 +770,101 @@ function transformMarkup(source, file) {
   return { source: next, counters };
 }
 
+function normalizeFamilyStructure(source, page, profile, counters) {
+  if (profile.family === "cloze") {
+    const body = /<body\b(?=[^>]*\bid\s*=\s*(["'])TheBody\1)[^>]*>/i.exec(source);
+    if (!body) throw new Error(`${page.relative}: PROTOTYPE ANOMALY; missing body#TheBody`);
+    const bodyTail = source.slice(body.index + body[0].length);
+    const leading = /^(?:(?:\s+)|(?:<!--[\s\S]*?-->))*/.exec(bodyTail)?.[0] || "";
+    const wrapper = /<div\b[^>]*>/i.exec(bodyTail.slice(leading.length));
+    if (!wrapper) throw new Error(`${page.relative}: PROTOTYPE ANOMALY; no direct body wrapper`);
+    const wrapperIndex = body.index + body[0].length + leading.length + wrapper.index;
+    const wrapperClasses = readTagAttribute(wrapper[0], "class").split(/\s+/);
+    if (!wrapperClasses.includes("wrapfit")) {
+      if (!wrapperClasses.includes("wrapit")) {
+        throw new Error(`${page.relative}: PROTOTYPE ANOMALY; expected body#TheBody > .wrapfit`);
+      }
+      source = `${source.slice(0, wrapperIndex)}${addClasses(wrapper[0], ["wrapfit"])}${source.slice(wrapperIndex + wrapper[0].length)}`;
+    }
+
+    const main = [...source.matchAll(/<div\b(?=[^>]*\bid\s*=\s*(["'])MainDiv\1)[^>]*>/gi)];
+    if (main.length !== 1) throw new Error(`${page.relative}: PROTOTYPE ANOMALY; expected one MainDiv, found ${main.length}`);
+    const mainEnd = findMatchingDivEnd(source, main[0]);
+    if (mainEnd < 0) throw new Error(`${page.relative}: PROTOTYPE ANOMALY; cannot locate MainDiv end`);
+    const mainMarkup = source.slice(main[0].index, mainEnd);
+    if (!/\bclass\s*=\s*(["'])[^"']*\bbtn17Container\b[^"']*\1/i.test(mainMarkup)) {
+      const closeLength = /<\/div\s*>$/i.exec(mainMarkup)?.[0].length || 0;
+      source = `${source.slice(0, mainEnd - closeLength)}<div class="btn17Container"></div>${source.slice(mainEnd - closeLength)}`;
+    }
+    return source;
+  }
+
+  if (!["dict", "sent"].includes(profile.family)) return source;
+  const body = /<body\b(?=[^>]*\bid\s*=\s*(["'])TheBody\1)[^>]*>/i.exec(source);
+  if (!body) throw new Error(`${page.relative}: PROTOTYPE ANOMALY; missing body#TheBody`);
+  const bodyTail = source.slice(body.index + body[0].length);
+  const leading = /^(?:(?:\s+)|(?:<!--[\s\S]*?-->))*/.exec(bodyTail)?.[0] || "";
+  const directChild = /^<div\b[^>]*>/i.exec(bodyTail.slice(leading.length));
+  if (!directChild) throw new Error(`${page.relative}: PROTOTYPE ANOMALY; no direct exercise wrapper for the Close control`);
+  let wrapperOpening = directChild[0];
+  let wrapperIndex = body.index + body[0].length + leading.length + directChild.index;
+  let wrapperClasses = readTagAttribute(wrapperOpening, "class").split(/\s+/).filter(Boolean);
+  if (!wrapperClasses.includes("wrapit") && !wrapperClasses.includes("wrapfit")) {
+    const wrapperMatch = { index: wrapperIndex, 0: wrapperOpening };
+    const wrapperEnd = findMatchingDivEnd(source, wrapperMatch);
+    if (wrapperEnd < 0) throw new Error(`${page.relative}: PROTOTYPE ANOMALY; cannot locate direct exercise wrapper`);
+    const wrapperMarkup = source.slice(wrapperIndex, wrapperEnd);
+    const idCounts = ["InstructionsDiv", "MainDiv", "FeedbackDiv"].map((id) =>
+      [...wrapperMarkup.matchAll(new RegExp(`\\bid\\s*=\\s*(["'])${id}\\1`, "gi"))].length,
+    );
+    const titleCount = [...wrapperMarkup.matchAll(/<div\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bTitles\b[^"']*\1)[^>]*>/gi)].length;
+    const closeContainers = [...wrapperMarkup.matchAll(/<div\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bcenmar\b[^"']*\1)[^>]*>/gi)];
+    const isKnownCenmarShell =
+      wrapperClasses.length === 1 &&
+      wrapperClasses[0] === "cenmar" &&
+      idCounts.every((count) => count === 1) &&
+      titleCount === 1 &&
+      closeContainers.length === 2 &&
+      closeContainers[0].index === 0 &&
+      /<button\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bbtn-74\b[^"']*\1)[^>]*>/i.test(
+        wrapperMarkup.slice(closeContainers[1].index),
+      );
+    if (!isKnownCenmarShell) {
+      throw new Error(`${page.relative}: PROTOTYPE ANOMALY; unsupported direct exercise wrapper (${wrapperClasses.join(" ") || "no class"})`);
+    }
+    const normalizedOpening = wrapperOpening.replace(/\sclass\s*=\s*(["'])[^"']*\1/i, ' class="wrapit"');
+    source = `${source.slice(0, wrapperIndex)}${normalizedOpening}${source.slice(wrapperIndex + wrapperOpening.length)}`;
+    wrapperOpening = normalizedOpening;
+  }
+
+  if (/\bclass\s*=\s*(["'])[^"']*\bbtn-74\b[^"']*\1/i.test(source)) return source;
+  if (
+    /<(?:a|button)\b[^>]*(?:href|onclick)\s*=\s*(["'])[^"']*window\.close/i.test(source) ||
+    /<(?:a|button)\b[^>]*>\s*close\s*<\//i.test(source)
+  ) {
+    throw new Error(`${page.relative}: PROTOTYPE ANOMALY; legacy Close control is not safely recognizable`);
+  }
+  const wrapperMatch = { index: wrapperIndex, 0: wrapperOpening };
+  const wrapperEnd = findMatchingDivEnd(source, wrapperMatch);
+  if (wrapperEnd < 0) throw new Error(`${page.relative}: PROTOTYPE ANOMALY; cannot locate exercise wrapper end`);
+  const closeButton = '<button class="hp-button btn-74" type="button" data-hp-close="" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise."><span></span><span></span><span></span><span></span>Close</button>';
+  const wrapperMarkup = source.slice(wrapperMatch.index, wrapperEnd);
+  const closeContainers = [...wrapperMarkup.matchAll(/<div\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bcenmar\b[^"']*\1)[^>]*>/gi)];
+  if (closeContainers.length > 1) throw new Error(`${page.relative}: PROTOTYPE ANOMALY; multiple Close containers`);
+  if (closeContainers.length === 1) {
+    const closeContainer = { index: wrapperMatch.index + closeContainers[0].index, 0: closeContainers[0][0] };
+    const closeEnd = findMatchingDivEnd(source, closeContainer);
+    if (closeEnd < 0) throw new Error(`${page.relative}: PROTOTYPE ANOMALY; cannot locate Close container end`);
+    const closeLength = /<\/div\s*>$/i.exec(source.slice(closeContainer.index, closeEnd))?.[0].length || 0;
+    source = `${source.slice(0, closeEnd - closeLength)}${closeButton}${source.slice(closeEnd - closeLength)}`;
+  } else {
+    const wrapperLength = /<\/div\s*>$/i.exec(wrapperMarkup)?.[0].length || 0;
+    source = `${source.slice(0, wrapperEnd - wrapperLength)}<div class="cenmar">${closeButton}</div>${source.slice(wrapperEnd - wrapperLength)}`;
+  }
+  counters.closeButtons += 1;
+  return source;
+}
+
 function hideEmptyGuessDivs(source, file, counters) {
   const openings = [...source.matchAll(/<div\b(?=[^>]*\bid\s*=\s*(["'])GuessDiv\1)[^>]*>/gi)];
   if (!openings.length) return source;
@@ -632,7 +909,53 @@ function normalizeExerciseTitleHeadings(source, file, counters) {
     source = `${source.slice(0, edit.index)}${edit.value}${source.slice(edit.index + edit.originalLength)}`;
   }
   counters.titleHeadingsNormalized += edits.length / 2;
+
+  const titles = [...source.matchAll(/<div\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bTitles\b[^"']*\1)[^>]*>/gi)];
+  if (titles.length !== 1) return source;
+  const title = titles[0];
+  if (/<h1\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bExerciseTitle\b[^"']*\1)/i.test(source.slice(title.index, findMatchingDivEnd(source, title)))) return source;
+  const titleEnd = findMatchingDivEnd(source, title);
+  if (titleEnd < 0) throw new Error(`${file}: cannot safely locate the title block boundary`);
+  const closing = /<\/div\s*>$/i.exec(source.slice(title.index, titleEnd));
+  if (!closing) throw new Error(`${file}: cannot locate the title block closing tag`);
+  const contentStart = title.index + title[0].length;
+  const contentEnd = titleEnd - closing[0].length;
+  const content = source.slice(contentStart, contentEnd);
+  const visibleContent = content.replace(/<!--[\s\S]*?-->/g, "").trim();
+  if (visibleContent && !/[<>]/.test(visibleContent)) {
+    const text = decodeHtmlText(visibleContent);
+    source = `${source.slice(0, contentStart)}<h1 class="ExerciseTitle">${escapeHtmlText(text)}</h1>${source.slice(contentEnd)}`;
+    counters.titleHeadingsCreated += 1;
+    return source;
+  }
+  if (visibleContent) return source;
+
+  const documentTitle = source.match(/<title\b[^>]*>([\s\S]*?)<\/title\s*>/i)?.[1];
+  if (!documentTitle) return source;
+  const fallback = decodeHtmlText(documentTitle.replace(/<[^>]*>/g, "")).trim().split(/\s*:\s*/).slice(-1)[0];
+  if (!fallback) return source;
+  source = `${source.slice(0, contentStart)}<h1 class="ExerciseTitle">${escapeHtmlText(fallback)}</h1>${source.slice(contentEnd)}`;
+  counters.titleHeadingsCreated += 1;
   return source;
+}
+
+function decodeHtmlText(value) {
+  return String(value)
+    .replace(/&nbsp;|&#160;|&#x0*a0;/gi, " ")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&amp;/gi, "&")
+    .replace(/&#x([\da-f]{1,6});/gi, (_match, hex) => String.fromCodePoint(Number.parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_match, decimal) => String.fromCodePoint(Number.parseInt(decimal, 10)));
+}
+
+function escapeHtmlText(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 function findMatchingDivEnd(source, openingMatch) {
@@ -719,7 +1042,7 @@ function removeManagedScriptTags(source) {
 }
 
 function injectAssets(source, options) {
-  const { file, root, cssIntegrity, feedbackCssIntegrity, feedbackUiIntegrity, uiIntegrity, storyIntegrity, story } = options;
+  const { file, root, cssIntegrity, feedbackCssIntegrity, feedbackUiIntegrity, uiIntegrity, storyIntegrity, story, profile } = options;
   const headMatch = source.match(/<head\b[^>]*>[\s\S]*?<\/head\s*>/i);
   if (!headMatch) throw new Error(`${path.relative(root, file)}: missing head element`);
   const openTag = headMatch[0].match(/^<head\b[^>]*>/i)?.[0];
@@ -729,10 +1052,13 @@ function injectAssets(source, options) {
   let headContent = headMatch[0].slice(openTag.length, headMatch[0].length - closeTag.length);
   headContent = headContent.replace(MANAGED_ASSETS_RE, "");
   headContent = headContent.replace(MANAGED_STYLES_RE, "");
+  headContent = headContent.replace(MODERNIZATION_VERSION_RE, "");
   headContent = headContent.replace(/<link\b[^>]*>/gi, (tag) => {
     const href = readTagAttribute(tag, "href");
     return href.endsWith("sis-hot-potatoes.css") || href.endsWith("hot-potatoes-feedback.css") ? "" : tag;
   });
+  const newline = source.includes("\r\n") ? "\r\n" : "\n";
+  headContent = compactHeadSpacing(headContent, newline);
 
   const themeHref = relativeHref(file, path.resolve(root, STORY_THEME));
   const uiHref = relativeHref(file, path.resolve(root, SHARED_UI));
@@ -740,9 +1066,9 @@ function injectAssets(source, options) {
   const feedbackUiHref = relativeHref(file, path.resolve(root, FEEDBACK_UI));
   const feedbackCssHref = relativeHref(file, path.resolve(root, FEEDBACK_CSS));
   const storyUrl = relativeHref(file, story.absolute);
-  const newline = source.includes("\r\n") ? "\r\n" : "\n";
   const assetBlock = [
     "<!-- HOT POTATOES MODERNIZATION ASSETS START -->",
+    modernizationVersionComment(profile, story),
     `<script src="${themeHref}" integrity="${storyIntegrity}" data-story-theme-key="${escapeAttribute(story.key)}" data-story-title-url="${escapeAttribute(storyUrl)}"></script>`,
     `<script src="${uiHref}" integrity="${uiIntegrity}"></script>`,
     `<script src="${feedbackUiHref}" integrity="${feedbackUiIntegrity}"></script>`,
@@ -768,6 +1094,7 @@ function injectAssets(source, options) {
   const after = headContent.slice(insertionPoint).replace(/^[\t \r\n]*/, "");
   headContent = `${before}${newline}${assetBlock}${newline}${after}`.replace(/[\t \r\n]*$/, "");
   headContent = `${headContent.replace(/[\t \r\n]*$/, "")}${newline}${styleBlock}${newline}`;
+  headContent = compactHeadSpacing(headContent, newline);
 
   const replacementHead = `${openTag}${headContent}${closeTag}`;
   return `${source.slice(0, headMatch.index)}${replacementHead}${source.slice(headMatch.index + headMatch[0].length)}`;
@@ -775,6 +1102,7 @@ function injectAssets(source, options) {
 
 function normalizeFeedbackPage(page, options) {
   const { file, root, feedbackCssIntegrity, feedbackUiIntegrity } = options;
+  const profile = modernizationProfile(page);
   let source = removeManagedScriptTags(page.source);
   const headMatch = source.match(/<head\b[^>]*>[\s\S]*?<\/head\s*>/i);
   if (!headMatch) throw new Error(`${page.relative}: missing head element`);
@@ -785,6 +1113,7 @@ function normalizeFeedbackPage(page, options) {
   let headContent = headMatch[0].slice(openTag.length, headMatch[0].length - closeTag.length);
   headContent = headContent.replace(MANAGED_ASSETS_RE, "");
   headContent = headContent.replace(MANAGED_STYLES_RE, "");
+  headContent = headContent.replace(MODERNIZATION_VERSION_RE, "");
   headContent = headContent.replace(/<link\b[^>]*>/gi, (tag) => {
     const href = readTagAttribute(tag, "href");
     return href.endsWith("hot-potatoes-feedback.css") ? "" : tag;
@@ -795,6 +1124,7 @@ function normalizeFeedbackPage(page, options) {
   const newline = source.includes("\r\n") ? "\r\n" : "\n";
   const assetBlock = [
     "<!-- HOT POTATOES MODERNIZATION ASSETS START -->",
+    modernizationVersionComment(profile, null),
     `<script src="${feedbackUiHref}" integrity="${feedbackUiIntegrity}"></script>`,
     "<!-- HOT POTATOES MODERNIZATION ASSETS END -->",
   ].join(newline);
@@ -816,9 +1146,11 @@ function normalizeFeedbackPage(page, options) {
   const after = headContent.slice(insertionPoint).replace(/^[\t \r\n]*/, "");
   headContent = `${before}${newline}${assetBlock}${newline}${after}`.replace(/[\t \r\n]*$/, "");
   headContent = `${headContent.replace(/[\t \r\n]*$/, "")}${newline}${styleBlock}${newline}`;
+  headContent = compactHeadSpacing(headContent, newline);
 
   const replacementHead = `${openTag}${headContent}${closeTag}`;
   source = `${source.slice(0, headMatch.index)}${replacementHead}${source.slice(headMatch.index + headMatch[0].length)}`;
+  validatePageAgainstPrototype(source, root, profile, page.relative);
   return {
     counters: {
       adsMoved: 0,
@@ -832,11 +1164,84 @@ function normalizeFeedbackPage(page, options) {
       legacyHandlers: 0,
       styleAttributes: 0,
       titleHeadingsNormalized: 0,
+      titleHeadingsCreated: 0,
       titlePanelsWrapped: 0,
     },
+    versionChanged: !hasCurrentModernizationVersion(page.source, profile, null),
     source,
     stats: { buttonFunctions: 0, reads: 0, writes: 0 },
+    family: profile.family,
+    prototype: profile.prototype,
   };
+}
+
+function removeProfileAssetTags(source) {
+  const knownAssetNames = new Set([
+    "sis-cloze-submit.css",
+    "sis-exercise-layout.css",
+    "sis-cloze-submit.js",
+    "sis-exercise-submit.js",
+  ]);
+  return source.replace(/<head\b[^>]*>[\s\S]*?<\/head\s*>/i, (head) => {
+    const newline = head.includes("\r\n") ? "\r\n" : "\n";
+    return head
+      .replace(/<(?:link|script)\b[^>]*>(?:\s*<\/script\s*>)?/gi, (tag) => {
+        const attribute = /^<link\b/i.test(tag) ? "href" : "src";
+        const name = path.basename(readTagAttribute(tag, attribute).split(/[?#]/, 1)[0]);
+        return knownAssetNames.has(name) ? "" : tag;
+      })
+      .replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1\s*>|\r?\n(?:[\t ]*\r?\n){2,}/gi, (match) =>
+        /^<(?:script|style)\b/i.test(match) ? match : `${newline}${newline}`,
+      );
+  });
+}
+
+function injectProfileAssets(source, options) {
+  const { file, root, profile } = options;
+  const styles = profile.family === "cloze"
+    ? [["css/sis-cloze-submit.css", options.clozeSubmitCssIntegrity]]
+    : ["dict", "sent"].includes(profile.family)
+      ? [
+          ["css/sis-exercise-layout.css", options.exerciseLayoutCssIntegrity],
+          ["css/sis-cloze-submit.css", options.clozeSubmitCssIntegrity],
+        ]
+      : [];
+  const scripts = profile.family === "cloze"
+    ? [["js/sis-cloze-submit.js", options.clozeSubmitJsIntegrity, "cloze"]]
+    : ["dict", "sent"].includes(profile.family)
+      ? [["js/sis-exercise-submit.js", options.exerciseSubmitJsIntegrity, profile.family]]
+      : [];
+  if (!styles.length && !scripts.length) return source;
+
+  const headMatch = source.match(/<head\b[^>]*>[\s\S]*?<\/head\s*>/i);
+  if (!headMatch) throw new Error(`${path.relative(root, file)}: missing head element`);
+  const openTag = headMatch[0].match(/^<head\b[^>]*>/i)?.[0];
+  const closeTag = headMatch[0].match(/<\/head\s*>$/i)?.[0];
+  if (!openTag || !closeTag) throw new Error(`${path.relative(root, file)}: cannot isolate head element`);
+  const newline = source.includes("\r\n") ? "\r\n" : "\n";
+  const strippedHead = removeProfileAssetTags(headMatch[0]);
+  let headContent = strippedHead.slice(openTag.length, strippedHead.length - closeTag.length);
+
+  const additions = [];
+  for (const [assetPath, integrity] of styles) {
+    if (!integrity) throw new Error(`Missing SRI for ${assetPath}`);
+    const href = relativeHref(file, path.resolve(root, assetPath));
+    additions.push(
+      `<link rel="preload" href="${href}" as="style" integrity="${integrity}">`,
+      `<link rel="stylesheet" href="${href}" integrity="${integrity}">`,
+    );
+  }
+  for (const [assetPath, integrity, family] of scripts) {
+    if (!integrity) throw new Error(`Missing SRI for ${assetPath}`);
+    const href = relativeHref(file, path.resolve(root, assetPath));
+    additions.push(
+      `<script defer src="${href}" integrity="${integrity}" data-sis-exercise-family="${family}"></script>`,
+    );
+  }
+  headContent = `${headContent.replace(/[\t \r\n]*$/, "")}${newline}${additions.join(newline)}${newline}`;
+  headContent = compactHeadSpacing(headContent, newline);
+  const replacementHead = `${openTag}${headContent}${closeTag}`;
+  return `${source.slice(0, headMatch.index)}${replacementHead}${source.slice(headMatch.index + headMatch[0].length)}`;
 }
 
 function extractHeadStyleBlocks(source) {
@@ -935,12 +1340,15 @@ function normalizeButtonLabels(source) {
 
 function normalizePage(page, options) {
   const { root, cssIntegrity, feedbackCssIntegrity, feedbackUiIntegrity, uiIntegrity, storyIntegrity } = options;
+  const profile = modernizationProfile(page);
   const originalStyles = extractHeadStyleBlocks(page.source);
   const runtime = collectRuntimePatches(page.source, { file: page.relative });
   let source = applyPatches(page.source, runtime.patches);
   const markup = transformMarkup(source, page.relative);
   source = normalizeButtonLabels(markup.source);
+  source = normalizeFamilyStructure(source, page, profile, markup.counters);
   source = removeManagedScriptTags(source);
+  source = removeProfileAssetTags(source);
   source = injectAssets(source, {
     cssIntegrity,
     feedbackCssIntegrity,
@@ -948,9 +1356,12 @@ function normalizePage(page, options) {
     file: page.absolute,
     root,
     story: page.story,
+    profile,
     storyIntegrity,
     uiIntegrity,
   });
+  source = injectProfileAssets(source, { ...options, file: page.absolute, root, profile });
+  validatePageAgainstPrototype(source, root, profile, page.relative);
 
   const normalizedStyles = extractHeadStyleBlocks(source);
   if (
@@ -965,8 +1376,11 @@ function normalizePage(page, options) {
 
   return {
     counters: markup.counters,
+    versionChanged: !hasCurrentModernizationVersion(page.source, profile, page.story),
     source,
     stats: runtime.stats,
+    family: profile.family,
+    prototype: profile.prototype,
   };
 }
 
@@ -975,6 +1389,10 @@ function collectAssetInfo(root) {
     css: path.resolve(root, SHARED_CSS),
     feedbackCss: path.resolve(root, FEEDBACK_CSS),
     feedbackUi: path.resolve(root, FEEDBACK_UI),
+    clozeSubmitCss: path.resolve(root, "css/sis-cloze-submit.css"),
+    exerciseLayoutCss: path.resolve(root, "css/sis-exercise-layout.css"),
+    clozeSubmitJs: path.resolve(root, "js/sis-cloze-submit.js"),
+    exerciseSubmitJs: path.resolve(root, "js/sis-exercise-submit.js"),
     story: path.resolve(root, STORY_THEME),
     ui: path.resolve(root, SHARED_UI),
   };
@@ -984,6 +1402,10 @@ function collectAssetInfo(root) {
     cssIntegrity: integrityFor(files.css),
     feedbackCssIntegrity: integrityFor(files.feedbackCss),
     feedbackUiIntegrity: integrityFor(files.feedbackUi),
+    clozeSubmitCssIntegrity: integrityFor(files.clozeSubmitCss),
+    exerciseLayoutCssIntegrity: integrityFor(files.exerciseLayoutCss),
+    clozeSubmitJsIntegrity: integrityFor(files.clozeSubmitJs),
+    exerciseSubmitJsIntegrity: integrityFor(files.exerciseSubmitJs),
     storyIntegrity: integrityFor(files.story),
     uiIntegrity: integrityFor(files.ui),
   };
@@ -991,7 +1413,21 @@ function collectAssetInfo(root) {
 
 function summarize(plans, inventory, apply) {
   const changed = plans.filter((plan) => plan.updated !== plan.source);
-  const totals = changed.reduce(
+  const structuralChanged = changed.filter(
+    (plan) => removeModernizationVersionMarkers(plan.updated) !== removeModernizationVersionMarkers(plan.source),
+  );
+  const versionUpgrades = plans.filter((plan) => plan.result.versionChanged).length;
+  const passCount = plans.filter((plan) => plan.updated === plan.source).length;
+  const updateCount = changed.length;
+  const blockedCount = inventory.unmapped.length + inventory.ambiguous.length + inventory.failures.length;
+  const byFamily = new Map();
+  for (const plan of plans) {
+    const family = plan.result.family || "unknown";
+    const counts = byFamily.get(family) || { pass: 0, update: 0 };
+    counts[plan.updated === plan.source ? "pass" : "update"] += 1;
+    byFamily.set(family, counts);
+  }
+  const totals = structuralChanged.reduce(
     (result, plan) => {
       result.adsMoved += plan.result.counters.adsMoved;
       result.answerFields += plan.result.counters.answerFields;
@@ -1007,6 +1443,7 @@ function summarize(plans, inventory, apply) {
       result.runtimeReads += plan.result.stats.reads;
       result.runtimeWrites += plan.result.stats.writes;
       result.titleHeadingsNormalized += plan.result.counters.titleHeadingsNormalized;
+      result.titleHeadingsCreated += plan.result.counters.titleHeadingsCreated;
       result.titlePanelsWrapped += plan.result.counters.titlePanelsWrapped;
       return result;
     },
@@ -1025,15 +1462,32 @@ function summarize(plans, inventory, apply) {
       runtimeWrites: 0,
       styleAttributes: 0,
       titleHeadingsNormalized: 0,
+      titleHeadingsCreated: 0,
       titlePanelsWrapped: 0,
     },
   );
 
   console.log(`Mode: ${apply ? "APPLY" : "DRY-RUN"}`);
   console.log(`Hot Potatoes pages: ${inventory.pages.length}`);
+  console.log(`Pages evaluated against a family prototype: ${plans.length}`);
+  console.log(`PASS: ${passCount}`);
+  console.log(`UPDATE: ${updateCount}`);
+  console.log(`BLOCKED: ${blockedCount}`);
+  console.log(`Prototype anomalies requiring review: ${blockedCount}`);
+  if (byFamily.size) {
+    console.log("Prototype results by family:");
+    for (const family of [...byFamily.keys()].sort()) {
+      const counts = byFamily.get(family);
+      console.log(`  ${family}: PASS ${counts.pass}, UPDATE ${counts.update}`);
+    }
+  }
   console.log(`Pages with companion stories: ${inventory.pages.filter((page) => page.story).length}`);
   console.log(`Unmapped companion stories: ${inventory.unmapped.length}`);
   console.log(`Ambiguous Hot Potatoes files: ${inventory.ambiguous.length}`);
+  console.log(`Current modernization version: ${CURRENT_MODERNIZATION_VERSION}`);
+  console.log(`Pages already at current version: ${plans.length - versionUpgrades}`);
+  console.log(`Pages requiring version upgrade: ${versionUpgrades}`);
+  console.log(`Pages requiring structural or SRI updates: ${structuralChanged.length}`);
   console.log(`Interstitial ad slots moved before instruction panels: ${totals.adsMoved}`);
   if (inventory.skippedBackups.length) console.log(`Saved -bu copies excluded: ${inventory.skippedBackups.length}`);
   console.log(`Would change: ${changed.length} pages`);
@@ -1046,6 +1500,7 @@ function summarize(plans, inventory, apply) {
   console.log(`Empty feedback panels hidden until feedback: ${totals.emptyFeedbackPanelsHidden}`);
   console.log(`Horizontal rules removed: ${totals.horizontalRules}`);
   console.log(`Title heading levels normalized to h1: ${totals.titleHeadingsNormalized}`);
+  console.log(`Missing title headings safely restored from page text/title: ${totals.titleHeadingsCreated}`);
   console.log(`Titles moved into instruction panels: ${totals.titlePanelsWrapped}`);
   console.log(`Legacy hover handlers removed: ${totals.legacyHandlers}`);
   console.log(`Legacy runtime button-state functions neutralized: ${totals.runtimeButtonFunctions}`);
@@ -1054,8 +1509,29 @@ function summarize(plans, inventory, apply) {
   for (const item of inventory.unmapped.slice(0, 24)) console.log(`  Unmapped story: ${item}`);
   for (const item of inventory.ambiguous.slice(0, 24)) console.log(`  Ambiguous: ${item}`);
   if (changed.length) {
-    console.log("Changed page samples:");
-    for (const plan of changed.slice(0, 8)) console.log(`  ${plan.relative}`);
+    console.log("Update samples (family -> prototype):");
+    for (const plan of changed.slice(0, 8)) {
+      console.log(`  ${plan.relative} -> ${plan.result.family} -> ${plan.result.prototype}`);
+    }
+  }
+  const blocked = [
+    ...inventory.unmapped.map((relative) => `${relative}: companion story unresolved`),
+    ...inventory.ambiguous,
+    ...inventory.failures,
+  ];
+  if (blocked.length) {
+    const anomalyKinds = new Map();
+    for (const item of blocked) {
+      const separator = item.indexOf(": ");
+      const reason = separator >= 0 ? item.slice(separator + 2) : item;
+      anomalyKinds.set(reason, (anomalyKinds.get(reason) || 0) + 1);
+    }
+    console.log("Anomaly scan alerts (blocked from update):");
+    console.log("Anomaly classes:");
+    for (const [reason, count] of [...anomalyKinds].sort((left, right) => right[1] - left[1]).slice(0, 8)) {
+      console.log(`  ${count} pages: ${reason}`);
+    }
+    for (const item of blocked.slice(0, 8)) console.log(`  ${item}`);
   }
 }
 
@@ -1190,6 +1666,7 @@ function main(argv = process.argv.slice(2)) {
   const inventory = {
     ...scanned,
     unmapped: scanned.pages.filter((page) => !page.story && !page.feedbackOnly).map((page) => page.relative),
+    failures: [],
   };
   const plans = [];
   const failures = [];
@@ -1205,11 +1682,12 @@ function main(argv = process.argv.slice(2)) {
     }
   }
 
+  inventory.failures = failures;
   summarize(plans, inventory, args.apply);
   if (inventory.ambiguous.length || inventory.unmapped.length || failures.length) {
     console.error("ERROR: coverage or transformation preflight is incomplete; no pages were changed.");
-    for (const failure of failures.slice(0, 40)) console.error(`  ${failure}`);
-    if (failures.length > 40) console.error(`  … ${failures.length - 40} more transformation errors`);
+    for (const failure of failures.slice(0, 8)) console.error(`  ${failure}`);
+    if (failures.length > 8) console.error(`  … ${failures.length - 8} additional anomaly details are grouped above`);
     return 2;
   }
   if (!args.apply) return 0;
@@ -1242,6 +1720,7 @@ if (require.main === module) process.exitCode = main();
 module.exports = {
   applyPagePlans,
   applySafetyError,
+  CURRENT_MODERNIZATION_VERSION,
   collectRuntimePatches,
   extractHeadStyleBlocks,
   main,
