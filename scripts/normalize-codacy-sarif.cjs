@@ -172,6 +172,21 @@ function normalizeSarif(sarif, workspaceRoot) {
   return { normalizedUris, removedInvalidRegions };
 }
 
+async function replaceFileContents(targetPath, contents) {
+  const tempPath = path.join(
+    path.dirname(targetPath),
+    `.${path.basename(targetPath)}.${process.pid}.${Date.now()}.tmp`,
+  );
+
+  try {
+    await fs.writeFile(tempPath, contents);
+    await fs.rename(tempPath, targetPath);
+  } catch (error) {
+    await fs.rm(tempPath, { force: true });
+    throw error;
+  }
+}
+
 async function main() {
   const inputPath = process.argv[2] || "results.sarif";
   const absoluteInputPath = path.resolve(inputPath);
@@ -181,7 +196,7 @@ async function main() {
     process.env.GITHUB_WORKSPACE || process.cwd(),
   );
 
-  await fs.writeFile(absoluteInputPath, `${JSON.stringify(sarif, null, 2)}\n`);
+  await replaceFileContents(absoluteInputPath, `${JSON.stringify(sarif, null, 2)}\n`);
   console.log(
     `Normalized ${changes.normalizedUris} SARIF artifact URI(s) and removed ${changes.removedInvalidRegions} invalid region(s).`,
   );
@@ -194,4 +209,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { normalizeArtifactUri, normalizeSarif };
+module.exports = { normalizeArtifactUri, normalizeSarif, replaceFileContents };
