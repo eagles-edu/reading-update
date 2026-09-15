@@ -5,7 +5,10 @@ const path = require("node:path");
 const cp = require("node:child_process");
 const glob = require("glob");
 
-const { collectReferencedAssetPaths } = require("./sri-rehash.cjs");
+const {
+  collectRegisteredExternalReferences,
+  collectReferencedAssetPaths,
+} = require("./sri-rehash.cjs");
 
 const SCRIPT_DIR = __dirname;
 const ROOT = path.resolve(SCRIPT_DIR, "..");
@@ -128,11 +131,14 @@ function collectHtmlTargets(
   for (const file of htmlFiles) {
     const source = readFile(file, "utf8");
     const references = collectReferencedAssetPaths(source, file, root);
-    for (const assetPath of references) {
-      if (targetAssets.has(assetPath)) {
-        matches.add(file);
-        break;
-      }
+    const hasChangedLocalAsset = [...references].some((assetPath) =>
+      targetAssets.has(assetPath),
+    );
+    const hasRegisteredExternalAsset =
+      collectRegisteredExternalReferences(source).size > 0;
+
+    if (hasChangedLocalAsset || hasRegisteredExternalAsset) {
+      matches.add(file);
     }
   }
 

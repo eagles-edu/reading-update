@@ -639,6 +639,7 @@ test("page migration preserves head style blocks and rewrites inline state and c
   const root = path.resolve(".");
   const source = `<!doctype html>
 <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="../../style/potato.css" rel="stylesheet">
 <style>body { background: #eee; } .QuizQuestion { color: #111; }</style>
 <title>Dictation</title></head>
 <body id="TheBody"><div class="wrapit">
@@ -742,6 +743,7 @@ function NavBtnOut(Btn) { Btn.className = "NavButton"; }</script>
   );
   assert.match(first.source, /data-story-title-url="\.\.\/b1\/b1001\.html"/);
   assert.match(first.source, /href="\.\.\/\.\.\/css\/sis-hot-potatoes\.css"/);
+  assert.doesNotMatch(first.source, /href="\.\.\/\.\.\/style\/potato\.css"/);
   assert.ok(first.source.includes(`href="../../css/sis-exercise-layout.css" integrity="${assets.exerciseLayoutCssIntegrity}"`));
   assert.ok(first.source.includes(`href="../../css/sis-cloze-submit.css" integrity="${assets.clozeSubmitCssIntegrity}"`));
   assert.ok(first.source.includes(`href="../../css/sis-exercise-family-layout.css" integrity="${assets.exerciseFamilyCssIntegrity}"`));

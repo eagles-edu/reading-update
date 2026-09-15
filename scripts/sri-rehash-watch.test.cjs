@@ -13,7 +13,8 @@ test("batches changed asset references while reading each HTML page once", (t) =
   const pageOne = path.join(root, "pages", "one.html");
   const pageTwo = path.join(root, "pages", "two.html");
   const pageThree = path.join(root, "pages", "three.html");
-  for (const page of [pageOne, pageTwo, pageThree]) {
+  const tonePage = path.join(root, "pages", "tone.html");
+  for (const page of [pageOne, pageTwo, pageThree, tonePage]) {
     fs.mkdirSync(path.dirname(page), { recursive: true });
   }
 
@@ -26,8 +27,12 @@ test("batches changed asset references while reading each HTML page once", (t) =
     pageThree,
     '<link rel="stylesheet" href="https://example.test/shared.css"><script src="../js/other.js"></script>',
   );
+  fs.writeFileSync(
+    tonePage,
+    '<script src="https://cdn.jsdelivr.net/npm/tone@15.1.22/build/Tone.js"></script>',
+  );
 
-  const files = [pageOne, pageTwo, pageThree];
+  const files = [pageOne, pageTwo, pageThree, tonePage];
   const reads = new Map();
   const readFile = (file, encoding) => {
     reads.set(file, (reads.get(file) ?? 0) + 1);
@@ -40,7 +45,7 @@ test("batches changed asset references while reading each HTML page once", (t) =
     readFile,
   );
 
-  assert.deepEqual([...targets].sort(), [pageOne, pageTwo].sort());
+  assert.deepEqual([...targets].sort(), [pageOne, pageTwo, tonePage].sort());
   assert.deepEqual(
     [...reads.entries()].sort(([a], [b]) => a.localeCompare(b)),
     files.map((file) => [file, 1]).sort(([a], [b]) => a.localeCompare(b)),

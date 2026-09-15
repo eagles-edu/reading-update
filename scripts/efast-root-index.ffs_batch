@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FreeFileSync XmlType="BATCH" XmlFormat="23">
-    <Notes>Development root-index sync. Copies only index.html and never deletes.</Notes>
+    <Notes>Development root sync. Copies approved root pages and never deletes.</Notes>
     <Compare>
         <Variant>TimeAndSize</Variant>
         <Symlinks>Exclude</Symlinks>
@@ -17,6 +17,7 @@
     <Filter>
         <Include>
             <Item>\index.html</Item>
+            <Item>\player-proof.html</Item>
         </Include>
         <SizeMin Unit="None">0</SizeMin>
         <SizeMax Unit="None">0</SizeMax>

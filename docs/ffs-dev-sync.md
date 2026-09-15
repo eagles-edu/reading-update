@@ -43,7 +43,7 @@ npm run sync:dev -- --public-root /tmp/efast-preview --no-sudo --apply
 
 The sync runs two phases:
 
-1. Copy only the source `index.html` to the public root.
+1. Copy only the source `index.html` and approved `player-proof.html` to the public root.
 2. Copy `favicon.ico`, shared assets, and the approved reading collections to
    `public_html/reading/`.
 

@@ -53,6 +53,7 @@
     "test:modernize:exercises": "node --test ./scripts/exercise-page-modernizer.test.cjs",
     "test:modernize:hot-potatoes": "node --test ./scripts/modernize-hot-potatoes-pages.test.cjs",
     "test:modernize:theme": "node --test ./scripts/modernize-theme-pages.test.cjs",
+    "test:sri": "node --test ./scripts/sri-rehash.test.cjs",
     "test:cloze:buttons": "node --test ./scripts/cloze-button-boundary.test.cjs",
     "test:sis:cloze-layout": "node --test ./scripts/sis-cloze-submit-layout.test.cjs",
     "test:sis:exercise-submit": "node --test ./scripts/sis-exercise-submit.test.cjs",
@@ -94,5 +95,8 @@
     "parse5": "^7.3.0",
     "playwright": "^1.60.0",
     "prettier": "^3.8.3"
+  },
+  "dependencies": {
+    "tone": "^15.1.22"
   }
 }

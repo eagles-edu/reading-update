@@ -14,6 +14,12 @@ const DEFAULT_ALGO = "sha384";
 const DEPLOYMENT_PREFIX = "/reading";
 const HASHABLE_REL_VALUES = new Set(["stylesheet", "preload"]);
 const PRELOAD_AS_VALUES = new Set(["style", "script"]);
+const REGISTERED_EXTERNAL_INTEGRITY = new Map([
+  [
+    "https://cdn.jsdelivr.net/npm/tone@15.1.22/build/Tone.js",
+    "sha384-NWoslxaf/3dYwQk+uGziDYJFdsjBpVlU1WpFRexuDFcIk/5PJpCbpVXia2Uikeix",
+  ],
+]);
 const backupManager = createBackupManager(DEFAULT_ROOT, "sri-rehash");
 
 function printUsage() {
@@ -260,6 +266,41 @@ function shouldHashNode(node) {
   return Boolean(getAttrValue(node, "href"));
 }
 
+function registeredExternalIntegrity(href, algo) {
+  const integrity = REGISTERED_EXTERNAL_INTEGRITY.get(href.trim());
+  return integrity && integrity.startsWith(`${algo}-`) ? integrity : null;
+}
+
+function collectRegisteredExternalReferences(source) {
+  const references = new Set();
+  const document = parse5.parse(source, { sourceCodeLocationInfo: true });
+
+  const visit = (node) => {
+    if (shouldHashNode(node)) {
+      const href = getAttrValue(node, "src") || getAttrValue(node, "href");
+      const normalizedHref = href.trim();
+      if (REGISTERED_EXTERNAL_INTEGRITY.has(normalizedHref)) {
+        references.add(normalizedHref);
+      }
+    }
+
+    if (node.childNodes) {
+      for (const child of node.childNodes) {
+        visit(child);
+      }
+    }
+
+    if (node.content?.childNodes) {
+      for (const child of node.content.childNodes) {
+        visit(child);
+      }
+    }
+  };
+
+  visit(document);
+  return references;
+}
+
 function collectEdits(source, file, root, algo, digestCache, warnings) {
   const edits = [];
   const document = parse5.parse(source, { sourceCodeLocationInfo: true });
@@ -269,34 +310,46 @@ function collectEdits(source, file, root, algo, digestCache, warnings) {
       const startTag = node.sourceCodeLocation.startTag;
       const rawTag = source.slice(startTag.startOffset, startTag.endOffset);
       const href = getAttrValue(node, "src") || getAttrValue(node, "href");
-      const assetPath = resolveAssetPath(file, root, href);
+      const externalIntegrity = registeredExternalIntegrity(href, algo);
 
-      if (!assetPath) {
-        warnings.add(`Skipped non-local resource in ${path.relative(root, file)}: ${href}`);
-      } else {
-        const cacheKey = `${algo}:${assetPath}`;
-        let integrityValue = digestCache.get(cacheKey);
-        if (!integrityValue) {
-          const assetBytes = readLocalAsset(
-            assetPath,
-            warnings,
-            `${path.relative(root, file)}: ${href}`
-          );
-          if (!assetBytes) {
-            return;
-          }
-          const digest = crypto.createHash(algo).update(assetBytes).digest("base64");
-          integrityValue = makeIntegrityValue(algo, digest);
-          digestCache.set(cacheKey, integrityValue);
-        }
-
-        const nextTag = setOrReplaceAttr(rawTag, "integrity", integrityValue);
+      if (externalIntegrity) {
+        const nextTag = setOrReplaceAttr(rawTag, "integrity", externalIntegrity);
         if (nextTag !== rawTag) {
           edits.push({
             end: startTag.endOffset,
             replacement: nextTag,
             start: startTag.startOffset,
           });
+        }
+      } else {
+        const assetPath = resolveAssetPath(file, root, href);
+        if (!assetPath) {
+          warnings.add(`Skipped non-local resource in ${path.relative(root, file)}: ${href}`);
+        } else {
+          const cacheKey = `${algo}:${assetPath}`;
+          let integrityValue = digestCache.get(cacheKey);
+          if (!integrityValue) {
+            const assetBytes = readLocalAsset(
+              assetPath,
+              warnings,
+              `${path.relative(root, file)}: ${href}`
+            );
+            if (!assetBytes) {
+              return;
+            }
+            const digest = crypto.createHash(algo).update(assetBytes).digest("base64");
+            integrityValue = makeIntegrityValue(algo, digest);
+            digestCache.set(cacheKey, integrityValue);
+          }
+
+          const nextTag = setOrReplaceAttr(rawTag, "integrity", integrityValue);
+          if (nextTag !== rawTag) {
+            edits.push({
+              end: startTag.endOffset,
+              replacement: nextTag,
+              start: startTag.startOffset,
+            });
+          }
         }
       }
     }
@@ -465,6 +518,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  collectRegisteredExternalReferences,
   collectReferencedAssetPaths,
   rehashHtmlSource,
 };

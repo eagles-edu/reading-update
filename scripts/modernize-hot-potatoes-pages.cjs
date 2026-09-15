@@ -1539,7 +1539,7 @@ function injectAssets(source, options) {
   headContent = headContent.replace(MODERNIZATION_VERSION_RE, "");
   headContent = headContent.replace(/<link\b[^>]*>/gi, (tag) => {
     const href = readTagAttribute(tag, "href");
-    return href.endsWith("sis-hot-potatoes.css") || href.endsWith("hot-potatoes-feedback.css") ? "" : tag;
+    return href.endsWith("sis-hot-potatoes.css") || href.endsWith("hot-potatoes-feedback.css") || href.endsWith("potato.css") ? "" : tag;
   });
   const newline = source.includes("\r\n") ? "\r\n" : "\n";
   headContent = compactHeadSpacing(headContent, newline);
@@ -1601,7 +1601,7 @@ function normalizeFeedbackPage(page, options) {
   headContent = headContent.replace(MODERNIZATION_VERSION_RE, "");
   headContent = headContent.replace(/<link\b[^>]*>/gi, (tag) => {
     const href = readTagAttribute(tag, "href");
-    return href.endsWith("hot-potatoes-feedback.css") ? "" : tag;
+    return href.endsWith("hot-potatoes-feedback.css") || href.endsWith("potato.css") ? "" : tag;
   });
 
   const feedbackUiHref = relativeHref(file, path.resolve(root, FEEDBACK_UI));
