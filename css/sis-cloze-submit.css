@@ -22,6 +22,8 @@ body#TheBody,
 body#TheBody button,
 body#TheBody input,
 body#TheBody textarea {
+  --strAlertColor: #7b0019;
+  --strSuccessColor: #006718;
   font-family: var(
     --font-base,
     system-ui,
@@ -62,15 +64,15 @@ body#TheBody .sr-only {
   width: 1px;
 }
 
-body#TheBody .wrapfit,
-body#TheBody .sis-cloze-shell {
+body#TheBody > .hp-exercise-shell[data-sis-exercise-shell][data-sis-exercise-family="cloze"],
+body#TheBody .sis-exercise-content {
   box-sizing: border-box;
   margin: 2rem auto 2rem;
   padding: 0 1rem 1rem;
   width: min(100%, 920px);
 }
 
-body#TheBody .sis-cloze-shell {
+body#TheBody .sis-exercise-content {
   display: grid;
   gap: var(--hp-vertical-gap, 12px) var(--hp-horizontal-gap, 12px);
 }
@@ -152,7 +154,9 @@ body#TheBody .sis-cloze-panel {
 
 body#TheBody #InstructionsDiv,
 body#TheBody #MainDiv {
-  background: rgba(255, 255, 255, 0.96);
+  background-color: #ebebeb;
+  background-image: url("../images/bg/paper/fabric_1.webp");
+  background-repeat: repeat;
 }
 
 html[data-story-theme] body#TheBody {
@@ -169,10 +173,8 @@ html[data-story-theme] body#TheBody {
 html[data-story-theme] body#TheBody #InstructionsDiv,
 html[data-story-theme] body#TheBody #MainDiv,
 html[data-story-theme] body#TheBody #GuessDiv {
-  background-color: var(--story-panel-bg, rgba(255, 255, 255, 0.92));
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)),
-    var(--story-paper-image, none);
+  background-color: #ebebeb;
+  background-image: url("../images/bg/paper/fabric_1.webp");
   background-position: center;
   background-repeat: repeat;
 }
@@ -277,17 +279,17 @@ body#TheBody .sis-cloze-region--feedback {
 }
 
 .sis-cloze-panel {
-  background: var(--secondary-color, #f5f8ff);
+  background-color: #ebebeb;
+  background-image: url("../images/bg/paper/fabric_1.webp");
+  background-repeat: repeat;
   border: 1px solid var(--tertiary-color, #002786);
   margin-bottom: 12px;
   padding: 1rem;
 }
 
 html[data-story-theme] body#TheBody .sis-cloze-panel {
-  background-color: var(--secondary-color, #f5f8ff);
-  background-image:
-    linear-gradient(rgba(245, 248, 255, 0.86), rgba(245, 248, 255, 0.86)),
-    var(--story-paper-image, none);
+  background-color: #ebebeb;
+  background-image: url("../images/bg/paper/fabric_1.webp");
   background-position: center;
   background-repeat: repeat;
 }
@@ -356,11 +358,11 @@ html[data-story-theme] body#TheBody .sis-cloze-panel {
 }
 
 .sis-cloze-status--error {
-  color: #b50010;
+  color: var(--strAlertColor, #7b0019);
 }
 
 .sis-cloze-status--success {
-  color: #0f766e;
+  color: var(--strSuccessColor, #006718);
 }
 
 .sis-exercise-retry {
@@ -375,7 +377,7 @@ body#TheBody.sis-exercise-story-theme #GuessDiv {
   border: 1px solid var(--tertiary-color, #002786);
   border-radius: 1rem;
   box-sizing: border-box;
-  box-shadow: 0 16px 36px rgba(0, 39, 134, 0.12);
+  box-shadow: 0 16px 36px rgb(0 39 134 / 12%);
   margin: 0 auto 0.75rem;
   padding: 0.75rem;
   width: min(100%, 920px);
@@ -470,7 +472,7 @@ body#TheBody .sis-cloze-panel__instruction {
 }
 
 @media (min-width: 720px) {
-  body#TheBody .sis-cloze-shell {
+  body#TheBody .sis-exercise-content {
     gap: var(--hp-vertical-gap, 12px) var(--hp-horizontal-gap, 12px);
   }
 
@@ -486,37 +488,37 @@ body#TheBody .sis-cloze-panel__instruction {
   }
 }
 
-body#TheBody .sis-cloze-shell .sis-exercise-controls button.hp-button.btn-17,
-body#TheBody .sis-cloze-shell .sis-exercise-controls input.hp-button.btn-17 {
+body#TheBody .sis-exercise-content .sis-exercise-controls button.hp-button.btn-17,
+body#TheBody .sis-exercise-content .sis-exercise-controls input.hp-button.btn-17 {
   box-shadow: none;
   overflow: hidden;
 }
 
 body#TheBody
-  .sis-cloze-shell
+  .sis-exercise-content
   .sis-exercise-controls
   button.hp-button.btn-17:hover:not(:disabled),
 body#TheBody
-  .sis-cloze-shell
+  .sis-exercise-content
   .sis-exercise-controls
   input.hp-button.btn-17:hover:not(:disabled) {
   box-shadow: none;
 }
 
 body#TheBody
-  .sis-cloze-shell
+  .sis-exercise-content
   .sis-exercise-controls
   button.hp-button.btn-17::before,
 body#TheBody
-  .sis-cloze-shell
+  .sis-exercise-content
   .sis-exercise-controls
   button.hp-button.btn-17::after,
 body#TheBody
-  .sis-cloze-shell
+  .sis-exercise-content
   .sis-exercise-controls
   input.hp-button.btn-17::before,
 body#TheBody
-  .sis-cloze-shell
+  .sis-exercise-content
   .sis-exercise-controls
   input.hp-button.btn-17::after {
   animation: none;

@@ -25,7 +25,7 @@
   var EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   var EAGLES_ID_PATTERN = /^[a-z]+\d{3}$/;
   var IDENTITY_REQUIRED_STATUS_MESSAGE =
-    "Enter your student email and Eagles ID to unlock Check and Hint.";
+    "Enter your EaglesID and student email to activate Check and Hint.";
   var IDENTITY_READY_STATUS_MESSAGE =
     "Your saved details are ready. Complete the exercise to send your result.";
   var state = {
@@ -33,6 +33,7 @@
     submitting: false,
     submitted: false,
     submitPromise: null,
+    guessObserver: null,
     emailInput: null,
     eaglesIdInput: null,
     statusNode: null,
@@ -766,7 +767,7 @@
       setStatus(
         error && error.message
           ? String(error.message)
-          : "Enter your details first.",
+          : "Enter your EaglesID and student email to activate Check and Hint.",
         "error",
       );
       focusMissingIdentity();
@@ -838,18 +839,18 @@
     panel.className = "sis-cloze-panel";
     panel.setAttribute("aria-label", "SIS result details");
     panel.innerHTML =
-      '<p class="sis-cloze-panel__instruction">Enter your student email and Eagles ID to unlock Check and Hint and send your result to SIS.</p>' +
+      '<p class="sis-cloze-panel__instruction">Enter your EaglesID and student email to activate Check and Hint.</p>' +
       '<div class="sis-cloze-panel__grid">' +
       '<label class="sis-cloze-field" for="sis-exercise-email">' +
       '<span class="sis-cloze-field__label">Student email</span>' +
-      '<input id="sis-exercise-email" data-sis-exercise-email type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required>' +
+      '<input id="sis-exercise-email" data-sis-identity-email data-sis-exercise-email type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required>' +
       "</label>" +
       '<label class="sis-cloze-field" for="sis-exercise-eagles-id">' +
       '<span class="sis-cloze-field__label">Eagles ID</span>' +
-      '<input id="sis-exercise-eagles-id" data-sis-exercise-eagles-id type="text" autocomplete="username" autocapitalize="none" spellcheck="false" inputmode="text" pattern="^[a-z]+\\d{3}$" placeholder="tammy001" required>' +
+      '<input id="sis-exercise-eagles-id" data-sis-identity-eagles-id data-sis-exercise-eagles-id type="text" autocomplete="username" autocapitalize="none" spellcheck="false" inputmode="text" pattern="^[a-z]+\\d{3}$" placeholder="tammy001" required>' +
       "</label>" +
       "</div>" +
-      '<p id="sis-exercise-status" class="sis-cloze-status" data-sis-exercise-status aria-live="polite"></p>' +
+      '<p id="sis-exercise-status" class="sis-cloze-status" data-sis-identity-status data-sis-exercise-status aria-live="polite"></p>' +
       '<button class="btn-17 hp-button sis-exercise-retry" type="button" data-sis-exercise-retry aria-label="Retry" aria-description="Retry submitting your result to SIS." data-hp-tooltip="Retry submitting your result to SIS." hidden>Retry</button>';
     main.parentNode.insertBefore(panel, main);
     return panel;
@@ -857,7 +858,7 @@
 
   function buildModernShell() {
     var wrapper = document.querySelector(
-      "body#TheBody > .wrapit, body#TheBody > .wrapfit",
+      "body#TheBody > [data-sis-exercise-shell].hp-exercise-shell.wrapfit",
     );
     if (!wrapper || wrapper.dataset.sisExerciseShellBuilt === "true") return;
     var instructionPanel = wrapper.querySelector(
@@ -897,10 +898,25 @@
       if (containsOnlyWhitespace) {
         while (guess.firstChild) guess.removeChild(guess.firstChild);
       }
+      var syncGuessVisibility = function () {
+        guess.classList.toggle(
+          "hp-display-none",
+          !normalizeText(guess.textContent),
+        );
+      };
+      syncGuessVisibility();
+      if (typeof window.MutationObserver === "function") {
+        state.guessObserver = new window.MutationObserver(syncGuessVisibility);
+        state.guessObserver.observe(guess, {
+          childList: true,
+          characterData: true,
+          subtree: true,
+        });
+      }
     }
 
     var shell = document.createElement("main");
-    shell.className = "sis-cloze-shell sis-exercise-shell";
+    shell.className = "sis-exercise-content";
     shell.setAttribute(
       "aria-label",
       family === "sent" ? "Sentence scramble exercise" : "Dictation exercise",
@@ -951,8 +967,6 @@
     if (retryButton) submitRegion.appendChild(retryButton);
 
     if (family === "sent") {
-      if (guess) guess.classList.remove("hp-display-none");
-
       var segment = main.querySelector(":scope > #SegmentDiv");
       var controls = document.createElement("div");
       controls.className = "sis-exercise-controls";
@@ -979,15 +993,7 @@
       if (guess) exerciseRegion.appendChild(guess);
       exerciseRegion.appendChild(main);
     } else {
-      var submitControls = document.createElement("div");
-      submitControls.className = "sis-exercise-controls";
-      submitControls.setAttribute("role", "group");
-      submitControls.setAttribute(
-        "aria-label",
-        "Dictation submission controls",
-      );
-      submitControls.appendChild(submitRegion);
-      main.appendChild(submitControls);
+      main.appendChild(submitRegion);
       exerciseRegion.appendChild(main);
     }
     var feedbackRegion = document.createElement("section");
@@ -1120,6 +1126,31 @@
         preceding = previous;
       }
     });
+    var finalGroup = Array.from(groups.keys()).pop();
+    var submitRow = document.querySelector(".sis-exercise-submit-row");
+    if (finalGroup && submitRow) {
+      var finalControls = finalGroup.querySelector(
+        ":scope > .sis-exercise-controls",
+      );
+      if (finalControls) finalControls.appendChild(submitRow);
+    }
+  }
+
+  function normalizeDictationAnswerFields() {
+    if (family !== "dict") return;
+    var fields = document.querySelectorAll("textarea.ShortAnswerBox");
+    for (var index = 0; index < fields.length; index += 1) {
+      var field = fields[index];
+      field.classList.add("sis-dictation-answer");
+      field.rows = 1;
+      field.setAttribute("rows", "1");
+      var resize = function () {
+        this.style.height = "auto";
+        this.style.height = `${this.scrollHeight}px`;
+      };
+      field.addEventListener("input", resize);
+      resize.call(field);
+    }
   }
 
   function bindIdentityEvents() {
@@ -1131,9 +1162,9 @@
         var identity = readFormIdentity();
         if (identityIsValid(identity)) {
           persistIdentity(identity);
-          setStatus(IDENTITY_READY_STATUS_MESSAGE, "");
+          setStatus(IDENTITY_READY_STATUS_MESSAGE, "success");
         } else {
-          setStatus(IDENTITY_REQUIRED_STATUS_MESSAGE, "");
+          setStatus(IDENTITY_REQUIRED_STATUS_MESSAGE, "error");
         }
         updateActionButtons();
       });
@@ -1279,7 +1310,10 @@
     state.emailInput.setAttribute("aria-describedby", "sis-exercise-status");
     state.eaglesIdInput.setAttribute("aria-describedby", "sis-exercise-status");
     collectActionButtons();
-    if (family === "dict") normalizeDictationControls();
+    if (family === "dict") {
+      normalizeDictationAnswerFields();
+      normalizeDictationControls();
+    }
     bindIdentityEvents();
     state.submitButton.addEventListener("click", submitAttempt);
     if (state.retryButton)
@@ -1291,9 +1325,9 @@
     wrapFinish();
     updateActionButtons();
     if (identityIsValid()) {
-      setStatus(IDENTITY_READY_STATUS_MESSAGE, "");
+      setStatus(IDENTITY_READY_STATUS_MESSAGE, "success");
     } else {
-      setStatus(IDENTITY_REQUIRED_STATUS_MESSAGE, "");
+      setStatus(IDENTITY_REQUIRED_STATUS_MESSAGE, "error");
     }
   }
 

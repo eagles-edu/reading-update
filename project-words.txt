@@ -18,6 +18,7 @@ locutus
 logfile
 Lywvvln
 lzpuf
+MMOR
 ndy
 OOM
 Pantone

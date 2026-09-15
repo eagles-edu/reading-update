@@ -1,5 +1,6 @@
 {
   "htmlWhitespaceSensitivity": "strict",
   "singleAttributePerLine": true,
-  "bracketSameLine": false
+  "bracketSameLine": false,
+  "proseWrap": "never"
 }

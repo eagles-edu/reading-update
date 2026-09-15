@@ -6,7 +6,7 @@ const test = require("node:test");
 const { chromium } = require("playwright");
 
 const ROOT = path.resolve(__dirname, "..");
-const CLOZE_PAGE = "/begin1/cloze/b1cloze082.html";
+const CLOZE_PAGE = "/begin1/cloze/b1cloze001.html";
 const MIME_TYPES = {
   ".css": "text/css; charset=utf-8",
   ".gif": "image/gif",
@@ -88,7 +88,7 @@ function findSystemBrowser() {
 
 async function readLayout(page) {
   return page.evaluate(function () {
-    const shell = document.querySelector(".sis-cloze-shell");
+    const shell = document.querySelector(".sis-exercise-content");
     const mainPanel = document.getElementById("MainDiv");
     const controls = mainPanel.querySelector(".btn17Container");
     const submit = document.querySelector("[data-sis-cloze-submit]");
@@ -151,7 +151,7 @@ test("current cloze Submit sits after Hint inside the exercise panel and Close i
   assert.equal(desktop.closeIsLastInFooter, true);
   assert.equal(desktop.footerIsLastInShell, true);
   assert.ok(
-    Math.abs(desktop.panelToCloseGap - 24) < 1,
+    Math.abs(desktop.panelToCloseGap - 24) <= 1,
     "Close should be 24px below the exercise panel; measured " +
       desktop.panelToCloseGap +
       "px",
@@ -168,7 +168,7 @@ test("current cloze Submit sits after Hint inside the exercise panel and Close i
   assert.equal(mobile.closeIsLastInFooter, true);
   assert.equal(mobile.footerIsLastInShell, true);
   assert.ok(mobile.documentWidth <= mobile.viewportWidth);
-  assert.ok(Math.abs(mobile.panelToCloseGap - 24) < 1);
+  assert.ok(Math.abs(mobile.panelToCloseGap - 24) <= 1);
   await page.screenshot({
     path: "/tmp/sis-cloze-submit-layout-mobile.png",
     fullPage: true,

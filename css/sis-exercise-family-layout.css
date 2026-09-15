@@ -1,0 +1,9 @@
+body#TheBody > .hp-exercise-shell[data-sis-exercise-shell][data-sis-exercise-family="dict"],
+body#TheBody > .hp-exercise-shell[data-sis-exercise-shell][data-sis-exercise-family="sent"] {
+  box-sizing: border-box;
+  margin-inline: auto;
+  max-width: var(--hp-page-width, 1123px);
+  min-width: 0;
+  padding: 0;
+  width: 100%;
+}

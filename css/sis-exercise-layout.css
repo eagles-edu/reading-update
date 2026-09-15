@@ -13,14 +13,14 @@ body *::after {
   box-sizing: border-box;
 }
 
-body .wrapit {
+body .hp-exercise-shell[data-sis-exercise-shell] {
   width: 100%;
   min-width: 0;
   max-width: 100%;
   margin-inline: auto;
 }
 
-body .wrapfit {
+body .hp-exercise-shell[data-sis-exercise-shell].wrapfit {
   max-width: 100%;
 }
 

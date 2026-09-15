@@ -28,6 +28,11 @@
   --strTextColorHov: #ffffff;
   --strTitleColor: #000000;
   --strVLinkColor: #0000CC;
+  --strAlertColor: #7b0019;
+  --strSuccessColor: #006718;
+  --strWarningColor: #56016d;
+  --strInfoColor: #17a2b8;
+  --strDangerColor: #e0162b;
 
   /* fallback for small screens  */
   /* hard cap for large screens */

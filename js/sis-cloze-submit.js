@@ -16,7 +16,7 @@
   var EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   var EAGLES_ID_PATTERN = /^[a-z]+\d{3}$/
   var IDENTITY_REQUIRED_STATUS_MESSAGE =
-    "Enter your student email and Eagles ID to unlock Check and Hint."
+    "Enter your EaglesID and student email to activate Check and Hint."
   var IDLE_STATUS_MESSAGE =
     "Your saved details are ready. Complete the exercise to send your result."
   var CLOSE_BUTTON_HTML =
@@ -337,18 +337,18 @@
     panel.className = "sis-cloze-panel"
     panel.setAttribute("aria-label", "Exercise submission details")
     panel.innerHTML =
-      '<p class="sis-cloze-panel__instruction">Enter your student email and Eagles ID to unlock Check and Hint and send your result to SIS.</p>' +
+      '<p class="sis-cloze-panel__instruction">Enter your EaglesID and student email to activate Check and Hint.</p>' +
       '<div class="sis-cloze-panel__grid">' +
       '<label class="sis-cloze-field" for="sis-cloze-email">' +
       '<span class="sis-cloze-field__label">Student email</span>' +
-      '<input id="sis-cloze-email" data-sis-cloze-email type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required>' +
+      '<input id="sis-cloze-email" data-sis-identity-email data-sis-cloze-email type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required>' +
       "</label>" +
       '<label class="sis-cloze-field" for="sis-cloze-eagles-id">' +
       '<span class="sis-cloze-field__label">Eagles ID</span>' +
-      '<input id="sis-cloze-eagles-id" data-sis-cloze-eagles-id type="text" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" pattern="^[a-z]+\\d{3}$" placeholder="tammy001" required>' +
+      '<input id="sis-cloze-eagles-id" data-sis-identity-eagles-id data-sis-cloze-eagles-id type="text" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" pattern="^[a-z]+\\d{3}$" placeholder="tammy001" required>' +
       "</label>" +
       "</div>" +
-      '<p id="sis-cloze-status" class="sis-cloze-status" data-sis-cloze-status aria-live="polite"></p>'
+      '<p id="sis-cloze-status" class="sis-cloze-status" data-sis-identity-status data-sis-cloze-status aria-live="polite"></p>'
 
     if (main) {
       main.insertBefore(panel, cloze)
@@ -391,7 +391,9 @@
   }
 
   function buildModernShell() {
-    var wrapfit = document.querySelector("body#TheBody > .wrapfit")
+    var wrapfit = document.querySelector(
+      "body#TheBody > [data-sis-exercise-shell].hp-exercise-shell.wrapfit",
+    )
     if (!wrapfit || wrapfit.dataset.sisShellBuilt === "true") return
 
     var titles = wrapfit.querySelector(".Titles")
@@ -404,7 +406,9 @@
     var identityPanel = document.querySelector(".sis-cloze-panel")
 
     var shell = document.createElement("main")
-    shell.className = "sis-cloze-shell"
+    shell.className = "sis-exercise-content hp-exercise-shell wrapfit"
+    shell.setAttribute("data-sis-exercise-shell", "true")
+    shell.setAttribute("data-sis-exercise-family", "cloze")
     shell.setAttribute("aria-label", "Cloze exercise")
 
     var header = document.createElement("header")
@@ -770,7 +774,7 @@
     try {
       payload = buildSubmissionPayload()
     } catch (error) {
-      var invalidMessage = error && error.message ? String(error.message) : "Enter your details first."
+      var invalidMessage = error && error.message ? String(error.message) : "Enter your EaglesID and student email to activate Check and Hint."
       setStatus(invalidMessage, "error")
       focusMissingIdentityField()
       updateButtonState()
@@ -900,9 +904,9 @@
         var identity = readFormIdentity()
         if (isIdentityReady(identity)) {
           persistIdentity(identity)
-          setStatus(IDLE_STATUS_MESSAGE, "")
+          setStatus(IDLE_STATUS_MESSAGE, "success")
         } else {
-          setStatus(IDENTITY_REQUIRED_STATUS_MESSAGE, "")
+          setStatus(IDENTITY_REQUIRED_STATUS_MESSAGE, "error")
         }
         updateButtonState()
       })
@@ -910,9 +914,9 @@
         var identity = readFormIdentity()
         if (isIdentityReady(identity)) {
           persistIdentity(identity)
-          setStatus(IDLE_STATUS_MESSAGE, "")
+          setStatus(IDLE_STATUS_MESSAGE, "success")
         } else {
-          setStatus(IDENTITY_REQUIRED_STATUS_MESSAGE, "")
+          setStatus(IDENTITY_REQUIRED_STATUS_MESSAGE, "error")
         }
         updateButtonState()
       })
@@ -954,7 +958,10 @@
     wrapGlobalHandlers()
     updateButtonState()
 
-    setStatus(isIdentityReady() ? IDLE_STATUS_MESSAGE : IDENTITY_REQUIRED_STATUS_MESSAGE, "")
+    setStatus(
+      isIdentityReady() ? IDLE_STATUS_MESSAGE : IDENTITY_REQUIRED_STATUS_MESSAGE,
+      isIdentityReady() ? "success" : "error",
+    )
 
     state.initialized = true
   }

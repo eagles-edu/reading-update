@@ -71,6 +71,26 @@
         "cwd": "${workspaceFolder}"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "MARKDOWN FORMAT ACTIVE",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "format:md", "--", "${file}"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "MARKDOWN CHECK ACTIVE",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "format:md:check", "--", "${file}"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
     }
   ]
 }

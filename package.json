@@ -15,8 +15,10 @@
     "node": "22.23.2"
   },
   "scripts": {
-    "format": "prettier --write .htmlvalidate.json .prettierrc.json package.json && npm run html:fix:apply",
-    "format:check": "prettier --check .htmlvalidate.json .prettierrc.json package.json && npm run html:fix",
+    "format": "prettier --write .htmlvalidate.json .markdownlint.json .prettierrc.json package.json && npm run html:fix:apply",
+    "format:check": "prettier --check .htmlvalidate.json .markdownlint.json .prettierrc.json package.json && npm run html:fix",
+    "format:md": "prettier --write",
+    "format:md:check": "prettier --check",
     "html:check": "html-validate -c ./.htmlvalidate.json --ext html,htm .",
     "html:check:file": "html-validate -c ./.htmlvalidate.json --ext html,htm",
     "html:fix": "node ./scripts/html-repo-sweep.cjs",

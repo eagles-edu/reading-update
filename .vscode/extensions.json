@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "esbenp.prettier-vscode",
     "html-validate.vscode-html-validate",
     "ecmel.vscode-html-css",
     "neusandez.inline-css-to-file-extractor"

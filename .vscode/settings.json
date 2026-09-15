@@ -16,15 +16,17 @@
     "**/.sto/**": true,
     "**/lib/python*/**": true
   },
-  "markdownlint.config": {
-    "MD034": false
-},
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.wordWrap": "on"
+  },
   "[html]": {
     "editor.hover.enabled": "on"
   },
   "json.schemas": [
     {
-      "fileMatch": [ ".vscode/launch.json" ],
+      "fileMatch": [".vscode/launch.json"],
       "url": "vscode://schemas/launch"
     }
   ],
@@ -46,7 +48,8 @@
   "html.validate.styles": false,
   "files.trimTrailingWhitespace": true,
   "python.analysis.extraPaths": [
-    "/home/eagles/.local/lib/python3.10/site-packages"],
+    "/home/eagles/.local/lib/python3.10/site-packages"
+  ],
   "css.autoValidation": "Never",
   "cssvar.files": [
     "*.css",
@@ -55,9 +58,7 @@
     "begin*/b*/css/**/*.css",
     "images/icons/**/*.css"
   ],
-  "css.styleSheets": [
-    "style.css"
-  ],
+  "css.styleSheets": ["style.css"],
   "cSpell.words": [
     "ackages",
     "ackup",
@@ -137,6 +138,7 @@
     "JCLOZE",
     "jfm",
     "jmconfig",
+    "JMIX",
     "ldf",
     "leftagln",
     "leftalgn",
@@ -192,6 +194,8 @@
     "scc",
     "schemaview",
     "sdf",
+    "Seg",
+    "Segs",
     "Silverlight",
     "sln",
     "snk",
@@ -233,5 +237,12 @@
     "efast-copy/npm/format",
     "efast-copy/npm/format:check",
     "efast-copy/npm/html:check"
+  ],
+  "markdown.validate.ignoredLinks": [
+    "/home/eagles/dockerz/efast-copy/scripts/modernize-hot-potatoes-pages.cjs:34",
+    "/home/eagles/dockerz/efast-copy/docs/moderate-hot-potatoes.md:89",
+    "/home/eagles/dockerz/efast-copy/scripts/modernize-hot-potatoes-pages.cjs:47",
+    "/home/eagles/dockerz/efast-copy/scripts/modernize-hot-potatoes-pages.cjs:61",
+    "/home/eagles/dockerz/efast-copy/scripts/modernize-hot-potatoes-pages.cjs:76"
   ]
 }

@@ -20,7 +20,9 @@ function exerciseFixture(family) {
     '<link rel="stylesheet" href="/css/sis-hot-potatoes.css">' +
     '<script src="/js/sis-exercise-submit.js" defer data-sis-exercise-family="' +
     family +
-    '"></script></head><body id="TheBody"><div class="wrapit">' +
+    '"></script></head><body id="TheBody"><div class="hp-exercise-shell wrapfit" data-sis-exercise-shell="true" data-sis-exercise-family="' +
+    family +
+    '">' +
     '<div class="NavButtonBar" id="TopNavBar"><button type="button">Next</button></div>' +
     '<div class="hp-instructions-panel"><div class="Titles"><h2 class="ExerciseTitle">Fixture</h2></div>' +
     '<div id="InstructionsDiv"><div id="Instructions">Complete the questions.</div></div></div>';
@@ -40,7 +42,7 @@ function exerciseFixture(family) {
       '<button class="FuncButton" type="button" onclick="CheckAnswer(1)">Hint</button>' +
       '<div id="SegmentDiv">Sentence words</div></div>' +
       "<script>var Penalties=0;var Locked=false;var Score=100;var nativeHintCalls=0;" +
-      "function CheckAnswer(kind){if(kind===1){nativeHintCalls++;Penalties++;return false;}Locked=true;Score=100;return true;}" +
+      "function CheckAnswer(kind){if(kind===1){nativeHintCalls++;Penalties++;document.getElementById('GuessDiv').textContent='Hint feedback';return false;}Locked=true;Score=100;document.getElementById('GuessDiv').textContent='Checked feedback';return true;}" +
       "function Undo(){}function Finish(){}</script>" +
       footerMarkup
     );
@@ -176,6 +178,8 @@ test("sentence scramble requires all five linked questions and caps the set at 1
     await page.locator("body").innerText(),
     /Complete the questions/,
   );
+  const guessFeedback = page.locator("#GuessDiv");
+  assert.equal(await guessFeedback.isVisible(), false);
   await page.locator("[data-sis-exercise-email]").fill("student@example.com");
   await page.locator("[data-sis-exercise-eagles-id]").fill("hug001");
   const firstAttemptId = await page.evaluate(function () {
@@ -186,6 +190,11 @@ test("sentence scramble requires all five linked questions and caps the set at 1
   assert.equal(await submit.isDisabled(), true);
   const hint = page.locator('#MainDiv button[onclick="CheckAnswer(1)"]');
   await hint.click();
+  await page.waitForFunction(function () {
+    const panel = document.getElementById("GuessDiv");
+    return panel && panel.textContent.includes("Hint feedback");
+  });
+  assert.equal(await guessFeedback.isVisible(), true);
   await hint.click();
   await hint.click();
   assert.equal(
@@ -195,6 +204,11 @@ test("sentence scramble requires all five linked questions and caps the set at 1
     0,
   );
   await page.locator('#MainDiv button[onclick="CheckAnswer(0)"]').click();
+  await page.waitForFunction(function () {
+    const panel = document.getElementById("GuessDiv");
+    return panel && panel.textContent.includes("Checked feedback");
+  });
+  assert.equal(await guessFeedback.isVisible(), true);
   assert.equal(
     await page.evaluate(function () {
       return window.Score;
@@ -444,11 +458,10 @@ test("dictation requires all five answers and charges seven points per extra hin
     return {
       submitInsideQuestionPanel: main.contains(submit),
       submitInFinalActionGroup: Boolean(
-        submit.closest('[aria-label="Dictation submission controls"]'),
+        submit.closest('[aria-label="Dictation question controls"]'),
       ),
       submissionGroupIsLastInPanel:
-        main.lastElementChild ===
-        main.querySelector('[aria-label="Dictation submission controls"]'),
+        main.querySelector("#Q_4 .sis-exercise-controls")?.contains(submit),
     };
   });
   assert.equal(dictationLayout.submitInsideQuestionPanel, true);

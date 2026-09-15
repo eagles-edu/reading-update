@@ -9,16 +9,62 @@ const {
   applyPagePlans,
   applySafetyError,
   CURRENT_MODERNIZATION_VERSION,
+  collectAssetInfo,
   extractHeadStyleBlocks,
   MAX_SAFE_APPLY_PAGES,
   normalizeFeedbackPage,
   normalizePage,
   normalizeStyleValue,
+  modernizationProfile,
   parseArgs,
+  preflightBlockingReason,
   scanTargets,
+  summarizePagePlans,
   storyTarget,
   transformMarkup,
+  validatePageMmor,
+  verifyPostConversionPage,
 } = require("./modernize-hot-potatoes-pages.cjs");
+
+test("page summaries separate original family gaps from file updates", () => {
+  const plans = [
+    {
+      result: { family: "cloze", sourceRequirementGaps: [] },
+      source: "current-cloze",
+      updated: "current-cloze",
+    },
+    {
+      result: { family: "dict", sourceRequirementGaps: ["selector .hp-instructions-panel"] },
+      source: "legacy-dict",
+      updated: "modern-dict",
+    },
+    {
+      result: { family: "sent", sourceRequirementGaps: [] },
+      source: "old-sri-sent",
+      updated: "current-sri-sent",
+    },
+  ];
+
+  const summary = summarizePagePlans(plans);
+  assert.equal(summary.alreadyCompliant, 1);
+  assert.equal(summary.fileUpdates, 2);
+  assert.equal(summary.sourceRequirementGaps, 1);
+  assert.deepEqual(summary.byFamily.get("cloze"), {
+    alreadyCompliant: 1,
+    fileUpdates: 0,
+    sourceRequirementGaps: 0,
+  });
+  assert.deepEqual(summary.byFamily.get("dict"), {
+    alreadyCompliant: 0,
+    fileUpdates: 1,
+    sourceRequirementGaps: 1,
+  });
+  assert.deepEqual(summary.byFamily.get("sent"), {
+    alreadyCompliant: 0,
+    fileUpdates: 1,
+    sourceRequirementGaps: 0,
+  });
+});
 
 test("bulk page applies fail closed unless an explicit scoped override is supplied", () => {
   assert.equal(
@@ -50,6 +96,35 @@ test("bulk page applies fail closed unless an explicit scoped override is suppli
   assert.deepEqual(parseArgs(["--allow-bulk", "--scope", "begin1"]).scopes, [
     "begin1",
   ]);
+  assert.equal(
+    parseArgs(["--allow-blocked", "--scope", "begin2"]).allowBlocked,
+    true,
+  );
+  assert.throws(
+    () => parseArgs(["--allow-blocked"]),
+    /requires at least one explicit --scope or --path/,
+  );
+  assert.match(
+    preflightBlockingReason(
+      { ambiguous: [], unmapped: [], failures: ["begin2/dict/b2d031.html: incomplete source"] },
+      { allowBlocked: false },
+    ),
+    /transformation failed/,
+  );
+  assert.equal(
+    preflightBlockingReason(
+      { ambiguous: [], unmapped: [], failures: ["begin2/dict/b2d031.html: incomplete source"] },
+      { allowBlocked: true },
+    ),
+    null,
+  );
+  assert.match(
+    preflightBlockingReason(
+      { ambiguous: ["begin2/dict/ambiguous.html"], unmapped: [], failures: [] },
+      { allowBlocked: true },
+    ),
+    /ambiguous/,
+  );
 });
 
 test("apply refuses a batch over the limit before creating backups or changing files", () => {
@@ -297,7 +372,7 @@ test("cloze action buttons clip pseudo-effects within their bounds", () => {
     "utf8",
   );
   const clozeButtonRule = css.match(
-    /body#TheBody\s+\.sis-cloze-shell\s+\.sis-exercise-controls\s+button\.hp-button\.btn-17,\s*body#TheBody\s+\.sis-cloze-shell\s+\.sis-exercise-controls\s+input\.hp-button\.btn-17\s*\{[^}]*\}/,
+    /body#TheBody\s+\.sis-exercise-content\s+\.sis-exercise-controls\s+button\.hp-button\.btn-17,\s*body#TheBody\s+\.sis-exercise-content\s+\.sis-exercise-controls\s+input\.hp-button\.btn-17\s*\{[^}]*\}/,
   )?.[0];
 
   assert.ok(clozeButtonRule, "cloze controls need a scoped button rule");
@@ -305,7 +380,7 @@ test("cloze action buttons clip pseudo-effects within their bounds", () => {
   assert.match(clozeButtonRule, /overflow:\s*hidden/);
 
   const clozePseudoRule = css.match(
-    /body#TheBody\s+\.sis-cloze-shell\s+\.sis-exercise-controls\s+button\.hp-button\.btn-17::before,[\s\S]*?\s+\{[^}]*\}/,
+    /body#TheBody\s+\.sis-exercise-content\s+\.sis-exercise-controls\s+button\.hp-button\.btn-17::before,[\s\S]*?\s+\{[^}]*\}/,
   )?.[0];
   assert.ok(
     clozePseudoRule,
@@ -316,7 +391,7 @@ test("cloze action buttons clip pseudo-effects within their bounds", () => {
   assert.match(clozePseudoRule, /content:\s*none/);
   assert.match(
     css,
-    /body#TheBody\s+\.sis-cloze-shell\s+\.sis-exercise-controls\s+button\.hp-button\.btn-17,\s*body#TheBody\s+\.sis-cloze-shell\s+\.sis-exercise-controls\s+input\.hp-button\.btn-17\s*\{[^}]*overflow:\s*hidden/s,
+    /body#TheBody\s+\.sis-exercise-content\s+\.sis-exercise-controls\s+button\.hp-button\.btn-17,\s*body#TheBody\s+\.sis-exercise-content\s+\.sis-exercise-controls\s+input\.hp-button\.btn-17\s*\{[^}]*overflow:\s*hidden/s,
   );
 });
 
@@ -331,7 +406,7 @@ test("the SRI watcher tracks shared CSS, JavaScript, and theme assets", () => {
         "js/hot-potatoes-ui.js",
         "document.documentElement.dataset.ready = 'true';",
       ],
-      ["css/sis-cloze-submit.css", ".sis-cloze-shell { display: grid; }"],
+      ["css/sis-cloze-submit.css", ".sis-exercise-content { display: grid; }"],
       ["css/sis-exercise-layout.css", ".sis-exercise-shell { display: grid; }"],
       ["js/sis-cloze-submit.js", "window.sisClozeReady = true;"],
       ["js/sis-exercise-submit.js", "window.sisExerciseReady = true;"],
@@ -597,17 +672,7 @@ function NavBtnOut(Btn) { Btn.className = "NavButton"; }</script>
       relative: "begin1/b1/b1001.html",
     },
   };
-  const assets = {
-    cssIntegrity: "sha384-css",
-    feedbackCssIntegrity: "sha384-feedback-css",
-    feedbackUiIntegrity: "sha384-feedback-ui",
-    clozeSubmitCssIntegrity: "sha384-cloze-submit-css",
-    exerciseLayoutCssIntegrity: "sha384-exercise-layout-css",
-    clozeSubmitJsIntegrity: "sha384-cloze-submit-js",
-    exerciseSubmitJsIntegrity: "sha384-exercise-submit-js",
-    storyIntegrity: "sha384-story",
-    uiIntegrity: "sha384-ui",
-  };
+  const assets = { ...collectAssetInfo(root), root };
   const first = normalizePage(page, { ...assets, root });
   const second = normalizePage(
     { ...page, source: first.source },
@@ -650,7 +715,7 @@ function NavBtnOut(Btn) { Btn.className = "NavButton"; }</script>
   assert.equal(first.counters.emptyFeedbackPanelsHidden, 1);
   assert.equal(first.counters.titleHeadingsNormalized, 1);
   assert.equal(first.counters.titlePanelsWrapped, 1);
-  assert.equal(first.counters.animatedButtons, 3);
+  assert.equal(first.counters.animatedButtons, 4);
   assert.doesNotMatch(first.source, /<hr\b/i);
   assert.doesNotMatch(first.source, /href="JavaScript:window\.close\(\)"/i);
   assert.doesNotMatch(first.source, /onmouseover="FuncBtnOver/);
@@ -677,17 +742,12 @@ function NavBtnOut(Btn) { Btn.className = "NavButton"; }</script>
   );
   assert.match(first.source, /data-story-title-url="\.\.\/b1\/b1001\.html"/);
   assert.match(first.source, /href="\.\.\/\.\.\/css\/sis-hot-potatoes\.css"/);
-  assert.match(first.source, /href="\.\.\/\.\.\/css\/sis-exercise-layout\.css" integrity="sha384-exercise-layout-css"/);
-  assert.match(first.source, /href="\.\.\/\.\.\/css\/sis-cloze-submit\.css" integrity="sha384-cloze-submit-css"/);
-  assert.match(first.source, /src="\.\.\/\.\.\/js\/sis-exercise-submit\.js" integrity="sha384-exercise-submit-js" data-sis-exercise-family="dict"/);
-  assert.match(
-    first.source,
-    /src="\.\.\/\.\.\/js\/hot-potatoes-feedback\.js" integrity="sha384-feedback-ui"/,
-  );
-  assert.match(
-    first.source,
-    /href="\.\.\/\.\.\/css\/hot-potatoes-feedback\.css" integrity="sha384-feedback-css"/,
-  );
+  assert.ok(first.source.includes(`href="../../css/sis-exercise-layout.css" integrity="${assets.exerciseLayoutCssIntegrity}"`));
+  assert.ok(first.source.includes(`href="../../css/sis-cloze-submit.css" integrity="${assets.clozeSubmitCssIntegrity}"`));
+  assert.ok(first.source.includes(`href="../../css/sis-exercise-family-layout.css" integrity="${assets.exerciseFamilyCssIntegrity}"`));
+  assert.ok(first.source.includes(`src="../../js/sis-exercise-submit.js" integrity="${assets.exerciseSubmitJsIntegrity}" data-sis-exercise-family="dict"`));
+  assert.ok(first.source.includes(`src="../../js/hot-potatoes-feedback.js" integrity="${assets.feedbackUiIntegrity}"`));
+  assert.ok(first.source.includes(`href="../../css/hot-potatoes-feedback.css" integrity="${assets.feedbackCssIntegrity}"`));
 
   const previousVersionSource = first.source.replace(
     `HOT POTATOES MODERNIZATION VERSION: version=${CURRENT_MODERNIZATION_VERSION}`,
@@ -722,64 +782,175 @@ function NavBtnOut(Btn) { Btn.className = "NavButton"; }</script>
 
 test("family normalization repairs the cloze wrapper and creates the expected action row", () => {
   const root = path.resolve(".");
-  const story = {
-    absolute: path.join(root, "begin2/b2/b2001.html"),
-    key: "b2001.html",
-    relative: "begin2/b2/b2001.html",
-  };
+  const absolute = path.join(root, "begin2/cloze/b2cloze001.html");
+  const story = storyTarget(root, absolute);
   const page = {
-    absolute: path.join(root, "begin2/cloze/example.html"),
-    relative: "begin2/cloze/example.html",
-    source: `<!doctype html><html><head><meta charset="utf-8">
+    absolute,
+    relative: "begin2/cloze/b2cloze001.html",
+    source: `<!doctype html><html><head><meta charset="utf-8"><!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="sis-cloze-prototype" content="current"><label for="Gap0">Blank 1</label> -->
+    <!-- HOT POTATOES MODERNIZATION VERSION: version=${CURRENT_MODERNIZATION_VERSION}; family=cloze; prototype=begin1/cloze/b1cloze001.html; story=${story.relative} -->
     <link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-legacy">
-<title>Cloze</title></head><body id="TheBody"><div class="wrapit"><div class="Titles"><h2 class="ExerciseTitle">Cloze</h2></div><div id="InstructionsDiv">Fill the blanks.</div><div id="MainDiv"><div id="ClozeDiv"><input class="GapBox" id="GapBox1"></div></div><div id="FeedbackDiv"></div></div></body></html>`,
+<title>Cloze</title></head><body id="TheBody"><div class="wrapit"><div class="hp-instructions-panel"><div class="Titles"><h1 class="ExerciseTitle">Cloze</h1></div><div id="InstructionsDiv">Fill the blanks.</div></div><div id="MainDiv"><div id="ClozeDiv"><span class="GapSpan"><input class="GapBox" id="Gap0"></span><div class="btn17Container"></div></div></div><div id="FeedbackDiv"></div><button class="btn-74" type="button" data-hp-close>Close</button></div></body></html>`,
     story,
   };
-  const assets = {
-    root,
-    cssIntegrity: "sha384-css",
-    feedbackCssIntegrity: "sha384-feedback-css",
-    feedbackUiIntegrity: "sha384-feedback-ui",
-    storyIntegrity: "sha384-story",
-    uiIntegrity: "sha384-ui",
-    clozeSubmitCssIntegrity: "sha384-cloze-submit-css",
-    exerciseLayoutCssIntegrity: "sha384-exercise-layout-css",
-    clozeSubmitJsIntegrity: "sha384-cloze-submit-js",
-    exerciseSubmitJsIntegrity: "sha384-exercise-submit-js",
-  };
+  const assets = { ...collectAssetInfo(root), root };
   const normalized = normalizePage(page, assets);
-  assert.match(normalized.source, /<div class="wrapit wrapfit">/);
+  assert.equal(modernizationProfile(page).prototype, "begin1/cloze/b1cloze001.html");
+  assert.equal(normalized.versionChanged, false);
+  assert.deepEqual(normalized.sourceRequirementGaps, [
+    "selector body#TheBody > .wrapfit",
+    "selector body#TheBody > .hp-exercise-shell",
+    "selector body#TheBody > [data-sis-exercise-shell]",
+    "selector meta[name=viewport]",
+    "selector meta[name=sis-cloze-prototype]",
+    "labels for Gap0",
+  ]);
+  assert.match(normalized.source, /name="viewport" content="width=device-width, initial-scale=1\.0"/);
+  assert.match(normalized.source, /name="sis-cloze-prototype" content="current"/);
+  assert.match(normalized.source, /<label class="sr-only" for="Gap0">Blank 1<\/label><input[^>]*id="Gap0"/);
+  assert.equal(normalized.counters.clozeGapLabels, 1);
+  assert.match(normalized.source, /<div class="hp-exercise-shell wrapfit" data-sis-exercise-shell="true" data-sis-exercise-family="cloze">/);
   assert.match(normalized.source, /<div class="btn17Container"><\/div><\/div>/);
   assert.match(normalized.source, /js\/sis-cloze-submit\.js/);
   assert.doesNotMatch(normalized.source, /^[\t ]+$/m);
   assert.equal(normalizePage({ ...page, source: normalized.source }, assets).source, normalized.source);
+  assert.equal(
+    verifyPostConversionPage({ ...page, source: normalized.source }, assets).source,
+    normalized.source,
+  );
+  const withoutGapFields = normalized.source.replace(
+    /<span\b[^>]*class="GapSpan"[^>]*>[\s\S]*?<\/span>/i,
+    "",
+  );
+  assert.throws(
+    () => normalizePage({ ...page, source: withoutGapFields }, assets),
+    /CL-05 At least one unique GapN input has a matching label/,
+  );
+  const withoutSubmissionScript = normalized.source.replace(
+    /<script defer src="\.\.\/\.\.\/js\/sis-cloze-submit\.js"[^>]*><\/script>/,
+    "",
+  );
+  assert.throws(
+    () =>
+      verifyPostConversionPage(
+        { ...page, source: withoutSubmissionScript },
+        assets,
+      ),
+    /post-conversion verification failed; repeat normalization still changes this cloze page/,
+  );
+});
+
+test("post-conversion verification rejects dictation and sentence pages without the ID block prompt", () => {
+  const sourceRoot = path.resolve(__dirname, "..");
+  const families = [
+    {
+      family: "dict",
+      prototype: "begin1/dict/b1d001.html",
+      relative: "begin2/dict/b2d058.html",
+    },
+    {
+      family: "sent",
+      prototype: "begin1/sent/b1mx00101.html",
+      relative: "begin2/sent/b2mx05801.html",
+    },
+  ];
+
+  for (const fixture of families) {
+    const root = fs.mkdtempSync(
+      path.join(os.tmpdir(), `hot-potatoes-${fixture.family}-id-panel-`),
+    );
+    try {
+      const prototypePath = path.join(root, fixture.prototype);
+      fs.mkdirSync(path.dirname(prototypePath), { recursive: true });
+      fs.copyFileSync(path.join(sourceRoot, fixture.prototype), prototypePath);
+      const submissionScript = path.join(root, "js/sis-exercise-submit.js");
+      fs.mkdirSync(path.dirname(submissionScript), { recursive: true });
+      fs.writeFileSync(submissionScript, "window.sisExerciseReady = true;");
+
+      const source = fs.readFileSync(prototypePath, "utf8");
+      const profile = modernizationProfile({ relative: fixture.relative });
+      assert.equal(profile.family, fixture.family);
+      assert.throws(
+        () =>
+          validatePageMmor(source, root, profile, fixture.relative),
+        /ID block post-conversion check failed; js\/sis-exercise-submit\.js must explain that EaglesID and student email activate Check and Hint/,
+      );
+    } finally {
+      fs.rmSync(root, { force: true, recursive: true });
+    }
+  }
+});
+
+test("dictation and sentence normalization canonicalizes supported wrappers to direct wrapfit", () => {
+  const root = path.resolve(".");
+  const assets = { ...collectAssetInfo(root), root };
+  const cases = [
+    { family: "dict", relative: "begin1/dict/b1d001.html" },
+    { family: "sent", relative: "begin1/sent/b1mx00101.html" },
+  ];
+
+  for (const fixture of cases) {
+    const absolute = path.join(root, fixture.relative);
+    const familyLabel = fixture.family === "dict" ? "Dictation" : "Sentence scramble";
+    const sourceForWrapper = (className) => `<!doctype html><html><head><meta charset="utf-8"><title>${familyLabel}</title></head><body id="TheBody"><div class="${className}"><div class="Titles"><h2 class="ExerciseTitle">${familyLabel}</h2></div><div id="InstructionsDiv">Complete the exercise.</div><div id="MainDiv"><textarea class="ShortAnswerBox" id="Q_0_Guess"></textarea><button class="FuncButton" type="button" onclick="CheckAnswer(0)">Check</button><button class="FuncButton" type="button" onclick="ShowHint(0)">Hint</button></div><div id="FeedbackDiv"><div id="FeedbackContent"></div></div><button class="btn-74" type="button" data-hp-close>Close</button></div></body></html>`;
+    const page = {
+      absolute,
+      relative: fixture.relative,
+      source: sourceForWrapper("wrapfit"),
+      story: storyTarget(root, absolute),
+    };
+    const profile = modernizationProfile(page);
+    assert.equal(profile.family, fixture.family);
+    const wrapperCases = [
+      { className: "wrapfit", passes: true },
+      { className: "wrapit", passes: true },
+      { className: "wrapit wrapfit", passes: true },
+      { className: "exercise-wrapper", passes: true },
+      { className: "", passes: false },
+      { className: "unknown-wrapper", passes: false },
+    ];
+    for (const fixtureCase of cases) {
+      const source = sourceForWrapper(fixtureCase.className);
+      if (!fixtureCase.passes) {
+        assert.throws(
+          () => normalizePage({ ...page, source }, assets),
+          /WRAPPER PREFLIGHT blocked unknown or missing direct wrapper/,
+          `${fixture.family} rejects ${fixtureCase.className || "missing"}`,
+        );
+        continue;
+      }
+      const normalized = normalizePage({ ...page, source }, assets);
+      const wrapper = normalized.source.match(/<body\b[^>]*>\s*<div\b[^>]*>/i)?.[0] || "";
+      assert.match(wrapper, /\bhp-exercise-shell\b/);
+      assert.match(wrapper, /\bwrapfit\b/);
+      assert.match(wrapper, /\bdata-sis-exercise-shell="true"/);
+      assert.match(wrapper, new RegExp(`\bdata-sis-exercise-family="${fixture.family}"`));
+      assert.doesNotMatch(normalized.source, /class="[^"]*\bwrapit\b/);
+      assert.doesNotMatch(normalized.source, /class="[^"]*\bexercise-wrapper\b/);
+      assert.equal(normalizePage({ ...page, source: normalized.source }, assets).source, normalized.source);
+    }
+
+    const original = sourceForWrapper("wrapfit");
+    const currentSource = normalizePage({ ...page, source: original }, assets).source;
+    const wrapperOpen = /(<body\b[^>]*>\s*<div\b[^>]*>)/i;
+    const nested = currentSource.replace(wrapperOpen, "$1<div class=\"wrapfit\"></div>");
+    assert.throws(() => normalizePage({ ...page, source: nested }, assets), /WRAPPER PREFLIGHT blocked nested wrappers/);
+    const duplicate = currentSource.replace("</body>", "<div class=\"wrapfit hp-exercise-shell\" data-sis-exercise-shell=\"true\"></div></body>");
+    assert.throws(() => normalizePage({ ...page, source: duplicate }, assets), /WRAPPER PREFLIGHT blocked duplicate direct wrappers/);
+  }
 });
 
 test("dictation and sentence profiles add a missing Close control at the wrapper footer", () => {
   const root = path.resolve(".");
   const source = `<!doctype html><html><head><meta charset="utf-8"><title>Dictation</title></head><body id="TheBody"><div class="wrapit"><div class="Titles"><h2 class="ExerciseTitle">Dictation</h2></div><div id="InstructionsDiv">Listen and type.</div><div id="MainDiv"><textarea class="ShortAnswerBox" id="Q_0_Guess"></textarea></div><div id="FeedbackDiv"><div id="FeedbackContent"></div></div></div></body></html>`;
+  const absolute = path.join(root, "begin1/dict/b1d001.html");
   const page = {
-    absolute: path.join(root, "begin1/dict/example.html"),
-    relative: "begin1/dict/example.html",
+    absolute,
+    relative: "begin1/dict/b1d001.html",
     source,
-    story: {
-      absolute: path.join(root, "begin1/b1/b1001.html"),
-      key: "b1001.html",
-      relative: "begin1/b1/b1001.html",
-    },
+    story: storyTarget(root, absolute),
   };
-  const assets = {
-    root,
-    cssIntegrity: "sha384-css",
-    feedbackCssIntegrity: "sha384-feedback-css",
-    feedbackUiIntegrity: "sha384-feedback-ui",
-    storyIntegrity: "sha384-story",
-    uiIntegrity: "sha384-ui",
-    clozeSubmitCssIntegrity: "sha384-cloze-submit-css",
-    exerciseLayoutCssIntegrity: "sha384-exercise-layout-css",
-    clozeSubmitJsIntegrity: "sha384-cloze-submit-js",
-    exerciseSubmitJsIntegrity: "sha384-exercise-submit-js",
-  };
+  const assets = { ...collectAssetInfo(root), root };
   const normalized = normalizePage(page, assets);
   assert.match(normalized.source, /<div class="cenmar"><button class="hp-button btn-74"[^>]*data-hp-close/);
   assert.equal(normalized.counters.closeButtons, 1);
@@ -792,27 +963,15 @@ test("dictation profile repairs the known outer cenmar shell only when its full 
     absolute: path.join(root, "supereasy/dict/se_d039.html"),
     relative: "supereasy/dict/se_d039.html",
     source: `<!doctype html><html><head><meta charset="utf-8"><title>Dictation</title></head><body id="TheBody"><div class="cenmar"><div class="Titles"><h1 class="ExerciseTitle">Dictation</h1></div><div id="InstructionsDiv">Listen and type.</div><div id="MainDiv"><textarea class="ShortAnswerBox" id="Q_0_Guess"></textarea></div><div id="FeedbackDiv"></div><div class="cenmar"><button class="hp-button btn-74" type="button" data-hp-close=""><span></span><span></span><span></span><span></span>Close</button></div></div></body></html>`,
-    story: {
-      absolute: path.join(root, "supereasy/story/se_d039.html"),
-      key: "se_d039.html",
-      relative: "supereasy/story/se_d039.html",
-    },
+    story: storyTarget(root, path.join(root, "supereasy/dict/se_d039.html")),
   };
-  const assets = {
-    root,
-    cssIntegrity: "sha384-css",
-    feedbackCssIntegrity: "sha384-feedback-css",
-    feedbackUiIntegrity: "sha384-feedback-ui",
-    storyIntegrity: "sha384-story",
-    uiIntegrity: "sha384-ui",
-    clozeSubmitCssIntegrity: "sha384-cloze-submit-css",
-    exerciseLayoutCssIntegrity: "sha384-exercise-layout-css",
-    clozeSubmitJsIntegrity: "sha384-exercise-submit-js",
-    exerciseSubmitJsIntegrity: "sha384-exercise-submit-js",
-  };
+  const assets = { ...collectAssetInfo(root), root };
 
   const normalized = normalizePage(page, assets);
-  assert.match(normalized.source, /<body id="TheBody"><div class="wrapit">/);
+  assert.match(
+    normalized.source,
+    /<body id="TheBody"><div class="wrapfit hp-exercise-shell" data-sis-exercise-shell="true" data-sis-exercise-family="dict">/,
+  );
   assert.match(normalized.source, /<div class="cenmar"><button[^>]*\bdata-hp-close/);
   assert.equal(normalized.counters.closeButtons, 0);
   assert.equal(normalizePage({ ...page, source: normalized.source }, assets).source, normalized.source);
@@ -820,6 +979,6 @@ test("dictation profile repairs the known outer cenmar shell only when its full 
   const incompleteShell = page.source.replace('<div id="FeedbackDiv"></div>', "");
   assert.throws(
     () => normalizePage({ ...page, source: incompleteShell }, assets),
-    /PROTOTYPE ANOMALY; unsupported direct exercise wrapper/,
+    /SOURCE STRUCTURE BLOCKED; unsupported direct exercise wrapper/,
   );
 });

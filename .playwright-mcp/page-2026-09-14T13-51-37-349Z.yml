@@ -1,0 +1,61 @@
+- generic [ref=e1]:
+  - main "Sentence scramble exercise" [ref=e3]:
+    - button "Next" [ref=e5] [cursor=pointer]
+    - generic [ref=e7]:
+      - heading "58. Diving Off a Cliff" [level=1] [ref=e9]
+      - paragraph [ref=e12]:
+        - strong [ref=e13]: SENTENCE SCRAMBLE
+        - text: ": Click on the words to put them into a correct sentence. When you finish, click on “Check.” Click on “Hint” to see the next correct word."
+    - region "SIS result details" [ref=e14]:
+      - region "SIS result details" [ref=e15]:
+        - paragraph [ref=e16]: Enter your EaglesID and student email below to activate Check and Hint and send your result to SIS.
+        - generic [ref=e17]:
+          - generic [ref=e18]:
+            - generic [ref=e19]: Student email
+            - textbox "Student email" [ref=e20]:
+              - /placeholder: name@example.com
+              - text: qa@example.edu
+          - generic [ref=e21]:
+            - generic [ref=e22]: Eagles ID
+            - textbox "Eagles ID" [ref=e23]:
+              - /placeholder: tammy001
+              - text: qa001
+        - paragraph [ref=e24]: Your saved details are ready. Complete the exercise to send your result.
+    - region "Exercise content" [ref=e25]:
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - link "a" [ref=e29] [cursor=pointer]:
+            - /url: javascript:void(0)
+          - link "on" [ref=e30] [cursor=pointer]:
+            - /url: javascript:void(0)
+          - link "cliff" [ref=e31] [cursor=pointer]:
+            - /url: javascript:void(0)
+          - link "was" [ref=e32] [cursor=pointer]:
+            - /url: javascript:void(0)
+          - link "a" [ref=e33] [cursor=pointer]:
+            - /url: javascript:void(0)
+          - link "ledge" [ref=e34] [cursor=pointer]:
+            - /url: javascript:void(0)
+          - link "he" [ref=e35] [cursor=pointer]:
+            - /url: javascript:void(0)
+          - link "of" [ref=e36] [cursor=pointer]:
+            - /url: javascript:void(0)
+          - link "." [ref=e37] [cursor=pointer]:
+            - /url: javascript:void(0)
+        - group "Sentence exercise controls" [ref=e38]:
+          - button "Check" [ref=e51] [cursor=pointer]
+          - button "Undo" [ref=e39] [cursor=pointer]
+          - button "Restart" [ref=e40] [cursor=pointer]
+          - button "Hint" [ref=e52] [cursor=pointer]
+          - generic "Submit exercise result" [ref=e41]:
+            - button "Submit" [disabled]
+    - region "Exercise feedback":
+      - dialog [ref=e53]:
+        - generic [ref=e54]:
+          - text: "The next correct part is:"
+          - text: he
+        - button "OK" [active] [ref=e55] [cursor=pointer]
+    - button "Next" [ref=e43] [cursor=pointer]
+    - generic "Close exercise" [ref=e44]:
+      - button "Close" [ref=e46] [cursor=pointer]: CLOSE
+  - tooltip "Close this message."

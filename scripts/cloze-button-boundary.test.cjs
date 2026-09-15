@@ -23,7 +23,7 @@ test("exercise button animation stays inside the button and retains keyboard foc
   await page.setContent(`<!doctype html>
     <html><head><meta charset="utf-8"></head>
     <body id="TheBody">
-      <main class="sis-cloze-shell">
+      <main class="sis-exercise-content">
         <div class="sis-exercise-controls">
           <button id="check" class="hp-button btn-17">Check</button>
           <button id="hint" class="hp-button btn-17">Hint</button>
