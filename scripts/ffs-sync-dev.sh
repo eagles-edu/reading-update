@@ -24,6 +24,7 @@ EXCLUDE_PATTERNS=(
   "**/.backups/***" "**/.playwright-cli/***" "**/robot/***"
   "**/AboutPageAssets/***" "**/_notes/***" "**/_vti_cnf/***"
   "**/*.bak*" "**/*.BAK" "**/*.old" "**/*.older" "**/*.bu"
+  "**/*.audio-player-prototype.html"
   "**/*.zip" "**/*.7z" "**/*.log" "**/*.gz" "**/*.br"
 )
 
@@ -48,7 +49,8 @@ Examples:
   npm run sync:dev:apply
   npm run sync:dev -- --public-root /tmp/efast-preview --no-sudo --apply
 
-The root phase copies only source index.html and player-proof.html to the public webroot. The
+The root phase copies only source index.html, player-proof.html, player-proof.css, and
+player-proof.js to the public webroot. The
 reading phase copies favicon.ico and the approved site directories to
 public_html/reading. Documentation, scripts, dependencies, backups, /efast,
 and generated archives are never selected.
@@ -131,7 +133,7 @@ elif [[ ! -d "$PUBLIC_ROOT" || ! -d "$READING_ROOT" ]]; then
   exit 1
 fi
 
-ROOT_ARGS=("${RSYNC_ARGS[@]}" "--include=/index.html" "--include=/player-proof.html" "--exclude=*")
+ROOT_ARGS=("${RSYNC_ARGS[@]}" "--include=/index.html" "--include=/player-proof.html" "--include=/player-proof.css" "--include=/player-proof.js" "--exclude=*")
 READING_ARGS=("${RSYNC_ARGS[@]}")
 append_common_filters
 for directory in "${READING_DIRECTORIES[@]}"; do

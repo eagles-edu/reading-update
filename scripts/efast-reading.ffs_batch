@@ -57,6 +57,7 @@
             <Item>*.old</Item>
             <Item>*.older</Item>
             <Item>*.bu</Item>
+            <Item>*.audio-player-prototype.html</Item>
             <Item>*.zip</Item>
             <Item>*.7z</Item>
             <Item>*.log</Item>

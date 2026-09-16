@@ -18,6 +18,8 @@
         <Include>
             <Item>\index.html</Item>
             <Item>\player-proof.html</Item>
+            <Item>\player-proof.css</Item>
+            <Item>\player-proof.js</Item>
         </Include>
         <SizeMin Unit="None">0</SizeMin>
         <SizeMax Unit="None">0</SizeMax>

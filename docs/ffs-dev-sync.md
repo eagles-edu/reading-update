@@ -43,7 +43,8 @@ npm run sync:dev -- --public-root /tmp/efast-preview --no-sudo --apply
 
 The sync runs two phases:
 
-1. Copy only the source `index.html` and approved `player-proof.html` to the public root.
+1. Copy only the source `index.html`, approved `player-proof.html`, and its
+   `player-proof.css`/`player-proof.js` assets to the public root.
 2. Copy `favicon.ico`, shared assets, and the approved reading collections to
    `public_html/reading/`.
 
@@ -65,8 +66,8 @@ Run both through the wrapper:
 npm run sync:dev:ffs
 ```
 
-The root batch targets only `public_html/index.html`; the reading batch targets
-only `public_html/reading/`.
+The root batch targets the approved root files; the reading batch targets only
+`public_html/reading/`.
 
 ## Precompression
 
@@ -78,8 +79,8 @@ npm run precompress:dev
 
 The same step is also run by `npm run sync:dev:apply` and
 `npm run sync:dev:ffs`. It creates gzip level 6 and Brotli level 5 sidecars
-for HTML, CSS, JavaScript, JSON, SVG, XML, text, and webmanifest files under
-the root index and `/reading/`. Audio, archives, backups, `/efast/`, and
-unrelated public-root files are not compressed. The web server must be
+for the root approved player assets, HTML, CSS, JavaScript, JSON, SVG, XML,
+text, and webmanifest files under `/reading/`. Audio, archives, backups,
+`/efast/`, and unrelated public-root files are not compressed. The web server must be
 configured with `gzip_static` and `brotli_static` or an equivalent sidecar
 configuration.

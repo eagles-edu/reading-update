@@ -6,9 +6,9 @@
 <meta charset="utf-8">
 <link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
 <link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
-<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-14.3; family=dict; prototype=begin1/dict/b1d001.html; story=easyread/es/easy167.html -->
+<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-15.2; family=dict; prototype=begin1/dict/b1d001.html; story=easyread/es/easy167.html -->
 <script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="easy167.html" data-story-title-url="../es/easy167.html"></script>
 <script src="../../js/hot-potatoes-ui.js" integrity="sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g"></script>
 <script src="../../js/hot-potatoes-feedback.js" integrity="sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq"></script>
@@ -28,14 +28,12 @@
 
 <style>
 
-
 /* This is the CSS stylesheet used in the exercise. */
 /* Elements in square brackets are replaced by data based on configuration settings when the exercise is built. */
 
 /* BeginCorePageCSS */
 
 /* Made with executable version 6.3 Release 0 Build 3 */
-
 
 :root {
     --strFontFace: var(--font-base);
@@ -74,7 +72,6 @@ body {
 	padding-right: 5%;
 	width: fit-content;
 }
-
 
 p {
 	line-height: 1.5!important;
@@ -239,9 +236,6 @@ div.Feedback {
 	display: none;
 	font-size: 100%;
 }
-
-
-
 
 div.ExerciseDiv{
 	color: #000000;
@@ -793,7 +787,6 @@ audio::-webkit-media-controls-panel {
   background-color: rgba(135, 206, 250, .5); /* sky‑blue 50 % */
 }
 
-
 .wrapfit {
    width: fit-content;
    margin: 0 auto;
@@ -864,8 +857,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -895,9 +886,6 @@ function FocusAButton(){
 		}
 	}
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -969,8 +957,6 @@ function ShowElements(Show, TagName, ContainerToReverse){
 	}
 }
 
-
-
 function HideFeedback(){
 	HPSetDisplay(document.getElementById('FeedbackDiv'), "none");
 	ShowElements(true, 'input');
@@ -980,7 +966,6 @@ function HideFeedback(){
 		Finish();
 	}
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -1120,9 +1105,6 @@ function WriteToInstructions(Feedback) {
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString){
 	return InString.replace(/"/g, '&quot;')
 }
@@ -1210,9 +1192,6 @@ function RemoveBottomNavBarForIE(){
 	}
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1230,10 +1209,6 @@ function Finish(){
 		Frm.submit();
 	}
 }
-
-
-
-
 
 //JQUIZ CORE JAVASCRIPT CODE
 
@@ -1277,16 +1252,16 @@ function CompleteEmptyFeedback(){
 	for (QNum=0; QNum<I.length; QNum++){
 //Only do this if not multi-select
 		if (I[QNum][2] != '3'){
-  		for (ANum = 0; ANum<I[QNum][3].length; ANum++){
-  			if (I[QNum][3][ANum][1].length < 1){
-  				if (I[QNum][3][ANum][2] > 0){
-  					I[QNum][3][ANum][1] = DefaultRight;
-  				}
-  				else{
-  					I[QNum][3][ANum][1] = DefaultWrong;
-  				}
-  			}
-  		}
+		for (ANum = 0; ANum<I[QNum][3].length; ANum++){
+			if (I[QNum][3][ANum][1].length < 1){
+				if (I[QNum][3][ANum][2] > 0){
+					I[QNum][3][ANum][1] = DefaultRight;
+				}
+				else{
+					I[QNum][3][ANum][1] = DefaultWrong;
+				}
+			}
+		}
 		}
 	}
 }
@@ -1318,7 +1293,7 @@ function SetUpQuestions(){
 		for (var i=0; i<QList.length; i++){
 			As = QList[i].getElementsByTagName('ol')[0];
 			if (As != null){
-  			AList.length = 0;
+			AList.length = 0;
 				while (As.getElementsByTagName('li').length > 0){
 					AList.push(As.removeChild(As.getElementsByTagName('li')[0]));
 				}
@@ -1357,8 +1332,8 @@ function SetFocusToTextbox(){
 		}
 	}
 	else{
-  	if (QArray[CurrQNum].getElementsByTagName('textarea')[0] != null){
-  		QArray[CurrQNum].getElementsByTagName('textarea')[0].focus();
+	if (QArray[CurrQNum].getElementsByTagName('textarea')[0] != null){
+		QArray[CurrQNum].getElementsByTagName('textarea')[0].focus();
 //and show a keypad if there is one
 			if (document.getElementById('CharacterKeypad') != null){
 				HPSetDisplay(document.getElementById('CharacterKeypad'), "block");
@@ -1468,7 +1443,6 @@ I[5][2]='1';
 I[5][3]=new Array();
 I[5][3][0]=new Array('Did you get rid of us this time?','',1,100,1);
 
-
 function StartUp(){
 	RemoveBottomNavBarForIE();
 
@@ -1480,19 +1454,11 @@ function StartUp(){
 //Stash the instructions so they can be redisplayed
 	strInstructions = document.getElementById('InstructionsDiv').innerHTML;
 
-
-
-
-
-
-
 	CompleteEmptyFeedback();
 
 	SetUpQuestions();
 	ClearTextBoxes();
 	CreateStatusArray();
-
-
 
 //Check search string for q parameter
 	if (document.location.search.length > 0){
@@ -1555,10 +1521,6 @@ function CreateStatusArray(){
 		}
 	}
 }
-
-
-
-
 
 function CalculateOverallScore(){
 	var TotalWeighting = 0;
@@ -1636,13 +1598,8 @@ function CheckFinished(){
 
 		Finished == true;
 
-
-
-
 		TimeOver = true;
 		Locked = true;
-
-
 
 		Finished = true;
 		Detail = '<?xml version="1.0"?><hpnetresult><fields>';
@@ -1658,10 +1615,6 @@ function CheckFinished(){
 	}
 
 }
-
-
-
-
 
 //CORE CODE FOR CHECKING SHORT ANSWER GUESSES AGAINST ANSWER ARRAYS
 
@@ -1989,8 +1942,6 @@ function ReplaceGuessBox(QNum, Ans){
 	}
 }
 
-
-
 function ShowAnswers(QNum){
 //bail if question doesn't exist or exercise finished
 	if ((State[QNum].length < 1)||(Finished == true)){return;}
@@ -2024,10 +1975,6 @@ function ShowAnswers(QNum){
 //This may be the last, so check finished status
 	CheckFinished();
 }
-
-
-
-
 
 function ShowHint(QNum){
 //bail if question doesn't exist or exercise finished
@@ -2079,9 +2026,6 @@ function ShowHint(QNum){
 	}
 }
 
-
-
-
 // End of script
 
 </script>
@@ -2095,27 +2039,18 @@ function ShowHint(QNum){
 <link rel="stylesheet" href="../../css/sis-exercise-layout.css" integrity="sha384-5HOjSZ/dHoz5qDsXvpEOXtqPTq50symoGkXfouRlWh+2X5MCVufbyJuTDg7a3y6o">
 <link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-O8x9dnVVIUDBVWqyxIoevfyflx64R983fR2e/kt0oP4Isbfr2CQUOhBsqgnNO+Fy">
 <link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-O8x9dnVVIUDBVWqyxIoevfyflx64R983fR2e/kt0oP4Isbfr2CQUOhBsqgnNO+Fy">
+<link rel="preload" href="../../css/sis-exercise-family-layout.css" as="style" integrity="sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j">
+<link rel="stylesheet" href="../../css/sis-exercise-family-layout.css" integrity="sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j">
 <script defer src="../../js/sis-exercise-submit.js" integrity="sha384-mMNp6FvFWm02ZkDK9ga/h/qUissJKdll6Xqi6KsgfvSy8kf7DQSy2X3Kx+biLPmo" data-sis-exercise-family="dict"></script>
 </head>
 
-<body onload="StartUp()" id="TheBody"><div class="wrapit">
+<body onload="StartUp()" id="TheBody"><div class="hp-exercise-shell wrapfit" data-sis-exercise-shell="true" data-sis-exercise-family="dict">
 
  <!-- BeginTopNavButtons -->
 
-
 <div class="NavButtonBar" id="TopNavBar">
 
-
-
-
-
-
-
-
-
 </div>
-
-
 
 <!-- EndTopNavButtons -->
 
@@ -2124,14 +2059,9 @@ function ShowHint(QNum){
 
 </div>
 
-
-
 <div id="InstructionsDiv" class="StdDiv">
 	<div id="Instructions">Click on the play button to hear the sentence; type exactly what you hear. (Start the sentence with a capital letter, and start a proper noun with a capital letter. End the sentence with a period, question mark, or exclamation mark.) Click on CHECK to see if your sentence is completely correct.</div>
 </div></div>
-
-
-
 
 <div id="MainDiv" class="StdDiv">
 
@@ -2164,8 +2094,6 @@ function ShowHint(QNum){
 
 <div><textarea id="Q_0_Guess" onfocus="TrackFocus('Q_0_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 1"></textarea><br><br>
 
-
-
 <script src="../../../www.rong-chang.com/nse/audio/audio-player.js"></script>
 
 <!-- <object type="application/x-shockwave-flash" data="../../../www.rong-chang.com/nse/audio/player.swf" id="audioplayer2" height="24" width="290">
@@ -2192,8 +2120,6 @@ function ShowHint(QNum){
 
 <div><textarea id="Q_1_Guess" onfocus="TrackFocus('Q_1_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 2"></textarea><br><br>
 
-
-
 <script src="../../../www.rong-chang.com/nse/audio/audio-player.js"></script>
 
 <!-- <object type="application/x-shockwave-flash" data="../../../www.rong-chang.com/nse/audio/player.swf" id="audioplayer2" height="24" width="290">
@@ -2218,8 +2144,6 @@ function ShowHint(QNum){
 
 <div><textarea id="Q_2_Guess" onfocus="TrackFocus('Q_2_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 3"></textarea><br><br>
 
-
-
 <script src="../../../www.rong-chang.com/nse/audio/audio-player.js"></script>
 
 <!-- <object type="application/x-shockwave-flash" data="../../../www.rong-chang.com/nse/audio/player.swf" id="audioplayer2" height="24" width="290">
@@ -2243,8 +2167,6 @@ function ShowHint(QNum){
 <source src="../../../www.rong-chang.com/ne/audio/dict/es02004.mp3" type="audio/mp3"></audio>
 
 <div><textarea id="Q_3_Guess" onfocus="TrackFocus('Q_3_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 4"></textarea><br><br>
-
-
 
 <script src="../../../www.rong-chang.com/nse/audio/audio-player.js"></script>
 
@@ -2272,8 +2194,6 @@ function ShowHint(QNum){
 
 <div><textarea id="Q_4_Guess" onfocus="TrackFocus('Q_4_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 5"></textarea><br><br>
 
-
-
 <script src="../../../www.rong-chang.com/nse/audio/audio-player.js"></script>
 
 <!-- <object type="application/x-shockwave-flash" data="../../../www.rong-chang.com/nse/audio/player.swf" id="audioplayer2" height="24" width="290">
@@ -2300,8 +2220,6 @@ function ShowHint(QNum){
 
 <div><textarea id="Q_5_Guess" onfocus="TrackFocus('Q_5_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 6"></textarea><br><br>
 
-
-
 <script src="../../../www.rong-chang.com/nse/audio/audio-player.js"></script>
 
 <!-- <object type="application/x-shockwave-flash" data="../../../www.rong-chang.com/nse/audio/player.swf" id="audioplayer2" height="24" width="290">
@@ -2316,11 +2234,7 @@ function ShowHint(QNum){
 
 <button class="FuncButton hp-button btn-17" type="submit" onclick="CheckShortAnswer(5)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button><button class="FuncButton hp-button btn-17" type="button" onclick="ShowHint(5)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button><button class="FuncButton hp-button btn-17" type="button" onclick="ShowAnswers(5)" aria-label="Answers" data-hp-tooltip="Reveal the correct answer. Revealed answers count as incorrect." aria-description="Reveal the correct answer. Revealed answers count as incorrect.">Answers</button></div></form></div></li></ol>
 
-
-
 </div>
-
-
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
@@ -2329,20 +2243,9 @@ function ShowHint(QNum){
 
 <!-- BeginBottomNavButtons -->
 
-
 <div class="NavButtonBar" id="BottomNavBar">
 
-
-
-
-
-
-
-
-
 </div>
-
-
 
 <!-- EndBottomNavButtons -->
 
@@ -2351,7 +2254,6 @@ function ShowHint(QNum){
 <!-- EndSubmissionForm -->
 
 <div class="cenmar"><button type="button" data-hp-close class="hp-button btn-74" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise.">CLOSE<span></span><span></span><span></span><span></span></button></div><br><br><br></div></body>
-
 
 <!-- dict/er_d167.htm, Mon, 03 Jul 2017 07:29:43 GMT -->
 </html>

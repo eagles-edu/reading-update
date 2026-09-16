@@ -1289,16 +1289,16 @@ function CompleteEmptyFeedback(){
 	for (QNum=0; QNum<I.length; QNum++){
 //Only do this if not multi-select
 		if (I[QNum][2] != '3'){
-  		for (ANum = 0; ANum<I[QNum][3].length; ANum++){
-  			if (I[QNum][3][ANum][1].length < 1){
-  				if (I[QNum][3][ANum][2] > 0){
-  					I[QNum][3][ANum][1] = DefaultRight;
-  				}
-  				else{
-  					I[QNum][3][ANum][1] = DefaultWrong;
-  				}
-  			}
-  		}
+		for (ANum = 0; ANum<I[QNum][3].length; ANum++){
+			if (I[QNum][3][ANum][1].length < 1){
+				if (I[QNum][3][ANum][2] > 0){
+					I[QNum][3][ANum][1] = DefaultRight;
+				}
+				else{
+					I[QNum][3][ANum][1] = DefaultWrong;
+				}
+			}
+		}
 		}
 	}
 }
@@ -1330,7 +1330,7 @@ function SetUpQuestions(){
 		for (var i=0; i<QList.length; i++){
 			As = QList[i].getElementsByTagName('ol')[0];
 			if (As != null){
-  			AList.length = 0;
+			AList.length = 0;
 				while (As.getElementsByTagName('li').length > 0){
 					AList.push(As.removeChild(As.getElementsByTagName('li')[0]));
 				}
@@ -1369,8 +1369,8 @@ function SetFocusToTextbox(){
 		}
 	}
 	else{
-  	if (QArray[CurrQNum].getElementsByTagName('textarea')[0] != null){
-  		QArray[CurrQNum].getElementsByTagName('textarea')[0].focus();
+	if (QArray[CurrQNum].getElementsByTagName('textarea')[0] != null){
+		QArray[CurrQNum].getElementsByTagName('textarea')[0].focus();
 //and show a keypad if there is one
 			if (document.getElementById('CharacterKeypad') != null){
 				document.getElementById('CharacterKeypad').style.display = 'block';
@@ -2070,7 +2070,7 @@ function ShowHint(QNum){
 <!-- EndTopNavButtons -->
 
 <div class="Titles">
-	<h2 class="ExerciseTitle">14. A New Shirt</h2>
+	<h1 class="ExerciseTitle">14. A New Shirt</h1>
 
 </div>
 
@@ -2107,8 +2107,6 @@ function ShowHint(QNum){
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/35a8029a/b1d01401.mp3" type="audio/mp3"></audio>
 
-
-
 <div><textarea id="Q_0_Guess" onfocus="TrackFocus('Q_0_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(0)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(0)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(0)">Show Answer</button></div></form></div></li>
 <li class="QuizQuestion" id="Q_1" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_1_SA"><form method="post" action="#" onsubmit="return false;">
 
@@ -2118,8 +2116,6 @@ function ShowHint(QNum){
   controlslist="nodownload noplaybackrate"
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/eafaf867/b1d01402.mp3" type="audio/mp3"></audio>
-
-
 
 <div><textarea id="Q_1_Guess" onfocus="TrackFocus('Q_1_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(1)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(1)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(1)">Show Answer</button></div></form></div></li>
 <li class="QuizQuestion" id="Q_2" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_2_SA"><form method="post" action="#" onsubmit="return false;">
@@ -2131,8 +2127,6 @@ function ShowHint(QNum){
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/d1f5af53/b1d01403.mp3" type="audio/mp3"></audio>
 
-
-
 <div><textarea id="Q_2_Guess" onfocus="TrackFocus('Q_2_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(2)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(2)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(2)">Show Answer</button></div></form></div></li>
 <li class="QuizQuestion" id="Q_3" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_3_SA"><form method="post" action="#" onsubmit="return false;">
 
@@ -2143,8 +2137,6 @@ function ShowHint(QNum){
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/4403d23b/b1d01404.mp3" type="audio/mp3"></audio>
 
-
-
 <div><textarea id="Q_3_Guess" onfocus="TrackFocus('Q_3_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(3)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(3)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(3)">Show Answer</button></div></form></div></li>
 <li class="QuizQuestion" id="Q_4" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_4_SA"><form method="post" action="#" onsubmit="return false;">
 
@@ -2154,8 +2146,6 @@ function ShowHint(QNum){
   controlslist="nodownload noplaybackrate"
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/22b2fddb/b1d01405.mp3" type="audio/mp3"></audio>
-
-
 
 <div><textarea id="Q_4_Guess" onfocus="TrackFocus('Q_4_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(4)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(4)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(4)">Show Answer</button></div></form></div></li></ol>
 

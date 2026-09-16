@@ -9,6 +9,7 @@ const { after, test } = require("node:test");
 const {
   lastPushedMessage,
   nextStandardCommitMessage,
+  parseArguments,
   selectCommitMessage,
 } = require("./git-sync-batch.cjs");
 
@@ -146,6 +147,13 @@ test("refuses to run when the index is already staged", () => {
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /index already has staged changes/);
   assert.equal(git(repo, "diff", "--cached", "--name-only"), "staged.txt");
+});
+
+test("blocks temporary paths from Git sync", () => {
+  assert.throws(
+    () => parseArguments(["--include", "tmp/loose"]),
+    /blocked from Git sync/,
+  );
 });
 
 test("literal include paths do not interpret Git pathspec syntax", () => {

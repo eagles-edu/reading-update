@@ -6,274 +6,60 @@
   <meta name="description" content="Audio player with equalizer controls">
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; media-src https://eagles.io.vn; connect-src 'self' https://cdn.jsdelivr.net; worker-src 'self' blob:;">
-<style>
-  :root {
-    --panel-bg: #14141a;
-    --module-bg: #1e1e26;
-    --accent-blue: #5865f2;
-    --knob-face: #2d2d3d;
-    --timeline-track: #2a2a35;
-  }
-  body {
-    background-color: #0b0b0f;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-  .horizontal-rack {
-    background: var(--panel-bg);
-    padding: 16px 24px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 28px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    border: 1px solid #252533;
-  }
-  .deck-section { display: flex; align-items: center; gap: 16px; }
-  .btn-play {
-    background: var(--accent-blue);
-    border: none;
-    color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  input[type="range"].timeline {
-    -webkit-appearance: none;
-    appearance: none;
-    background: var(--timeline-track);
-    height: 6px;
-    border-radius: 3px;
-    outline: none;
-    width: 140px;
-  }
-  input[type="range"].timeline::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--accent-blue);
-    cursor: pointer;
-  }
-  .eq-rack {
-    display: flex;
-    gap: 20px;
-    background: var(--module-bg);
-    padding: 8px 16px;
-    border-radius: 8px;
-    border: 1px solid #2a2a3a;
-  }
-  .knob-container { position: relative; width: 46px; height: 46px; }
-  .knob {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: var(--knob-face);
-    position: absolute;
-    top: 0; left: 0;
-    pointer-events: none;
-    box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 3px 8px rgba(0,0,0,0.4);
-    border: 2px solid #3b3b52;
-    box-sizing: border-box;
-    transform: rotate(-135deg);
-    transition: transform 0.05s linear;
-  }
-  .indicator {
-    position: absolute;
-    top: 4px;
-    left: 50%;
-    width: 3px;
-    height: 10px;
-    background: var(--accent-blue);
-    transform: translateX(-50%);
-    border-radius: 2px;
-  }
-  .knob-container input[type="range"] {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    opacity: 0;
-    cursor: pointer;
-    margin: 0;
-  }
-</style>
+<link rel="stylesheet" href="player-proof.css" integrity="sha384-RY2K6rIJ3rUSmHQGONtfd8b1A8zJUEJGgDpdlMXxA7rqEvCorD+xwmrHPkKltPbx">
 </head>
-<body>
+<body class="player-proof-demo">
 
-  <div class="horizontal-rack">
-    <audio id="myAudio" crossorigin="anonymous" preload="auto">
+  <section class="audio-player eagles-player-shell" aria-label="Audio player with EQ controls">
+    <audio id="audio" crossorigin="anonymous" preload="auto">
       <source src="https://eagles.io.vn/reading/_audio/easyread/audio/dict/dd165973/kid06401.mp3" type="audio/mp3">
     </audio>
 
-    <div class="deck-section">
-      <button id="playBtn" class="btn-play" type="button" aria-label="play/pause button">▶</button>
-      <input type="range" id="progressBar" class="timeline" value="0" min="0" max="100" aria-label="progress bar">
+    <div class="player-controls">
+      <button class="play-btn" id="play-pause-btn" aria-label="Play" type="button">
+        <svg id="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+        <svg id="pause-icon" viewBox="0 0 24 24" aria-hidden="true" style="display: none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg>
+      </button>
+
+      <div class="timeline-container">
+        <span id="current-time">0:00</span>
+        <input type="range" id="progress" min="0" max="100" value="0" aria-label="Progress">
+        <span id="duration">0:00</span>
+      </div>
+
+      <div class="volume-container">
+        <div class="volume-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" /></svg>
+        </div>
+        <input type="range" id="volume" min="0" max="1" step="0.05" value="0.8" aria-label="Volume">
+      </div>
     </div>
 
-    <div class="eq-rack">
-      <div class="knob-container">
-        <div class="knob" id="bassKnob"><div class="indicator"></div></div>
-        <input type="range" id="lowGain" min="-20" max="20" value="0" aria-label="bass control knob">
-      </div>
-      <div class="knob-container">
-        <div class="knob" id="midKnob"><div class="indicator"></div></div>
-        <input type="range" id="midGain" min="-20" max="20" value="0" aria-label="midrange control knob">
-      </div>
-      <div class="knob-container">
-        <div class="knob" id="trebleKnob"><div class="indicator"></div></div>
-        <input type="range" id="highGain" min="-20" max="20" value="0" aria-label="treble control knob">
+    <div class="eq-section" role="group" aria-label="Low, mid, and high EQ controls">
+      <div class="eq-stepper-grid">
+        <div class="eq-stepper" data-band="low">
+          <span class="eq-label">Lo</span>
+          <button class="eq-stepper-btn" type="button" data-band="low" data-step="-1" aria-label="Lower low">&lt;</button>
+          <output class="eq-value" aria-label="Low setting">0</output>
+          <button class="eq-stepper-btn" type="button" data-band="low" data-step="1" aria-label="Raise low">&gt;</button>
+        </div>
+        <div class="eq-stepper" data-band="mid">
+          <span class="eq-label">Mid</span>
+          <button class="eq-stepper-btn" type="button" data-band="mid" data-step="-1" aria-label="Lower mid">&lt;</button>
+          <output class="eq-value" aria-label="Mid setting">0</output>
+          <button class="eq-stepper-btn" type="button" data-band="mid" data-step="1" aria-label="Raise mid">&gt;</button>
+        </div>
+        <div class="eq-stepper" data-band="high">
+          <span class="eq-label">Hi</span>
+          <button class="eq-stepper-btn" type="button" data-band="high" data-step="-1" aria-label="Lower high">&lt;</button>
+          <output class="eq-value" aria-label="High setting">0</output>
+          <button class="eq-stepper-btn" type="button" data-band="high" data-step="1" aria-label="Raise high">&gt;</button>
+        </div>
       </div>
     </div>
-
-    <div class="deck-section">
-      <div class="knob-container">
-        <div class="knob" id="volumeKnob"><div class="indicator"></div></div>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="1" aria-label="volume control knob">
-      </div>
-    </div>
-  </div>
+  </section>
 
 <template id="tone-script-template"><script src="https://cdn.jsdelivr.net/npm/tone@15.1.22/build/Tone.js" integrity="sha384-NWoslxaf/3dYwQk+uGziDYJFdsjBpVlU1WpFRexuDFcIk/5PJpCbpVXia2Uikeix" crossorigin="anonymous"></script></template>
-<script>
-  const audioEl = document.getElementById('myAudio');
-  const playBtn = document.getElementById('playBtn');
-  const progressBar = document.getElementById('progressBar');
-  const toneScriptTemplate = document.getElementById('tone-script-template');
-
-  let eq = null;
-  let volumeNode = null;
-  let mediaSource = null;
-  let graphReady = false;
-  let toneLoadPromise = null;
-
-  function loadTone() {
-    if (window.Tone) return Promise.resolve(window.Tone);
-    if (toneLoadPromise) return toneLoadPromise;
-
-    toneLoadPromise = new Promise((resolve, reject) => {
-      if (!toneScriptTemplate || !toneScriptTemplate.content.firstElementChild) {
-        reject(new Error('Tone.js script template is missing'));
-        return;
-      }
-
-      const script = toneScriptTemplate.content.firstElementChild.cloneNode(true);
-      script.onload = () => {
-        if (window.Tone) {
-          resolve(window.Tone);
-        } else {
-          reject(new Error('Tone.js loaded without exposing the Tone API'));
-        }
-      };
-      script.onerror = () => reject(new Error('Tone.js failed to load'));
-      document.head.appendChild(script);
-    }).catch((error) => {
-      toneLoadPromise = null;
-      throw error;
-    });
-
-    return toneLoadPromise;
-  }
-
-  function ensureAudioGraph(toneApi) {
-    if (graphReady) return;
-
-    eq = new toneApi.EQ3({
-      low: 0,
-      mid: 0,
-      high: 0
-    });
-    volumeNode = new toneApi.Volume(0);
-    mediaSource = toneApi.getContext().createMediaElementSource(audioEl);
-
-    toneApi.connect(mediaSource, eq);
-    eq.connect(volumeNode);
-    volumeNode.toDestination();
-    graphReady = true;
-  }
-
-  function setPlayState(isPlaying) {
-    playBtn.textContent = isPlaying ? '⏸' : '▶';
-  }
-
-  function updateKnobRotation(inputEl, knobId) {
-    const min = parseFloat(inputEl.min), max = parseFloat(inputEl.max), val = parseFloat(inputEl.value);
-    const degrees = ((val - min) / (max - min) * 270) - 135;
-    document.getElementById(knobId).style.transform = `rotate(${degrees}deg)`;
-  }
-
-  function syncEqFromControls() {
-    const sliderValue = Number(document.getElementById('volumeSlider').value);
-    audioEl.volume = sliderValue;
-    if (!graphReady) return;
-
-    eq.low.value = Number(document.getElementById('lowGain').value);
-    eq.mid.value = Number(document.getElementById('midGain').value);
-    eq.high.value = Number(document.getElementById('highGain').value);
-    volumeNode.volume.value = (sliderValue - 1) * 20;
-  }
-
-  const inputs = [
-    { id: 'lowGain', knob: 'bassKnob' },
-    { id: 'midGain', knob: 'midKnob' },
-    { id: 'highGain', knob: 'trebleKnob' },
-    { id: 'volumeSlider', knob: 'volumeKnob' }
-  ];
-
-  inputs.forEach(item => {
-    const el = document.getElementById(item.id);
-    updateKnobRotation(el, item.knob);
-    el.addEventListener('input', (e) => {
-      updateKnobRotation(e.target, item.knob);
-      syncEqFromControls();
-    });
-  });
-
-  playBtn.addEventListener('click', async () => {
-    try {
-      if (audioEl.paused) {
-        playBtn.disabled = true;
-        await audioEl.play();
-        const toneApi = await loadTone();
-        await toneApi.start();
-        ensureAudioGraph(toneApi);
-        syncEqFromControls();
-        setPlayState(true);
-      } else {
-        audioEl.pause();
-        setPlayState(false);
-      }
-    } catch (error) {
-      if (error && error.name !== 'AbortError') {
-        console.error('Audio playback error:', error);
-      }
-      audioEl.pause();
-      setPlayState(false);
-    } finally {
-      playBtn.disabled = false;
-    }
-  });
-
-  audioEl.addEventListener('play', () => setPlayState(true));
-  audioEl.addEventListener('pause', () => setPlayState(false));
-
-  audioEl.addEventListener('timeupdate', () => {
-    if (!isNaN(audioEl.duration)) progressBar.value = (audioEl.currentTime / audioEl.duration) * 100;
-  });
-
-  progressBar.addEventListener('input', () => {
-    if (!isNaN(audioEl.duration)) {
-      audioEl.currentTime = (progressBar.value / 100) * audioEl.duration;
-    }
-  });
-</script>
+<script src="player-proof.js" integrity="sha384-qEkHDwtOmaACTGG9039me/zsAaZtIPY9TFpMYr2WEa+rc45pfIk+KFjHNkc+hJHt"></script>
 </body>
 </html>

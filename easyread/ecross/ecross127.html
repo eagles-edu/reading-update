@@ -6,9 +6,9 @@
 <meta charset="utf-8">
 <link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
 <link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
-<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-14.3; family=shared; prototype=begin1/cloze/b1cloze001.html; story=easyread/es/easy127.html -->
+<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-15.2; family=shared; prototype=begin1/cloze/b1cloze001.html; story=easyread/es/easy127.html -->
 <script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="easy127.html" data-story-title-url="../es/easy127.html"></script>
 <script src="../../js/hot-potatoes-ui.js" integrity="sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g"></script>
 <script src="../../js/hot-potatoes-feedback.js" integrity="sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq"></script>
@@ -31,14 +31,12 @@ ecross127
 
 <style>
 
-
 /* This is the CSS stylesheet used in the exercise. */
 /* Elements in square brackets are replaced by data based on configuration settings when the exercise is built. */
 
 /* BeginCorePageCSS */
 
 /* Made with executable version 6.3 Release 0 Build 0 */
-
 
 /* Hack to hide a nested Quicktime player from IE, which can't handle it. */
 * html object.MediaPlayerNotForIE {
@@ -212,9 +210,6 @@ div.Feedback {
 	display: none;
 	font-size: 100%;
 }
-
-
-
 
 div.ExerciseDiv{
 	color: #000000;
@@ -666,7 +661,6 @@ display: none
 margin-top: 3em;
 }
 
-
 .wrapfit {
    width: fit-content;
    margin: 0 auto;
@@ -737,8 +731,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -768,9 +760,6 @@ function FocusAButton(){
 		}
 	}
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -842,8 +831,6 @@ function ShowElements(Show, TagName, ContainerToReverse){
 	}
 }
 
-
-
 function HideFeedback(){
 	HPSetDisplay(document.getElementById('FeedbackDiv'), "none");
 	ShowElements(true, 'input');
@@ -853,7 +840,6 @@ function HideFeedback(){
 		Finish();
 	}
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -993,9 +979,6 @@ function WriteToInstructions(Feedback) {
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString){
 	return InString.replace(/"/g, '&quot;')
 }
@@ -1083,9 +1066,6 @@ function RemoveBottomNavBarForIE(){
 	}
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1103,9 +1083,6 @@ function Finish(){
 		Frm.submit();
 	}
 }
-
-
-
 
 //JCROSS CORE JAVASCRIPT CODE
 
@@ -1143,14 +1120,8 @@ function StartUp(){
 		HPSetDisplay(document.getElementById('CharacterKeypad'), "block");
 	}
 
-
 	AcrossCaption = document.getElementById('CluesAcrossLabel').innerHTML;
 	DownCaption = document.getElementById('CluesDownLabel').innerHTML;
-
-
-
-
-
 
 }
 
@@ -1342,7 +1313,6 @@ L[11] = new Array('N','','H','A','L','L','O','W','E','E','N','','','D');
 L[12] = new Array('D','','','I','','','','','R','','','','','A');
 L[13] = new Array('Y','','','N','','O','C','T','O','B','E','R','','Y');
 
-
 CL = new Array();
 CL[0] = new Array(1,2,0,0,0,0,0,0,0,0,0,0,0,0);
 CL[1] = new Array(0,0,0,0,0,0,0,0,0,3,0,4,0,0);
@@ -1359,7 +1329,6 @@ CL[11] = new Array(0,0,16,0,0,0,0,0,0,0,0,0,0,0);
 CL[12] = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 CL[13] = new Array(0,0,0,0,0,17,0,0,0,0,0,0,0,0);
 
-
 G = new Array();
 G[0] = new Array('','','','','','','','','','','','','','');
 G[1] = new Array('','','','','','','','','','','','','','');
@@ -1375,7 +1344,6 @@ G[10] = new Array('','','','','','','','','','','','','','');
 G[11] = new Array('','','','','','','','','','','','','','');
 G[12] = new Array('','','','','','','','','','','','','','');
 G[13] = new Array('','','','','','','','','','','','','','');
-
 
 function CheckAnswers(){
 	if (Locked == true){return;}
@@ -1433,7 +1401,6 @@ function CheckAnswers(){
 
 	if ((AllCorrect == true)||(TimeOver == true)){
 
-
 		TimeOver = true;
 		Locked = true;
 		Finished = true;
@@ -1459,8 +1426,6 @@ function TypeChars(Chars){
 	}
 }
 
-
-
 // End of script
 
 </script>
@@ -1476,26 +1441,16 @@ function TypeChars(Chars){
 
  <!-- BeginTopNavButtons -->
 
-
-
 <!-- EndTopNavButtons -->
 
 <div class="hp-instructions-panel"><div class="Titles">
 	<h1 class="ExerciseTitle">Crossword Puzzle</h1>
-
-
-
-
-
-
 
 </div>
 
 <div id="InstructionsDiv" class="StdDiv">
 	<div id="Instructions"> </div>
 </div></div>
-
-
 
 <div id="MainDiv" class="StdDiv"> <div id="ClueEntry">
 
@@ -1516,10 +1471,6 @@ function TypeChars(Chars){
 </table>
 
 <button id="CheckButton2" class="FuncButton hp-button btn-17" type="submit" onclick="CheckAnswers()" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
-
-
-
-
 
  <table id="Clues">
 
@@ -1556,16 +1507,12 @@ function TypeChars(Chars){
 
 </div>
 
-
-
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
 <button id="FeedbackOKButton" class="FuncButton hp-button btn-17" type="button" onclick="HideFeedback(); return false;" aria-label="OK" data-hp-tooltip="Close this message." aria-description="Close this message.">OK</button>
 </div>
 
 <!-- BeginBottomNavButtons -->
-
-
 
 <!-- EndBottomNavButtons -->
 
@@ -1574,7 +1521,6 @@ function TypeChars(Chars){
 <!-- EndSubmissionForm -->
 
 <div class="cenmar"><button type="button" data-hp-close class="hp-button btn-74" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise.">CLOSE<span></span><span></span><span></span><span></span></button></div><br><br><br></div></body>
-
 
 <!-- ecross/ecross127.htm, Mon, 03 Jul 2017 07:22:42 GMT -->
 </html>

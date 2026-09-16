@@ -9,6 +9,7 @@ const { spawnSync } = require("node:child_process");
 const MAX_PATHS_PER_BATCH = 200;
 const MAX_ARGUMENT_BYTES_PER_BATCH = 16 * 1024;
 const PREVIEW_PATH_LIMIT = 40;
+const BLOCKED_PATH_PREFIXES = ["tmp"];
 const STANDARD_COMMIT_PATTERN =
   /^Reading_update_BETA_(\d+)\.(\d+)\.(\d+)\.(\d+)$/;
 const STANDARD_COMMIT_INITIAL_VERSION = [0, 2, 2, 0];
@@ -110,7 +111,16 @@ function normalizeInclude(value) {
       `Include path cannot contain empty, ".", or ".." segments: ${value}`,
     );
   }
+  if (isBlockedPath(normalized)) {
+    throw new Error(`The repository path is blocked from Git sync: ${value}`);
+  }
   return normalized;
+}
+
+function isBlockedPath(filePath) {
+  return BLOCKED_PATH_PREFIXES.some(
+    (prefix) => filePath === prefix || filePath.startsWith(`${prefix}/`),
+  );
 }
 
 function invokeGit(root, args, options = {}) {
@@ -283,7 +293,8 @@ function assertNoOperationConflict(root) {
 function planPaths(records, options) {
   const selected = records.filter(
     ({ path: filePath }) =>
-      options.all || isIncluded(filePath, options.includes),
+      !isBlockedPath(filePath) &&
+      (options.all || isIncluded(filePath, options.includes)),
   );
   if (!selected.length)
     throw new Error("No changed or untracked paths match the requested scope.");
@@ -644,7 +655,9 @@ async function run(options) {
     .sort((a, b) => a.localeCompare(b, "en"));
   assertSamePaths(
     latestPaths.filter(
-      (filePath) => options.all || isIncluded(filePath, options.includes),
+      (filePath) =>
+        !isBlockedPath(filePath) &&
+        (options.all || isIncluded(filePath, options.includes)),
     ),
     plannedPaths,
     "Changes since preview",

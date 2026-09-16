@@ -13,9 +13,6 @@
 <meta name="DC:Creator" content="ron">
 <meta name="DC:Title" content="15. Picking a Color for the House">
 
-
-
-
 <title>Dictation:
 15. Picking a Color for the House
 </title>
@@ -24,10 +21,7 @@
 
 <!-- The following insertion allows you to add your own code directly to this head tag from the configuration screen -->
 
-
-
 <style>
-
 
 /* This is the CSS stylesheet used in the exercise. */
 /* Elements in square brackets are replaced by data based on configuration settings when the exercise is built. */
@@ -35,7 +29,6 @@
 /* BeginCorePageCSS */
 
 /* Made with executable version 6.3 Release 0 Build 5 */
-
 
 :root {
     --strFontFace: var(--font-base);
@@ -238,9 +231,6 @@ div.Feedback {
 	display: none;
 	font-size: 100%;
 }
-
-
-
 
 div.ExerciseDiv{
 	color: #000000;
@@ -652,7 +642,6 @@ div.CardStyle {
 	font-size: 140%;
 }
 
-
 .ShortAnswerBox {
 font-size: inherit
 }
@@ -759,7 +748,6 @@ ol.QuizQuestions, .lstnosty {
     list-style-type: none;
 }
 
-
 /* ≤ 480 px: let page grow to 90 % so 5 % paddings still fit inside 320 px */
 @media (max-width: 480px) {
   body {
@@ -834,7 +822,6 @@ audio::-webkit-media-controls-panel {
 }
 </style>
 
-
 <script>
 
 // Start of script
@@ -894,8 +881,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -937,9 +922,6 @@ function FocusAButton(){
 		}
 	}
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -1011,8 +993,6 @@ function ShowElements(Show, TagName, ContainerToReverse){
 	}
 }
 
-
-
 function HideFeedback(){
 	document.getElementById('FeedbackDiv').style.display = 'none';
 	ShowElements(true, 'input');
@@ -1022,7 +1002,6 @@ function HideFeedback(){
 		Finish();
 	}
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -1162,9 +1141,6 @@ function WriteToInstructions(Feedback) {
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString){
 	return InString.replace(/"/g, '&quot;')
 }
@@ -1252,9 +1228,6 @@ function RemoveBottomNavBarForIE(){
 	}
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1272,10 +1245,6 @@ function Finish(){
 		Frm.submit();
 	}
 }
-
-
-
-
 
 //JQUIZ CORE JAVASCRIPT CODE
 
@@ -1319,16 +1288,16 @@ function CompleteEmptyFeedback(){
 	for (QNum=0; QNum<I.length; QNum++){
 //Only do this if not multi-select
 		if (I[QNum][2] != '3'){
-  		for (ANum = 0; ANum<I[QNum][3].length; ANum++){
-  			if (I[QNum][3][ANum][1].length < 1){
-  				if (I[QNum][3][ANum][2] > 0){
-  					I[QNum][3][ANum][1] = DefaultRight;
-  				}
-  				else{
-  					I[QNum][3][ANum][1] = DefaultWrong;
-  				}
-  			}
-  		}
+		for (ANum = 0; ANum<I[QNum][3].length; ANum++){
+			if (I[QNum][3][ANum][1].length < 1){
+				if (I[QNum][3][ANum][2] > 0){
+					I[QNum][3][ANum][1] = DefaultRight;
+				}
+				else{
+					I[QNum][3][ANum][1] = DefaultWrong;
+				}
+			}
+		}
 		}
 	}
 }
@@ -1360,7 +1329,7 @@ function SetUpQuestions(){
 		for (var i=0; i<QList.length; i++){
 			As = QList[i].getElementsByTagName('ol')[0];
 			if (As != null){
-  			AList.length = 0;
+			AList.length = 0;
 				while (As.getElementsByTagName('li').length > 0){
 					AList.push(As.removeChild(As.getElementsByTagName('li')[0]));
 				}
@@ -1399,8 +1368,8 @@ function SetFocusToTextbox(){
 		}
 	}
 	else{
-  	if (QArray[CurrQNum].getElementsByTagName('textarea')[0] != null){
-  		QArray[CurrQNum].getElementsByTagName('textarea')[0].focus();
+	if (QArray[CurrQNum].getElementsByTagName('textarea')[0] != null){
+		QArray[CurrQNum].getElementsByTagName('textarea')[0].focus();
 //and show a keypad if there is one
 			if (document.getElementById('CharacterKeypad') != null){
 				document.getElementById('CharacterKeypad').style.display = 'block';
@@ -1505,7 +1474,6 @@ I[4][2]='1';
 I[4][3]=new Array();
 I[4][3][0]=new Array('Green is perfect.','',1,100,1);
 
-
 function StartUp(){
 	RemoveBottomNavBarForIE();
 
@@ -1517,19 +1485,11 @@ function StartUp(){
 //Stash the instructions so they can be redisplayed
 	strInstructions = document.getElementById('InstructionsDiv').innerHTML;
 
-
-
-
-
-
-
 	CompleteEmptyFeedback();
 
 	SetUpQuestions();
 	ClearTextBoxes();
 	CreateStatusArray();
-
-
 
 //Check search string for q parameter
 	if (document.location.search.length > 0){
@@ -1592,10 +1552,6 @@ function CreateStatusArray(){
 		}
 	}
 }
-
-
-
-
 
 function CalculateOverallScore(){
 	var TotalWeighting = 0;
@@ -1673,13 +1629,8 @@ function CheckFinished(){
 
 		Finished == true;
 
-
-
-
 		TimeOver = true;
 		Locked = true;
-
-
 
 		Finished = true;
 		Detail = '<?xml version="1.0"?><hpnetresult><fields>';
@@ -1695,10 +1646,6 @@ function CheckFinished(){
 	}
 
 }
-
-
-
-
 
 //CORE CODE FOR CHECKING SHORT ANSWER GUESSES AGAINST ANSWER ARRAYS
 
@@ -2026,8 +1973,6 @@ function ReplaceGuessBox(QNum, Ans){
 	}
 }
 
-
-
 function ShowAnswers(QNum){
 //bail if question doesn't exist or exercise finished
 	if ((State[QNum].length < 1)||(Finished == true)){return;}
@@ -2061,10 +2006,6 @@ function ShowAnswers(QNum){
 //This may be the last, so check finished status
 	CheckFinished();
 }
-
-
-
-
 
 function ShowHint(QNum){
 //bail if question doesn't exist or exercise finished
@@ -2116,40 +2057,25 @@ function ShowHint(QNum){
 	}
 }
 
-
-
 // End of script
 
-
 </script>
-
 
 <link rel="icon" href="/reading/favicon.ico">
 </head>
 
 <body onload="StartUp()" id="TheBody"><div class="wrapit"><!-- BeginTopNavButtons -->
 
-
-
 <!-- EndTopNavButtons -->
 
 <div class="Titles">
-	<h2 class="ExerciseTitle">15. Picking a Color for the House</h2>
-
-
-
-
+	<h1 class="ExerciseTitle">15. Picking a Color for the House</h1>
 
 </div>
-
-
 
 <div id="InstructionsDiv" class="StdDiv">
 	<div id="Instructions">Click on the play button to hear the sentence; type exactly what you hear. (Start the sentence with a capital letter, and start a proper noun with a capital letter. End the sentence with a period, question mark, or exclamation mark.) Click on CHECK to see if your sentence is completely correct.</div>
 </div>
-
-
-
 
 <div id="MainDiv" class="StdDiv">
 
@@ -2180,15 +2106,6 @@ function ShowHint(QNum){
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/b836b816/b1d01501.mp3" type="audio/mp3"></audio>
 
-
-
-
-
-
-
-
-
-
 <div><textarea id="Q_0_Guess" onfocus="TrackFocus('Q_0_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(0)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(0)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(0)">Show Answer</button></div></form></div></li>
 <li class="QuizQuestion" id="Q_1" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_1_SA"><form method="post" action="#" onsubmit="return false;">
 
@@ -2198,15 +2115,6 @@ function ShowHint(QNum){
   controlslist="nodownload noplaybackrate"
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/eff64ec3/b1d01502.mp3" type="audio/mp3"></audio>
-
-
-
-
-
-
-
-
-
 
 <div><textarea id="Q_1_Guess" onfocus="TrackFocus('Q_1_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(1)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(1)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(1)">Show Answer</button></div></form></div></li>
 <li class="QuizQuestion" id="Q_2" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_2_SA"><form method="post" action="#" onsubmit="return false;">
@@ -2218,15 +2126,6 @@ function ShowHint(QNum){
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/1cfc2969/b1d01503.mp3" type="audio/mp3"></audio>
 
-
-
-
-
-
-
-
-
-
 <div><textarea id="Q_2_Guess" onfocus="TrackFocus('Q_2_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(2)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(2)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(2)">Show Answer</button></div></form></div></li>
 <li class="QuizQuestion" id="Q_3" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_3_SA"><form method="post" action="#" onsubmit="return false;">
 
@@ -2236,15 +2135,6 @@ function ShowHint(QNum){
   controlslist="nodownload noplaybackrate"
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/f394281b/b1d01504.mp3" type="audio/mp3"></audio>
-
-
-
-
-
-
-
-
-
 
 <div><textarea id="Q_3_Guess" onfocus="TrackFocus('Q_3_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(3)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(3)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(3)">Show Answer</button></div></form></div></li>
 <li class="QuizQuestion" id="Q_4" style="display: none;"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_4_SA"><form method="post" action="#" onsubmit="return false;">
@@ -2256,22 +2146,9 @@ function ShowHint(QNum){
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/5eb0d3b5/b1d01505.mp3" type="audio/mp3"></audio>
 
-
-
-
-
-
-
-
-
-
 <div><textarea id="Q_4_Guess" onfocus="TrackFocus('Q_4_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2"></textarea><br><br><button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(4)">Check</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(4)">Hint</button><button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(4)">Show Answer</button></div></form></div></li></ol>
 
-
-
 </div>
-
-
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
@@ -2280,18 +2157,13 @@ function ShowHint(QNum){
 
 <!-- BeginBottomNavButtons -->
 
-
-
 <!-- EndBottomNavButtons -->
 
 <!-- BeginSubmissionForm -->
 
 <!-- EndSubmissionForm -->
 
-
-
 <hr><hr><div class="cenmar"><a href="JavaScript:window.close()">CLOSE</a></div></div></body>
-
 
 <!-- /begin1/dict/b1d015.htm, Sun, 02 Jul 2017 04:39:47 GMT -->
 </html>

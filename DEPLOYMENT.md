@@ -32,7 +32,8 @@ npm run sync:dev:apply
 
 The sync has two whitelist phases:
 
-1. only the source root `index.html` and approved `player-proof.html` go to the public root;
+1. only the source root `index.html`, approved `player-proof.html`, and its
+   `player-proof.css`/`player-proof.js` assets go to the public root;
 2. `favicon.ico`, shared assets, and approved reading directories go to
    `public_html/reading/`.
 

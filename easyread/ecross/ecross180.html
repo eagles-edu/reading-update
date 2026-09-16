@@ -6,9 +6,9 @@
 <meta charset="utf-8">
 <link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
 <link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
-<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-14.3; family=shared; prototype=begin1/cloze/b1cloze001.html; story=easyread/es/easy180.html -->
+<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-15.2; family=shared; prototype=begin1/cloze/b1cloze001.html; story=easyread/es/easy180.html -->
 <script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="easy180.html" data-story-title-url="../es/easy180.html"></script>
 <script src="../../js/hot-potatoes-ui.js" integrity="sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g"></script>
 <script src="../../js/hot-potatoes-feedback.js" integrity="sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq"></script>
@@ -30,14 +30,12 @@ ecross180
 
 <style>
 
-
 /* This is the CSS stylesheet used in the exercise. */
 /* Elements in square brackets are replaced by data based on configuration settings when the exercise is built. */
 
 /* BeginCorePageCSS */
 
 /* Made with executable version 6.3 Release 0 Build 3 */
-
 
 /* Hack to hide a nested Quicktime player from IE, which can't handle it. */
 * html object.MediaPlayerNotForIE {
@@ -211,9 +209,6 @@ div.Feedback {
 	display: none;
 	font-size: 100%;
 }
-
-
-
 
 div.ExerciseDiv{
 	color: #000000;
@@ -665,7 +660,6 @@ display: none
 margin-top: 3em;
 }
 
-
 .wrapfit {
    width: fit-content;
    margin: 0 auto;
@@ -736,8 +730,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -767,9 +759,6 @@ function FocusAButton(){
 		}
 	}
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -841,8 +830,6 @@ function ShowElements(Show, TagName, ContainerToReverse){
 	}
 }
 
-
-
 function HideFeedback(){
 	HPSetDisplay(document.getElementById('FeedbackDiv'), "none");
 	ShowElements(true, 'input');
@@ -852,7 +839,6 @@ function HideFeedback(){
 		Finish();
 	}
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -992,9 +978,6 @@ function WriteToInstructions(Feedback) {
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString){
 	return InString.replace(/"/g, '&quot;')
 }
@@ -1082,9 +1065,6 @@ function RemoveBottomNavBarForIE(){
 	}
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1102,9 +1082,6 @@ function Finish(){
 		Frm.submit();
 	}
 }
-
-
-
 
 //JCROSS CORE JAVASCRIPT CODE
 
@@ -1142,14 +1119,8 @@ function StartUp(){
 		HPSetDisplay(document.getElementById('CharacterKeypad'), "block");
 	}
 
-
 	AcrossCaption = document.getElementById('CluesAcrossLabel').innerHTML;
 	DownCaption = document.getElementById('CluesDownLabel').innerHTML;
-
-
-
-
-
 
 }
 
@@ -1340,7 +1311,6 @@ L[10] = new Array('S','L','O','W','L','Y','','I','','','H','','');
 L[11] = new Array('T','','N','','','','','M','','','','','');
 L[12] = new Array('E','','E','A','T','','W','E','L','L','','','');
 
-
 CL = new Array();
 CL[0] = new Array(0,0,0,0,1,0,0,0,0,0,2,0,0);
 CL[1] = new Array(0,3,0,0,0,0,0,4,0,5,0,0,0);
@@ -1356,7 +1326,6 @@ CL[10] = new Array(17,0,18,0,0,0,0,0,0,0,0,0,0);
 CL[11] = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0);
 CL[12] = new Array(0,0,19,0,0,0,20,0,0,0,0,0,0);
 
-
 G = new Array();
 G[0] = new Array('','','','','','','','','','','','','');
 G[1] = new Array('','','','','','','','','','','','','');
@@ -1371,7 +1340,6 @@ G[9] = new Array('','','','','','','','','','','','','');
 G[10] = new Array('','','','','','','','','','','','','');
 G[11] = new Array('','','','','','','','','','','','','');
 G[12] = new Array('','','','','','','','','','','','','');
-
 
 function CheckAnswers(){
 	if (Locked == true){return;}
@@ -1429,7 +1397,6 @@ function CheckAnswers(){
 
 	if ((AllCorrect == true)||(TimeOver == true)){
 
-
 		TimeOver = true;
 		Locked = true;
 		Finished = true;
@@ -1455,8 +1422,6 @@ function TypeChars(Chars){
 	}
 }
 
-
-
 // End of script
 
 </script>
@@ -1472,26 +1437,16 @@ function TypeChars(Chars){
 
  <!-- BeginTopNavButtons -->
 
-
-
 <!-- EndTopNavButtons -->
 
 <div class="hp-instructions-panel"><div class="Titles">
 	<h1 class="ExerciseTitle">Crossword Puzzle</h1>
-
-
-
-
-
-
 
 </div>
 
 <div id="InstructionsDiv" class="StdDiv">
 	<div id="Instructions"> </div>
 </div></div>
-
-
 
 <div id="MainDiv" class="StdDiv"> <div id="ClueEntry">
 
@@ -1506,4 +1461,61 @@ function TypeChars(Chars){
 <table class="CrosswordGrid">
 <tbody>
 
-<tr id="Row_0"><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(1,0,4)">1</a><span class="NumLetterCellText" id="L_0_4" onclick="ShowClue(1,0,4)">&nbsp;&nbsp;&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(2,0,10)">2</a><span class="NumLetterCellText" id="L_0_10" onclick="ShowClue(2,0,10)">&nbsp;&nbsp;&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_1"><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(3,1,1)">3</a><span class="NumLetterCellText" id="L_1_1" onclick="ShowClue(3,1,1)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_1_2">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_1_3">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_1_4">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_1_5">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(4,1,7)">4</a><span class="NumLetterCellText" id="L_1_7" onclick="ShowClue(4,1,7)">&nbsp;&nbsp;&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(5,1,9)">5</a><span class="NumLetterCellText" id="L_1_9" onclick="ShowClue(5,1,9)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_1_10">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_1_11">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_1_12">&nbsp;</span></td></tr><tr id="Row_2"><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_2_4">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_2_7">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_2_10">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_3"><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(6,3,0)">6</a><span class="NumLetterCellText" id="L_3_0" onclick="ShowClue(6,3,0)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_1">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_2">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_3">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_4">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(7,3,6)">7</a><span class="NumLetterCellText" id="L_3_6" onclick="ShowClue(7,3,6)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_7">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_8">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_9">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_10">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_4"><td class="LetterOnlyCell"><span id="L_4_0">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_4_4">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_4_7">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_5"><td class="LetterOnlyCell"><span id="L_5_0">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(8,5,2)">8</a><span class="NumLetterCellText" id="L_5_2" onclick="ShowClue(8,5,2)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_5_3">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_5_4">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_5_5">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_5_6">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_5_7">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_5_8">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_6"><td class="LetterOnlyCell"><span id="L_6_0">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_6_4">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_6_7">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(9,6,10)">9</a><span class="NumLetterCellText" id="L_6_10" onclick="ShowClue(9,6,10)">&nbsp;&nbsp;&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_7"><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_7_4">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(10,7,8)">10</a><span class="NumLetterCellText" id="L_7_8" onclick="ShowClue(10,7,8)">&nbsp;&nbsp;&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_7_10">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_8"><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(11,8,0)">11</a><span class="NumLetterCellText" id="L_8_0" onclick="ShowClue(11,8,0)">&nbsp;&nbsp;&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(12,8,2)">12</a><span class="NumLetterCellText" id="L_8_2" onclick="ShowClue(12,8,2)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_8_3">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_8_4">&nbsp;</span></td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(13,8,5)">13</a><span class="NumLetterCellText" id="L_8_5" onclick="ShowClue(13,8,5)">&nbsp;&nbsp;&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(14,8,8)">14</a><span class="NumLetterCellText" id="L_8_8" onclick="ShowClue(14,8,8)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_8_9">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_8_10">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_8_11">&nbsp;</span></td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_9"><td class="LetterOnlyCell"><span id="L_9_0">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(15,9,5)">15</a><span class="NumLetterCellText" id="L_9_5" onclick="ShowClue(15,9,5)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><sp
+<tr id="Row_0"><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(1,0,4)">1</a><span class="NumLetterCellText" id="L_0_4" onclick="ShowClue(1,0,4)">&nbsp;&nbsp;&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(2,0,10)">2</a><span class="NumLetterCellText" id="L_0_10" onclick="ShowClue(2,0,10)">&nbsp;&nbsp;&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_1"><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(3,1,1)">3</a><span class="NumLetterCellText" id="L_1_1" onclick="ShowClue(3,1,1)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_1_2">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_1_3">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_1_4">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_1_5">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(4,1,7)">4</a><span class="NumLetterCellText" id="L_1_7" onclick="ShowClue(4,1,7)">&nbsp;&nbsp;&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(5,1,9)">5</a><span class="NumLetterCellText" id="L_1_9" onclick="ShowClue(5,1,9)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_1_10">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_1_11">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_1_12">&nbsp;</span></td></tr><tr id="Row_2"><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_2_4">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_2_7">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_2_10">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_3"><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(6,3,0)">6</a><span class="NumLetterCellText" id="L_3_0" onclick="ShowClue(6,3,0)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_1">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_2">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_3">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_4">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(7,3,6)">7</a><span class="NumLetterCellText" id="L_3_6" onclick="ShowClue(7,3,6)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_7">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_8">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_9">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_3_10">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_4"><td class="LetterOnlyCell"><span id="L_4_0">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_4_4">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_4_7">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_5"><td class="LetterOnlyCell"><span id="L_5_0">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(8,5,2)">8</a><span class="NumLetterCellText" id="L_5_2" onclick="ShowClue(8,5,2)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_5_3">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_5_4">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_5_5">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_5_6">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_5_7">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_5_8">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_6"><td class="LetterOnlyCell"><span id="L_6_0">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_6_4">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_6_7">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(9,6,10)">9</a><span class="NumLetterCellText" id="L_6_10" onclick="ShowClue(9,6,10)">&nbsp;&nbsp;&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_7"><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_7_4">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(10,7,8)">10</a><span class="NumLetterCellText" id="L_7_8" onclick="ShowClue(10,7,8)">&nbsp;&nbsp;&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_7_10">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_8"><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(11,8,0)">11</a><span class="NumLetterCellText" id="L_8_0" onclick="ShowClue(11,8,0)">&nbsp;&nbsp;&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(12,8,2)">12</a><span class="NumLetterCellText" id="L_8_2" onclick="ShowClue(12,8,2)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_8_3">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_8_4">&nbsp;</span></td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(13,8,5)">13</a><span class="NumLetterCellText" id="L_8_5" onclick="ShowClue(13,8,5)">&nbsp;&nbsp;&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(14,8,8)">14</a><span class="NumLetterCellText" id="L_8_8" onclick="ShowClue(14,8,8)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_8_9">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_8_10">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_8_11">&nbsp;</span></td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_9"><td class="LetterOnlyCell"><span id="L_9_0">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(15,9,5)">15</a><span class="NumLetterCellText" id="L_9_5" onclick="ShowClue(15,9,5)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_9_6">&nbsp;</span></td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(16,9,7)">16</a><span class="NumLetterCellText" id="L_9_7" onclick="ShowClue(16,9,7)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_9_8">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_9_10">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_10"><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(17,10,0)">17</a><span class="NumLetterCellText" id="L_10_0" onclick="ShowClue(17,10,0)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_10_1">&nbsp;</span></td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(18,10,2)">18</a><span class="NumLetterCellText" id="L_10_2" onclick="ShowClue(18,10,2)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_10_3">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_10_4">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_10_5">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_10_7">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_10_10">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_11"><td class="LetterOnlyCell"><span id="L_11_0">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_11_2">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="LetterOnlyCell"><span id="L_11_7">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr><tr id="Row_12"><td class="LetterOnlyCell"><span id="L_12_0">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(19,12,2)">19</a><span class="NumLetterCellText" id="L_12_2" onclick="ShowClue(19,12,2)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_12_3">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_12_4">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="NumLetterCell"><a href="javascript:void(0);" class="GridNum" onclick="ShowClue(20,12,6)">20</a><span class="NumLetterCellText" id="L_12_6" onclick="ShowClue(20,12,6)">&nbsp;&nbsp;&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_12_7">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_12_8">&nbsp;</span></td><td class="LetterOnlyCell"><span id="L_12_9">&nbsp;</span></td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td><td class="BlankCell">&nbsp;</td></tr>
+
+</tbody>
+</table>
+
+<button id="CheckButton2" class="FuncButton hp-button btn-17" type="submit" onclick="CheckAnswers()" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
+
+ <table id="Clues">
+<tbody>
+<tr>
+<td>
+
+<table class="ClueList">
+<tbody id="CluesAcross">
+<tr><td colspan="2"><h3 class="ExerciseSubtitle" id="CluesAcrossLabel">Across:</h3></td></tr>
+
+<tr><td class="ClueNum">3. </td><td id="Clue_A_3" class="Clue">We need ___ for drinking, washing, and cooking.</td></tr><tr><td class="ClueNum">5. </td><td id="Clue_A_5" class="Clue">A. Are there any ___-tasting vegetables? B. No. All vegetables are bad-tasting.</td></tr><tr><td class="ClueNum">6. </td><td id="Clue_A_6" class="Clue">I'll use my knife to ___ the vegetables into little pieces. I'll ___ the banana when I'm finished with the vegetables.</td></tr><tr><td class="ClueNum">7. </td><td id="Clue_A_7" class="Clue">Do you prefer to ___ bottled water or tap water?</td></tr><tr><td class="ClueNum">8. </td><td id="Clue_A_8" class="Clue">He finally ___ed the carrot after chewing it for a long time.</td></tr><tr><td class="ClueNum">12. </td><td id="Clue_A_12" class="Clue">Don't ___ food with your mouth open. It looks bad and sounds bad.</td></tr><tr><td class="ClueNum">14. </td><td id="Clue_A_14" class="Clue">A. Is this ___ glass of water or is it mine? B. It's ___s. The tall glass is my glass.</td></tr><tr><td class="ClueNum">15. </td><td id="Clue_A_15" class="Clue">Little kids ___ vegetables. They love fruits, but they ___ veggies.</td></tr><tr><td class="ClueNum">17. </td><td id="Clue_A_17" class="Clue">He chewed the carrot very ___. It took him a long time to chew it.</td></tr><tr><td class="ClueNum">19. </td><td id="Clue_A_19" class="Clue">If you don't ___ all the vegetables on your plate, you'll get no dessert. Don't play with them--___ them.</td></tr><tr><td class="ClueNum">20. </td><td id="Clue_A_20" class="Clue">A. They say that carrots help your vision. They help you see ___. B. ___, that's what they say. Who knows if it's true?</td></tr>
+
+</tbody>
+</table>
+
+</td>
+
+<td>
+
+<table class="ClueList">
+<tbody id="CluesDown">
+<tr><td colspan="2"><h3 class="ExerciseSubtitle" id="CluesDownLabel">Down:</h3></td></tr>
+
+<tr><td class="ClueNum">1. </td><td id="Clue_D_1" class="Clue">Is a carrot a ___ or a fruit? Is a tomato a ___ or a fruit? Is a green bean a ___ or a fruit?</td></tr><tr><td class="ClueNum">2. </td><td id="Clue_D_2" class="Clue">Many people use ___s and spoons to eat. Many people use chopsticks.</td></tr><tr><td class="ClueNum">4. </td><td id="Clue_D_4" class="Clue">Does Bugs Bunny love to eat raw, orange ___s?</td></tr><tr><td class="ClueNum">6. </td><td id="Clue_D_6" class="Clue">___ of these carrots are no good, but most of them are okay. Can I have ___ of your salad?</td></tr><tr><td class="ClueNum">9. </td><td id="Clue_D_9" class="Clue">Put the food on your fork. Then open your ___ and put the fork into your ___.</td></tr><tr><td class="ClueNum">10. </td><td id="Clue_D_10" class="Clue">Do carrots improve your ___sight? Do carrots make you see better? Do carrots make your ___s healthier?</td></tr><tr><td class="ClueNum">11. </td><td id="Clue_D_11" class="Clue">Many vegetables are crunchy, but they don't have much ___. That's why they don't ___ good. They need more sugar.</td></tr><tr><td class="ClueNum">13. </td><td id="Clue_D_13" class="Clue">A. ___ are you playing with your vegetables? B. Because I don't want to eat them.</td></tr><tr><td class="ClueNum">16. </td><td id="Clue_D_16" class="Clue">The last ___ I ate carrots was when I was a little boy. I took my ___ eating them, because I didn't like them.</td></tr><tr><td class="ClueNum">18. </td><td id="Clue_D_18" class="Clue">The little boy slowly ate the sliced carrots. He ate them ___ by ___. He ate them ___ at a time.</td></tr>
+
+</tbody>
+</table>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+<div class="Feedback" id="FeedbackDiv">
+<div class="FeedbackText" id="FeedbackContent"></div>
+<button id="FeedbackOKButton" class="FuncButton hp-button btn-17" type="button" onclick="HideFeedback(); return false;" aria-label="OK" data-hp-tooltip="Close this message." aria-description="Close this message.">OK</button>
+</div>
+
+<!-- BeginBottomNavButtons -->
+
+<!-- EndBottomNavButtons -->
+
+<!-- BeginSubmissionForm -->
+
+<!-- EndSubmissionForm -->
+
+<div class="cenmar"><button type="button" data-hp-close class="hp-button btn-74" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise.">CLOSE<span></span><span></span><span></span><span></span></button></div><br><br><br></div></body>
+
+<!-- ecross/ecross180.htm, Mon, 03 Jul 2017 07:31:58 GMT -->
+</html>

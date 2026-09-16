@@ -3,9 +3,9 @@
 <!-- /begin6/sent/b6mx0163.htm, Mon, 03 Jul 2017 14:56:02 GMT -->
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
-<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-14.3; family=sent; prototype=begin1/sent/b1mx00101.html; story=begin6/b6/b6016.html -->
+<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-15.2; family=sent; prototype=begin1/sent/b1mx00101.html; story=begin6/b6/b6016.html -->
 <script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="b6016.html" data-story-title-url="../b6/b6016.html"></script>
 <script src="../../js/hot-potatoes-ui.js" integrity="sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g"></script>
 <script src="../../js/hot-potatoes-feedback.js" integrity="sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq"></script>
@@ -29,14 +29,12 @@
 
 <style>
 
-
 /* This is the CSS stylesheet used in the exercise. */
 /* Elements in square brackets are replaced by data based on configuration settings when the exercise is built. */
 
 /* BeginCorePageCSS */
 
 /* Made with executable version 6.3 Release 0 Build 4 */
-
 
 /* Hack to hide a nested Quicktime player from IE, which can't handle it. */
 * html object.MediaPlayerNotForIE {
@@ -207,9 +205,6 @@ div.Feedback {
 	display: none;
 	font-size: 100%;
 }
-
-
-
 
 div.ExerciseDiv{
 	color: #000000;
@@ -718,7 +713,6 @@ padding-top: 1em;
          /* Optional: if you want consistent button sizing even when user zooms further,
          you could add a max-width breakpoint tweak, but usually clamp alone suffices. */
 
-
 .wrapfit {
    width: fit-content;
    margin: 0 auto;
@@ -789,8 +783,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -820,9 +812,6 @@ function FocusAButton(){
 		}
 	}
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -894,8 +883,6 @@ function ShowElements(Show, TagName, ContainerToReverse){
 	}
 }
 
-
-
 function HideFeedback(){
 	HPSetDisplay(document.getElementById('FeedbackDiv'), "none");
 	ShowElements(true, 'input');
@@ -905,7 +892,6 @@ function HideFeedback(){
 		Finish();
 	}
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -1045,9 +1031,6 @@ function WriteToInstructions(Feedback) {
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString){
 	return InString.replace(/"/g, '&quot;')
 }
@@ -1135,9 +1118,6 @@ function RemoveBottomNavBarForIE(){
 	}
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1156,9 +1136,6 @@ function Finish(){
 	}
 }
 
-
-
-
 //JMIX STANDARD OUTPUT FORMAT CODE
 
 var CorrectResponse = 'Correct!';
@@ -1174,7 +1151,6 @@ var TimeOver = false;
 var Score = 0;
 var strInstructions = '';
 var AnswersTried = '';
-
 
 var SegmentTemplate = '&nbsp; &nbsp;<a class="ExSegment" href="javascript:void(0)" onclick="AddSegment([SegmentNumber])" title="Click on words to add them to the sentence.">[CurrentSegment]</a>&nbsp; &nbsp;';
 
@@ -1237,12 +1213,10 @@ Segments[9][0] = '\u002E';
 Segments[9][1] = 10;
 Segments[9][2] = 0;
 
-
 var GuessSequence = new Array();
 
 var Answers = new Array();
 Answers[0] = new Array(1,2,3,4,5,6,7,8,9,10);
-
 
 function WriteToGuess(Feedback) {
 	document.getElementById('GuessDiv').innerHTML = Feedback;
@@ -1413,8 +1387,6 @@ function CheckAnswer(CheckType){
 //Do score calculation here
 		Score = Math.floor(((Segments.length-Penalties) * 100)/Segments.length);
 
-
-
 		WriteToGuess(WellDone);
 		ShowMessage(WellDone + '<br>' + YourScoreIs + ' ' + Score + '%.');
 	}
@@ -1452,12 +1424,9 @@ function CheckAnswer(CheckType){
 		ShowMessage(TryAgain);
 		Penalties++; //Penalty for inaccurate check
 
-
-
 	}
 //If the exercise is over, deal with that
 	if ((AllDone == true)||(TimeOver == true)){
-
 
 		TimeOver = true;
 		Locked = true;
@@ -1485,21 +1454,13 @@ function StartUp(){
 //Stash the instructions so they can be redisplayed
 	strInstructions = document.getElementById('InstructionsDiv').innerHTML;
 
-
-
-
-
-
-
 	Segments = Shuffle(Segments);
 
 //Build and show the exercise
 	BuildExercise();
 	DisplayExercise(Exercise);
 
-
 }
-
 
 function BuildExercise(){
 	Exercise = '';
@@ -1527,8 +1488,6 @@ function DisplayExercise(StuffToDisplay){
 
 }
 
-
-
 // End of script
 
 </script>
@@ -1542,34 +1501,25 @@ function DisplayExercise(StuffToDisplay){
 <link rel="stylesheet" href="../../css/sis-exercise-layout.css" integrity="sha384-5HOjSZ/dHoz5qDsXvpEOXtqPTq50symoGkXfouRlWh+2X5MCVufbyJuTDg7a3y6o">
 <link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-O8x9dnVVIUDBVWqyxIoevfyflx64R983fR2e/kt0oP4Isbfr2CQUOhBsqgnNO+Fy">
 <link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-O8x9dnVVIUDBVWqyxIoevfyflx64R983fR2e/kt0oP4Isbfr2CQUOhBsqgnNO+Fy">
+<link rel="preload" href="../../css/sis-exercise-family-layout.css" as="style" integrity="sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j">
+<link rel="stylesheet" href="../../css/sis-exercise-family-layout.css" integrity="sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j">
 <script defer src="../../js/sis-exercise-submit.js" integrity="sha384-mMNp6FvFWm02ZkDK9ga/h/qUissJKdll6Xqi6KsgfvSy8kf7DQSy2X3Kx+biLPmo" data-sis-exercise-family="sent"></script>
 </head>
 
-<body onload="StartUp()" id="TheBody"><div class="wrapit">
+<body onload="StartUp()" id="TheBody"><div class="hp-exercise-shell wrapfit" data-sis-exercise-shell="true" data-sis-exercise-family="sent">
 
 <!-- BeginTopNavButtons -->
 
-
 <div class="NavButtonBar" id="TopNavBar">
 
-
-
-
-
-
-<button class="NavButton hp-button" type="button" onclick="location='b6mx0164.html'; return false;">Next (3 of 8)</button>
-
+<button class="NavButton hp-button btn-17" type="button" onclick="location='b6mx0164.html'; return false;">Next (3 of 8)</button>
 
 </div>
-
-
 
 <!-- EndTopNavButtons -->
 
 <div class="hp-instructions-panel"><div class="Titles">
 	<h1 class="ExerciseTitle">16. On a Healthy Diet (3)</h1>
-
-
 
 </div>
 
@@ -1577,33 +1527,23 @@ function DisplayExercise(StuffToDisplay){
 	<div id="Instructions">Click on the words to put them into a correct sentence. When you finish, click on &#x201C;Check.&#x201D; Click on &#x201C;Hint&#x201D; to see the next correct word.</div>
 </div></div>
 
-
-
 <div id="GuessDiv" class="StdDiv hp-display-none"></div>
 
 <div id="MainDiv" class="StdDiv">
 
 <button id="CheckButton1" class="FuncButton hp-button btn-17" type="submit" onclick="CheckAnswer(0)" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
 
-
 <button class="FuncButton hp-button btn-17" type="button" onclick="Undo()" aria-label="Undo" data-hp-tooltip="Undo your last change." aria-description="Undo your last change.">Undo</button>
-
-
 
 <button class="FuncButton hp-button btn-17" type="button" onclick="location.reload()" aria-label="Restart" data-hp-tooltip="Start this exercise again." aria-description="Start this exercise again.">Restart</button>
 
-
-
 <button class="FuncButton hp-button btn-17" type="button" onclick="CheckAnswer(1)" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button>
-
 
 <div id="SegmentDiv">
 
 </div>
 
 </div>
-
-
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
@@ -1612,23 +1552,13 @@ function DisplayExercise(StuffToDisplay){
 
 <!-- BeginBottomNavButtons -->
 
-
 <div class="NavButtonBar" id="BottomNavBar">
 
-
-
-
-
-
-<button class="NavButton hp-button" type="button" onclick="location='b6mx0164.html'; return false;">Next (3 of 8)</button>
-
+<button class="NavButton hp-button btn-17" type="button" onclick="location='b6mx0164.html'; return false;">Next (3 of 8)</button>
 
 </div>
 
-
-
 <br><div class="cenmar"><button type="button" data-hp-close class="hp-button btn-74" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise.">CLOSE<span></span><span></span><span></span><span></span></button></div><br></div></body>
-
 
 <!-- /begin6/sent/b6mx0163.htm, Mon, 03 Jul 2017 14:56:03 GMT -->
 </html>

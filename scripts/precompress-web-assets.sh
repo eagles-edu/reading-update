@@ -12,6 +12,9 @@ USE_SUDO="auto"
 
 COMPRESSION_ROOTS=(
   "index.html"
+  "player-proof.html"
+  "player-proof.css"
+  "player-proof.js"
   "reading"
 )
 
@@ -152,7 +155,7 @@ percent() {
   fi
 }
 
-echo "Precompression complete: $ROOT/index.html and $ROOT/reading/"
+echo "Precompression complete: root approved assets and $ROOT/reading/"
 printf '  files:  %s\n' "$files"
 printf '  source: %s bytes\n' "$source_bytes"
 printf '  gzip:   %s bytes (%s%%)\n' "$gzip_bytes" "$(percent "$gzip_bytes" "$source_bytes")"
