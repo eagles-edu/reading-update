@@ -8,6 +8,7 @@ const path = require("node:path");
 const { after, test } = require("node:test");
 const {
   lastPushedMessage,
+  nextStandardCommitMessage,
   selectCommitMessage,
 } = require("./git-sync-batch.cjs");
 
@@ -240,5 +241,41 @@ test("prompt defaults to the latest commit pushed to the upstream", () => {
   assert.equal(
     selectCommitMessage("Custom commit", defaultMessage),
     "Custom commit",
+  );
+});
+
+test("standard prompt message increments the latest standard version", () => {
+  const { repo } = makeFixture();
+  execFileSync("git", [
+    "-C",
+    repo,
+    "commit",
+    "--quiet",
+    "--allow-empty",
+    "-m",
+    "Reading_update_BETA_0.2.2.16",
+  ]);
+  execFileSync("git", ["-C", repo, "push", "--quiet", "origin", "main"]);
+  assert.equal(
+    nextStandardCommitMessage(repo, { remote: "origin", branch: "main" }),
+    "Reading_update_BETA_0.2.2.17",
+  );
+});
+
+test("standard prompt message rolls the fourth version component after 99", () => {
+  const { repo } = makeFixture();
+  execFileSync("git", [
+    "-C",
+    repo,
+    "commit",
+    "--quiet",
+    "--allow-empty",
+    "-m",
+    "Reading_update_BETA_0.2.2.99",
+  ]);
+  execFileSync("git", ["-C", repo, "push", "--quiet", "origin", "main"]);
+  assert.equal(
+    nextStandardCommitMessage(repo, { remote: "origin", branch: "main" }),
+    "Reading_update_BETA_0.2.3.0",
   );
 });

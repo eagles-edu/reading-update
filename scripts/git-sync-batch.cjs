@@ -3,12 +3,15 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { createInterface } = require("node:readline/promises");
+const { createInterface } = require("node:readline");
 const { spawnSync } = require("node:child_process");
 
 const MAX_PATHS_PER_BATCH = 200;
 const MAX_ARGUMENT_BYTES_PER_BATCH = 16 * 1024;
 const PREVIEW_PATH_LIMIT = 40;
+const STANDARD_COMMIT_PATTERN =
+  /^Reading_update_BETA_(\d+)\.(\d+)\.(\d+)\.(\d+)$/;
+const STANDARD_COMMIT_INITIAL_VERSION = [0, 2, 2, 0];
 
 function usage() {
   return [
@@ -22,7 +25,7 @@ function usage() {
     "  --include <path>  Include one literal file or directory (repeatable).",
     "  --all              Include every changed or untracked path in the repository.",
     "  --message <text>   Commit message; required with --apply unless --prompt-message is used.",
-    "  --prompt-message   Ask for a commit message interactively before applying.",
+    "  --prompt-message   Ask for a prefilled, auto-incremented standard message before applying.",
     "  --apply            Stage and commit. Without this, the command is a dry run.",
     "  --push             Push the new commit to the configured upstream (requires --apply).",
     "  --help             Show this help.",
@@ -537,6 +540,37 @@ function lastPushedMessage(root, upstream) {
   });
 }
 
+function latestStandardCommitVersion(root, upstream) {
+  const ref = upstream
+    ? `${upstream.remote}/${upstream.branch}`
+    : gitText(
+        root,
+        ["rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}"],
+        { accept: [0, 128] },
+      );
+  if (!ref) return [...STANDARD_COMMIT_INITIAL_VERSION];
+
+  const messages = gitText(root, ["log", "--format=%s", ref], {
+    accept: [0, 128],
+  });
+  for (const message of messages.split("\n")) {
+    const match = STANDARD_COMMIT_PATTERN.exec(message.trim());
+    if (match) return match.slice(1).map(Number);
+  }
+  return [...STANDARD_COMMIT_INITIAL_VERSION];
+}
+
+function nextStandardCommitMessage(root, upstream) {
+  const version = latestStandardCommitVersion(root, upstream);
+  if (version[3] < 99) {
+    version[3] += 1;
+  } else {
+    version[2] += 1;
+    version[3] = 0;
+  }
+  return `Reading_update_BETA_${version.join(".")}`;
+}
+
 function selectCommitMessage(answer, defaultMessage) {
   const message = answer.trim() || defaultMessage.trim();
   if (!message) throw new Error("Commit message cannot be empty.");
@@ -554,10 +588,27 @@ async function promptForMessage(defaultMessage) {
     output: process.stdout,
   });
   try {
-    const prompt = defaultMessage
-      ? `Commit message [${defaultMessage}]: `
-      : "Commit message: ";
-    return selectCommitMessage(await terminal.question(prompt), defaultMessage);
+    terminal.setPrompt("Commit message: ");
+    terminal.prompt();
+    terminal.write(defaultMessage);
+    return await new Promise((resolve, reject) => {
+      const onLine = (answer) => {
+        cleanup();
+        resolve(selectCommitMessage(answer, defaultMessage));
+      };
+      const onClose = () => {
+        cleanup();
+        reject(
+          new Error("Commit message prompt was closed before a response."),
+        );
+      };
+      const cleanup = () => {
+        terminal.removeListener("line", onLine);
+        terminal.removeListener("close", onClose);
+      };
+      terminal.once("line", onLine);
+      terminal.once("close", onClose);
+    });
   } finally {
     terminal.close();
   }
@@ -579,7 +630,7 @@ async function run(options) {
   if (options.push) assertPushBaseIsCurrent(root, upstream, initialHead);
 
   if (options.promptMessage) {
-    const defaultMessage = lastPushedMessage(root, upstream);
+    const defaultMessage = nextStandardCommitMessage(root, upstream);
     options.message = await promptForMessage(defaultMessage);
     console.log(`Using commit message: ${options.message}`);
   }
@@ -676,6 +727,7 @@ module.exports = {
   lastPushedMessage,
   makeBatches,
   normalizeInclude,
+  nextStandardCommitMessage,
   parseArguments,
   selectCommitMessage,
 };
