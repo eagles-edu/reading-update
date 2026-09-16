@@ -1433,7 +1433,7 @@ function SetFocusToTextbox(){
 
 function ChangeQ(ChangeBy){
 //The following line prevents moving to another question until the current
-//question is answered correctly. Uncomment it to enable this behaviour.
+//question is answered correctly. Uncomment it to enable this behavior.
 //	if (State[CurrQNum][0] == -1){return;}
 	if (((CurrQNum + ChangeBy) < 0)||((CurrQNum + ChangeBy) >= QArray.length)){return;}
 	QArray[CurrQNum].style.display = 'none';
