@@ -27,6 +27,13 @@ const {
   verifyPostConversionPage,
 } = require("./modernize-hot-potatoes-pages.cjs");
 
+function withoutSentenceNavigation(source) {
+  return source.replace(
+    /<div\b(?=[^>]*\bid\s*=\s*(["'])(?:TopNavBar|BottomNavBar)\1)[^>]*>[\s\S]*?<\/div>\s*/gi,
+    "",
+  );
+}
+
 test("page summaries separate original family gaps from file updates", () => {
   const plans = [
     {
@@ -504,6 +511,120 @@ test("title text is normalized to the prototype h1, using the page title only wh
   assert.equal(normalized.counters.titleHeadingsCreated, 1);
 });
 
+test("the independent MMOR passes all four current exercise prototypes", () => {
+  const root = path.resolve(".");
+  const prototypes = [
+    ["cloze", "begin1/cloze/b1cloze001.html"],
+    ["dict", "begin1/dict/b1d001.html"],
+    ["sent", "begin1/sent/b1mx00101.html"],
+    ["comp", "essays/comp/essaycomp001.html"],
+  ];
+
+  for (const [family, relative] of prototypes) {
+    const absolute = path.join(root, relative);
+    const page = {
+      absolute,
+      relative,
+      source: fs.readFileSync(absolute, "utf8"),
+      story: storyTarget(root, absolute),
+    };
+    const result = auditMmor(
+      page.source,
+      root,
+      page,
+      modernizationProfile(page),
+    );
+    assert.equal(
+      result.allPassed,
+      true,
+      `${family} prototype failed: ${result.results.filter((item) => !item.pass).map((item) => item.id).join(", ")}`,
+    );
+  }
+});
+
+test("the shared Close spacing token is defined at 1.5em", () => {
+  const css = fs.readFileSync(
+    path.resolve("css/sis-hot-potatoes.css"),
+    "utf8",
+  );
+  assert.match(
+    css,
+    /body#TheBody\s+\.hp-button\.tm1-5\s*\{[^}]*margin-top:\s*1\.5em(?:\s*!important)?\s*;/s,
+  );
+  const clozeSubmit = fs.readFileSync(
+    path.resolve("js/sis-cloze-submit.js"),
+    "utf8",
+  );
+  assert.match(clozeSubmit, /class="btn-74 hp-button hp-close-button tm1-5"/);
+});
+
+test("sentence pages with legacy top and bottom Close controls normalize to one footer control", () => {
+  const root = path.resolve(".");
+  const relative = "begin1/sent/b1mx00106.html";
+  const absolute = path.join(root, relative);
+  const page = {
+    absolute,
+    relative,
+    source: withoutSentenceNavigation(fs.readFileSync(path.join(root, "begin1/sent/b1mx00105.html"), "utf8")).replace(
+      /(<div class="cenmar"><button\b)/i,
+      '<div class="NavButtonBar" id="TopNavBar"><button class="NavButton hp-button btn-74" type="button" data-hp-close aria-label="Close">Close</button></div><div class="NavButtonBar" id="BottomNavBar"><button class="NavButton hp-button btn-74" type="button" data-hp-close aria-label="Close">Close</button></div>$1',
+    ),
+    story: storyTarget(root, absolute),
+  };
+  const assets = { ...collectAssetInfo(root), root };
+  const normalized = normalizePage(page, assets);
+  const repeated = normalizePage({ ...page, source: normalized.source }, assets);
+
+  assert.equal((normalized.source.match(/\bdata-hp-close\b/g) || []).length, 1);
+  assert.equal((normalized.source.match(/\bbtn-74\b/g) || []).length, 1);
+  assert.match(normalized.source, /class="[^"]*btn-74[^"]*tm1-5[^"]*"/);
+  assert.doesNotMatch(normalized.source, /id="(?:TopNavBar|BottomNavBar)"/);
+  assert.equal(normalized.counters.closeButtons, 2);
+  assert.equal(normalized.source, repeated.source);
+});
+
+test("terminal sentence pages restore Previous controls in both blue navigation bars", () => {
+  const root = path.resolve(".");
+  const relative = "begin2/sent/b2mx07905.html";
+  const absolute = path.join(root, relative);
+  const page = {
+    absolute,
+    relative,
+    source: withoutSentenceNavigation(fs.readFileSync(absolute, "utf8")),
+    story: storyTarget(root, absolute),
+  };
+  const assets = { ...collectAssetInfo(root), root };
+  const normalized = normalizePage(page, assets);
+  const repeated = normalizePage({ ...page, source: normalized.source }, assets);
+  const navButtons = [...normalized.source.matchAll(/<div\b[^>]*id="(?:TopNavBar|BottomNavBar)"[^>]*>([\s\S]*?)<\/div>/gi)]
+    .map((match) => match[1]);
+
+  assert.equal(navButtons.length, 2);
+  assert.equal(navButtons.filter((markup) => /aria-label="Previous"/.test(markup)).length, 2);
+  assert.equal(navButtons.filter((markup) => /location='b2mx07904\.html'/.test(markup)).length, 2);
+  assert.equal((normalized.source.match(/\bdata-hp-close\b/g) || []).length, 1);
+  assert.equal(normalized.counters.sentenceNavBarsRestored, 2);
+  assert.equal(normalized.source, repeated.source);
+});
+
+test("terminal sentence navigation follows sequences longer than five pages", () => {
+  const root = path.resolve(".");
+  const relative = "begin6/sent/b6mx0108.html";
+  const absolute = path.join(root, relative);
+  const page = {
+    absolute,
+    relative,
+    source: withoutSentenceNavigation(fs.readFileSync(absolute, "utf8")),
+    story: storyTarget(root, absolute),
+  };
+  const normalized = normalizePage(page, { ...collectAssetInfo(root), root });
+
+  assert.match(normalized.source, /location='b6mx0107\.html'/);
+  assert.equal((normalized.source.match(/id="(?:TopNavBar|BottomNavBar)"/g) || []).length, 2);
+  assert.equal(normalized.counters.sentenceNavBarsRestored, 2);
+  assert.match(normalized.source, /This is 8 of 8\./);
+});
+
 test("story mapping resolves B1 and non-Begin story exercise names", () => {
   const root = fs.mkdtempSync(
     path.join(os.tmpdir(), "hot-potatoes-story-map-"),
@@ -716,11 +837,11 @@ function NavBtnOut(Btn) { Btn.className = "NavButton"; }</script>
   );
   assert.match(
     first.source,
-    /<button[^>]*data-hp-close[^>]*aria-label="Close"[^>]*data-hp-tooltip="Close this exercise\."[^>]*aria-description="Close this exercise\."[^>]*> CLOSE <span><\/span><span><\/span><span><\/span><span><\/span><\/button>/,
+    /<button[^>]*data-hp-close[^>]*aria-label="Close"[^>]*data-hp-tooltip="Close this exercise\."[^>]*aria-description="Close this exercise\."[^>]*><span><\/span><span><\/span><span><\/span><span><\/span>Close<\/button>/,
   );
-  assert.match(first.source, /class="btn-74 hp-button"[^>]*data-hp-close/);
+  assert.match(first.source, /class="btn-74 hp-button[^"]*"[^>]*data-hp-close/);
   assert.equal(first.counters.closeLinks, 1);
-  assert.equal(first.counters.closeButtons, 2);
+  assert.equal(first.counters.closeButtons, 3);
   assert.equal(first.counters.horizontalRules, 1);
   assert.equal(first.counters.emptyFeedbackPanelsHidden, 1);
   assert.equal(first.counters.titleHeadingsNormalized, 1);
@@ -1011,7 +1132,7 @@ test("dictation and sentence profiles add a missing Close control at the wrapper
   };
   const assets = { ...collectAssetInfo(root), root };
   const normalized = normalizePage(page, assets);
-  assert.match(normalized.source, /<div class="cenmar"><button class="hp-button btn-74"[^>]*data-hp-close/);
+  assert.match(normalized.source, /<div class="cenmar"><button class="hp-button btn-74 tm1-5"[^>]*data-hp-close/);
   assert.equal(normalized.counters.closeButtons, 1);
   assert.equal(normalizePage({ ...page, source: normalized.source }, assets).source, normalized.source);
 });

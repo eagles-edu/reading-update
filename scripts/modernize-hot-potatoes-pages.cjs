@@ -9,7 +9,7 @@ const { createBackupManager } = require("./write-backup.cjs");
 
 const DEFAULT_ROOT = path.resolve(__dirname, "..");
 const MAX_SAFE_APPLY_PAGES = 50;
-const CURRENT_MODERNIZATION_VERSION = "2026-09-15.2";
+const CURRENT_MODERNIZATION_VERSION = "2026-09-17.2";
 const POST_CONVERSION_VERIFIED_FAMILIES = new Set(["cloze", "dict", "sent", "comp"]);
 const ROOTS = Object.freeze([
   "begin1",
@@ -374,7 +374,10 @@ function auditMmor(source, root, page, profile, options = {}) {
     ? elements.filter((node) => node !== wrapper && nodeContains(wrapper, node) &&
       ["wrapfit", "wrapit", "exercise-wrapper"].some((className) => htmlClasses(node).includes(className)))
     : [];
-  const instructionPanel = elements.find((element) => htmlClasses(element).includes("hp-instructions-panel"));
+  const instructionPanels = elements.filter((element) => htmlClasses(element).includes("hp-instructions-panel"));
+  const instructionPanel = instructionPanels[0] || null;
+  const titleBlocks = elements.filter((element) => htmlClasses(element).includes("Titles"));
+  const exerciseTitles = elements.filter((element) => element.tagName === "h1" && htmlClasses(element).includes("ExerciseTitle"));
   const titles = instructionPanel && (instructionPanel.childNodes || []).find((node) => node.tagName && htmlClasses(node).includes("Titles"));
   const exerciseTitle = titles && (titles.childNodes || []).find((node) => node.tagName === "h1" && htmlClasses(node).includes("ExerciseTitle"));
   const instructions = byId.get("InstructionsDiv") || [];
@@ -396,21 +399,29 @@ function auditMmor(source, root, page, profile, options = {}) {
   const viewportContent = htmlAttribute(viewport, "content");
   push(requirement("SH-02", "Viewport declares device width and initial scale 1", /(?:^|,)\s*width\s*=\s*device-width(?:\s*,|$)/i.test(viewportContent) && /(?:^|,)\s*initial-scale\s*=\s*1(?:\.0)?(?:\s*,|$)/i.test(viewportContent),
     { content: viewportContent || null }));
-  push(requirement("SH-03", "Instruction panel contains .Titles > h1.ExerciseTitle and #InstructionsDiv; #MainDiv is unique in the wrapper", Boolean(instructionPanel && titles && exerciseTitle && instructions.length === 1 && nodeContains(instructionPanel, instructions[0]) && main.length === 1 && wrapper && nodeContains(wrapper, main[0])),
-    { instructionPanels: elements.filter((element) => htmlClasses(element).includes("hp-instructions-panel")).length, titleFound: Boolean(exerciseTitle), instructions: instructions.length, main: main.length }));
+  push(requirement("SH-03", "Exactly one instruction panel contains the only .Titles > h1.ExerciseTitle and #InstructionsDiv; #MainDiv is unique in the wrapper", Boolean(wrapper && instructionPanels.length === 1 && titleBlocks.length === 1 && exerciseTitles.length === 1 && instructionPanel && titles && exerciseTitle && nodeContains(instructionPanel, titles) && nodeContains(instructionPanel, exerciseTitle) && instructions.length === 1 && nodeContains(instructionPanel, instructions[0]) && main.length === 1 && nodeContains(wrapper, instructionPanel) && nodeContains(wrapper, main[0])),
+    { instructionPanels: instructionPanels.length, titleBlocks: titleBlocks.length, exerciseTitles: exerciseTitles.length, titleFound: Boolean(exerciseTitle), instructions: instructions.length, main: main.length }));
   const closeAccessible = closeControls.some((element) =>
     htmlAttribute(element, "type").toLowerCase() === "button" &&
     (htmlAttribute(element, "aria-label").trim() || htmlAttribute(element, "title").trim() || nodeText(element).trim()),
   );
+  const sharedCssFile = path.resolve(root, SHARED_CSS);
+  const sharedCss = fs.existsSync(sharedCssFile) ? fs.readFileSync(sharedCssFile, "utf8") : "";
+  const closeMarginToken = closeControls.length === 1 &&
+    htmlClasses(closeControls[0]).includes("tm1-5") &&
+    /body#TheBody\s+\.hp-button\.tm1-5\s*\{[^}]*margin-top:\s*1\.5em(?:\s*!important)?\s*;/s.test(sharedCss);
   const sharedUiPath = path.resolve(root, SHARED_UI);
   if (!SUBMISSION_ASSET_SOURCE_CACHE.has(sharedUiPath)) {
     SUBMISSION_ASSET_SOURCE_CACHE.set(sharedUiPath, fs.existsSync(sharedUiPath) ? fs.readFileSync(sharedUiPath, "utf8") : "");
   }
   const sharedUiSource = SUBMISSION_ASSET_SOURCE_CACHE.get(sharedUiPath);
+  const clozeSubmitPath = path.resolve(root, "js/sis-cloze-submit.js");
+  const clozeSubmitSource = fs.existsSync(clozeSubmitPath) ? fs.readFileSync(clozeSubmitPath, "utf8") : "";
   const closeRuntime = sharedUiSource.includes('document.addEventListener("click", closeExerciseFromButton)') &&
-    sharedUiSource.includes("[data-hp-close]");
-  push(requirement("SH-04", "Close is an accessible btn-74 button handled by the shared Close runtime", (profile.family === "cloze" ? closeControls.length === 1 : closeControls.length >= 1) && closeAccessible && closeRuntime,
-    { count: closeControls.length, accessible: closeAccessible, runtimeBound: closeRuntime }));
+    sharedUiSource.includes("[data-hp-close]") &&
+    (profile.family !== "cloze" || /class="btn-74 hp-button hp-close-button tm1-5"/.test(clozeSubmitSource));
+  push(requirement("SH-04", "Exactly one Close is an accessible btn-74 button with the shared tm1-5 margin token and Close runtime", closeControls.length === 1 && closeAccessible && closeRuntime && closeMarginToken,
+    { count: closeControls.length, accessible: closeAccessible, marginToken: closeMarginToken, runtimeBound: closeRuntime }));
 
   const storyThemeScripts = elements.filter((element) => element.tagName === "script" && /(?:^|\/)story-theme\.js(?:[?#]|$)/i.test(htmlAttribute(element, "src")));
   const storyScript = storyThemeScripts.find((element) => resolvePageAsset(root, page.absolute, htmlAttribute(element, "data-story-title-url")) === story?.absolute);
@@ -570,6 +581,42 @@ function auditMmor(source, root, page, profile, options = {}) {
   const emptyNavigationBars = emptyLegacyNavigationBars(elements);
   push(requirement("SH-11", "Empty legacy TopNavBar and BottomNavBar elements are absent", emptyNavigationBars.length === 0,
     { count: emptyNavigationBars.length, ids: emptyNavigationBars.map((element) => htmlAttribute(element, "id")) }));
+
+  if (profile.family === "sent") {
+    const sequenceInfo = sentenceSequenceInfo(page);
+    const previousFilename = sequenceInfo?.previousFilename || null;
+    const navigationBars = elements.filter((element) =>
+      element.tagName === "div" && ["TopNavBar", "BottomNavBar"].includes(htmlAttribute(element, "id")),
+    );
+    const navigationEvidence = navigationBars.map((bar) => {
+      const controls = elements.filter((element) =>
+        element !== bar && nodeContains(bar, element) &&
+        (element.tagName === "button" ||
+          (element.tagName === "input" && ["button", "submit", "reset"].includes(htmlAttribute(element, "type").toLowerCase()))),
+      );
+      const previousControls = controls.filter((control) =>
+        htmlAttribute(control, "aria-label").toLowerCase() === "previous" &&
+        htmlClasses(control).includes("hp-button") &&
+        htmlClasses(control).includes("btn-17") &&
+        !htmlClasses(control).includes("btn-74") &&
+        (new RegExp(`location\\s*=\\s*['"]${previousFilename || "__missing__"}['"]`, "i").test(htmlAttribute(control, "onclick")) ||
+          /history\.back\s*\(\s*\)/i.test(htmlAttribute(control, "onclick"))),
+      );
+      return {
+        id: htmlAttribute(bar, "id"),
+        controls: controls.length,
+        previousControls: previousControls.length,
+      };
+    });
+    const terminalNavigationPass = !previousFilename ||
+      navigationEvidence.length === 2 &&
+      ["TopNavBar", "BottomNavBar"].every((id) =>
+        navigationEvidence.some((item) => item.id === id && item.previousControls === 1),
+      );
+    push(requirement("SE-05", "Terminal sentence sequences retain blue top and bottom navigation with a legitimate Previous control", terminalNavigationPass,
+      { required: Boolean(sequenceInfo), predecessor: previousFilename, position: sequenceInfo?.position || null, total: sequenceInfo?.total || null, bars: navigationEvidence },
+      "Restore both sequence navigation containers with a btn-17 Previous control pointing to the preceding exercise."));
+  }
 
   const actionContract = actionControlContract(root, elements);
   push(requirement("SH-12", "Every non-Close action control uses btn-17 hp-button and the shared button rule clips its animated effect", actionContract.invalid.length === 0 && actionContract.clippingRule,
@@ -1255,7 +1302,7 @@ function transformOpenTag(tag, file, counters) {
   if (isButton) {
     classes.push("hp-button");
     if (isCloseButton) {
-      classes.push("btn-74");
+      classes.push("btn-74", "tm1-5");
       if (isWindowClose) next = removeAttribute(next, "onclick");
       next = addAttribute(next, "data-hp-close", "");
       next = replaceAttribute(next, "aria-label", "Close");
@@ -1291,6 +1338,7 @@ function transformMarkup(source, file) {
     clozeNavBarsUnwrapped: 0,
     emptyFeedbackPanelsHidden: 0,
     emptyNavBarsRemoved: 0,
+    sentenceNavBarsRestored: 0,
     horizontalRules: 0,
     legacyHandlers: 0,
     styleAttributes: 0,
@@ -1371,6 +1419,74 @@ function removeEmptyNavigationBars(source, counters) {
     source = `${source.slice(0, opening.index)}${source.slice(end)}`;
     counters.emptyNavBarsRemoved += 1;
   }
+  return source;
+}
+
+function sentenceSequenceInfo(page) {
+  const absolute = page.absolute || page.relative || "";
+  const filename = path.basename(absolute);
+  const collection = String(page.relative || absolute).split(/[\\/]/)[0].toLowerCase();
+  const suffixWidth = ["begin4", "begin5", "begin6"].includes(collection) ? 1 : 2;
+  const terminalPattern = new RegExp(`^(.*?)(\\d{${suffixWidth}})(\\.html?)$`, "i");
+  const terminal = terminalPattern.exec(filename);
+  if (!terminal) return null;
+  const escapedPrefix = terminal[1].replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const escapedExtension = terminal[3].replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const sequencePattern = new RegExp(`^${escapedPrefix}(\\d{${suffixWidth}})${escapedExtension}$`, "i");
+  const directory = path.dirname(absolute);
+  if (!fs.existsSync(directory)) return null;
+  const sequence = fs.readdirSync(directory)
+    .map((name) => {
+      const match = sequencePattern.exec(name);
+      return match ? { name, number: Number(match[1]) } : null;
+    })
+    .filter(Boolean)
+    .sort((left, right) => left.number - right.number);
+  const position = Number(terminal[2]);
+  const last = sequence.at(-1);
+  if (!last || last.number !== position || position <= sequence[0].number) return null;
+  const previous = sequence.find((item) => item.number === position - 1);
+  if (!previous) return null;
+  return { previousFilename: previous.name, position, total: last.number };
+}
+
+function sentenceNavigationButton(sequenceInfo) {
+  const tooltip = `Open the previous exercise. This is ${sequenceInfo.position} of ${sequenceInfo.total}.`;
+  const escapedFilename = sequenceInfo.previousFilename.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+  return `<button class="NavButton hp-button btn-17" type="button" onclick="location='${escapedFilename}'; return false;" aria-label="Previous" data-hp-tooltip="${tooltip}" aria-description="${tooltip}">Previous</button>`;
+}
+
+function restoreTerminalSentenceNavigation(source, page, counters) {
+  const sequenceInfo = sentenceSequenceInfo(page);
+  if (!sequenceInfo) return source;
+  if (/<div\b(?=[^>]*\bid\s*=\s*(["'])(?:TopNavBar|BottomNavBar)\1)[^>]*>/i.test(source)) return source;
+
+  const button = sentenceNavigationButton(sequenceInfo);
+  const replacements = [
+    [
+      /(<!--\s*BeginTopNavButtons\s*-->)([\s\S]*?)(<!--\s*EndTopNavButtons\s*-->)/i,
+      `$1\n<div class="NavButtonBar" id="TopNavBar">${button}</div>\n$3`,
+    ],
+    [
+      /(<!--\s*BeginBottomNavButtons\s*-->)([\s\S]*?)(<!--\s*EndBottomNavButtons\s*-->)/i,
+      `$1\n<div class="NavButtonBar" id="BottomNavBar">${button}</div>\n$3`,
+    ],
+  ];
+  let restored = 0;
+  for (const [pattern, replacement] of replacements) {
+    if (!pattern.test(source)) continue;
+    source = source.replace(pattern, replacement);
+    restored += 1;
+  }
+  if (!/id\s*=\s*(["'])BottomNavBar\1/i.test(source)) {
+    const beginBottom = /<!--\s*BeginBottomNavButtons\s*-->/i.exec(source);
+    const footer = /<br\s*><div\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bcenmar\b[^"']*\1)/i.exec(source);
+    if (beginBottom && footer && footer.index > beginBottom.index) {
+      source = `${source.slice(0, footer.index)}<div class="NavButtonBar" id="BottomNavBar">${button}</div>\n${source.slice(footer.index)}`;
+      restored += 1;
+    }
+  }
+  if (restored === replacements.length) counters.sentenceNavBarsRestored += restored;
   return source;
 }
 
@@ -1455,11 +1571,17 @@ function normalizeFamilyStructure(source, page, profile, counters) {
       source = `${source.slice(0, mainEnd - closeLength)}<div class="btn17Container"></div>${source.slice(mainEnd - closeLength)}`;
     }
     if (/\bclass\s*=\s*(["'])[^"']*\bbtn-74\b[^"']*\1/i.test(source)) {
-      return normalizeClozeCloseControls(source, counters);
+      return normalizeCloseControls(source, counters);
     }
   }
 
-  if (/\bclass\s*=\s*(["'])[^"']*\bbtn-74\b[^"']*\1/i.test(source)) return source;
+  if (profile.family === "sent") {
+    source = restoreTerminalSentenceNavigation(source, page, counters);
+  }
+
+  if (/\bclass\s*=\s*(["'])[^"']*\bbtn-74\b[^"']*\1/i.test(source)) {
+    return normalizeCloseControls(source, counters);
+  }
   if (
     /<(?:a|button)\b[^>]*(?:href|onclick)\s*=\s*(["'])[^"']*window\.close/i.test(source) ||
     /<(?:a|button)\b[^>]*>\s*close\s*<\//i.test(source)
@@ -1469,7 +1591,7 @@ function normalizeFamilyStructure(source, page, profile, counters) {
   const wrapperMatch = { index: wrapperIndex, 0: wrapperOpening };
   const wrapperEnd = findMatchingDivEnd(source, wrapperMatch);
   if (wrapperEnd < 0) throw new Error(`${page.relative}: SOURCE STRUCTURE BLOCKED; cannot locate exercise wrapper end`);
-  const closeButton = '<button class="hp-button btn-74" type="button" data-hp-close="" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise."><span></span><span></span><span></span><span></span>Close</button>';
+  const closeButton = '<button class="hp-button btn-74 tm1-5" type="button" data-hp-close="" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise."><span></span><span></span><span></span><span></span>Close</button>';
   const wrapperMarkup = source.slice(wrapperMatch.index, wrapperEnd);
   const closeContainers = [...wrapperMarkup.matchAll(/<div\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bcenmar\b[^"']*\1)[^>]*>/gi)];
   if (closeContainers.length > 1) throw new Error(`${page.relative}: SOURCE STRUCTURE BLOCKED; multiple Close containers`);
@@ -1788,6 +1910,7 @@ function normalizeFeedbackPage(page, options) {
       clozeNavBarsUnwrapped: 0,
       emptyFeedbackPanelsHidden: 0,
       emptyNavBarsRemoved: 0,
+      sentenceNavBarsRestored: 0,
       horizontalRules: 0,
       legacyHandlers: 0,
       styleAttributes: 0,
@@ -2000,7 +2123,7 @@ function normalizeClozeControls(source, file, counters) {
   return source;
 }
 
-function normalizeClozeCloseControls(source, counters) {
+function normalizeCloseControls(source, counters) {
   const closeBlocks = activeButtonBlocks(source).filter((block) =>
     /\bbtn-74\b/i.test(readTagAttribute(block.opening, "class")) &&
     /\bdata-hp-close(?:\s*=|\s|>)/i.test(block.opening),
@@ -2429,6 +2552,7 @@ function summarize(plans, inventory, apply, scopes) {
       result.clozeNavBarsUnwrapped += plan.result.counters.clozeNavBarsUnwrapped || 0;
       result.emptyFeedbackPanelsHidden += plan.result.counters.emptyFeedbackPanelsHidden;
       result.emptyNavBarsRemoved += plan.result.counters.emptyNavBarsRemoved || 0;
+      result.sentenceNavBarsRestored += plan.result.counters.sentenceNavBarsRestored || 0;
       result.horizontalRules += plan.result.counters.horizontalRules;
       result.legacyHandlers += plan.result.counters.legacyHandlers;
       result.runtimeButtonFunctions += plan.result.stats.buttonFunctions;
@@ -2451,6 +2575,7 @@ function summarize(plans, inventory, apply, scopes) {
       clozeNavBarsUnwrapped: 0,
       emptyFeedbackPanelsHidden: 0,
       emptyNavBarsRemoved: 0,
+      sentenceNavBarsRestored: 0,
       horizontalRules: 0,
       legacyHandlers: 0,
       runtimeButtonFunctions: 0,
@@ -2522,6 +2647,7 @@ function summarize(plans, inventory, apply, scopes) {
   console.log(`JavaScript Close links migrated to buttons: ${totals.closeLinks}`);
   console.log(`Empty feedback panels hidden until feedback: ${totals.emptyFeedbackPanelsHidden}`);
   console.log(`Empty legacy navigation bars removed: ${totals.emptyNavBarsRemoved}`);
+  console.log(`Terminal sentence navigation bars restored: ${totals.sentenceNavBarsRestored}`);
   console.log(`Horizontal rules removed: ${totals.horizontalRules}`);
   console.log(`Title heading levels normalized to h1: ${totals.titleHeadingsNormalized}`);
   console.log(`Missing title headings safely restored from page text/title: ${totals.titleHeadingsCreated}`);

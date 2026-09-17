@@ -1,12 +1,12 @@
 # Dictation Integrity and Prototype Audit
 
-Generated: 2026-09-16T21:58:11.968Z
+Generated: 2026-09-17T09:53:43.129Z
 
 ## Summary
 
 - Pages audited: 1785
-- Pages passing every check: 1782
-- Pages requiring action: 3
+- Pages passing every check: 1784
+- Pages requiring action: 1
 - Prototype: `begin1/dict/b1d001.html`
 - Prototype MMOR status: PASS
 - Visual samples: 0/132 expected artifacts captured (PLANNED)
@@ -16,7 +16,7 @@ Generated: 2026-09-16T21:58:11.968Z
 | Collection | Pages | Pass | Action required |
 |---|---:|---:|---:|
 | begin1 | 105 | 104 | 1 |
-| begin2 | 110 | 109 | 1 |
+| begin2 | 110 | 110 | 0 |
 | begin3 | 110 | 110 | 0 |
 | begin4 | 100 | 100 | 0 |
 | begin5 | 100 | 100 | 0 |
@@ -28,16 +28,16 @@ Generated: 2026-09-16T21:58:11.968Z
 | kidsenglish2 | 100 | 100 | 0 |
 | kidsenglish3 | 100 | 100 | 0 |
 | people | 100 | 100 | 0 |
-| supereasy | 200 | 199 | 1 |
+| supereasy | 200 | 200 | 0 |
 
 ## Checklist totals
 
 | ID | Pass | Fail |
 |---|---:|---:|
-| SH-01 | 1784 | 1 |
-| SH-02 | 1783 | 2 |
-| SH-03 | 1782 | 3 |
-| SH-04 | 1782 | 3 |
+| SH-01 | 1785 | 0 |
+| SH-02 | 1784 | 1 |
+| SH-03 | 1784 | 1 |
+| SH-04 | 1784 | 1 |
 | SH-05 | 1784 | 1 |
 | ASSET-CSS-SIS-HOT-POTATOES-CSS | 1784 | 1 |
 | ASSET-JS-HOT-POTATOES-UI-JS | 1784 | 1 |
@@ -46,22 +46,22 @@ Generated: 2026-09-16T21:58:11.968Z
 | ASSET-JS-STORY-THEME-JS | 1784 | 1 |
 | ASSET-CSS-SIS-EXERCISE-LAYOUT-CSS | 1784 | 1 |
 | ASSET-CLOZE-SUBMIT-CSS | 1784 | 1 |
-| ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS | 1782 | 3 |
+| ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS | 1784 | 1 |
 | ASSET-EXERCISE-SUBMIT-DICT | 1784 | 1 |
-| SH-06 | 1782 | 3 |
+| SH-06 | 1784 | 1 |
 | ID-01 | 1785 | 0 |
-| DI-01 | 1782 | 3 |
-| DI-02 | 1782 | 3 |
+| DI-01 | 1784 | 1 |
+| DI-02 | 1784 | 1 |
 | DI-03 | 1784 | 1 |
-| SH-10 | 1782 | 3 |
-| SH-09 | 1783 | 2 |
+| SH-10 | 1784 | 1 |
+| SH-09 | 1785 | 0 |
 | SH-08 | 1784 | 1 |
 | SH-07 | 1784 | 1 |
 | SH-11 | 1785 | 0 |
 | SH-12 | 1784 | 1 |
 | DI-04 | 1785 | 0 |
 | SRC-01 | 1785 | 0 |
-| PROTO-01 | 1782 | 3 |
+| PROTO-01 | 1784 | 1 |
 
 ## Visual sample set
 
@@ -139,16 +139,16 @@ Generated: 2026-09-16T21:58:11.968Z
 ### `begin1/dict/b1d015.audio-player-prototype.html`
 
 - **SH-02:** Viewport declares device width and initial scale 1. Observed: `{"content":null}`. Remediation: undefined
-- **SH-03:** Instruction panel contains .Titles > h1.ExerciseTitle and #InstructionsDiv; #MainDiv is unique in the wrapper. Observed: `{"instructionPanels":0,"titleFound":false,"instructions":1,"main":1}`. Remediation: undefined
-- **SH-04:** Close is an accessible btn-74 button handled by the shared Close runtime. Observed: `{"count":0,"accessible":false,"runtimeBound":true}`. Remediation: undefined
+- **SH-03:** Exactly one instruction panel contains the only .Titles > h1.ExerciseTitle and #InstructionsDiv; #MainDiv is unique in the wrapper. Observed: `{"instructionPanels":0,"titleBlocks":1,"exerciseTitles":1,"titleFound":false,"instructions":1,"main":1}`. Remediation: undefined
+- **SH-04:** Exactly one Close is an accessible btn-74 button with the shared tm1-5 margin token and Close runtime. Observed: `{"count":0,"accessible":false,"marginToken":false,"runtimeBound":true}`. Remediation: undefined
 - **SH-05:** Companion story resolves and story-theme.js binds its title and theme at runtime. Observed: `{"story":null,"scriptCount":0,"titleUrl":null,"themeKey":null,"runtimeBound":true}`. Remediation: undefined
-- **ASSET-CSS-SIS-HOT-POTATOES-CSS:** Local link css/sis-hot-potatoes.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-EIG7+2mbmdKXw+7WBMoTcp9CjUjCXLpkpUdjZim1TkqVohjU0/SEOZCnuw68IYQ8","observed":[]}`. Remediation: undefined
+- **ASSET-CSS-SIS-HOT-POTATOES-CSS:** Local link css/sis-hot-potatoes.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-Iw7lAV3YR65Y2+/muxR/wW9o+OheDvHjeRW1Nqy3OYTalZHUuOHhG4WoDq/oJ2zZ","observed":[]}`. Remediation: undefined
 - **ASSET-JS-HOT-POTATOES-UI-JS:** Local script js/hot-potatoes-ui.js resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g","observed":[]}`. Remediation: undefined
 - **ASSET-CSS-HOT-POTATOES-FEEDBACK-CSS:** Local link css/hot-potatoes-feedback.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4","observed":[]}`. Remediation: undefined
 - **ASSET-JS-HOT-POTATOES-FEEDBACK-JS:** Local script js/hot-potatoes-feedback.js resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq","observed":[]}`. Remediation: undefined
 - **ASSET-JS-STORY-THEME-JS:** Local script js/story-theme.js resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ","observed":[]}`. Remediation: undefined
 - **ASSET-CSS-SIS-EXERCISE-LAYOUT-CSS:** Local link css/sis-exercise-layout.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-5HOjSZ/dHoz5qDsXvpEOXtqPTq50symoGkXfouRlWh+2X5MCVufbyJuTDg7a3y6o","observed":[]}`. Remediation: undefined
-- **ASSET-CLOZE-SUBMIT-CSS:** Local link css/sis-cloze-submit.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-O8x9dnVVIUDBVWqyxIoevfyflx64R983fR2e/kt0oP4Isbfr2CQUOhBsqgnNO+Fy","observed":[]}`. Remediation: undefined
+- **ASSET-CLOZE-SUBMIT-CSS:** Local link css/sis-cloze-submit.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW","observed":[]}`. Remediation: undefined
 - **ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS:** Local link css/sis-exercise-family-layout.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j","observed":[]}`. Remediation: undefined
 - **ASSET-EXERCISE-SUBMIT-DICT:** Local script js/sis-exercise-submit.js resolves and has current SRI for dict. Observed: `{"expectedIntegrity":"sha384-mMNp6FvFWm02ZkDK9ga/h/qUissJKdll6Xqi6KsgfvSy8kf7DQSy2X3Kx+biLPmo","observed":[]}`. Remediation: undefined
 - **SH-06:** Every required shared and family asset resolves locally with its current SRI. Observed: `{"required":9,"failed":["ASSET-CSS-SIS-HOT-POTATOES-CSS","ASSET-JS-HOT-POTATOES-UI-JS","ASSET-CSS-HOT-POTATOES-FEEDBACK-CSS","ASSET-JS-HOT-POTATOES-FEEDBACK-JS","ASSET-JS-STORY-THEME-JS","ASSET-CSS-SIS-EXERCISE-LAYOUT-CSS","ASSET-CLOZE-SUBMIT-CSS","ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS","ASSET-EXERCISE-SUBMIT-DICT"]}`. Remediation: undefined
@@ -160,32 +160,6 @@ Generated: 2026-09-16T21:58:11.968Z
 - **SH-07:** Visibility uses shared classes, legacy handlers are removed, and empty feedback and sentence answer panels stay hidden. Observed: `{"legacyVisibilityWritesRemain":true,"legacyHandlerCount":114,"sharedVisibilityRuntime":true,"emptyFeedbackHiddenByRuntime":true,"emptySentenceAnswerHiddenByRuntime":true}`. Remediation: undefined
 - **SH-12:** Every non-Close action control uses btn-17 hp-button and the shared button rule clips its animated effect. Observed: `{"total":19,"nonClose":19,"invalid":[{"tag":"button","id":"ShowMethodButton","classes":["FuncButton"]},{"tag":"button","id":"PrevQButton","classes":["FuncButton"]},{"tag":"button","id":"NextQButton","classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":"FeedbackOKButton","classes":["FuncButton"]}],"clippingRule":true}`. Remediation: undefined
 - **PROTO-01:** Structural shape matches the dict prototype contract. Observed: `{"pass":false,"differences":["wrapper false != prototype true","instructionPanel false != prototype true","close count 0 is missing the prototype control"]}`. Remediation: Compare this page with begin1/dict/b1d001.html and repair the named structural difference.
-
-### `begin2/dict/b2d031.html`
-
-- **SH-03:** Instruction panel contains .Titles > h1.ExerciseTitle and #InstructionsDiv; #MainDiv is unique in the wrapper. Observed: `{"instructionPanels":1,"titleFound":true,"instructions":1,"main":1}`. Remediation: undefined
-- **SH-04:** Close is an accessible btn-74 button handled by the shared Close runtime. Observed: `{"count":0,"accessible":false,"runtimeBound":true}`. Remediation: undefined
-- **ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS:** Local link css/sis-exercise-family-layout.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j","observed":[]}`. Remediation: undefined
-- **SH-06:** Every required shared and family asset resolves locally with its current SRI. Observed: `{"required":9,"failed":["ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS"]}`. Remediation: undefined
-- **DI-01:** Direct body wrapper is canonical .wrapfit with the correct family marker. Observed: `{"wrapperTag":null,"classes":[],"family":null}`. Remediation: undefined
-- **DI-02:** Instruction, main, and feedback IDs are unique and inside the exercise wrapper. Observed: `{"instructions":1,"main":1,"feedback":0}`. Remediation: undefined
-- **SH-10:** One direct canonical shell has .hp-exercise-shell, .wrapfit, and data-sis-exercise-shell; no legacy wrapper alias remains. Observed: `{"directWrappers":[{"tag":"div","classes":["wrapit","exercise-wrapper"],"shell":false}],"nestedWrappers":[]}`. Remediation: undefined
-- **SH-09:** Required exercise IDs are unique. Observed: `{"ids":{"InstructionsDiv":1,"MainDiv":1,"FeedbackDiv":0}}`. Remediation: undefined
-- **PROTO-01:** Structural shape matches the dict prototype contract. Observed: `{"pass":false,"differences":["wrapper false != prototype true","feedback 0 != prototype 1","close count 0 is missing the prototype control"]}`. Remediation: Compare this page with begin1/dict/b1d001.html and repair the named structural difference.
-
-### `supereasy/dict/se_d143.html`
-
-- **SH-01:** body#TheBody exists exactly once. Observed: `{"count":0,"idCount":0}`. Remediation: undefined
-- **SH-02:** Viewport declares device width and initial scale 1. Observed: `{"content":null}`. Remediation: undefined
-- **SH-03:** Instruction panel contains .Titles > h1.ExerciseTitle and #InstructionsDiv; #MainDiv is unique in the wrapper. Observed: `{"instructionPanels":0,"titleFound":false,"instructions":0,"main":0}`. Remediation: undefined
-- **SH-04:** Close is an accessible btn-74 button handled by the shared Close runtime. Observed: `{"count":0,"accessible":false,"runtimeBound":true}`. Remediation: undefined
-- **ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS:** Local link css/sis-exercise-family-layout.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j","observed":[]}`. Remediation: undefined
-- **SH-06:** Every required shared and family asset resolves locally with its current SRI. Observed: `{"required":9,"failed":["ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS"]}`. Remediation: undefined
-- **DI-01:** Direct body wrapper is canonical .wrapfit with the correct family marker. Observed: `{"wrapperTag":null,"classes":[],"family":null}`. Remediation: undefined
-- **DI-02:** Instruction, main, and feedback IDs are unique and inside the exercise wrapper. Observed: `{"instructions":0,"main":0,"feedback":0}`. Remediation: undefined
-- **SH-10:** One direct canonical shell has .hp-exercise-shell, .wrapfit, and data-sis-exercise-shell; no legacy wrapper alias remains. Observed: `{"directWrappers":[],"nestedWrappers":[]}`. Remediation: undefined
-- **SH-09:** Required exercise IDs are unique. Observed: `{"ids":{"InstructionsDiv":0,"MainDiv":0,"FeedbackDiv":0}}`. Remediation: undefined
-- **PROTO-01:** Structural shape matches the dict prototype contract. Observed: `{"pass":false,"differences":["body false != prototype true","wrapper false != prototype true","instructionPanel false != prototype true","title false != prototype true","instructions 0 != prototype 1","main 0 != prototype 1","feedback 0 != prototype 1","close count 0 is missing the prototype control"]}`. Remediation: Compare this page with begin1/dict/b1d001.html and repair the named structural difference.
 
 ## Visual verification note
 

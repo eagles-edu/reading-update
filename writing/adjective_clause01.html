@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
-<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-14.3; family=feedback; prototype=shared-feedback-contract; story=none -->
+<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-17.1; family=feedback; prototype=shared-feedback-contract; story=none -->
 <script src="../js/hot-potatoes-feedback.js" integrity="sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq"></script>
 <!-- HOT POTATOES MODERNIZATION ASSETS END -->
 <link rel="preload" href="../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
@@ -162,7 +162,6 @@ font-size: x-large;
 .Answer { color: #000000; }
 /* correct answers turn green */
 .Answer.correct { color:#007100; }
-
 
 .LeftItem {
 font-size: 100%;
@@ -830,7 +829,6 @@ hr.tbm1525 {
     margin-bottom: 2.5em!important;
 }
 
-
 .wrapfit {
    width: fit-content;
    margin: 0 auto;
@@ -901,8 +899,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -944,9 +940,6 @@ document.getElementsByTagName('button')[0].focus();
 }
 }
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -1018,8 +1011,6 @@ if (C.ieVer < 7) {
 }
 }
 
-
-
 function HideFeedback() {
 document.getElementById('FeedbackDiv').style.display = 'none';
 ShowElements(true, 'input');
@@ -1029,7 +1020,6 @@ if (Finished == true) {
 Finish();
 }
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -1169,9 +1159,6 @@ document.getElementById('InstructionsDiv').innerHTML = Feedback;
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString) {
 return InString.replace(/"/g, '&quot;')
 }
@@ -1259,9 +1246,6 @@ document.getElementById('TheBody').removeChild(document.getElementById('BottomNa
 }
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1279,10 +1263,6 @@ Frm.detail.value = Detail;
 Frm.submit();
 }
 }
-
-
-
-
 
 //JQUIZ CORE JAVASCRIPT CODE
 
@@ -1566,7 +1546,6 @@ I[11][3][0] = new Array('The deadline that he gives his employees is realistic.'
 I[11][3][1] = new Array('The deadline which he gives his employees is realistic.', '', 1, 100, 1);
 I[11][3][2] = new Array('The deadline he gives his employees is realistic.', '', 1, 100, 1);
 
-
 function StartUp() {
 RemoveBottomNavBarForIE();
 
@@ -1578,19 +1557,11 @@ document.getElementById('QNav').style.display = 'none';
 //Stash the instructions so they can be redisplayed
 strInstructions = document.getElementById('InstructionsDiv').innerHTML;
 
-
-
-
-
-
-
 CompleteEmptyFeedback();
 
 SetUpQuestions();
 ClearTextBoxes();
 CreateStatusArray();
-
-
 
 //Check search string for q parameter
 if (document.location.search.length > 0) {
@@ -1653,10 +1624,6 @@ State[QNum] = null;
 }
 }
 }
-
-
-
-
 
 function CalculateOverallScore() {
 var TotalWeighting = 0;
@@ -1734,13 +1701,8 @@ WriteToInstructions(FB);
 
 Finished == true;
 
-
-
-
 TimeOver = true;
 Locked = true;
-
-
 
 Finished = true;
 Detail = '<?xml version="1.0"?><hpnetresult><fields>';
@@ -1756,10 +1718,6 @@ setTimeout('Finish()', SubmissionTimeout);
 }
 
 }
-
-
-
-
 
 //CORE CODE FOR CHECKING SHORT ANSWER GUESSES AGAINST ANSWER ARRAYS
 
@@ -2087,8 +2045,6 @@ El.appendChild(A);
 }
 }
 
-
-
 function ShowAnswers(QNum) {
 //bail if question doesn't exist or exercise finished
 if ((State[QNum].length < 1) || (Finished == true)) { return; }
@@ -2122,10 +2078,6 @@ WriteToInstructions(YourScoreIs + ' ' + Score + '%.' + '<br>' + QsDone);
 //This may be the last, so check finished status
 CheckFinished();
 }
-
-
-
-
 
 function ShowHint(QNum) {
 //bail if question doesn't exist or exercise finished
@@ -2202,7 +2154,6 @@ ShowMessage(DefaultWrong + '<br>' + NextCorrect + '<br>' + GetFirstCorrectAnswer
 
 <button id="ShowMethodButton" class="FuncButton rghtalgn" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOver(this)" onclick="ShowHideQuestions(); return false;">Show all questions</button>
 
-
 <div id="OneByOneReadout">
 <button id="PrevQButton" class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOver(this)" onclick="ChangeQ(-1); return false;">&lt;=</button>
 
@@ -2273,9 +2224,7 @@ ShowMessage(DefaultWrong + '<br>' + NextCorrect + '<br>' + GetFirstCorrectAnswer
 			class="ShortAnswerBox" cols="28" rows="2"></textarea><br><br>
 			<button class="FuncButton" type="submit" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckShortAnswer(2)">Check</button>
 
-
 			<button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint(2)">Hint</button>
-
 
 			<button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowAnswers(2)">Show answer</button>
 
@@ -2284,7 +2233,6 @@ ShowMessage(DefaultWrong + '<br>' + NextCorrect + '<br>' + GetFirstCorrectAnswer
 </div>
 <hr class="new2 tbm1525">
 </li>
-
 
 <li class="QuizQuestion" id="Q_3" style="display: none;">
 <div class="QuestionText">People should make a to-do list. / People have trouble with time
@@ -2300,12 +2248,10 @@ management.</div>
 			onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)"
 			onclick="CheckShortAnswer(3)">Check</button>
 
-
 			<button class="FuncButton"  type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)"
 			onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"
 			onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)"
 			onclick="ShowHint(3)">Hint</button>
-
 
 			<button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)"
 			onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"
@@ -2332,12 +2278,10 @@ management.</div>
 			onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)"
 			onclick="CheckShortAnswer(4)">Check</button>
 
-
 			<button class="FuncButton"  type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)"
 			onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"
 			onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)"
 			onclick="ShowHint(4)">Hint</button>
-
 
 			<button class="FuncButton" type="button"
 			onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)"
@@ -2395,12 +2339,10 @@ management.</div>
 			onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)"
 			onclick="CheckShortAnswer(6)">Check</button>
 
-
 			<button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)"
 			onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"
 			onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)"
 			onclick="ShowHint(6)">Hint</button>
-
 
 			<button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)"
 			onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"
@@ -2514,12 +2456,10 @@ management.</div>
 			onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)"
 			onclick="CheckShortAnswer(10)">Check</button>
 
-
 			<button class="FuncButton" type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)"
 			onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"
 			onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)"
 			onclick="ShowHint(10)">Hint</button>
-
 
 			<button class="FuncButton"  type="button" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)"
 			onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"

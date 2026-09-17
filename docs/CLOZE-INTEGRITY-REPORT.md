@@ -1,6 +1,6 @@
 # Cloze Integrity and Prototype Audit
 
-Generated: 2026-09-17T05:41:57.452Z
+Generated: 2026-09-17T09:53:34.452Z
 
 ## Summary
 
@@ -124,7 +124,7 @@ Generated: 2026-09-17T05:41:57.452Z
 - **CL-05:** direct wrapfit hp-exercise-shell with data-sis-exercise-shell=true and family=cloze. Observed: `{"wrapper":null}`. Remediation: Normalize the direct body wrapper to the current cloze shell.
 - **CL-06:** #check and #hint are current btn-17 controls. Observed: `{"check":null,"hint":null}`. Remediation: Restore the static Check and Hint controls with their current ids and types.
 - **CL-07:** unique GapN inputs each have a matching label. Observed: `{"gapCount":0,"duplicateIds":[],"missingLabels":[]}`. Remediation: Add a label for each gap or stop for manual source repair if the gap structure is incomplete.
-- **CL-08:** one accessible btn-74 button. Observed: `{"count":0,"labels":[]}`. Remediation: Add one accessible Close button to the normalized footer.
+- **CL-08:** one accessible btn-74 button with the shared tm1-5 margin token. Observed: `{"count":0,"marginToken":false,"labels":[]}`. Remediation: Add the tm1-5 class to the single Close control and define its 1.5em top margin in css/sis-hot-potatoes.css.
 - **CL-09:** all required local assets resolve with current SRI. Observed: `{"required":9,"failures":[{"path":"css/sis-hot-potatoes.css","present":false,"resolves":false,"integrityMatches":false},{"path":"js/hot-potatoes-ui.js","present":false,"resolves":false,"integrityMatches":false},{"path":"css/hot-potatoes-feedback.css","present":false,"resolves":false,"integrityMatches":false},{"path":"js/hot-potatoes-feedback.js","present":false,"resolves":false,"integrityMatches":false},{"path":"js/story-theme.js","present":false,"resolves":false,"integrityMatches":false},{"path":"style/font-stack.css","present":false,"resolves":false,"integrityMatches":false},{"path":"js/theme-selector.js","present":false,"resolves":false,"integrityMatches":false},{"path":"css/sis-cloze-submit.css","present":false,"resolves":false,"integrityMatches":false},{"path":"js/sis-cloze-submit.js","present":false,"resolves":false,"integrityMatches":false}]}`. Remediation: Correct the asset URL or regenerate its SHA-384 integrity value.
 - **CL-10:** companion story and matching story-theme metadata resolve. Observed: `{"scriptPresent":false,"titleUrl":null,"themeKey":null,"storyRelative":null,"resolves":false,"storyFile":null}`. Remediation: Repair the story mapping; the page title/theme must come from its companion story.
 - **CL-14:** shape matches the B1 cloze prototype contract. Observed: `{"pass":false,"differences":["direct wrapper missing","InstructionsDiv count 0 != prototype 1","MainDiv count 0 != prototype 1","ClozeDiv count 0 != prototype 1","FeedbackDiv count 0 != prototype 1","check count 0 != prototype 1","hint count 0 != prototype 1","instruction panel count differs from prototype","ExerciseTitle heading count differs from prototype","sis-cloze-prototype marker count 0 != prototype 1"]}`. Remediation: Compare the page against begin1/cloze/b1cloze001.html and repair the named structural difference.

@@ -20,7 +20,7 @@
   var IDLE_STATUS_MESSAGE =
     "Your saved details are ready. Complete the exercise to send your result."
   var CLOSE_BUTTON_HTML =
-    '<button class="btn-74 hp-button hp-close-button" type="button" data-hp-close aria-label="Close" aria-description="Close this exercise." data-hp-tooltip="Close this exercise.">Close<span></span><span></span><span></span><span></span></button>'
+    '<button class="btn-74 hp-button hp-close-button tm1-5" type="button" data-hp-close aria-label="Close" aria-description="Close this exercise." data-hp-tooltip="Close this exercise.">Close<span></span><span></span><span></span><span></span></button>'
 
   var state = {
     initialized: false,

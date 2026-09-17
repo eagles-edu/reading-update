@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
-<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-14.3; family=feedback; prototype=shared-feedback-contract; story=none -->
+<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-17.1; family=feedback; prototype=shared-feedback-contract; story=none -->
 <script src="../js/hot-potatoes-feedback.js" integrity="sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq"></script>
 <!-- HOT POTATOES MODERNIZATION ASSETS END -->
 <link rel="preload" href="../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
@@ -179,7 +179,6 @@
 	.Answer.correct {
 		color: #007100;
 	}
-
 
 	.LeftItem {
 		font-size: 100%;
@@ -929,8 +928,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -972,9 +969,6 @@ function FocusAButton(){
 		}
 	}
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -1046,8 +1040,6 @@ function ShowElements(Show, TagName, ContainerToReverse){
 	}
 }
 
-
-
 function HideFeedback(){
 	document.getElementById('FeedbackDiv').style.display = 'none';
 	ShowElements(true, 'input');
@@ -1057,7 +1049,6 @@ function HideFeedback(){
 		Finish();
 	}
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -1197,9 +1188,6 @@ function WriteToInstructions(Feedback) {
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString){
 	return InString.replace(/"/g, '&quot;')
 }
@@ -1287,9 +1275,6 @@ function RemoveBottomNavBarForIE(){
 	}
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1307,10 +1292,6 @@ function Finish(){
 		Frm.submit();
 	}
 }
-
-
-
-
 
 //JQUIZ CORE JAVASCRIPT CODE
 
@@ -1354,16 +1335,16 @@ function CompleteEmptyFeedback(){
 	for (QNum=0; QNum<I.length; QNum++){
 //Only do this if not multi-select
 		if (I[QNum][2] != '3'){
-  		for (ANum = 0; ANum<I[QNum][3].length; ANum++){
-  			if (I[QNum][3][ANum][1].length < 1){
-  				if (I[QNum][3][ANum][2] > 0){
-  					I[QNum][3][ANum][1] = DefaultRight;
-  				}
-  				else{
-  					I[QNum][3][ANum][1] = DefaultWrong;
-  				}
-  			}
-  		}
+		for (ANum = 0; ANum<I[QNum][3].length; ANum++){
+			if (I[QNum][3][ANum][1].length < 1){
+				if (I[QNum][3][ANum][2] > 0){
+					I[QNum][3][ANum][1] = DefaultRight;
+				}
+				else{
+					I[QNum][3][ANum][1] = DefaultWrong;
+				}
+			}
+		}
 		}
 	}
 }
@@ -1395,7 +1376,7 @@ function SetUpQuestions(){
 		for (var i=0; i<QList.length; i++){
 			As = QList[i].getElementsByTagName('ol')[0];
 			if (As != null){
-  			AList.length = 0;
+			AList.length = 0;
 				while (As.getElementsByTagName('li').length > 0){
 					AList.push(As.removeChild(As.getElementsByTagName('li')[0]));
 				}
@@ -1434,8 +1415,8 @@ function SetFocusToTextbox(){
 		}
 	}
 	else{
-  	if (QArray[CurrQNum].getElementsByTagName('textarea')[0] != null){
-  		QArray[CurrQNum].getElementsByTagName('textarea')[0].focus();
+	if (QArray[CurrQNum].getElementsByTagName('textarea')[0] != null){
+		QArray[CurrQNum].getElementsByTagName('textarea')[0].focus();
 //and show a keypad if there is one
 			if (document.getElementById('CharacterKeypad') != null){
 				document.getElementById('CharacterKeypad').style.display = 'block';
@@ -1576,7 +1557,6 @@ I[9][3][1]=new Array('The bench which I sat on was wet.','',1,100,1);
 I[9][3][2]=new Array('The bench that I sat on was wet.','',1,100,1);
 I[9][3][3]=new Array('The bench on which I sat was wet.','',1,100,1);
 
-
 function StartUp(){
 	RemoveBottomNavBarForIE();
 
@@ -1588,19 +1568,11 @@ function StartUp(){
 //Stash the instructions so they can be redisplayed
 	strInstructions = document.getElementById('InstructionsDiv').innerHTML;
 
-
-
-
-
-
-
 	CompleteEmptyFeedback();
 
 	SetUpQuestions();
 	ClearTextBoxes();
 	CreateStatusArray();
-
-
 
 //Check search string for q parameter
 	if (document.location.search.length > 0){
@@ -1663,10 +1635,6 @@ function CreateStatusArray(){
 		}
 	}
 }
-
-
-
-
 
 function CalculateOverallScore(){
 	var TotalWeighting = 0;
@@ -1744,13 +1712,8 @@ function CheckFinished(){
 
 		Finished == true;
 
-
-
-
 		TimeOver = true;
 		Locked = true;
-
-
 
 		Finished = true;
 		Detail = '<?xml version="1.0"?><hpnetresult><fields>';
@@ -1766,10 +1729,6 @@ function CheckFinished(){
 	}
 
 }
-
-
-
-
 
 //CORE CODE FOR CHECKING SHORT ANSWER GUESSES AGAINST ANSWER ARRAYS
 
@@ -2097,8 +2056,6 @@ function ReplaceGuessBox(QNum, Ans){
 	}
 }
 
-
-
 function ShowAnswers(QNum){
 //bail if question doesn't exist or exercise finished
 	if ((State[QNum].length < 1)||(Finished == true)){return;}
@@ -2132,10 +2089,6 @@ function ShowAnswers(QNum){
 //This may be the last, so check finished status
 	CheckFinished();
 }
-
-
-
-
 
 function ShowHint(QNum){
 //bail if question doesn't exist or exercise finished
@@ -2187,9 +2140,6 @@ function ShowHint(QNum){
 	}
 }
 
-
-
-
 // End of script
 
 </script>
@@ -2203,23 +2153,16 @@ function ShowHint(QNum){
 
 <!-- BeginTopNavButtons -->
 
-
-
 <!-- EndTopNavButtons -->
 
 <div class="Titles">
 	<h3 class="ExerciseTitle">ADJECTIVE CLAUSE (2)</h3>
 
-
 </div>
-
 
  <div id="InstructionsDiv" class="StdDiv">
 	<div id="Instructions">Use the second sentence as the adjective clause.</div>
 </div>
-
-
-
 
 <div id="MainDiv" class="StdDiv">
 
@@ -2399,11 +2342,7 @@ function ShowHint(QNum){
 <hr class="new2 tbm1525">
 </li></ol>
 
-
-
 </div>
-
-
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
@@ -2412,14 +2351,11 @@ function ShowHint(QNum){
 
 <!-- BeginBottomNavButtons -->
 
-
-
 <!-- EndBottomNavButtons -->
 
 <!-- BeginSubmissionForm -->
 
 <!-- EndSubmissionForm --></div></body>
-
 
 <!-- Mirrored from www.eslfast.com/writing/adjective_clause02.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 02 Jul 2017 04:37:43 GMT -->
 </html>

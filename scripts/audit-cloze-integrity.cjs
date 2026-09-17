@@ -585,21 +585,29 @@ function pageAudit(pageFile, prototypeShape, bridgeSource, root = ROOT) {
   const closeButtons = all.filter(
     (node) => node.tagName === "button" && hasClass(node, "btn-74"),
   );
+  const sharedCss = fs.existsSync(path.join(root, "css/sis-hot-potatoes.css"))
+    ? fs.readFileSync(path.join(root, "css/sis-hot-potatoes.css"), "utf8")
+    : "";
+  const closeMarginToken = closeButtons.length === 1 &&
+    hasClass(closeButtons[0], "tm1-5") &&
+    /body#TheBody\s+\.hp-button\.tm1-5\s*\{[^}]*margin-top:\s*1\.5em(?:\s*!important)?\s*;/s.test(sharedCss);
   const closeRemediation =
     closeButtons.length > 1
-      ? "Remove duplicate Close controls and retain exactly one accessible btn-74 footer control."
-      : CHECKLIST[7][2];
+      ? "Remove duplicate Close controls and retain exactly one accessible btn-74 footer control with the tm1-5 margin token."
+      : "Add the tm1-5 class to the single Close control and define its 1.5em top margin in css/sis-hot-potatoes.css.";
   checks.push(
     check(
       "CL-08",
-      "one accessible btn-74 button",
+      "one accessible btn-74 button with the shared tm1-5 margin token",
       {
         count: closeButtons.length,
+        marginToken: closeMarginToken,
         labels: closeButtons.map(
           (node) => attr(node, "aria-label") || nodeText(node),
         ),
       },
       closeButtons.length === 1 &&
+        closeMarginToken &&
         closeButtons.every(
           (node) => attr(node, "aria-label") || nodeText(node),
         ),
@@ -940,7 +948,7 @@ function main() {
   const markdownFile = args.markdown
     ? path.resolve(args.root, args.markdown)
     : reportFile.replace(/\.json$/i, ".md");
-  fs.writeFileSync(markdownFile, `${markdownReport(report)}\n`);
+  fs.writeFileSync(markdownFile, `${markdownReport(report).trimEnd()}\n`);
   console.log(`JSON report: ${path.relative(args.root, reportFile)}`);
   console.log(`Markdown report: ${path.relative(args.root, markdownFile)}`);
   console.log(`Pages audited: ${report.totals.scanned}`);

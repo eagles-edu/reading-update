@@ -631,6 +631,12 @@ body#TheBody input.hp-button.btn-17:disabled::before {
   pointer-events: none;
 }
 
+body#TheBody .hp-button.tm1-5 {
+  margin-block: 1.5em 0 !important;
+  margin-block-start: 1.5em !important;
+  margin-top: 1.5em !important;
+}
+
 body#TheBody button.hp-button.btn-74,
 body#TheBody input.hp-button.btn-74 {
   --color_74: #002786;

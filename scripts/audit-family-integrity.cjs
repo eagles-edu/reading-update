@@ -461,7 +461,7 @@ function main() {
   const markdownFile = args.markdown
     ? path.resolve(args.root, args.markdown)
     : reportFile.replace(/\.json$/i, ".md");
-  fs.writeFileSync(markdownFile, markdownReport(report));
+  fs.writeFileSync(markdownFile, `${markdownReport(report).trimEnd()}\n`);
   console.log(`JSON report: ${path.relative(args.root, reportFile)}`);
   console.log(`Markdown report: ${path.relative(args.root, markdownFile)}`);
   console.log(`Pages audited: ${report.totals.scanned}`);
