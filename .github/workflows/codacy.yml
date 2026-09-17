@@ -32,7 +32,16 @@ jobs:
           output: results.sarif
           format: sarif
           gh-code-scanning-compat: true
+          force-file-permissions: true
           max-allowed-issues: 2147483647
+
+      - name: Restore SARIF file ownership
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          test -f results.sarif
+          sudo chown "$(id -u):$(id -g)" results.sarif
+          test -r results.sarif
+          test -w results.sarif
 
       - name: Normalize SARIF paths and regions
         if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository

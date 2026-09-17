@@ -4,14 +4,15 @@
 <!-- /kidsenglish2/cloze/kecloze2005.htm, Sun, 02 Jul 2017 04:38:35 GMT -->
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
-<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-14.3; family=cloze; prototype=begin5/cloze/b5cloze008.html; story=kidsenglish2/ke2/ke2005.html -->
+<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-15.2; family=cloze; prototype=begin1/cloze/b1cloze001.html; story=kidsenglish2/ke2/ke2005.html -->
 <script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="ke2005.html" data-story-title-url="../ke2/ke2005.html"></script>
 <script src="../../js/hot-potatoes-ui.js" integrity="sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g"></script>
 <script src="../../js/hot-potatoes-feedback.js" integrity="sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq"></script>
 <!-- HOT POTATOES MODERNIZATION ASSETS END -->
-<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
-<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
+<meta name="sis-cloze-prototype" content="current">
+
 <meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to ron."><meta name="keywords" content="Hot Potatoes, Hot Potatoes, Half-Baked Software, Windows, University of Victoria">
 
 <link rel="schema.DC" href="../../../purl.org/dc/elements/1.1/index.html">
@@ -29,14 +30,12 @@
 
 <style>
 
-
 /* This is the CSS stylesheet used in the exercise. */
 /* Elements in square brackets are replaced by data based on configuration settings when the exercise is built. */
 
 /* BeginCorePageCSS */
 
 /* Made with executable version 6.3 Release 0 Build 5 */
-
 
 /* Hack to hide a nested Quicktime player from IE, which can't handle it. */
 * html object.MediaPlayerNotForIE {
@@ -200,9 +199,6 @@ div.Feedback {
 	display: none;
 	font-size: 100%;
 }
-
-
-
 
 div.ExerciseDiv{
 	color: #000000;
@@ -656,7 +652,6 @@ padding-top: 1em;
 
     /* for cloze */
 
-
 /*   new clamp sys*/
 
 /* Shared interpolation: (100vw - 300px) / 1300  ==>  0 at 300px viewport, 1 at 1600px viewport */
@@ -783,8 +778,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -814,9 +807,6 @@ function FocusAButton(){
 		}
 	}
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -888,8 +878,6 @@ function ShowElements(Show, TagName, ContainerToReverse){
 	}
 }
 
-
-
 function HideFeedback(){
 	HPSetDisplay(document.getElementById('FeedbackDiv'), "none");
 	ShowElements(true, 'input');
@@ -899,7 +887,6 @@ function HideFeedback(){
 		Finish();
 	}
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -1039,9 +1026,6 @@ function WriteToInstructions(Feedback) {
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString){
 	return InString.replace(/"/g, '&quot;')
 }
@@ -1129,9 +1113,6 @@ function RemoveBottomNavBarForIE(){
 	}
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1149,10 +1130,6 @@ function Finish(){
 		Frm.submit();
 	}
 }
-
-
-
-
 
 //JCLOZE CORE JAVASCRIPT CODE
 
@@ -1235,7 +1212,6 @@ I[8][1][0] = new Array();
 I[8][1][0][0] = '\u0061\u006E\u0064';
 I[8][2]='';
 
-
 State = new Array();
 
 function StartUp(){
@@ -1245,12 +1221,6 @@ function StartUp(){
 		HPSetDisplay(document.getElementById('CharacterKeypad'), "block");
 	}
 
-
-
-
-
-
-
 	var i = 0;
 
 	State.length = 0;
@@ -1259,8 +1229,6 @@ function StartUp(){
 	}
 
 	ClearTextBoxes();
-
-
 
 }
 
@@ -1294,7 +1262,7 @@ function CompileGuesses(){
 				if (j>0){Temp += '| ';}
 				Temp += State[i].Guesses[j] + ' ';
 			}
-  		Temp += '</fielddata></field>';
+		Temp += '</fielddata></field>';
 		}
 		Temp += '</fields></hpnetresult>';
 		Detail = Temp;
@@ -1355,8 +1323,6 @@ function CheckAnswers(){
 	CompileGuesses();
 
 	if ((AllCorrect == true)||(Finished == true)){
-
-
 
 		TimeOver = true;
 		Locked = true;
@@ -1528,36 +1494,30 @@ function TypeChars(Chars){
 	}
 }
 
-
-
 // End of script
 
-</script>
+</script><link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
+<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
+<link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW">
+<script src="../../js/theme-selector.js" integrity="sha384-Z1/JSOxBq9/FDcKgAV/WlspujLmY1FVDWPKUBtGpMaemJRTV4PhhWDV5ftWg8zni"></script>
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-6sMCFDCTfssWlcJWUaFn+Yi5aUlgK5F6NdghOEsLWiADSx65HFRdNXWbwm9uvo6H" data-sis-exercise-family="cloze"></script>
 <!-- HOT POTATOES MODERNIZATION STYLES START -->
-<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-EIG7+2mbmdKXw+7WBMoTcp9CjUjCXLpkpUdjZim1TkqVohjU0/SEOZCnuw68IYQ8">
-<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-EIG7+2mbmdKXw+7WBMoTcp9CjUjCXLpkpUdjZim1TkqVohjU0/SEOZCnuw68IYQ8">
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-c+P3PU12ZNcnXNQ47RPoA/vzeu8blgNW85/uzE6/0ofAZUU2rhe9lHKwZ5NntSKP">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-c+P3PU12ZNcnXNQ47RPoA/vzeu8blgNW85/uzE6/0ofAZUU2rhe9lHKwZ5NntSKP">
 <link rel="preload" href="../../css/hot-potatoes-feedback.css" as="style" integrity="sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4">
 <link rel="stylesheet" href="../../css/hot-potatoes-feedback.css" integrity="sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4">
 <!-- HOT POTATOES MODERNIZATION STYLES END -->
-<link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-O8x9dnVVIUDBVWqyxIoevfyflx64R983fR2e/kt0oP4Isbfr2CQUOhBsqgnNO+Fy">
-<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-O8x9dnVVIUDBVWqyxIoevfyflx64R983fR2e/kt0oP4Isbfr2CQUOhBsqgnNO+Fy">
-<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-Gc2qKe3djjT0AbKPkAavXAIO2OliICY2mClhujjF35XCoKH4e869pBK22Tix/WRB" data-sis-exercise-family="cloze"></script>
 </head>
 
-<body onload="StartUp()" id="TheBody"><div class="wrapfit">
+<body onload="StartUp()" id="TheBody"><div class="wrapfit hp-exercise-shell" data-sis-exercise-shell="true" data-sis-exercise-family="cloze">
 
 <!-- BeginTopNavButtons -->
-
-
 
 <!-- EndTopNavButtons -->
 
 <div class="hp-instructions-panel"><div class="Titles">
 	<h1 class="ExerciseTitle">5. Picking a Book</h1>
-
-
-
-
 
 </div>
 
@@ -1565,41 +1525,29 @@ function TypeChars(Chars){
 	<div id="Instructions">1: Study the new words page. 2: Listen to the story. 3: Read the story out loud. 4: Fill-in the blanks below. 5: Check your answers.</div>
 </div></div>
 
-
-
-
-
 <div id="MainDiv" class="StdDiv">
 
 <!-- These top buttons hidden; reveal if required -->
 <!--
 <button id="CheckButton1" class="FuncButton" type="submit"  onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
 
-
 <button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button>
-
 
  -->
 
 <div id="ClozeDiv">
 <form id="Cloze" method="post" action="#" onsubmit="return false;">
 <div class="ClozeBody">
-She goes to the library. She <span class="GapSpan" id="GapSpan0"><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="6"></span> at the shelves. She pulls out <span class="GapSpan" id="GapSpan1"><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6"></span> book. She opens the book. She <span class="GapSpan" id="GapSpan2"><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6"></span> the first page. She laughs. The <span class="GapSpan" id="GapSpan3"><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6"></span> is funny. She goes to the <span class="GapSpan" id="GapSpan4"><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="8"></span> desk. She gives the book to <span class="GapSpan" id="GapSpan5"><input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="6"></span> librarian. She takes out her library <span class="GapSpan" id="GapSpan6"><input type="text" id="Gap6" onfocus="TrackFocus(6)" onblur="LeaveGap()" class="GapBox" size="6"></span>. She gives it to the librarian. <span class="GapSpan" id="GapSpan7"><input type="text" id="Gap7" onfocus="TrackFocus(7)" onblur="LeaveGap()" class="GapBox" size="6"></span> librarian gives her back the card <span class="GapSpan" id="GapSpan8"><input type="text" id="Gap8" onfocus="TrackFocus(8)" onblur="LeaveGap()" class="GapBox" size="6"></span> the book.
+She goes to the library. She <span class="GapSpan" id="GapSpan0"><label class="sr-only" for="Gap0">Blank 1</label><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="6"></span> at the shelves. She pulls out <span class="GapSpan" id="GapSpan1"><label class="sr-only" for="Gap1">Blank 2</label><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6"></span> book. She opens the book. She <span class="GapSpan" id="GapSpan2"><label class="sr-only" for="Gap2">Blank 3</label><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6"></span> the first page. She laughs. The <span class="GapSpan" id="GapSpan3"><label class="sr-only" for="Gap3">Blank 4</label><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6"></span> is funny. She goes to the <span class="GapSpan" id="GapSpan4"><label class="sr-only" for="Gap4">Blank 5</label><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="8"></span> desk. She gives the book to <span class="GapSpan" id="GapSpan5"><label class="sr-only" for="Gap5">Blank 6</label><input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="6"></span> librarian. She takes out her library <span class="GapSpan" id="GapSpan6"><label class="sr-only" for="Gap6">Blank 7</label><input type="text" id="Gap6" onfocus="TrackFocus(6)" onblur="LeaveGap()" class="GapBox" size="6"></span>. She gives it to the librarian. <span class="GapSpan" id="GapSpan7"><label class="sr-only" for="Gap7">Blank 8</label><input type="text" id="Gap7" onfocus="TrackFocus(7)" onblur="LeaveGap()" class="GapBox" size="6"></span> librarian gives her back the card <span class="GapSpan" id="GapSpan8"><label class="sr-only" for="Gap8">Blank 9</label><input type="text" id="Gap8" onfocus="TrackFocus(8)" onblur="LeaveGap()" class="GapBox" size="6"></span> the book.
 </div>
 </form>
 </div>
 
+<button id="check" class="FuncButton hp-button btn-17" type="submit" form="Cloze" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
 
-
-<button id="CheckButton2" class="FuncButton hp-button btn-17" type="submit" form="Cloze" onclick="CheckAnswers()" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
-
-
-<button class="FuncButton hp-button btn-17" type="button" onclick="ShowHint()" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button>
-
+<button class="FuncButton hp-button btn-17" type="button" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue." id="hint">Hint</button>
 
 <div class="btn17Container"></div></div>
-
-
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
@@ -1608,15 +1556,12 @@ She goes to the library. She <span class="GapSpan" id="GapSpan0"><input type="te
 
 <!-- BeginBottomNavButtons -->
 
-
-
 <!-- EndBottomNavButtons -->
 
 <!-- BeginSubmissionForm -->
 
 <!-- EndSubmissionForm --><div class="cenmar"><button type="button" data-hp-close class="hp-button btn-74" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise.">CLOSE<span></span><span></span><span></span><span></span></button><br><br>
 </div></div></body>
-
 
 <!-- /kidsenglish2/cloze/kecloze2005.htm, Sun, 02 Jul 2017 04:38:35 GMT -->
 </html>

@@ -17,7 +17,7 @@ The key testing gap is concrete: the dictation/sentence runtime suite serves gen
 - Make the normalizer’s acceptance contract independent:
   - Rename prototype-derived internal names so reports no longer imply that a page passed merely by matching a prototype.
   - Keep stable MMOR IDs and make each check inspect the normalized page structure and its resolved local assets.
-  - Require exactly one direct `body#TheBody > .wrapfit`; retain `.wrapit` only when it existed as a compatibility class; remove `.exercise-wrapper`.
+  - Require exactly one direct `body#TheBody > .wrapfit`; remove `.wrapit` and `.exercise-wrapper` from finished pages. `.wrapit` is accepted only as a legacy input shape during normalization.
   - Accept only known direct wrapper shapes. Block missing, nested, duplicate, unknown, or structurally ambiguous wrappers with a page-specific remediation.
   - Preserve head `<style>` blocks, remove managed inline visibility styles, recalculate SRI, and enforce the story mapping.
 
@@ -52,7 +52,7 @@ The key testing gap is concrete: the dictation/sentence runtime suite serves gen
 
 ## Assumptions
 
-- `.wrapfit` is mandatory for all finished cloze, dictation, and sentence pages; `.wrapit` is compatibility-only.
+- `.wrapfit` is mandatory for all finished cloze, dictation, and sentence pages; `.wrapit` is compatibility-only input and must not remain in the finished canonical shell.
 - The first writable target is only the three B1 prototypes, followed by the seven linked B1001 exercises after those prototypes pass real-page tests.
 - The companion story remains untouched unless runtime title/theme verification identifies a story defect.
 - No broad Begin1 apply, commit, push, or deployment occurs as part of this work.

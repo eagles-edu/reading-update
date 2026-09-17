@@ -369,7 +369,7 @@
     if (!instructionPanel) return
 
     var instructions = instructionPanel.querySelector("#Instructions") || instructionPanel
-    if (instructions.querySelector("p.sis-cloze-instructions")) return
+    if (instructions.querySelector("p.sis-exercise-instructions")) return
 
     var instructionText = normalizeText(
       instructionPanel.getAttribute("data-cloze-instructions") || instructions.textContent
@@ -377,7 +377,7 @@
     if (!instructionText) instructionText = DEFAULT_INSTRUCTIONS_TEXT
 
     var paragraph = document.createElement("p")
-    paragraph.className = "sis-cloze-instructions"
+    paragraph.className = "sis-exercise-instructions"
 
     var label = document.createElement("strong")
     label.textContent = "CLOZE"

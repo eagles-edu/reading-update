@@ -19,5 +19,5 @@
     "ignoreDeprecations": "6.0"
   },
   "include": ["**/*.js"],
-  "exclude": ["node_modules", "dist", "build", "**/*.d.ts"]
+  "exclude": ["node_modules", "dist", "build", "**/*.d.ts", "docs", "begin*"]
 }

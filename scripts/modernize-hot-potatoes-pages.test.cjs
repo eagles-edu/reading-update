@@ -6,6 +6,7 @@ const test = require("node:test");
 const { collectAssetState } = require("./sri-rehash-watch.cjs");
 
 const {
+  auditMmor,
   applyPagePlans,
   applySafetyError,
   CURRENT_MODERNIZATION_VERSION,
@@ -571,6 +572,14 @@ test("Hot Potatoes scans can be limited to one content root", () => {
   }
 });
 
+test("explicit page paths do not inherit unrelated ambiguous pages", () => {
+  const root = path.resolve(".");
+  const scanned = scanTargets(root, ["easyread", "begin2"], ["easyread/dict/er_d001.html"]);
+
+  assert.deepEqual(scanned.ambiguous, []);
+  assert.deepEqual(scanned.pages.map((page) => page.relative), ["easyread/dict/er_d001.html"]);
+});
+
 test("writing exercises receive only the shared feedback assets", () => {
   const root = fs.mkdtempSync(
     path.join(os.tmpdir(), "hot-potatoes-feedback-scope-"),
@@ -782,6 +791,49 @@ function NavBtnOut(Btn) { Btn.className = "NavButton"; }</script>
   assert.equal(repairedDespiteCurrentMarker.versionChanged, false);
 });
 
+test("empty legacy navigation bars are removed while populated bars remain", () => {
+  const source = `<html><head><title>Dictation</title></head><body id="TheBody">
+<div class="wrapit"><div id="TopNavBar" class="NavButtonBar">
+<!-- BeginTopNavButtons -->
+<!-- EndTopNavButtons -->
+</div><div class="Titles"><h2 class="ExerciseTitle">Dictation</h2></div><div id="InstructionsDiv">Type what you hear.</div><div id="MainDiv"><div id="BottomNavBar" class="NavButtonBar"><button>Next</button></div></div></div></body></html>`;
+  const result = transformMarkup(source, "begin1/dict/b1d001.html");
+
+  assert.equal(result.counters.emptyNavBarsRemoved, 1);
+  assert.doesNotMatch(result.source, /id="TopNavBar"/);
+  assert.match(result.source, /id="BottomNavBar"[^>]*>\s*<button[^>]*>Next<\/button>/);
+});
+
+test("MMOR rejects empty legacy navigation and invalid non-Close action controls", () => {
+  const root = path.resolve(".");
+  const absolute = path.join(root, "begin1/dict/b1d001.html");
+  const original = fs.readFileSync(absolute, "utf8");
+  const page = {
+    absolute,
+    relative: "begin1/dict/b1d001.html",
+    source: original,
+    story: storyTarget(root, absolute),
+  };
+  const profile = modernizationProfile(page);
+  const withEmptyNav = original.replace(
+    /(<div class="hp-instructions-panel">)/,
+    '<div class="NavButtonBar" id="TopNavBar">\n<!-- legacy -->\n</div>$1',
+  );
+  const navAudit = auditMmor(withEmptyNav, root, { ...page, source: withEmptyNav }, profile);
+  const navCheck = navAudit.results.find((item) => item.id === "SH-11");
+  assert.equal(navCheck.pass, false);
+  assert.deepEqual(navCheck.evidence.ids, ["TopNavBar"]);
+
+  const withInvalidAction = original.replace(
+    /class="FuncButton hp-button btn-17"/,
+    'class="FuncButton hp-button"',
+  );
+  const actionAudit = auditMmor(withInvalidAction, root, { ...page, source: withInvalidAction }, profile);
+  const actionCheck = actionAudit.results.find((item) => item.id === "SH-12");
+  assert.equal(actionCheck.pass, false);
+  assert.ok(actionCheck.evidence.invalid.length >= 1);
+});
+
 test("family normalization repairs the cloze wrapper and creates the expected action row", () => {
   const root = path.resolve(".");
   const absolute = path.join(root, "begin2/cloze/b2cloze001.html");
@@ -792,7 +844,7 @@ test("family normalization repairs the cloze wrapper and creates the expected ac
     source: `<!doctype html><html><head><meta charset="utf-8"><!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="sis-cloze-prototype" content="current"><label for="Gap0">Blank 1</label> -->
     <!-- HOT POTATOES MODERNIZATION VERSION: version=${CURRENT_MODERNIZATION_VERSION}; family=cloze; prototype=begin1/cloze/b1cloze001.html; story=${story.relative} -->
     <link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-legacy">
-<title>Cloze</title></head><body id="TheBody"><div class="wrapit"><div class="hp-instructions-panel"><div class="Titles"><h1 class="ExerciseTitle">Cloze</h1></div><div id="InstructionsDiv">Fill the blanks.</div></div><div id="MainDiv"><div id="ClozeDiv"><span class="GapSpan"><input class="GapBox" id="Gap0"></span><div class="btn17Container"></div></div></div><div id="FeedbackDiv"></div><button class="btn-74" type="button" data-hp-close>Close</button></div></body></html>`,
+    <title>Cloze</title></head><body id="TheBody"><div class="wrapit"><div class="hp-instructions-panel"><div class="Titles"><h1 class="ExerciseTitle">Cloze</h1></div><div id="InstructionsDiv">Fill the blanks.</div></div><div id="MainDiv"><div id="ClozeDiv"><span class="GapSpan"><input class="GapBox" id="Gap0"></span><button id="CheckButton2" type="submit" onclick="CheckAnswers()">Check</button><button type="button" onclick="ShowHint()">Hint</button><div class="btn17Container"></div></div></div><div id="FeedbackDiv"></div><button class="btn-74" type="button" data-hp-close>Close</button><div id="BottomNavBar" class="NavButtonBar"><button class="btn-74" type="button" data-hp-close>Close</button></div></div></body></html>`,
     story,
   };
   const assets = { ...collectAssetInfo(root), root };
@@ -811,6 +863,11 @@ test("family normalization repairs the cloze wrapper and creates the expected ac
   assert.match(normalized.source, /name="sis-cloze-prototype" content="current"/);
   assert.match(normalized.source, /<label class="sr-only" for="Gap0">Blank 1<\/label><input[^>]*id="Gap0"/);
   assert.equal(normalized.counters.clozeGapLabels, 1);
+  assert.equal(normalized.counters.clozeControls, 2);
+  assert.equal(normalized.counters.closeButtons, 1);
+  assert.equal(normalized.counters.clozeNavBarsUnwrapped, 1);
+  assert.equal((normalized.source.match(/\bbtn-74\b/g) || []).length, 1);
+  assert.doesNotMatch(normalized.source, /id="BottomNavBar"/);
   assert.match(normalized.source, /<div class="hp-exercise-shell wrapfit" data-sis-exercise-shell="true" data-sis-exercise-family="cloze">/);
   assert.match(normalized.source, /<div class="btn17Container"><\/div><\/div>/);
   assert.match(normalized.source, /js\/sis-cloze-submit\.js/);
@@ -911,7 +968,7 @@ test("dictation and sentence normalization canonicalizes supported wrappers to d
       { className: "", passes: false },
       { className: "unknown-wrapper", passes: false },
     ];
-    for (const fixtureCase of cases) {
+    for (const fixtureCase of wrapperCases) {
       const source = sourceForWrapper(fixtureCase.className);
       if (!fixtureCase.passes) {
         assert.throws(
@@ -926,7 +983,7 @@ test("dictation and sentence normalization canonicalizes supported wrappers to d
       assert.match(wrapper, /\bhp-exercise-shell\b/);
       assert.match(wrapper, /\bwrapfit\b/);
       assert.match(wrapper, /\bdata-sis-exercise-shell="true"/);
-      assert.match(wrapper, new RegExp(`\bdata-sis-exercise-family="${fixture.family}"`));
+      assert.match(wrapper, new RegExp(`\\bdata-sis-exercise-family="${fixture.family}"`));
       assert.doesNotMatch(normalized.source, /class="[^"]*\bwrapit\b/);
       assert.doesNotMatch(normalized.source, /class="[^"]*\bexercise-wrapper\b/);
       assert.equal(normalizePage({ ...page, source: normalized.source }, assets).source, normalized.source);

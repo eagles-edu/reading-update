@@ -37,7 +37,6 @@
 
 		/* Made with executable version 6.3 Release 0 Build 5 */
 
-
 		/* Hack to hide a nested Quicktime player from IE, which can't handle it. */
 		* html object.MediaPlayerNotForIE {
 			display: none;
@@ -232,9 +231,6 @@ span.CorrectMark{
 			display: none;
 			font-size: 100%;
 		}
-
-
-
 
 		div.ExerciseDiv {
 			color: #000000;
@@ -764,7 +760,6 @@ span.CorrectMark{
 			list-style-type: none;
 		}
 
-
 		/* ≤ 480 px: let page grow to 90 % so 5 % paddings still fit inside 320 px */
 		@media (max-width: 480px) {
 			body {
@@ -925,8 +920,6 @@ span.CorrectMark{
 		//	alert(prop + ': ' + C[prop]);
 		//}
 
-
-
 		//CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 		//[strNavBarJS]
@@ -956,9 +949,6 @@ span.CorrectMark{
 				}
 			}
 		}
-
-
-
 
 		//CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -1030,8 +1020,6 @@ span.CorrectMark{
 			}
 		}
 
-
-
 		function HideFeedback() {
 			HPSetDisplay(document.getElementById( 'FeedbackDiv' ), "none");
 			ShowElements( true, 'input' );
@@ -1041,7 +1029,6 @@ span.CorrectMark{
 				Finish();
 			}
 		}
-
 
 		//GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -1181,9 +1168,6 @@ span.CorrectMark{
 
 		}
 
-
-
-
 		function EscapeDoubleQuotes( InString ) {
 			return InString.replace( /"/g, '&quot;' )
 		}
@@ -1271,9 +1255,6 @@ span.CorrectMark{
 			}
 		}
 
-
-
-
 		//HOTPOTNET-RELATED CODE
 
 		var HPNStartTime = ( new Date() ).getTime();
@@ -1291,10 +1272,6 @@ span.CorrectMark{
 				Frm.submit();
 			}
 		}
-
-
-
-
 
 		//JQUIZ CORE JAVASCRIPT CODE
 
@@ -1524,7 +1501,6 @@ span.CorrectMark{
 		I[ 4 ][ 3 ] = new Array();
 		I[ 4 ][ 3 ][ 0 ] = new Array( 'The floor is clean.', '', 1, 100, 1 );
 
-
 		function StartUp() {
 			RemoveBottomNavBarForIE();
 
@@ -1536,19 +1512,11 @@ span.CorrectMark{
 			//Stash the instructions so they can be redisplayed
 			strInstructions = document.getElementById( 'InstructionsDiv' ).innerHTML;
 
-
-
-
-
-
-
 			CompleteEmptyFeedback();
 
 			SetUpQuestions();
 			ClearTextBoxes();
 			CreateStatusArray();
-
-
 
 			//Check search string for q parameter
 			if ( document.location.search.length > 0 ) {
@@ -1611,10 +1579,6 @@ span.CorrectMark{
 				}
 			}
 		}
-
-
-
-
 
 		function CalculateOverallScore() {
 			var TotalWeighting = 0;
@@ -1692,13 +1656,8 @@ span.CorrectMark{
 
 				Finished == true;
 
-
-
-
 				TimeOver = true;
 				Locked = true;
-
-
 
 				Finished = true;
 				Detail = '<?xml version="1.0"?><hpnetresult><fields>';
@@ -1714,10 +1673,6 @@ span.CorrectMark{
 			}
 
 		}
-
-
-
-
 
 		//CORE CODE FOR CHECKING SHORT ANSWER GUESSES AGAINST ANSWER ARRAYS
 
@@ -2045,8 +2000,6 @@ span.CorrectMark{
 			}
 		}
 
-
-
 		function ShowAnswers( QNum ) {
 			//bail if question doesn't exist or exercise finished
 			if ( ( State[ QNum ].length < 1 ) || ( Finished == true ) ) { return; }
@@ -2080,10 +2033,6 @@ span.CorrectMark{
 			//This may be the last, so check finished status
 			CheckFinished();
 		}
-
-
-
-
 
 		function ShowHint( QNum ) {
 			//bail if question doesn't exist or exercise finished
@@ -2135,24 +2084,21 @@ span.CorrectMark{
 			}
 		}
 
-
-
 		// End of script
-
 
 	</script>
 
 	<link rel="icon" href="/reading/favicon.ico">
 <!-- HOT POTATOES MODERNIZATION STYLES START -->
-<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-EIG7+2mbmdKXw+7WBMoTcp9CjUjCXLpkpUdjZim1TkqVohjU0/SEOZCnuw68IYQ8">
-<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-EIG7+2mbmdKXw+7WBMoTcp9CjUjCXLpkpUdjZim1TkqVohjU0/SEOZCnuw68IYQ8">
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-c+P3PU12ZNcnXNQ47RPoA/vzeu8blgNW85/uzE6/0ofAZUU2rhe9lHKwZ5NntSKP">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-c+P3PU12ZNcnXNQ47RPoA/vzeu8blgNW85/uzE6/0ofAZUU2rhe9lHKwZ5NntSKP">
 <link rel="preload" href="../../css/hot-potatoes-feedback.css" as="style" integrity="sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4">
 <link rel="stylesheet" href="../../css/hot-potatoes-feedback.css" integrity="sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4">
 <!-- HOT POTATOES MODERNIZATION STYLES END -->
 <link rel="preload" href="../../css/sis-exercise-layout.css" as="style" integrity="sha384-5HOjSZ/dHoz5qDsXvpEOXtqPTq50symoGkXfouRlWh+2X5MCVufbyJuTDg7a3y6o">
 <link rel="stylesheet" href="../../css/sis-exercise-layout.css" integrity="sha384-5HOjSZ/dHoz5qDsXvpEOXtqPTq50symoGkXfouRlWh+2X5MCVufbyJuTDg7a3y6o">
-<link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-O8x9dnVVIUDBVWqyxIoevfyflx64R983fR2e/kt0oP4Isbfr2CQUOhBsqgnNO+Fy">
-<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-O8x9dnVVIUDBVWqyxIoevfyflx64R983fR2e/kt0oP4Isbfr2CQUOhBsqgnNO+Fy">
+<link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW">
 <link rel="preload" href="../../css/sis-exercise-family-layout.css" as="style" integrity="sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j">
 <link rel="stylesheet" href="../../css/sis-exercise-family-layout.css" integrity="sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j">
 <script defer src="../../js/sis-exercise-submit.js" integrity="sha384-mMNp6FvFWm02ZkDK9ga/h/qUissJKdll6Xqi6KsgfvSy8kf7DQSy2X3Kx+biLPmo" data-sis-exercise-family="dict"></script>
@@ -2161,20 +2107,12 @@ span.CorrectMark{
 <body onload="StartUp()" id="TheBody">
 	<div class="hp-exercise-shell wrapfit" data-sis-exercise-shell="true" data-sis-exercise-family="dict"><!-- BeginTopNavButtons -->
 
-
-
 		<!-- EndTopNavButtons -->
 
 		<div class="hp-instructions-panel"><div class="Titles">
 			<h1 class="ExerciseTitle">3. Water on the Floor</h1>
 
-
-
-
-
 		</div>
-
-
 
 		<div id="InstructionsDiv" class="StdDiv">
 			<div id="Instructions">Click on the play button to hear the sentence; type exactly what you hear. (Start the
@@ -2182,9 +2120,6 @@ span.CorrectMark{
 				period, question mark, or exclamation mark.) Click on CHECK to see if your sentence is completely
 				correct.</div>
 		</div></div>
-
-
-
 
 		<div id="MainDiv" class="StdDiv">
 
@@ -2240,15 +2175,6 @@ span.CorrectMark{
 								<source src="https://eagles.io.vn/reading/_audio/b1/audio/d/4e3c14ba/b1d00301.mp3" type="audio/mp3">
 							</audio>
 
-
-
-
-
-
-
-
-
-
 							<div><textarea id="Q_1_Guess" onfocus="TrackFocus('Q_1_Guess')" onblur="LeaveGap()"
 								  class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 2"></textarea>
 								<br><br>
@@ -2269,15 +2195,6 @@ span.CorrectMark{
 							  oncontextmenu="return false">
 								<source src="https://eagles.io.vn/reading/_audio/b1/audio/d/ef8ac04c/b1d00303.mp3" type="audio/mp3">
 							</audio>
-
-
-
-
-
-
-
-
-
 
 							<div><textarea id="Q_2_Guess" onfocus="TrackFocus('Q_2_Guess')" onblur="LeaveGap()"
 								  class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 3"></textarea>
@@ -2300,15 +2217,6 @@ span.CorrectMark{
 								<source src="https://eagles.io.vn/reading/_audio/b1/audio/d/32e495b9/b1d00304.mp3" type="audio/mp3">
 							</audio>
 
-
-
-
-
-
-
-
-
-
 							<div><textarea id="Q_3_Guess" onfocus="TrackFocus('Q_3_Guess')" onblur="LeaveGap()"
 								  class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 4"></textarea>
 								<br><br>
@@ -2330,15 +2238,6 @@ span.CorrectMark{
 								<source src="https://eagles.io.vn/reading/_audio/b1/audio/d/483cb939/b1d00305.mp3" type="audio/mp3">
 							</audio>
 
-
-
-
-
-
-
-
-
-
 							<div><textarea id="Q_4_Guess" onfocus="TrackFocus('Q_4_Guess')" onblur="LeaveGap()"
 								  class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 5"></textarea>
 								<br><br>
@@ -2352,11 +2251,7 @@ span.CorrectMark{
 				</li>
 			</ol>
 
-
-
 		</div>
-
-
 
 		<div class="Feedback" id="FeedbackDiv">
 			<div class="FeedbackText" id="FeedbackContent"></div>
@@ -2366,22 +2261,15 @@ span.CorrectMark{
 
 		<!-- BeginBottomNavButtons -->
 
-
-
 		<!-- EndBottomNavButtons -->
 
 		<!-- BeginSubmissionForm -->
 
 		<!-- EndSubmissionForm -->
 
-
-
-
-
 		<div class="cenmar"><button type="button" data-hp-close class="hp-button btn-74" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise.">CLOSE<span></span><span></span><span></span><span></span></button></div>
 	</div>
 </body>
-
 
 <!-- /begin1/dict/b1d003.htm, Sun, 02 Jul 2017 04:39:43 GMT -->
 

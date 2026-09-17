@@ -4,14 +4,15 @@
 <!-- Mirrored from www.eslfast.com/essays/cloze/aigcloze085.htm by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 03 Jul 2017 14:28:17 GMT -->
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
-<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-14.3; family=cloze; prototype=begin5/cloze/b5cloze008.html; story=essays/e/essay085.html -->
+<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-15.2; family=cloze; prototype=begin1/cloze/b1cloze001.html; story=essays/e/essay085.html -->
 <script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="essay085.html" data-story-title-url="../e/essay085.html"></script>
 <script src="../../js/hot-potatoes-ui.js" integrity="sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g"></script>
 <script src="../../js/hot-potatoes-feedback.js" integrity="sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq"></script>
 <!-- HOT POTATOES MODERNIZATION ASSETS END -->
-<link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
-<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
+<meta name="sis-cloze-prototype" content="current">
+
 <meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to ron."><meta name="keywords" content="Hot Potatoes, Hot Potatoes, Half-Baked Software, Windows, University of Victoria">
 
 <link rel="schema.DC" href="../../../purl.org/dc/elements/1.1/index.html">
@@ -29,14 +30,12 @@
 
 <style>
 
-
 /* This is the CSS stylesheet used in the exercise. */
 /* Elements in square brackets are replaced by data based on configuration settings when the exercise is built. */
 
 /* BeginCorePageCSS */
 
 /* Made with executable version 6.3 Release 0 Build 5 */
-
 
 /* Hack to hide a nested Quicktime player from IE, which can't handle it. */
 * html object.MediaPlayerNotForIE {
@@ -200,9 +199,6 @@ div.Feedback {
 	display: none;
 	font-size: 100%;
 }
-
-
-
 
 div.ExerciseDiv{
 	color: #000000;
@@ -656,7 +652,6 @@ padding-top: 1em;
 
     /* for cloze */
 
-
 /*   new clamp sys*/
 
 /* Shared interpolation: (100vw - 300px) / 1300  ==>  0 at 300px viewport, 1 at 1600px viewport */
@@ -783,8 +778,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -814,9 +807,6 @@ function FocusAButton(){
 		}
 	}
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -888,8 +878,6 @@ function ShowElements(Show, TagName, ContainerToReverse){
 	}
 }
 
-
-
 function HideFeedback(){
 	HPSetDisplay(document.getElementById('FeedbackDiv'), "none");
 	ShowElements(true, 'input');
@@ -899,7 +887,6 @@ function HideFeedback(){
 		Finish();
 	}
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -1039,9 +1026,6 @@ function WriteToInstructions(Feedback) {
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString){
 	return InString.replace(/"/g, '&quot;')
 }
@@ -1129,9 +1113,6 @@ function RemoveBottomNavBarForIE(){
 	}
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1149,10 +1130,6 @@ function Finish(){
 		Frm.submit();
 	}
 }
-
-
-
-
 
 //JCLOZE CORE JAVASCRIPT CODE
 
@@ -1361,7 +1338,6 @@ I[29][1][0] = new Array();
 I[29][1][0][0] = '\u0063\u0075\u0074';
 I[29][2]='';
 
-
 State = new Array();
 
 function StartUp(){
@@ -1371,12 +1347,6 @@ function StartUp(){
 		HPSetDisplay(document.getElementById('CharacterKeypad'), "block");
 	}
 
-
-
-
-
-
-
 	var i = 0;
 
 	State.length = 0;
@@ -1385,8 +1355,6 @@ function StartUp(){
 	}
 
 	ClearTextBoxes();
-
-
 
 }
 
@@ -1420,7 +1388,7 @@ function CompileGuesses(){
 				if (j>0){Temp += '| ';}
 				Temp += State[i].Guesses[j] + ' ';
 			}
-  		Temp += '</fielddata></field>';
+		Temp += '</fielddata></field>';
 		}
 		Temp += '</fields></hpnetresult>';
 		Detail = Temp;
@@ -1481,8 +1449,6 @@ function CheckAnswers(){
 	CompileGuesses();
 
 	if ((AllCorrect == true)||(Finished == true)){
-
-
 
 		TimeOver = true;
 		Locked = true;
@@ -1654,61 +1620,36 @@ function TypeChars(Chars){
 	}
 }
 
-
-
 // End of script
 
-</script>
+</script><link rel="preload" href="../../style/font-stack.css" as="style" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
+<link rel="stylesheet" href="../../style/font-stack.css" integrity="sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS">
+<link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW">
+<script src="../../js/theme-selector.js" integrity="sha384-Z1/JSOxBq9/FDcKgAV/WlspujLmY1FVDWPKUBtGpMaemJRTV4PhhWDV5ftWg8zni"></script>
+<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-6sMCFDCTfssWlcJWUaFn+Yi5aUlgK5F6NdghOEsLWiADSx65HFRdNXWbwm9uvo6H" data-sis-exercise-family="cloze"></script>
 <!-- HOT POTATOES MODERNIZATION STYLES START -->
-<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-EIG7+2mbmdKXw+7WBMoTcp9CjUjCXLpkpUdjZim1TkqVohjU0/SEOZCnuw68IYQ8">
-<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-EIG7+2mbmdKXw+7WBMoTcp9CjUjCXLpkpUdjZim1TkqVohjU0/SEOZCnuw68IYQ8">
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-c+P3PU12ZNcnXNQ47RPoA/vzeu8blgNW85/uzE6/0ofAZUU2rhe9lHKwZ5NntSKP">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-c+P3PU12ZNcnXNQ47RPoA/vzeu8blgNW85/uzE6/0ofAZUU2rhe9lHKwZ5NntSKP">
 <link rel="preload" href="../../css/hot-potatoes-feedback.css" as="style" integrity="sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4">
 <link rel="stylesheet" href="../../css/hot-potatoes-feedback.css" integrity="sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4">
 <!-- HOT POTATOES MODERNIZATION STYLES END -->
-<link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-O8x9dnVVIUDBVWqyxIoevfyflx64R983fR2e/kt0oP4Isbfr2CQUOhBsqgnNO+Fy">
-<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-O8x9dnVVIUDBVWqyxIoevfyflx64R983fR2e/kt0oP4Isbfr2CQUOhBsqgnNO+Fy">
-<script defer src="../../js/sis-cloze-submit.js" integrity="sha384-Gc2qKe3djjT0AbKPkAavXAIO2OliICY2mClhujjF35XCoKH4e869pBK22Tix/WRB" data-sis-exercise-family="cloze"></script>
 </head>
 
-<body onload="StartUp()" id="TheBody"><div class="wrapit wrapfit">
+<body onload="StartUp()" id="TheBody"><div class="wrapfit hp-exercise-shell" data-sis-exercise-shell="true" data-sis-exercise-family="cloze">
 
 <!-- BeginTopNavButtons -->
-
-
-<div class="NavButtonBar" id="TopNavBar">
-
-
-
-
-<button class="NavButton hp-button btn-74" type="button" data-hp-close="" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise."> Close <span></span><span></span><span></span><span></span></button>
-
-
-
-
-</div>
-
-
 
 <!-- EndTopNavButtons -->
 
 <div class="hp-instructions-panel"><div class="Titles">
 	<h1 class="ExerciseTitle">85. Johnny's Long Hair (1)</h1>
 
-
-
-
-
 </div>
-
-
 
 <div id="InstructionsDiv" class="StdDiv">
 	<div id="Instructions">1: Study the new words page. 2: Listen to the story. 3: Read the story out loud. 4: Fill-in the blanks below. 5: Check your answers.</div>
 </div></div>
-
-
-
-
 
 <div id="MainDiv" class="StdDiv">
 
@@ -1716,60 +1657,36 @@ function TypeChars(Chars){
 <!--
 <button id="CheckButton1" class="FuncButton" type="submit"  onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
 
-
 <button class="FuncButton" type="button" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button>
-
 
  -->
 
 <div id="ClozeDiv">
 <form id="Cloze" method="post" action="#" onsubmit="return false;">
 <div class="ClozeBody">
-"When are you going to get a haircut?" <span class="GapSpan" id="GapSpan0"><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="6"></span>'s relatives would ask whenever they saw him. Johnny's <span class="GapSpan" id="GapSpan1"><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6"></span> was always the same, "When pigs start to <span class="GapSpan" id="GapSpan2"><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6"></span>." Although Johnny was aware that his relatives thought <span class="GapSpan" id="GapSpan3"><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6"></span> was funny, he was also aware of their <span class="GapSpan" id="GapSpan4"><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="7"></span> regarding his long shoulder-length hair. Johnny's hair was <span class="GapSpan" id="GapSpan5"><input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="6"></span> and wavy. He began growing it after high <span class="GapSpan" id="GapSpan6"><input type="text" id="Gap6" onfocus="TrackFocus(6)" onblur="LeaveGap()" class="GapBox" size="6"></span>. Two years had passed since then, and Johnny <span class="GapSpan" id="GapSpan7"><input type="text" id="Gap7" onfocus="TrackFocus(7)" onblur="LeaveGap()" class="GapBox" size="6"></span> no intention of cutting it anytime soon.<br><br>Johnny <span class="GapSpan" id="GapSpan8"><input type="text" id="Gap8" onfocus="TrackFocus(8)" onblur="LeaveGap()" class="GapBox" size="6"></span> his long hair, and took good care of <span class="GapSpan" id="GapSpan9"><input type="text" id="Gap9" onfocus="TrackFocus(9)" onblur="LeaveGap()" class="GapBox" size="6"></span>. Every day he would wash it and brush <span class="GapSpan" id="GapSpan10"><input type="text" id="Gap10" onfocus="TrackFocus(10)" onblur="LeaveGap()" class="GapBox" size="6"></span> fifty times. Johnny felt so cool with his <span class="GapSpan" id="GapSpan11"><input type="text" id="Gap11" onfocus="TrackFocus(11)" onblur="LeaveGap()" class="GapBox" size="6"></span> hair. It made him look like a rock <span class="GapSpan" id="GapSpan12"><input type="text" id="Gap12" onfocus="TrackFocus(12)" onblur="LeaveGap()" class="GapBox" size="6"></span>. While in high school, Johnny always had short <span class="GapSpan" id="GapSpan13"><input type="text" id="Gap13" onfocus="TrackFocus(13)" onblur="LeaveGap()" class="GapBox" size="6"></span>. Although it did not look unappealing, he was <span class="GapSpan" id="GapSpan14"><input type="text" id="Gap14" onfocus="TrackFocus(14)" onblur="LeaveGap()" class="GapBox" size="6"></span> too fond of his short hair, and desired <span class="GapSpan" id="GapSpan15"><input type="text" id="Gap15" onfocus="TrackFocus(15)" onblur="LeaveGap()" class="GapBox" size="6"></span> grow it out one day. He made a <span class="GapSpan" id="GapSpan16"><input type="text" id="Gap16" onfocus="TrackFocus(16)" onblur="LeaveGap()" class="GapBox" size="7"></span> to himself to do so after graduation. Johnny <span class="GapSpan" id="GapSpan17"><input type="text" id="Gap17" onfocus="TrackFocus(17)" onblur="LeaveGap()" class="GapBox" size="6"></span> gone through with his promise.<br><br>Johnny's hair received <span class="GapSpan" id="GapSpan18"><input type="text" id="Gap18" onfocus="TrackFocus(18)" onblur="LeaveGap()" class="GapBox" size="6"></span> of attention. As he walked down the street, <span class="GapSpan" id="GapSpan19"><input type="text" id="Gap19" onfocus="TrackFocus(19)" onblur="LeaveGap()" class="GapBox" size="6"></span> often heard "Nice hair kid," from strangers. "Thank <span class="GapSpan" id="GapSpan20"><input type="text" id="Gap20" onfocus="TrackFocus(20)" onblur="LeaveGap()" class="GapBox" size="6"></span> very much," Johnny would reply, feeling flattered. Once, <span class="GapSpan" id="GapSpan21"><input type="text" id="Gap21" onfocus="TrackFocus(21)" onblur="LeaveGap()" class="GapBox" size="6"></span> passed by a group of girls who giggled <span class="GapSpan" id="GapSpan22"><input type="text" id="Gap22" onfocus="TrackFocus(22)" onblur="LeaveGap()" class="GapBox" size="6"></span> looked at him. "I like your hair," one <span class="GapSpan" id="GapSpan23"><input type="text" id="Gap23" onfocus="TrackFocus(23)" onblur="LeaveGap()" class="GapBox" size="6"></span> them said to Johnny as he walked away. <span class="GapSpan" id="GapSpan24"><input type="text" id="Gap24" onfocus="TrackFocus(24)" onblur="LeaveGap()" class="GapBox" size="6"></span> the cool cat that he now was, Johnny <span class="GapSpan" id="GapSpan25"><input type="text" id="Gap25" onfocus="TrackFocus(25)" onblur="LeaveGap()" class="GapBox" size="6"></span> every minute of having long hair.<br><br>Johnny wondered <span class="GapSpan" id="GapSpan26"><input type="text" id="Gap26" onfocus="TrackFocus(26)" onblur="LeaveGap()" class="GapBox" size="6"></span> he didn't decide to let his hair grow <span class="GapSpan" id="GapSpan27"><input type="text" id="Gap27" onfocus="TrackFocus(27)" onblur="LeaveGap()" class="GapBox" size="6"></span>. It was the best decision he had ever <span class="GapSpan" id="GapSpan28"><input type="text" id="Gap28" onfocus="TrackFocus(28)" onblur="LeaveGap()" class="GapBox" size="6"></span>, and nothing in the world could make him <span class="GapSpan" id="GapSpan29"><input type="text" id="Gap29" onfocus="TrackFocus(29)" onblur="LeaveGap()" class="GapBox" size="6"></span> it.<br>
+"When are you going to get a haircut?" <span class="GapSpan" id="GapSpan0"><label class="sr-only" for="Gap0">Blank 1</label><input type="text" id="Gap0" onfocus="TrackFocus(0)" onblur="LeaveGap()" class="GapBox" size="6"></span>'s relatives would ask whenever they saw him. Johnny's <span class="GapSpan" id="GapSpan1"><label class="sr-only" for="Gap1">Blank 2</label><input type="text" id="Gap1" onfocus="TrackFocus(1)" onblur="LeaveGap()" class="GapBox" size="6"></span> was always the same, "When pigs start to <span class="GapSpan" id="GapSpan2"><label class="sr-only" for="Gap2">Blank 3</label><input type="text" id="Gap2" onfocus="TrackFocus(2)" onblur="LeaveGap()" class="GapBox" size="6"></span>." Although Johnny was aware that his relatives thought <span class="GapSpan" id="GapSpan3"><label class="sr-only" for="Gap3">Blank 4</label><input type="text" id="Gap3" onfocus="TrackFocus(3)" onblur="LeaveGap()" class="GapBox" size="6"></span> was funny, he was also aware of their <span class="GapSpan" id="GapSpan4"><label class="sr-only" for="Gap4">Blank 5</label><input type="text" id="Gap4" onfocus="TrackFocus(4)" onblur="LeaveGap()" class="GapBox" size="7"></span> regarding his long shoulder-length hair. Johnny's hair was <span class="GapSpan" id="GapSpan5"><label class="sr-only" for="Gap5">Blank 6</label><input type="text" id="Gap5" onfocus="TrackFocus(5)" onblur="LeaveGap()" class="GapBox" size="6"></span> and wavy. He began growing it after high <span class="GapSpan" id="GapSpan6"><label class="sr-only" for="Gap6">Blank 7</label><input type="text" id="Gap6" onfocus="TrackFocus(6)" onblur="LeaveGap()" class="GapBox" size="6"></span>. Two years had passed since then, and Johnny <span class="GapSpan" id="GapSpan7"><label class="sr-only" for="Gap7">Blank 8</label><input type="text" id="Gap7" onfocus="TrackFocus(7)" onblur="LeaveGap()" class="GapBox" size="6"></span> no intention of cutting it anytime soon.<br><br>Johnny <span class="GapSpan" id="GapSpan8"><label class="sr-only" for="Gap8">Blank 9</label><input type="text" id="Gap8" onfocus="TrackFocus(8)" onblur="LeaveGap()" class="GapBox" size="6"></span> his long hair, and took good care of <span class="GapSpan" id="GapSpan9"><label class="sr-only" for="Gap9">Blank 10</label><input type="text" id="Gap9" onfocus="TrackFocus(9)" onblur="LeaveGap()" class="GapBox" size="6"></span>. Every day he would wash it and brush <span class="GapSpan" id="GapSpan10"><label class="sr-only" for="Gap10">Blank 11</label><input type="text" id="Gap10" onfocus="TrackFocus(10)" onblur="LeaveGap()" class="GapBox" size="6"></span> fifty times. Johnny felt so cool with his <span class="GapSpan" id="GapSpan11"><label class="sr-only" for="Gap11">Blank 12</label><input type="text" id="Gap11" onfocus="TrackFocus(11)" onblur="LeaveGap()" class="GapBox" size="6"></span> hair. It made him look like a rock <span class="GapSpan" id="GapSpan12"><label class="sr-only" for="Gap12">Blank 13</label><input type="text" id="Gap12" onfocus="TrackFocus(12)" onblur="LeaveGap()" class="GapBox" size="6"></span>. While in high school, Johnny always had short <span class="GapSpan" id="GapSpan13"><label class="sr-only" for="Gap13">Blank 14</label><input type="text" id="Gap13" onfocus="TrackFocus(13)" onblur="LeaveGap()" class="GapBox" size="6"></span>. Although it did not look unappealing, he was <span class="GapSpan" id="GapSpan14"><label class="sr-only" for="Gap14">Blank 15</label><input type="text" id="Gap14" onfocus="TrackFocus(14)" onblur="LeaveGap()" class="GapBox" size="6"></span> too fond of his short hair, and desired <span class="GapSpan" id="GapSpan15"><label class="sr-only" for="Gap15">Blank 16</label><input type="text" id="Gap15" onfocus="TrackFocus(15)" onblur="LeaveGap()" class="GapBox" size="6"></span> grow it out one day. He made a <span class="GapSpan" id="GapSpan16"><label class="sr-only" for="Gap16">Blank 17</label><input type="text" id="Gap16" onfocus="TrackFocus(16)" onblur="LeaveGap()" class="GapBox" size="7"></span> to himself to do so after graduation. Johnny <span class="GapSpan" id="GapSpan17"><label class="sr-only" for="Gap17">Blank 18</label><input type="text" id="Gap17" onfocus="TrackFocus(17)" onblur="LeaveGap()" class="GapBox" size="6"></span> gone through with his promise.<br><br>Johnny's hair received <span class="GapSpan" id="GapSpan18"><label class="sr-only" for="Gap18">Blank 19</label><input type="text" id="Gap18" onfocus="TrackFocus(18)" onblur="LeaveGap()" class="GapBox" size="6"></span> of attention. As he walked down the street, <span class="GapSpan" id="GapSpan19"><label class="sr-only" for="Gap19">Blank 20</label><input type="text" id="Gap19" onfocus="TrackFocus(19)" onblur="LeaveGap()" class="GapBox" size="6"></span> often heard "Nice hair kid," from strangers. "Thank <span class="GapSpan" id="GapSpan20"><label class="sr-only" for="Gap20">Blank 21</label><input type="text" id="Gap20" onfocus="TrackFocus(20)" onblur="LeaveGap()" class="GapBox" size="6"></span> very much," Johnny would reply, feeling flattered. Once, <span class="GapSpan" id="GapSpan21"><label class="sr-only" for="Gap21">Blank 22</label><input type="text" id="Gap21" onfocus="TrackFocus(21)" onblur="LeaveGap()" class="GapBox" size="6"></span> passed by a group of girls who giggled <span class="GapSpan" id="GapSpan22"><label class="sr-only" for="Gap22">Blank 23</label><input type="text" id="Gap22" onfocus="TrackFocus(22)" onblur="LeaveGap()" class="GapBox" size="6"></span> looked at him. "I like your hair," one <span class="GapSpan" id="GapSpan23"><label class="sr-only" for="Gap23">Blank 24</label><input type="text" id="Gap23" onfocus="TrackFocus(23)" onblur="LeaveGap()" class="GapBox" size="6"></span> them said to Johnny as he walked away. <span class="GapSpan" id="GapSpan24"><label class="sr-only" for="Gap24">Blank 25</label><input type="text" id="Gap24" onfocus="TrackFocus(24)" onblur="LeaveGap()" class="GapBox" size="6"></span> the cool cat that he now was, Johnny <span class="GapSpan" id="GapSpan25"><label class="sr-only" for="Gap25">Blank 26</label><input type="text" id="Gap25" onfocus="TrackFocus(25)" onblur="LeaveGap()" class="GapBox" size="6"></span> every minute of having long hair.<br><br>Johnny wondered <span class="GapSpan" id="GapSpan26"><label class="sr-only" for="Gap26">Blank 27</label><input type="text" id="Gap26" onfocus="TrackFocus(26)" onblur="LeaveGap()" class="GapBox" size="6"></span> he didn't decide to let his hair grow <span class="GapSpan" id="GapSpan27"><label class="sr-only" for="Gap27">Blank 28</label><input type="text" id="Gap27" onfocus="TrackFocus(27)" onblur="LeaveGap()" class="GapBox" size="6"></span>. It was the best decision he had ever <span class="GapSpan" id="GapSpan28"><label class="sr-only" for="Gap28">Blank 29</label><input type="text" id="Gap28" onfocus="TrackFocus(28)" onblur="LeaveGap()" class="GapBox" size="6"></span>, and nothing in the world could make him <span class="GapSpan" id="GapSpan29"><label class="sr-only" for="Gap29">Blank 30</label><input type="text" id="Gap29" onfocus="TrackFocus(29)" onblur="LeaveGap()" class="GapBox" size="6"></span> it.<br>
 </div>
 </form>
 </div>
 
+<button id="check" class="FuncButton hp-button btn-17" type="submit" form="Cloze" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
 
-
-<button id="CheckButton2" class="FuncButton hp-button btn-17" type="submit" form="Cloze" onclick="CheckAnswers()" aria-label="Check" data-hp-tooltip="Check your answer." aria-description="Check your answer.">Check</button>
-
-
-<button class="FuncButton hp-button btn-17" type="button" onclick="ShowHint()" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue.">Hint</button>
-
+<button class="FuncButton hp-button btn-17" type="button" aria-label="Hint" data-hp-tooltip="Reveal the next clue." aria-description="Reveal the next clue." id="hint">Hint</button>
 
 <div class="btn17Container"></div></div>
-
-
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
 <button id="FeedbackOKButton" class="FuncButton hp-button btn-17" type="button" onclick="HideFeedback(); return false;" aria-label="OK" data-hp-tooltip="Close this message." aria-description="Close this message.">OK</button>
 </div>
 
-
-
-
-<div class="NavButtonBar" id="BottomNavBar">
-
-
-
-
 <button class="NavButton hp-button btn-74" type="button" data-hp-close="" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise."> Close <span></span><span></span><span></span><span></span></button>
-
-
-
-
-</div>
-
-
 
 <!-- EndBottomNavButtons -->
 
 <!-- BeginSubmissionForm -->
 
 <!-- EndSubmissionForm --><br><br></div></body>
-
 
 <!-- Mirrored from www.eslfast.com/essays/cloze/aigcloze085.htm by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 03 Jul 2017 14:28:17 GMT -->
 </html>

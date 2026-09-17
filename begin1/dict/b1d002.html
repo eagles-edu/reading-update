@@ -754,7 +754,6 @@ ol.QuizQuestions, .lstnosty {
     list-style-type: none;
 }
 
-
 /* ≤ 480 px: let page grow to 90 % so 5 % paddings still fit inside 320 px */
 @media (max-width: 480px) {
   body {
@@ -1284,16 +1283,16 @@ function CompleteEmptyFeedback(){
 	for (QNum=0; QNum<I.length; QNum++){
 //Only do this if not multi-select
 		if (I[QNum][2] != '3'){
-  		for (ANum = 0; ANum<I[QNum][3].length; ANum++){
-  			if (I[QNum][3][ANum][1].length < 1){
-  				if (I[QNum][3][ANum][2] > 0){
-  					I[QNum][3][ANum][1] = DefaultRight;
-  				}
-  				else{
-  					I[QNum][3][ANum][1] = DefaultWrong;
-  				}
-  			}
-  		}
+		for (ANum = 0; ANum<I[QNum][3].length; ANum++){
+			if (I[QNum][3][ANum][1].length < 1){
+				if (I[QNum][3][ANum][2] > 0){
+					I[QNum][3][ANum][1] = DefaultRight;
+				}
+				else{
+					I[QNum][3][ANum][1] = DefaultWrong;
+				}
+			}
+		}
 		}
 	}
 }
@@ -1325,7 +1324,7 @@ function SetUpQuestions(){
 		for (var i=0; i<QList.length; i++){
 			As = QList[i].getElementsByTagName('ol')[0];
 			if (As != null){
-  			AList.length = 0;
+			AList.length = 0;
 				while (As.getElementsByTagName('li').length > 0){
 					AList.push(As.removeChild(As.getElementsByTagName('li')[0]));
 				}
@@ -1364,8 +1363,8 @@ function SetFocusToTextbox(){
 		}
 	}
 	else{
-  	if (QArray[CurrQNum].getElementsByTagName('textarea')[0] != null){
-  		QArray[CurrQNum].getElementsByTagName('textarea')[0].focus();
+	if (QArray[CurrQNum].getElementsByTagName('textarea')[0] != null){
+		QArray[CurrQNum].getElementsByTagName('textarea')[0].focus();
 //and show a keypad if there is one
 			if (document.getElementById('CharacterKeypad') != null){
 				HPSetDisplay(document.getElementById('CharacterKeypad'), "block");
@@ -2057,15 +2056,15 @@ function ShowHint(QNum){
 
 </script>
 <!-- HOT POTATOES MODERNIZATION STYLES START -->
-<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-EIG7+2mbmdKXw+7WBMoTcp9CjUjCXLpkpUdjZim1TkqVohjU0/SEOZCnuw68IYQ8">
-<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-EIG7+2mbmdKXw+7WBMoTcp9CjUjCXLpkpUdjZim1TkqVohjU0/SEOZCnuw68IYQ8">
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-c+P3PU12ZNcnXNQ47RPoA/vzeu8blgNW85/uzE6/0ofAZUU2rhe9lHKwZ5NntSKP">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-c+P3PU12ZNcnXNQ47RPoA/vzeu8blgNW85/uzE6/0ofAZUU2rhe9lHKwZ5NntSKP">
 <link rel="preload" href="../../css/hot-potatoes-feedback.css" as="style" integrity="sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4">
 <link rel="stylesheet" href="../../css/hot-potatoes-feedback.css" integrity="sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4">
 <!-- HOT POTATOES MODERNIZATION STYLES END -->
 <link rel="preload" href="../../css/sis-exercise-layout.css" as="style" integrity="sha384-5HOjSZ/dHoz5qDsXvpEOXtqPTq50symoGkXfouRlWh+2X5MCVufbyJuTDg7a3y6o">
 <link rel="stylesheet" href="../../css/sis-exercise-layout.css" integrity="sha384-5HOjSZ/dHoz5qDsXvpEOXtqPTq50symoGkXfouRlWh+2X5MCVufbyJuTDg7a3y6o">
-<link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-O8x9dnVVIUDBVWqyxIoevfyflx64R983fR2e/kt0oP4Isbfr2CQUOhBsqgnNO+Fy">
-<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-O8x9dnVVIUDBVWqyxIoevfyflx64R983fR2e/kt0oP4Isbfr2CQUOhBsqgnNO+Fy">
+<link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW">
 <link rel="preload" href="../../css/sis-exercise-family-layout.css" as="style" integrity="sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j">
 <link rel="stylesheet" href="../../css/sis-exercise-family-layout.css" integrity="sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j">
 <script defer src="../../js/sis-exercise-submit.js" integrity="sha384-mMNp6FvFWm02ZkDK9ga/h/qUissJKdll6Xqi6KsgfvSy8kf7DQSy2X3Kx+biLPmo" data-sis-exercise-family="dict"></script>
@@ -2113,8 +2112,6 @@ function ShowHint(QNum){
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/29cf70f6/b1d00201.mp3" type="audio/mp3"></audio>
 
-
-
 <div><textarea id="Q_0_Guess" onfocus="TrackFocus('Q_0_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 1"></textarea>
 <br><br>
 
@@ -2127,8 +2124,6 @@ function ShowHint(QNum){
   controlslist="nodownload noplaybackrate"
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/20e981ff/b1d00202.mp3" type="audio/mp3"></audio>
-
-
 
 <div><textarea id="Q_1_Guess" onfocus="TrackFocus('Q_1_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 2"></textarea>
 <br><br>
@@ -2143,8 +2138,6 @@ function ShowHint(QNum){
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/fe7db04b/b1d00203.mp3" type="audio/mp3"></audio>
 
-
-
 <div><textarea id="Q_2_Guess" onfocus="TrackFocus('Q_2_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 3"></textarea>
 <br><br>
 
@@ -2158,8 +2151,6 @@ function ShowHint(QNum){
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/38bd3612/b1d00204.mp3" type="audio/mp3"></audio>
 
-
-
 <div><textarea id="Q_3_Guess" onfocus="TrackFocus('Q_3_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 4"></textarea>
 <br><br>
 
@@ -2172,8 +2163,6 @@ function ShowHint(QNum){
   controlslist="nodownload noplaybackrate"
   oncontextmenu="return false">
 <source src="https://eagles.io.vn/reading/_audio/b1/audio/d/6f14d926/b1d00205.mp3" type="audio/mp3"></audio>
-
-
 
 <div><textarea id="Q_4_Guess" onfocus="TrackFocus('Q_4_Guess')" onblur="LeaveGap()" class="ShortAnswerBox" cols="28" rows="2" aria-label="Your answer for question 5"></textarea>
 <br><br>

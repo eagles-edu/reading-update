@@ -1,0 +1,192 @@
+# Dictation Integrity and Prototype Audit
+
+Generated: 2026-09-16T21:58:11.968Z
+
+## Summary
+
+- Pages audited: 1785
+- Pages passing every check: 1782
+- Pages requiring action: 3
+- Prototype: `begin1/dict/b1d001.html`
+- Prototype MMOR status: PASS
+- Visual samples: 0/132 expected artifacts captured (PLANNED)
+
+## Collection totals
+
+| Collection | Pages | Pass | Action required |
+|---|---:|---:|---:|
+| begin1 | 105 | 104 | 1 |
+| begin2 | 110 | 109 | 1 |
+| begin3 | 110 | 110 | 0 |
+| begin4 | 100 | 100 | 0 |
+| begin5 | 100 | 100 | 0 |
+| begin6 | 1 | 1 | 0 |
+| easyread | 199 | 199 | 0 |
+| eslread | 362 | 362 | 0 |
+| essays | 100 | 100 | 0 |
+| kidsenglish | 98 | 98 | 0 |
+| kidsenglish2 | 100 | 100 | 0 |
+| kidsenglish3 | 100 | 100 | 0 |
+| people | 100 | 100 | 0 |
+| supereasy | 200 | 199 | 1 |
+
+## Checklist totals
+
+| ID | Pass | Fail |
+|---|---:|---:|
+| SH-01 | 1784 | 1 |
+| SH-02 | 1783 | 2 |
+| SH-03 | 1782 | 3 |
+| SH-04 | 1782 | 3 |
+| SH-05 | 1784 | 1 |
+| ASSET-CSS-SIS-HOT-POTATOES-CSS | 1784 | 1 |
+| ASSET-JS-HOT-POTATOES-UI-JS | 1784 | 1 |
+| ASSET-CSS-HOT-POTATOES-FEEDBACK-CSS | 1784 | 1 |
+| ASSET-JS-HOT-POTATOES-FEEDBACK-JS | 1784 | 1 |
+| ASSET-JS-STORY-THEME-JS | 1784 | 1 |
+| ASSET-CSS-SIS-EXERCISE-LAYOUT-CSS | 1784 | 1 |
+| ASSET-CLOZE-SUBMIT-CSS | 1784 | 1 |
+| ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS | 1782 | 3 |
+| ASSET-EXERCISE-SUBMIT-DICT | 1784 | 1 |
+| SH-06 | 1782 | 3 |
+| ID-01 | 1785 | 0 |
+| DI-01 | 1782 | 3 |
+| DI-02 | 1782 | 3 |
+| DI-03 | 1784 | 1 |
+| SH-10 | 1782 | 3 |
+| SH-09 | 1783 | 2 |
+| SH-08 | 1784 | 1 |
+| SH-07 | 1784 | 1 |
+| SH-11 | 1785 | 0 |
+| SH-12 | 1784 | 1 |
+| DI-04 | 1785 | 0 |
+| SRC-01 | 1785 | 0 |
+| PROTO-01 | 1782 | 3 |
+
+## Visual sample set
+
+| Collection | Page | Desktop artifact | Mobile artifact |
+|---|---|---|---|
+| begin1 | `begin1/dict/b1d001.html` | `output/playwright/dict-integrity/begin1-b1d001-desktop.png` | `output/playwright/dict-integrity/begin1-b1d001-mobile.png` |
+| begin1 | `begin1/dict/b1d026.html` | `output/playwright/dict-integrity/begin1-b1d026-desktop.png` | `output/playwright/dict-integrity/begin1-b1d026-mobile.png` |
+| begin1 | `begin1/dict/b1d052.html` | `output/playwright/dict-integrity/begin1-b1d052-desktop.png` | `output/playwright/dict-integrity/begin1-b1d052-mobile.png` |
+| begin1 | `begin1/dict/b1d078.html` | `output/playwright/dict-integrity/begin1-b1d078-desktop.png` | `output/playwright/dict-integrity/begin1-b1d078-mobile.png` |
+| begin1 | `begin1/dict/b1d104.html` | `output/playwright/dict-integrity/begin1-b1d104-desktop.png` | `output/playwright/dict-integrity/begin1-b1d104-mobile.png` |
+| begin2 | `begin2/dict/b2d001.html` | `output/playwright/dict-integrity/begin2-b2d001-desktop.png` | `output/playwright/dict-integrity/begin2-b2d001-mobile.png` |
+| begin2 | `begin2/dict/b2d028.html` | `output/playwright/dict-integrity/begin2-b2d028-desktop.png` | `output/playwright/dict-integrity/begin2-b2d028-mobile.png` |
+| begin2 | `begin2/dict/b2d056.html` | `output/playwright/dict-integrity/begin2-b2d056-desktop.png` | `output/playwright/dict-integrity/begin2-b2d056-mobile.png` |
+| begin2 | `begin2/dict/b2d083.html` | `output/playwright/dict-integrity/begin2-b2d083-desktop.png` | `output/playwright/dict-integrity/begin2-b2d083-mobile.png` |
+| begin2 | `begin2/dict/b2d110.html` | `output/playwright/dict-integrity/begin2-b2d110-desktop.png` | `output/playwright/dict-integrity/begin2-b2d110-mobile.png` |
+| begin3 | `begin3/dict/b3d001.html` | `output/playwright/dict-integrity/begin3-b3d001-desktop.png` | `output/playwright/dict-integrity/begin3-b3d001-mobile.png` |
+| begin3 | `begin3/dict/b3d028.html` | `output/playwright/dict-integrity/begin3-b3d028-desktop.png` | `output/playwright/dict-integrity/begin3-b3d028-mobile.png` |
+| begin3 | `begin3/dict/b3d056.html` | `output/playwright/dict-integrity/begin3-b3d056-desktop.png` | `output/playwright/dict-integrity/begin3-b3d056-mobile.png` |
+| begin3 | `begin3/dict/b3d083.html` | `output/playwright/dict-integrity/begin3-b3d083-desktop.png` | `output/playwright/dict-integrity/begin3-b3d083-mobile.png` |
+| begin3 | `begin3/dict/b3d110.html` | `output/playwright/dict-integrity/begin3-b3d110-desktop.png` | `output/playwright/dict-integrity/begin3-b3d110-mobile.png` |
+| begin4 | `begin4/dict/b4d001.html` | `output/playwright/dict-integrity/begin4-b4d001-desktop.png` | `output/playwright/dict-integrity/begin4-b4d001-mobile.png` |
+| begin4 | `begin4/dict/b4d026.html` | `output/playwright/dict-integrity/begin4-b4d026-desktop.png` | `output/playwright/dict-integrity/begin4-b4d026-mobile.png` |
+| begin4 | `begin4/dict/b4d051.html` | `output/playwright/dict-integrity/begin4-b4d051-desktop.png` | `output/playwright/dict-integrity/begin4-b4d051-mobile.png` |
+| begin4 | `begin4/dict/b4d075.html` | `output/playwright/dict-integrity/begin4-b4d075-desktop.png` | `output/playwright/dict-integrity/begin4-b4d075-mobile.png` |
+| begin4 | `begin4/dict/b4d100.html` | `output/playwright/dict-integrity/begin4-b4d100-desktop.png` | `output/playwright/dict-integrity/begin4-b4d100-mobile.png` |
+| begin5 | `begin5/dict/b5d001.html` | `output/playwright/dict-integrity/begin5-b5d001-desktop.png` | `output/playwright/dict-integrity/begin5-b5d001-mobile.png` |
+| begin5 | `begin5/dict/b5d026.html` | `output/playwright/dict-integrity/begin5-b5d026-desktop.png` | `output/playwright/dict-integrity/begin5-b5d026-mobile.png` |
+| begin5 | `begin5/dict/b5d051.html` | `output/playwright/dict-integrity/begin5-b5d051-desktop.png` | `output/playwright/dict-integrity/begin5-b5d051-mobile.png` |
+| begin5 | `begin5/dict/b5d075.html` | `output/playwright/dict-integrity/begin5-b5d075-desktop.png` | `output/playwright/dict-integrity/begin5-b5d075-mobile.png` |
+| begin5 | `begin5/dict/b5d100.html` | `output/playwright/dict-integrity/begin5-b5d100-desktop.png` | `output/playwright/dict-integrity/begin5-b5d100-mobile.png` |
+| begin6 | `begin6/dict/1. The Hairstyle Change.html` | `output/playwright/dict-integrity/begin6-1. The Hairstyle Change-desktop.png` | `output/playwright/dict-integrity/begin6-1. The Hairstyle Change-mobile.png` |
+| easyread | `easyread/dict/er_d001.html` | `output/playwright/dict-integrity/easyread-er_d001-desktop.png` | `output/playwright/dict-integrity/easyread-er_d001-mobile.png` |
+| easyread | `easyread/dict/er_d052.html` | `output/playwright/dict-integrity/easyread-er_d052-desktop.png` | `output/playwright/dict-integrity/easyread-er_d052-mobile.png` |
+| easyread | `easyread/dict/er_d101.html` | `output/playwright/dict-integrity/easyread-er_d101-desktop.png` | `output/playwright/dict-integrity/easyread-er_d101-mobile.png` |
+| easyread | `easyread/dict/er_d151.html` | `output/playwright/dict-integrity/easyread-er_d151-desktop.png` | `output/playwright/dict-integrity/easyread-er_d151-mobile.png` |
+| easyread | `easyread/dict/er_d200.html` | `output/playwright/dict-integrity/easyread-er_d200-desktop.png` | `output/playwright/dict-integrity/easyread-er_d200-mobile.png` |
+| eslread | `eslread/dict/d001.html` | `output/playwright/dict-integrity/eslread-d001-desktop.png` | `output/playwright/dict-integrity/eslread-d001-mobile.png` |
+| eslread | `eslread/dict/d091.html` | `output/playwright/dict-integrity/eslread-d091-desktop.png` | `output/playwright/dict-integrity/eslread-d091-mobile.png` |
+| eslread | `eslread/dict/d184.html` | `output/playwright/dict-integrity/eslread-d184-desktop.png` | `output/playwright/dict-integrity/eslread-d184-mobile.png` |
+| eslread | `eslread/dict/d275.html` | `output/playwright/dict-integrity/eslread-d275-desktop.png` | `output/playwright/dict-integrity/eslread-d275-mobile.png` |
+| eslread | `eslread/dict/d365.html` | `output/playwright/dict-integrity/eslread-d365-desktop.png` | `output/playwright/dict-integrity/eslread-d365-mobile.png` |
+| essays | `essays/dict/aigdict001.html` | `output/playwright/dict-integrity/essays-aigdict001-desktop.png` | `output/playwright/dict-integrity/essays-aigdict001-mobile.png` |
+| essays | `essays/dict/aigdict026.html` | `output/playwright/dict-integrity/essays-aigdict026-desktop.png` | `output/playwright/dict-integrity/essays-aigdict026-mobile.png` |
+| essays | `essays/dict/aigdict051.html` | `output/playwright/dict-integrity/essays-aigdict051-desktop.png` | `output/playwright/dict-integrity/essays-aigdict051-mobile.png` |
+| essays | `essays/dict/aigdict075.html` | `output/playwright/dict-integrity/essays-aigdict075-desktop.png` | `output/playwright/dict-integrity/essays-aigdict075-mobile.png` |
+| essays | `essays/dict/aigdict100.html` | `output/playwright/dict-integrity/essays-aigdict100-desktop.png` | `output/playwright/dict-integrity/essays-aigdict100-mobile.png` |
+| kidsenglish | `kidsenglish/dict/ked001.html` | `output/playwright/dict-integrity/kidsenglish-ked001-desktop.png` | `output/playwright/dict-integrity/kidsenglish-ked001-mobile.png` |
+| kidsenglish | `kidsenglish/dict/ked025.html` | `output/playwright/dict-integrity/kidsenglish-ked025-desktop.png` | `output/playwright/dict-integrity/kidsenglish-ked025-mobile.png` |
+| kidsenglish | `kidsenglish/dict/ked050.html` | `output/playwright/dict-integrity/kidsenglish-ked050-desktop.png` | `output/playwright/dict-integrity/kidsenglish-ked050-mobile.png` |
+| kidsenglish | `kidsenglish/dict/ked076.html` | `output/playwright/dict-integrity/kidsenglish-ked076-desktop.png` | `output/playwright/dict-integrity/kidsenglish-ked076-mobile.png` |
+| kidsenglish | `kidsenglish/dict/ked100.html` | `output/playwright/dict-integrity/kidsenglish-ked100-desktop.png` | `output/playwright/dict-integrity/kidsenglish-ked100-mobile.png` |
+| kidsenglish2 | `kidsenglish2/dict/k2d001.html` | `output/playwright/dict-integrity/kidsenglish2-k2d001-desktop.png` | `output/playwright/dict-integrity/kidsenglish2-k2d001-mobile.png` |
+| kidsenglish2 | `kidsenglish2/dict/k2d026.html` | `output/playwright/dict-integrity/kidsenglish2-k2d026-desktop.png` | `output/playwright/dict-integrity/kidsenglish2-k2d026-mobile.png` |
+| kidsenglish2 | `kidsenglish2/dict/k2d051.html` | `output/playwright/dict-integrity/kidsenglish2-k2d051-desktop.png` | `output/playwright/dict-integrity/kidsenglish2-k2d051-mobile.png` |
+| kidsenglish2 | `kidsenglish2/dict/k2d075.html` | `output/playwright/dict-integrity/kidsenglish2-k2d075-desktop.png` | `output/playwright/dict-integrity/kidsenglish2-k2d075-mobile.png` |
+| kidsenglish2 | `kidsenglish2/dict/k2d100.html` | `output/playwright/dict-integrity/kidsenglish2-k2d100-desktop.png` | `output/playwright/dict-integrity/kidsenglish2-k2d100-mobile.png` |
+| kidsenglish3 | `kidsenglish3/dict/k3d001.html` | `output/playwright/dict-integrity/kidsenglish3-k3d001-desktop.png` | `output/playwright/dict-integrity/kidsenglish3-k3d001-mobile.png` |
+| kidsenglish3 | `kidsenglish3/dict/k3d026.html` | `output/playwright/dict-integrity/kidsenglish3-k3d026-desktop.png` | `output/playwright/dict-integrity/kidsenglish3-k3d026-mobile.png` |
+| kidsenglish3 | `kidsenglish3/dict/k3d051.html` | `output/playwright/dict-integrity/kidsenglish3-k3d051-desktop.png` | `output/playwright/dict-integrity/kidsenglish3-k3d051-mobile.png` |
+| kidsenglish3 | `kidsenglish3/dict/k3d075.html` | `output/playwright/dict-integrity/kidsenglish3-k3d075-desktop.png` | `output/playwright/dict-integrity/kidsenglish3-k3d075-mobile.png` |
+| kidsenglish3 | `kidsenglish3/dict/k3d100.html` | `output/playwright/dict-integrity/kidsenglish3-k3d100-desktop.png` | `output/playwright/dict-integrity/kidsenglish3-k3d100-mobile.png` |
+| people | `people/dict/pdict001.html` | `output/playwright/dict-integrity/people-pdict001-desktop.png` | `output/playwright/dict-integrity/people-pdict001-mobile.png` |
+| people | `people/dict/pdict026.html` | `output/playwright/dict-integrity/people-pdict026-desktop.png` | `output/playwright/dict-integrity/people-pdict026-mobile.png` |
+| people | `people/dict/pdict051.html` | `output/playwright/dict-integrity/people-pdict051-desktop.png` | `output/playwright/dict-integrity/people-pdict051-mobile.png` |
+| people | `people/dict/pdict075.html` | `output/playwright/dict-integrity/people-pdict075-desktop.png` | `output/playwright/dict-integrity/people-pdict075-mobile.png` |
+| people | `people/dict/pdict100.html` | `output/playwright/dict-integrity/people-pdict100-desktop.png` | `output/playwright/dict-integrity/people-pdict100-mobile.png` |
+| supereasy | `supereasy/dict/se_d001.html` | `output/playwright/dict-integrity/supereasy-se_d001-desktop.png` | `output/playwright/dict-integrity/supereasy-se_d001-mobile.png` |
+| supereasy | `supereasy/dict/se_d051.html` | `output/playwright/dict-integrity/supereasy-se_d051-desktop.png` | `output/playwright/dict-integrity/supereasy-se_d051-mobile.png` |
+| supereasy | `supereasy/dict/se_d101.html` | `output/playwright/dict-integrity/supereasy-se_d101-desktop.png` | `output/playwright/dict-integrity/supereasy-se_d101-mobile.png` |
+| supereasy | `supereasy/dict/se_d150.html` | `output/playwright/dict-integrity/supereasy-se_d150-desktop.png` | `output/playwright/dict-integrity/supereasy-se_d150-mobile.png` |
+| supereasy | `supereasy/dict/se_d200.html` | `output/playwright/dict-integrity/supereasy-se_d200-desktop.png` | `output/playwright/dict-integrity/supereasy-se_d200-mobile.png` |
+
+## Actionable findings
+
+### `begin1/dict/b1d015.audio-player-prototype.html`
+
+- **SH-02:** Viewport declares device width and initial scale 1. Observed: `{"content":null}`. Remediation: undefined
+- **SH-03:** Instruction panel contains .Titles > h1.ExerciseTitle and #InstructionsDiv; #MainDiv is unique in the wrapper. Observed: `{"instructionPanels":0,"titleFound":false,"instructions":1,"main":1}`. Remediation: undefined
+- **SH-04:** Close is an accessible btn-74 button handled by the shared Close runtime. Observed: `{"count":0,"accessible":false,"runtimeBound":true}`. Remediation: undefined
+- **SH-05:** Companion story resolves and story-theme.js binds its title and theme at runtime. Observed: `{"story":null,"scriptCount":0,"titleUrl":null,"themeKey":null,"runtimeBound":true}`. Remediation: undefined
+- **ASSET-CSS-SIS-HOT-POTATOES-CSS:** Local link css/sis-hot-potatoes.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-EIG7+2mbmdKXw+7WBMoTcp9CjUjCXLpkpUdjZim1TkqVohjU0/SEOZCnuw68IYQ8","observed":[]}`. Remediation: undefined
+- **ASSET-JS-HOT-POTATOES-UI-JS:** Local script js/hot-potatoes-ui.js resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g","observed":[]}`. Remediation: undefined
+- **ASSET-CSS-HOT-POTATOES-FEEDBACK-CSS:** Local link css/hot-potatoes-feedback.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4","observed":[]}`. Remediation: undefined
+- **ASSET-JS-HOT-POTATOES-FEEDBACK-JS:** Local script js/hot-potatoes-feedback.js resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq","observed":[]}`. Remediation: undefined
+- **ASSET-JS-STORY-THEME-JS:** Local script js/story-theme.js resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ","observed":[]}`. Remediation: undefined
+- **ASSET-CSS-SIS-EXERCISE-LAYOUT-CSS:** Local link css/sis-exercise-layout.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-5HOjSZ/dHoz5qDsXvpEOXtqPTq50symoGkXfouRlWh+2X5MCVufbyJuTDg7a3y6o","observed":[]}`. Remediation: undefined
+- **ASSET-CLOZE-SUBMIT-CSS:** Local link css/sis-cloze-submit.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-O8x9dnVVIUDBVWqyxIoevfyflx64R983fR2e/kt0oP4Isbfr2CQUOhBsqgnNO+Fy","observed":[]}`. Remediation: undefined
+- **ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS:** Local link css/sis-exercise-family-layout.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j","observed":[]}`. Remediation: undefined
+- **ASSET-EXERCISE-SUBMIT-DICT:** Local script js/sis-exercise-submit.js resolves and has current SRI for dict. Observed: `{"expectedIntegrity":"sha384-mMNp6FvFWm02ZkDK9ga/h/qUissJKdll6Xqi6KsgfvSy8kf7DQSy2X3Kx+biLPmo","observed":[]}`. Remediation: undefined
+- **SH-06:** Every required shared and family asset resolves locally with its current SRI. Observed: `{"required":9,"failed":["ASSET-CSS-SIS-HOT-POTATOES-CSS","ASSET-JS-HOT-POTATOES-UI-JS","ASSET-CSS-HOT-POTATOES-FEEDBACK-CSS","ASSET-JS-HOT-POTATOES-FEEDBACK-JS","ASSET-JS-STORY-THEME-JS","ASSET-CSS-SIS-EXERCISE-LAYOUT-CSS","ASSET-CLOZE-SUBMIT-CSS","ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS","ASSET-EXERCISE-SUBMIT-DICT"]}`. Remediation: undefined
+- **DI-01:** Direct body wrapper is canonical .wrapfit with the correct family marker. Observed: `{"wrapperTag":null,"classes":[],"family":null}`. Remediation: undefined
+- **DI-02:** Instruction, main, and feedback IDs are unique and inside the exercise wrapper. Observed: `{"instructions":1,"main":1,"feedback":1}`. Remediation: undefined
+- **DI-03:** Every ShortAnswer textarea has an accessible name. Observed: `{"total":5,"named":0}`. Remediation: undefined
+- **SH-10:** One direct canonical shell has .hp-exercise-shell, .wrapfit, and data-sis-exercise-shell; no legacy wrapper alias remains. Observed: `{"directWrappers":[{"tag":"div","classes":["wrapit"],"shell":false}],"nestedWrappers":[]}`. Remediation: undefined
+- **SH-08:** No inline style attributes remain and head style blocks are preserved. Observed: `{"inlineStyleAttributes":5,"preservedStyleBlocks":1,"stylesPreserved":true}`. Remediation: undefined
+- **SH-07:** Visibility uses shared classes, legacy handlers are removed, and empty feedback and sentence answer panels stay hidden. Observed: `{"legacyVisibilityWritesRemain":true,"legacyHandlerCount":114,"sharedVisibilityRuntime":true,"emptyFeedbackHiddenByRuntime":true,"emptySentenceAnswerHiddenByRuntime":true}`. Remediation: undefined
+- **SH-12:** Every non-Close action control uses btn-17 hp-button and the shared button rule clips its animated effect. Observed: `{"total":19,"nonClose":19,"invalid":[{"tag":"button","id":"ShowMethodButton","classes":["FuncButton"]},{"tag":"button","id":"PrevQButton","classes":["FuncButton"]},{"tag":"button","id":"NextQButton","classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":null,"classes":["FuncButton"]},{"tag":"button","id":"FeedbackOKButton","classes":["FuncButton"]}],"clippingRule":true}`. Remediation: undefined
+- **PROTO-01:** Structural shape matches the dict prototype contract. Observed: `{"pass":false,"differences":["wrapper false != prototype true","instructionPanel false != prototype true","close count 0 is missing the prototype control"]}`. Remediation: Compare this page with begin1/dict/b1d001.html and repair the named structural difference.
+
+### `begin2/dict/b2d031.html`
+
+- **SH-03:** Instruction panel contains .Titles > h1.ExerciseTitle and #InstructionsDiv; #MainDiv is unique in the wrapper. Observed: `{"instructionPanels":1,"titleFound":true,"instructions":1,"main":1}`. Remediation: undefined
+- **SH-04:** Close is an accessible btn-74 button handled by the shared Close runtime. Observed: `{"count":0,"accessible":false,"runtimeBound":true}`. Remediation: undefined
+- **ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS:** Local link css/sis-exercise-family-layout.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j","observed":[]}`. Remediation: undefined
+- **SH-06:** Every required shared and family asset resolves locally with its current SRI. Observed: `{"required":9,"failed":["ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS"]}`. Remediation: undefined
+- **DI-01:** Direct body wrapper is canonical .wrapfit with the correct family marker. Observed: `{"wrapperTag":null,"classes":[],"family":null}`. Remediation: undefined
+- **DI-02:** Instruction, main, and feedback IDs are unique and inside the exercise wrapper. Observed: `{"instructions":1,"main":1,"feedback":0}`. Remediation: undefined
+- **SH-10:** One direct canonical shell has .hp-exercise-shell, .wrapfit, and data-sis-exercise-shell; no legacy wrapper alias remains. Observed: `{"directWrappers":[{"tag":"div","classes":["wrapit","exercise-wrapper"],"shell":false}],"nestedWrappers":[]}`. Remediation: undefined
+- **SH-09:** Required exercise IDs are unique. Observed: `{"ids":{"InstructionsDiv":1,"MainDiv":1,"FeedbackDiv":0}}`. Remediation: undefined
+- **PROTO-01:** Structural shape matches the dict prototype contract. Observed: `{"pass":false,"differences":["wrapper false != prototype true","feedback 0 != prototype 1","close count 0 is missing the prototype control"]}`. Remediation: Compare this page with begin1/dict/b1d001.html and repair the named structural difference.
+
+### `supereasy/dict/se_d143.html`
+
+- **SH-01:** body#TheBody exists exactly once. Observed: `{"count":0,"idCount":0}`. Remediation: undefined
+- **SH-02:** Viewport declares device width and initial scale 1. Observed: `{"content":null}`. Remediation: undefined
+- **SH-03:** Instruction panel contains .Titles > h1.ExerciseTitle and #InstructionsDiv; #MainDiv is unique in the wrapper. Observed: `{"instructionPanels":0,"titleFound":false,"instructions":0,"main":0}`. Remediation: undefined
+- **SH-04:** Close is an accessible btn-74 button handled by the shared Close runtime. Observed: `{"count":0,"accessible":false,"runtimeBound":true}`. Remediation: undefined
+- **ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS:** Local link css/sis-exercise-family-layout.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j","observed":[]}`. Remediation: undefined
+- **SH-06:** Every required shared and family asset resolves locally with its current SRI. Observed: `{"required":9,"failed":["ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS"]}`. Remediation: undefined
+- **DI-01:** Direct body wrapper is canonical .wrapfit with the correct family marker. Observed: `{"wrapperTag":null,"classes":[],"family":null}`. Remediation: undefined
+- **DI-02:** Instruction, main, and feedback IDs are unique and inside the exercise wrapper. Observed: `{"instructions":0,"main":0,"feedback":0}`. Remediation: undefined
+- **SH-10:** One direct canonical shell has .hp-exercise-shell, .wrapfit, and data-sis-exercise-shell; no legacy wrapper alias remains. Observed: `{"directWrappers":[],"nestedWrappers":[]}`. Remediation: undefined
+- **SH-09:** Required exercise IDs are unique. Observed: `{"ids":{"InstructionsDiv":0,"MainDiv":0,"FeedbackDiv":0}}`. Remediation: undefined
+- **PROTO-01:** Structural shape matches the dict prototype contract. Observed: `{"pass":false,"differences":["body false != prototype true","wrapper false != prototype true","instructionPanel false != prototype true","title false != prototype true","instructions 0 != prototype 1","main 0 != prototype 1","feedback 0 != prototype 1","close count 0 is missing the prototype control"]}`. Remediation: Compare this page with begin1/dict/b1d001.html and repair the named structural difference.
+
+## Visual verification note
+
+Run the Playwright visual pass, then rerun this audit with `--visual-dir` to mark visual artifacts complete.

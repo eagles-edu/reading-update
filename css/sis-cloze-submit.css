@@ -203,11 +203,6 @@ body#TheBody #Instructions {
   text-indent: 0;
 }
 
-body#TheBody #Instructions > .sis-cloze-instructions {
-  margin: 0;
-  text-indent: 0;
-}
-
 hr {
   border: none;
   border-top: 1px solid var(--tertiary-color, #002786);
@@ -453,18 +448,6 @@ body#TheBody.sis-exercise-story-theme #SegmentDiv a.ExSegment:hover {
   /* eslint-disable-next-line css/use-baseline */
   outline: 2px solid #002786;
   outline-offset: 2px;
-}
-
-body#TheBody #InstructionsDiv .sis-exercise-instructions {
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  margin: 0;
-  text-indent: 0;
-}
-
-body#TheBody #InstructionsDiv .sis-exercise-instructions strong {
-  font-weight: 700;
 }
 
 body#TheBody .sis-cloze-panel__instruction {

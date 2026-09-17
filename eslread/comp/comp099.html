@@ -4,8 +4,9 @@
 <!-- Mirrored from www.eslfast.com/eslread/comp/comp099.htm by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 03 Jul 2017 08:42:35 GMT -->
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- HOT POTATOES MODERNIZATION ASSETS START -->
-<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-14.3; family=shared; prototype=begin1/cloze/b1cloze001.html; story=eslread/ss/s099.html -->
+<!-- HOT POTATOES MODERNIZATION VERSION: version=2026-09-15.2; family=comp; prototype=essays/comp/essaycomp001.html; story=eslread/ss/s099.html -->
 <script src="../../js/story-theme.js" integrity="sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ" data-story-theme-key="s099.html" data-story-title-url="../ss/s099.html"></script>
 <script src="../../js/hot-potatoes-ui.js" integrity="sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g"></script>
 <script src="../../js/hot-potatoes-feedback.js" integrity="sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq"></script>
@@ -28,14 +29,12 @@
 
 <style>
 
-
 /* This is the CSS stylesheet used in the exercise. */
 /* Elements in square brackets are replaced by data based on configuration settings when the exercise is built. */
 
 /* BeginCorePageCSS */
 
 /* Made with executable version 6.3 Release 0 Build 5 */
-
 
 /* Hack to hide a nested Quicktime player from IE, which can't handle it. */
 * html object.MediaPlayerNotForIE {
@@ -202,9 +201,6 @@ div.Feedback {
 	display: none;
 	font-size: 100%;
 }
-
-
-
 
 div.ExerciseDiv{
 	color: #000000;
@@ -654,7 +650,6 @@ display: none
 
  /* for cloze */
 
-
 /*   new clamp sys*/
 
 /* Shared interpolation: (100vw - 300px) / 1300  ==>  0 at 300px viewport, 1 at 1600px viewport */
@@ -781,8 +776,6 @@ var C = new Client();
 //	alert(prop + ': ' + C[prop]);
 //}
 
-
-
 //CODE FOR HANDLING NAV BUTTONS AND FUNCTION BUTTONS
 
 //[strNavBarJS]
@@ -812,9 +805,6 @@ function FocusAButton(){
 		}
 	}
 }
-
-
-
 
 //CODE FOR HANDLING DISPLAY OF POPUP FEEDBACK BOX
 
@@ -886,8 +876,6 @@ function ShowElements(Show, TagName, ContainerToReverse){
 	}
 }
 
-
-
 function HideFeedback(){
 	HPSetDisplay(document.getElementById('FeedbackDiv'), "none");
 	ShowElements(true, 'input');
@@ -897,7 +885,6 @@ function HideFeedback(){
 		Finish();
 	}
 }
-
 
 //GENERAL UTILITY FUNCTIONS AND VARIABLES
 
@@ -1037,9 +1024,6 @@ function WriteToInstructions(Feedback) {
 
 }
 
-
-
-
 function EscapeDoubleQuotes(InString){
 	return InString.replace(/"/g, '&quot;')
 }
@@ -1127,9 +1111,6 @@ function RemoveBottomNavBarForIE(){
 	}
 }
 
-
-
-
 //HOTPOTNET-RELATED CODE
 
 var HPNStartTime = (new Date()).getTime();
@@ -1147,10 +1128,6 @@ function Finish(){
 		Frm.submit();
 	}
 }
-
-
-
-
 
 //JQUIZ CORE JAVASCRIPT CODE
 
@@ -1194,16 +1171,16 @@ function CompleteEmptyFeedback(){
 	for (QNum=0; QNum<I.length; QNum++){
 //Only do this if not multi-select
 		if (I[QNum][2] != '3'){
-  		for (ANum = 0; ANum<I[QNum][3].length; ANum++){
-  			if (I[QNum][3][ANum][1].length < 1){
-  				if (I[QNum][3][ANum][2] > 0){
-  					I[QNum][3][ANum][1] = DefaultRight;
-  				}
-  				else{
-  					I[QNum][3][ANum][1] = DefaultWrong;
-  				}
-  			}
-  		}
+		for (ANum = 0; ANum<I[QNum][3].length; ANum++){
+			if (I[QNum][3][ANum][1].length < 1){
+				if (I[QNum][3][ANum][2] > 0){
+					I[QNum][3][ANum][1] = DefaultRight;
+				}
+				else{
+					I[QNum][3][ANum][1] = DefaultWrong;
+				}
+			}
+		}
 		}
 	}
 }
@@ -1235,7 +1212,7 @@ function SetUpQuestions(){
 		for (var i=0; i<QList.length; i++){
 			As = QList[i].getElementsByTagName('ol')[0];
 			if (As != null){
-  			AList.length = 0;
+			AList.length = 0;
 				while (As.getElementsByTagName('li').length > 0){
 					AList.push(As.removeChild(As.getElementsByTagName('li')[0]));
 				}
@@ -1274,8 +1251,8 @@ function SetFocusToTextbox(){
 		}
 	}
 	else{
-  	if (QArray[CurrQNum].getElementsByTagName('textarea')[0] != null){
-  		QArray[CurrQNum].getElementsByTagName('textarea')[0].focus();
+	if (QArray[CurrQNum].getElementsByTagName('textarea')[0] != null){
+		QArray[CurrQNum].getElementsByTagName('textarea')[0].focus();
 //and show a keypad if there is one
 			if (document.getElementById('CharacterKeypad') != null){
 				HPSetDisplay(document.getElementById('CharacterKeypad'), "block");
@@ -1395,7 +1372,6 @@ I[4][3][1]=new Array('Nothing happens.','',0,0,1);
 I[4][3][2]=new Array('You will move in within a year.','',0,0,1);
 I[4][3][3]=new Array('You will be put on waiting list.','',1,100,1);
 
-
 function StartUp(){
 	RemoveBottomNavBarForIE();
 
@@ -1407,19 +1383,11 @@ function StartUp(){
 //Stash the instructions so they can be redisplayed
 	strInstructions = document.getElementById('InstructionsDiv').innerHTML;
 
-
-
-
-
-
-
 	CompleteEmptyFeedback();
 
 	SetUpQuestions();
 	ClearTextBoxes();
 	CreateStatusArray();
-
-
 
 //Check search string for q parameter
 	if (document.location.search.length > 0){
@@ -1482,8 +1450,6 @@ function CreateStatusArray(){
 		}
 	}
 }
-
-
 
 function CheckMCAnswer(QNum, ANum, Btn){
 //if question doesn't exist, bail
@@ -1645,10 +1611,6 @@ function FinalAnswer(QNum){
 	}
 }
 
-
-
-
-
 function CalculateOverallScore(){
 	var TotalWeighting = 0;
 	var TotalScore = 0;
@@ -1725,13 +1687,8 @@ function CheckFinished(){
 
 		Finished == true;
 
-
-
-
 		TimeOver = true;
 		Locked = true;
-
-
 
 		Finished = true;
 		Detail = '<?xml version="1.0"?><hpnetresult><fields>';
@@ -1748,51 +1705,39 @@ function CheckFinished(){
 
 }
 
-
-
-
-
 // End of script
 
 </script>
 <!-- HOT POTATOES MODERNIZATION STYLES START -->
-<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-EIG7+2mbmdKXw+7WBMoTcp9CjUjCXLpkpUdjZim1TkqVohjU0/SEOZCnuw68IYQ8">
-<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-EIG7+2mbmdKXw+7WBMoTcp9CjUjCXLpkpUdjZim1TkqVohjU0/SEOZCnuw68IYQ8">
+<link rel="preload" href="../../css/sis-hot-potatoes.css" as="style" integrity="sha384-c+P3PU12ZNcnXNQ47RPoA/vzeu8blgNW85/uzE6/0ofAZUU2rhe9lHKwZ5NntSKP">
+<link rel="stylesheet" href="../../css/sis-hot-potatoes.css" integrity="sha384-c+P3PU12ZNcnXNQ47RPoA/vzeu8blgNW85/uzE6/0ofAZUU2rhe9lHKwZ5NntSKP">
 <link rel="preload" href="../../css/hot-potatoes-feedback.css" as="style" integrity="sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4">
 <link rel="stylesheet" href="../../css/hot-potatoes-feedback.css" integrity="sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4">
 <!-- HOT POTATOES MODERNIZATION STYLES END -->
+<link rel="preload" href="../../css/sis-exercise-layout.css" as="style" integrity="sha384-5HOjSZ/dHoz5qDsXvpEOXtqPTq50symoGkXfouRlWh+2X5MCVufbyJuTDg7a3y6o">
+<link rel="stylesheet" href="../../css/sis-exercise-layout.css" integrity="sha384-5HOjSZ/dHoz5qDsXvpEOXtqPTq50symoGkXfouRlWh+2X5MCVufbyJuTDg7a3y6o">
+<link rel="preload" href="../../css/sis-cloze-submit.css" as="style" integrity="sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW">
+<link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW">
+<link rel="preload" href="../../css/sis-exercise-family-layout.css" as="style" integrity="sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j">
+<link rel="stylesheet" href="../../css/sis-exercise-family-layout.css" integrity="sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j">
+<script defer src="../../js/sis-comprehension-submit.js" integrity="sha384-syJT/g32IJWwaavzPV4mpFlsVnt7J3ocE083s4rC62T/AT1oKm1RjB3R7Bllo7iy" data-sis-exercise-family="comp"></script>
 </head>
 
-<body onload="StartUp()" id="TheBody"><div class="wrapit">
-
-
+<body onload="StartUp()" id="TheBody"><div class="hp-exercise-shell wrapfit" data-sis-exercise-shell="true" data-sis-exercise-family="comp">
 
    <!-- BeginTopNavButtons -->
-
-
 
 <!-- EndTopNavButtons -->
 
 <div class="hp-instructions-panel"><div class="Titles">
 	<h1 class="ExerciseTitle">99. Section 8</h1>
 
-
-
-
-
 </div>
-
-
 
    <div id="InstructionsDiv" class="StdDiv">
 	<div id="Instructions"></div>
 
-
-
 </div></div>
-
-
-
 
 <div id="MainDiv" class="StdDiv">
 
@@ -1820,11 +1765,7 @@ function CheckFinished(){
 <li class="QuizQuestion hp-display-none" id="Q_3"><div class="QuestionText">4. In order to qualify for section 8 you must be _________.</div><ol class="MCAnswers"><li id="Q_3_0"><button class="FuncButton hp-button btn-17" type="button" id="Q_3_0_Btn" onclick="CheckMCAnswer(3,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;elderly</li><li id="Q_3_1"><button class="FuncButton hp-button btn-17" type="button" id="Q_3_1_Btn" onclick="CheckMCAnswer(3,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;a U.S citizen or a legal resident</li><li id="Q_3_2"><button class="FuncButton hp-button btn-17" type="button" id="Q_3_2_Btn" onclick="CheckMCAnswer(3,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;retired</li><li id="Q_3_3"><button class="FuncButton hp-button btn-17" type="button" id="Q_3_3_Btn" onclick="CheckMCAnswer(3,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;Both A and C.</li></ol></li>
 <li class="QuizQuestion hp-display-none" id="Q_4"><div class="QuestionText">5. What happens if you qualify for section 8?</div><ol class="MCAnswers"><li id="Q_4_0"><button class="FuncButton hp-button btn-17" type="button" id="Q_4_0_Btn" onclick="CheckMCAnswer(4,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;You'll receive a welcome letter.</li><li id="Q_4_1"><button class="FuncButton hp-button btn-17" type="button" id="Q_4_1_Btn" onclick="CheckMCAnswer(4,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;Nothing happens.</li><li id="Q_4_2"><button class="FuncButton hp-button btn-17" type="button" id="Q_4_2_Btn" onclick="CheckMCAnswer(4,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;You will move in within a year.</li><li id="Q_4_3"><button class="FuncButton hp-button btn-17" type="button" id="Q_4_3_Btn" onclick="CheckMCAnswer(4,3,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;You will be put on waiting list.</li></ol></li></ol>
 
-
-
 </div>
-
-
 
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
@@ -1833,18 +1774,13 @@ function CheckFinished(){
 
 <!-- BeginBottomNavButtons -->
 
-
-
 <!-- EndBottomNavButtons -->
 
 <!-- BeginSubmissionForm -->
 
 <!-- EndSubmissionForm -->
 
-
-
 <div class="cenmar"><button type="button" data-hp-close class="hp-button btn-74" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise.">CLOSE<span></span><span></span><span></span><span></span></button></div> <br><br></div></body>
-
 
 <!-- Mirrored from www.eslfast.com/eslread/comp/comp099.htm by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 03 Jul 2017 08:42:35 GMT -->
 </html>

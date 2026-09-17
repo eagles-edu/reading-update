@@ -266,6 +266,18 @@ body#TheBody #GuessDiv {
   padding: 12px;
 }
 
+body#TheBody #InstructionsDiv .sis-exercise-instructions {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+  text-indent: 0;
+}
+
+body#TheBody #InstructionsDiv .sis-exercise-instructions strong {
+  font-weight: 700;
+}
+
 body#TheBody #InstructionsDiv,
 body#TheBody #MainDiv,
 body#TheBody #GuessDiv,
@@ -1009,7 +1021,6 @@ body#TheBody .sis-exercise-content .sis-cloze-region--exercise {
   border-radius: var(--hp-panel-radius);
   padding: var(--hp-vertical-gap) var(--hp-horizontal-gap);
 }
-
 
 body#TheBody .sis-exercise-content .sis-cloze-region--feedback {
   max-width: none;

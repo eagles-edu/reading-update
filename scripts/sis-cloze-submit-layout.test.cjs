@@ -90,6 +90,9 @@ async function readLayout(page) {
   return page.evaluate(function () {
     const shell = document.querySelector(".sis-exercise-content");
     const mainPanel = document.getElementById("MainDiv");
+    const instructionText = document.querySelector(
+      "#InstructionsDiv .sis-exercise-instructions",
+    );
     const controls = mainPanel.querySelector(".btn17Container");
     const submit = document.querySelector("[data-sis-cloze-submit]");
     const close = document.querySelector("[data-hp-close]");
@@ -100,6 +103,19 @@ async function readLayout(page) {
     });
 
     return {
+      instructionClass: instructionText?.className || "",
+      instructionStyle: instructionText
+        ? (function () {
+            const style = getComputedStyle(instructionText);
+            return {
+              fontSize: style.fontSize,
+              fontWeight: style.fontWeight,
+              lineHeight: style.lineHeight,
+              margin: style.margin,
+              textIndent: style.textIndent,
+            };
+          })()
+        : null,
       closeIsLastInFooter: footer.lastElementChild === close,
       footerIsLastInShell: shell.lastElementChild === footer,
       panelToCloseGap:
@@ -145,6 +161,14 @@ test("current cloze Submit sits after Hint inside the exercise panel and Close i
   await page.locator("[data-sis-cloze-submit]").waitFor();
 
   const desktop = await readLayout(page);
+  assert.equal(desktop.instructionClass, "sis-exercise-instructions");
+  assert.deepEqual(desktop.instructionStyle, {
+    fontSize: "16px",
+    fontWeight: "400",
+    lineHeight: "24px",
+    margin: "0px",
+    textIndent: "0px",
+  });
   assert.equal(desktop.submitInControls, true);
   assert.equal(desktop.submitInsidePanel, true);
   assert.equal(desktop.submitAfterHint, true);
@@ -163,6 +187,8 @@ test("current cloze Submit sits after Hint inside the exercise panel and Close i
 
   await page.setViewportSize({ width: 390, height: 844 });
   const mobile = await readLayout(page);
+  assert.equal(mobile.instructionClass, "sis-exercise-instructions");
+  assert.deepEqual(mobile.instructionStyle, desktop.instructionStyle);
   assert.equal(mobile.submitInControls, true);
   assert.equal(mobile.submitInsidePanel, true);
   assert.equal(mobile.closeIsLastInFooter, true);

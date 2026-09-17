@@ -8,9 +8,17 @@ Use the repository-wide modernizer to consolidate inline presentation and runtim
 npm run modernize:hot-potatoes:dry
 npm run modernize:hot-potatoes:apply
 npm run test:modernize:hot-potatoes
+npm run audit:cloze:integrity
+npm run audit:dict:integrity
+npm run audit:sent:integrity
+npm run audit:comp:integrity
 ```
 
 Dry run is the default and does not write pages. It reports page coverage, unmapped companion stories, ambiguous Hot Potatoes structures, inline style attributes, button changes, and runtime visibility reads and writes. Apply repeats the preflight, stops if any page is ambiguous or unmapped, verifies external backups against the exact preflight content, then writes only changed pages. A batch above 50 changed pages fails closed. A larger batch requires both `--allow-bulk` and one or more explicit `--scope` arguments. Each target is checked again immediately before replacement; writes use same-directory temporary files and atomic renames, and a failed batch restores already-written pages from the verified backups. The transformation also names generated ShortAnswer fields that lack an accessible name. Every run re-evaluates all identified pages, including pages touched by an earlier attempt. The summary separates requirements missing in the source, pages already compliant with no file changes, and pages requiring file updates; the family breakdown uses the same counts. File updates can include SRI or version-marker refreshes, so they are not described as conversions. Static post-normalization checks show passed pages against the expected cloze, dictation, and sentence total. A current version comment and similarity to a prototype never establish compliance. The per-page comment records the version, family, prototype, and companion story. Bump `CURRENT_MODERNIZATION_VERSION` whenever the target contract changes. Missing required structure, unresolved companion stories, and unsafe transformations are reported as source-structure blocks and stop the entire apply. For a scoped recovery run, `--allow-blocked` excludes only pages that fail transformation and records each as `BLOCKED` with remediation in the JSON report; it never permits ambiguous pages or unresolved companion stories, and requires an explicit `--scope` or `--path`.
+
+`npm run audit:cloze:integrity` is read-only over every cloze page in the configured level and content collections (`begin1` through `begin6`, `eslread`, `essays`, `kidsenglish`, `kidsenglish2`, `kidsenglish3`, and `people`). It implements the shared and cloze-specific checklist, verifies local asset bytes against each page's SRI values, resolves companion stories, checks action-control and empty-navigation contracts, compares structural shape, and writes `docs/CLOZE-INTEGRITY-REPORT.json` plus Markdown. Add `--visual-dir output/playwright/cloze-integrity` after the Playwright sample pass to record that five artifacts per collection/level were captured.
+
+`npm run audit:dict:integrity`, `npm run audit:sent:integrity`, and `npm run audit:comp:integrity` apply the same read-only audit pattern to dictation, sentence scramble, and comprehension. Each independently runs the complete shared and family-specific MMOR contract against every page, checks family assets/SRI/story mapping, identity gates, action-control styling and clipping, empty legacy navigation, runtime placement/scoring contracts, and source placeholders. Prototype shape comparison is supplemental evidence only; it cannot make a page pass when a checklist requirement fails. Each command writes a family-specific JSON/Markdown report. Use `--visual-dir output/playwright/<family>-integrity` after the five-page-per-collection browser sample pass to mark visual artifacts captured.
 
 The checked family prototypes are `begin1/cloze/b1cloze001.html` for cloze, `begin1/dict/b1d001.html` for dictation, and `begin1/sent/b1mx00101.html` for sentence scramble. Their mobile viewport metadata is required across all families; cloze also requires the B1 prototype marker and an accessible label for every `GapN` input. The companion story path (for example, `begin1/b1/b1001.html`) is separately checked and drives the page's title and theme.
 
@@ -39,7 +47,9 @@ The script consolidates supported inline display and visibility declarations int
 
 The shared layout centers exercise content, uses 12px vertical gaps, adapts panes to screen width, and keeps the saved-details idle message compact. Each exercise hides its empty feedback panel until feedback exists, and points to its companion story for a clamped title and deterministic background/paper theme. `js/story-theme.js` sets theme data attributes before paint; `style/style.css` and `css/sis-hot-potatoes.css` map those attributes to predeclared image URLs, so the theme does not need inline style writes. The global theme selector stores its light/dark choice as a data attribute, and the shared font stylesheet applies the corresponding `color-scheme` property.
 
-The page transformer injects each selected prototype's shared and family-specific stylesheets and scripts with current SRI hashes, then stamps the page with the current modernization version. Cloze uses `css/sis-cloze-submit.css` and `js/sis-cloze-submit.js`; dictation and sentence scramble use `css/sis-exercise-layout.css`, `css/sis-cloze-submit.css`, and `js/sis-exercise-submit.js`. After changing those shared assets, refresh the affected exercise and story page references with the SRI tooling, then verify the exact affected page set rather than rehashing hidden backups or unrelated legacy pages. The SRI watcher tracks `css/`, `style/`, and `js/` assets. A watcher process that started before this watch-list change will not adopt the new directory until its normal restart; in that case, run `sri-rehash.cjs --verify` against the HTML pages that reference the changed asset, apply only that same file list, and verify it again. SRI-only refreshes update integrity attributes; they must not rerun page modernization or alter exercise content.
+All family instruction paragraphs use the shared `body#TheBody #InstructionsDiv .sis-exercise-instructions` token from `css/sis-hot-potatoes.css`: `font-size: 1rem`, `font-weight: 400`, `line-height: 1.5`, `margin: 0`, and `text-indent: 0`. Family scripts must generate that class rather than a family-specific instruction class.
+
+The page transformer injects each selected prototype's shared and family-specific stylesheets and scripts with current SRI hashes, then stamps the page with the current modernization version. Cloze uses `style/font-stack.css`, `js/theme-selector.js`, `css/sis-cloze-submit.css`, and `js/sis-cloze-submit.js`; dictation and sentence scramble use `css/sis-exercise-layout.css`, `css/sis-cloze-submit.css`, and `js/sis-exercise-submit.js`. Cloze normalization also converts active legacy `CheckButton*`/`ShowHint()` controls to exactly one static `#check` and `#hint` pair, removes duplicate Close controls, and unwraps a legacy `#TopNavBar`/`#BottomNavBar` when its only meaningful content is that Close control. This prevents the runtime-built prototype footer from producing a black navigation strip and duplicate Close button. After changing those shared assets, refresh the affected exercise and story page references with the SRI tooling, then verify the exact affected page set rather than rehashing hidden backups or unrelated legacy pages. The SRI watcher tracks `css/`, `style/`, and `js/` assets. A watcher process that started before this watch-list change will not adopt the new directory until its normal restart; in that case, run `sri-rehash.cjs --verify` against the HTML pages that reference the changed asset, apply only that same file list, and verify it again. SRI-only refreshes update integrity attributes; they must not rerun page modernization or alter exercise content.
 
 ## Bulk-change and recovery contract
 
@@ -87,7 +97,7 @@ The sibling manifest `/home/eagles/dockerz/efast-bu/sri-cloze-submit-css-2026-09
 
 The current contract has a shared baseline plus family-specific requirements. The checks below describe what the modernizer requires in the finished page; its B1 prototypes are cloze `b1cloze001.html`, dictation `b1d001.html`, and sentence scramble `b1mx00101.html` ([profiles in the script](/home/eagles/dockerz/efast-copy/scripts/modernize-hot-potatoes-pages.cjs:34)).
 
-**Required for all three types** of exercises
+**Required for all four types** of exercises
 
 1. `<body id="TheBody">`.
 2. A viewport meta tag with `width=device-width` and `initial-scale=1` or `1.0`.
@@ -95,7 +105,7 @@ The current contract has a shared baseline plus family-specific requirements. Th
 4. A Close control with the `btn-74` class in the finished page.
 5. A resolvable companion story, used at runtime for the exercise title and theme.
 6. Shared assets: `css/sis-hot-potatoes.css`, `js/hot-potatoes-ui.js`, `css/hot-potatoes-feedback.css`, `js/hot-potatoes-feedback.js`, and `js/story-theme.js`.
-7. Supported inline display/visibility styles converted to shared classes; legacy visibility code and button handlers normalized; empty feedback hidden until used.
+7. Supported inline display/visibility styles converted to shared classes; legacy visibility code and button handlers normalized; empty feedback and empty legacy navigation bars are removed or hidden until used.
 8. Current asset integrity hashes in the generated page, preserved head `<style>` blocks, and no remaining inline `style` attributes. ([Shared behavior in the guide](/home/eagles/dockerz/efast-copy/docs/moderate-hot-potatoes.md:89))
 9. Exactly one direct canonical shell: `body#TheBody > [data-sis-exercise-shell].hp-exercise-shell.wrapfit`. Final pages contain neither `.wrapit` nor `.exercise-wrapper` as a direct shell.
 10. The runtime identity panel must explain that EaglesID and student email activate Check and Hint. Empty or invalid identity data keeps Check and Hint disabled.
@@ -109,7 +119,7 @@ The current contract has a shared baseline plus family-specific requirements. Th
 4. `#InstructionsDiv`, `#MainDiv`, `#ClozeDiv`, and `#FeedbackDiv`.
 5. A `.btn17Container` action row and a `.btn-74` Close control.
 6. At least one input with an ID like `Gap0` must exist, and every such input must have a matching `<label for="Gap0">`. A page with no static gap fields is blocked as an incomplete source page; the modernizer will not fabricate exercise content.
-7. Family assets: `css/sis-cloze-submit.css` and `js/sis-cloze-submit.js`. The normalizer adds the action row and gap labels when missing; a missing Close control currently fails the cloze contract. ([Cloze profile and checks](/home/eagles/dockerz/efast-copy/scripts/modernize-hot-potatoes-pages.cjs:47))
+7. Family assets: `style/font-stack.css`, `js/theme-selector.js`, `css/sis-cloze-submit.css`, and `js/sis-cloze-submit.js`, all with current SRI. The normalizer adds the action row and gap labels when missing, converts legacy Check/Hint controls to `#check`/`#hint`, reduces duplicate Close controls to one, and unwraps a one-Close legacy navigation bar so the runtime footer is the only rendered Close control; it leaves HTTP error placeholders blocked rather than fabricating exercise content. ([Cloze profile and checks](/home/eagles/dockerz/efast-copy/scripts/modernize-hot-potatoes-pages.cjs:47))
 
 **Dictation — B1 001 dictation** exercise
 
@@ -129,4 +139,8 @@ The current contract has a shared baseline plus family-specific requirements. Th
 5. Short-answer textareas need accessible names. If no recognizable Close control exists, the normalizer adds one at the wrapper footer. ([Sentence profile](/home/eagles/dockerz/efast-copy/scripts/modernize-hot-potatoes-pages.cjs:76))
 6. Runtime places Check, Undo, Restart, Hint, and Submit together in the inline action controls.
 
-The version comment records the version, family, prototype, and story, but does not establish that these requirements are met. The audit checks the page structure and assets separately.
+The version comment records the version, family, prototype, and story, but does not establish that these requirements are met. The audit checks every documented structural, asset, runtime, control, and source-health requirement separately; prototype comparison is supplemental and never substitutes for the full checklist.
+
+**Comprehension — essays/comp/essaycomp001.html** modernization
+
+Comprehension pages use the same canonical shell, identity gate, shared assets, and companion-story contract. They additionally require one `#Questions` list containing indexed `.QuizQuestion` items, one `.MCAnswers` list per question, and `CheckMCAnswer`-wired answer buttons. The family asset is `js/sis-comprehension-submit.js`; it preserves the native Hot Potatoes MC scorer and sends SIS-compatible `totalQuestions`, `correctCount`, `pendingCount`, `incorrectCount`, and `scorePercent` fields after all questions are complete. The five-question browser contract is covered by `scripts/sis-comprehension-submit.test.cjs`.

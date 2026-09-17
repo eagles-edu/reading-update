@@ -10,7 +10,7 @@ const { createBackupManager } = require("./write-backup.cjs");
 const DEFAULT_ROOT = path.resolve(__dirname, "..");
 const MAX_SAFE_APPLY_PAGES = 50;
 const CURRENT_MODERNIZATION_VERSION = "2026-09-15.2";
-const POST_CONVERSION_VERIFIED_FAMILIES = new Set(["cloze", "dict", "sent"]);
+const POST_CONVERSION_VERIFIED_FAMILIES = new Set(["cloze", "dict", "sent", "comp"]);
 const ROOTS = Object.freeze([
   "begin1",
   "begin2",
@@ -33,6 +33,8 @@ const SHARED_UI = "js/hot-potatoes-ui.js";
 const FEEDBACK_CSS = "css/hot-potatoes-feedback.css";
 const FEEDBACK_UI = "js/hot-potatoes-feedback.js";
 const STORY_THEME = "js/story-theme.js";
+const FONT_STACK_CSS = "style/font-stack.css";
+const THEME_SELECTOR = "js/theme-selector.js";
 const PAGE_PROFILES = Object.freeze({
   shared: Object.freeze({
     family: "shared",
@@ -56,6 +58,8 @@ const PAGE_PROFILES = Object.freeze({
       ["link", FEEDBACK_CSS],
       ["script", FEEDBACK_UI],
       ["script", STORY_THEME],
+      ["link", FONT_STACK_CSS],
+      ["script", THEME_SELECTOR],
       ["link", "css/sis-cloze-submit.css"],
       ["script", "js/sis-cloze-submit.js"],
     ],
@@ -92,6 +96,22 @@ const PAGE_PROFILES = Object.freeze({
       ["script", "js/sis-exercise-submit.js", "sent"],
     ],
   }),
+  comp: Object.freeze({
+    family: "comp",
+    prototype: "essays/comp/essaycomp001.html",
+    required: ["body#TheBody", "body#TheBody > .wrapfit", "body#TheBody > .hp-exercise-shell", "body#TheBody > [data-sis-exercise-shell]", "meta[name=viewport]", ".hp-instructions-panel", ".hp-instructions-panel > .Titles > h1.ExerciseTitle", "#InstructionsDiv", "#MainDiv", "#Questions", "#FeedbackDiv", ".btn-74"],
+    assets: [
+      ["link", SHARED_CSS],
+      ["script", SHARED_UI],
+      ["link", FEEDBACK_CSS],
+      ["script", FEEDBACK_UI],
+      ["script", STORY_THEME],
+      ["link", "css/sis-exercise-layout.css"],
+      ["link", "css/sis-cloze-submit.css"],
+      ["link", "css/sis-exercise-family-layout.css"],
+      ["script", "js/sis-comprehension-submit.js", "comp"],
+    ],
+  }),
 });
 const STYLE_CLASS = Object.freeze({
   "display:none": "hp-display-none",
@@ -120,6 +140,7 @@ function modernizationProfile(page) {
   const directory = segments.at(-1).toLowerCase();
   if (segments.some((segment) => /cloze/i.test(segment))) return PAGE_PROFILES.cloze;
   if (directory === "dict") return PAGE_PROFILES.dict;
+  if (directory === "comp") return PAGE_PROFILES.comp;
   if (["sent", "emx", "kemx", "semx"].includes(directory)) return PAGE_PROFILES.sent;
   return PAGE_PROFILES.shared;
 }
@@ -239,21 +260,51 @@ function nodeText(node) {
   return (node.childNodes || []).map(nodeText).join("");
 }
 
+function hasMeaningfulContent(node) {
+  return (node?.childNodes || []).some((child) =>
+    child.tagName ||
+    (child.nodeName === "#text" && /\S/.test(child.value || "")) ||
+    hasMeaningfulContent(child),
+  );
+}
+
+function emptyLegacyNavigationBars(elements) {
+  return elements.filter(
+    (element) =>
+      element.tagName === "div" &&
+      ["TopNavBar", "BottomNavBar"].includes(htmlAttribute(element, "id")) &&
+      !hasMeaningfulContent(element),
+  );
+}
+
+function actionControlContract(root, elements) {
+  const controls = elements.filter(
+    (element) =>
+      element.tagName === "button" ||
+      (element.tagName === "input" &&
+        ["button", "submit", "reset"].includes(htmlAttribute(element, "type").toLowerCase())),
+  );
+  const nonCloseControls = controls.filter((element) => !htmlClasses(element).includes("btn-74"));
+  const sharedCssFile = path.resolve(root, SHARED_CSS);
+  const sharedCss = fs.existsSync(sharedCssFile) ? fs.readFileSync(sharedCssFile, "utf8") : "";
+  const clippingRule = /body#TheBody\s+button\.hp-button\.btn-17,\s*body#TheBody\s+input\.hp-button\.btn-17\s*\{[^}]*overflow:\s*hidden/s.test(sharedCss);
+  return {
+    total: controls.length,
+    nonClose: nonCloseControls.length,
+    invalid: nonCloseControls.map((element) => ({
+      tag: element.tagName,
+      id: htmlAttribute(element, "id") || null,
+      classes: htmlClasses(element),
+    })).filter((element) => !element.classes.includes("btn-17") || !element.classes.includes("hp-button")),
+    clippingRule,
+  };
+}
+
 function nodeContains(parent, target) {
   for (let current = target; current; current = current.parentNode) {
     if (current === parent) return true;
   }
   return false;
-}
-
-function parseUrlAttribute(value) {
-  try {
-    const url = new URL(value, "https://sis-local.invalid/");
-    if (url.origin !== "https://sis-local.invalid") return null;
-    return decodeURIComponent(url.pathname);
-  } catch {
-    return null;
-  }
 }
 
 function resolvePageAsset(root, pageFile, value) {
@@ -358,7 +409,7 @@ function auditMmor(source, root, page, profile, options = {}) {
   const sharedUiSource = SUBMISSION_ASSET_SOURCE_CACHE.get(sharedUiPath);
   const closeRuntime = sharedUiSource.includes('document.addEventListener("click", closeExerciseFromButton)') &&
     sharedUiSource.includes("[data-hp-close]");
-  push(requirement("SH-04", "Close is an accessible btn-74 button handled by the shared Close runtime", closeAccessible && closeRuntime,
+  push(requirement("SH-04", "Close is an accessible btn-74 button handled by the shared Close runtime", (profile.family === "cloze" ? closeControls.length === 1 : closeControls.length >= 1) && closeAccessible && closeRuntime,
     { count: closeControls.length, accessible: closeAccessible, runtimeBound: closeRuntime }));
 
   const storyThemeScripts = elements.filter((element) => element.tagName === "script" && /(?:^|\/)story-theme\.js(?:[?#]|$)/i.test(htmlAttribute(element, "src")));
@@ -380,13 +431,18 @@ function auditMmor(source, root, page, profile, options = {}) {
     if (type === "link" && assetPath === "css/sis-cloze-submit.css") item.id = "ASSET-CLOZE-SUBMIT-CSS";
     if (type === "script" && assetPath === "js/sis-cloze-submit.js") item.id = "ASSET-CLOZE-SUBMIT-JS";
     if (type === "script" && assetPath === "js/sis-exercise-submit.js") item.id = `ASSET-EXERCISE-SUBMIT-${profile.family.toUpperCase()}`;
+    if (type === "script" && assetPath === "js/sis-comprehension-submit.js") item.id = "ASSET-COMPREHENSION-SUBMIT-JS";
     assetChecks.push(item);
     push(item);
   }
   push(requirement("SH-06", "Every required shared and family asset resolves locally with its current SRI", assetChecks.every((item) => item.pass),
     { required: assetChecks.length, failed: assetChecks.filter((item) => !item.pass).map((item) => item.id) }));
 
-  const identityAsset = profile.family === "cloze" ? "js/sis-cloze-submit.js" : "js/sis-exercise-submit.js";
+  const identityAsset = profile.family === "cloze"
+    ? "js/sis-cloze-submit.js"
+    : profile.family === "comp"
+      ? "js/sis-comprehension-submit.js"
+      : "js/sis-exercise-submit.js";
   const absoluteIdentityAsset = path.resolve(root, identityAsset);
   if (!SUBMISSION_ASSET_SOURCE_CACHE.has(absoluteIdentityAsset)) {
     SUBMISSION_ASSET_SOURCE_CACHE.set(absoluteIdentityAsset, fs.existsSync(absoluteIdentityAsset) ? fs.readFileSync(absoluteIdentityAsset, "utf8") : "");
@@ -399,8 +455,13 @@ function auditMmor(source, root, page, profile, options = {}) {
   const identityGuard = profile.family === "cloze"
     ? identitySource.includes("guardCheckAnswers") && identitySource.includes("guardShowHint") &&
       identitySource.includes("!isIdentityReady()") && identitySource.includes("!identityReady")
+    : profile.family === "comp"
+      ? identitySource.includes("wrapCheckMCAnswer") && identitySource.includes("!identityIsValid()") &&
+        identitySource.includes("button.disabled = disabled")
     : identitySource.includes('wrapAction("CheckAnswer"') && identitySource.includes('wrapAction("ShowHint"') &&
-      identitySource.includes('wrapAction("CheckShortAnswer"') && identitySource.includes("if (!identityIsValid())") &&
+      identitySource.includes('wrapAction("CheckShortAnswer"') &&
+      (profile.family !== "comp" || identitySource.includes('wrapAction("CheckMCAnswer"')) &&
+      identitySource.includes("if (!identityIsValid())") &&
       identitySource.includes("button.disabled = disabled");
   push(requirement("ID-01", "EaglesID and student email are required by runtime Check and Hint guards", identityCopy && identityFields && identityGuard,
     { asset: identityAsset, instructionFound: identityCopy, eaglesIdField: identitySource.includes(eaglesIdMarker), emailField: identitySource.includes(emailMarker), checkAndHintGuarded: identityGuard }));
@@ -408,6 +469,19 @@ function auditMmor(source, root, page, profile, options = {}) {
   if (profile.family === "cloze") {
     const clozeDiv = byId.get("ClozeDiv") || [];
     const actionRows = elements.filter((element) => htmlClasses(element).includes("btn17Container"));
+    const checkButtons = (byId.get("check") || []).filter((element) => element.tagName === "button");
+    const hintButtons = (byId.get("hint") || []).filter((element) => element.tagName === "button");
+    push(requirement("CL-06", "Cloze Check and Hint controls use the canonical ids and btn-17 button contract",
+      checkButtons.length === 1 && hintButtons.length === 1 &&
+      htmlClasses(checkButtons[0]).includes("btn-17") && htmlClasses(checkButtons[0]).includes("hp-button") &&
+      htmlAttribute(checkButtons[0], "type").toLowerCase() === "submit" &&
+      htmlAttribute(checkButtons[0], "form") === "Cloze" &&
+      htmlClasses(hintButtons[0]).includes("btn-17") && htmlClasses(hintButtons[0]).includes("hp-button") &&
+      htmlAttribute(hintButtons[0], "type").toLowerCase() === "button",
+      {
+        check: checkButtons.map((element) => ({ tag: element.tagName, classes: htmlClasses(element), type: htmlAttribute(element, "type"), form: htmlAttribute(element, "form") })),
+        hint: hintButtons.map((element) => ({ tag: element.tagName, classes: htmlClasses(element), type: htmlAttribute(element, "type") })),
+      }));
     const gapIds = gapInputs.map((element) => htmlAttribute(element, "id"));
     push(requirement("CL-01", "Direct body wrapper has .wrapfit and the cloze family marker", Boolean(wrapper && htmlAttribute(wrapper, "data-sis-exercise-family") === "cloze"),
       { wrapperTag: wrapper?.tagName || null, classes: wrapper ? htmlClasses(wrapper) : [], family: htmlAttribute(wrapper, "data-sis-exercise-family") || null }));
@@ -435,6 +509,20 @@ function auditMmor(source, root, page, profile, options = {}) {
       { instructions: instructions.length, main: main.length, feedback: feedback.length }));
     push(requirement(profile.family === "dict" ? "DI-03" : "SE-03", "Every ShortAnswer textarea has an accessible name", namedTextareas.length === textareas.length,
       { total: textareas.length, named: namedTextareas.length }));
+  } else if (profile.family === "comp") {
+    const questions = elements.filter((element) => element.tagName === "ol" && htmlAttribute(element, "id") === "Questions");
+    const questionItems = elements.filter((element) => element.tagName === "li" && htmlClasses(element).includes("QuizQuestion"));
+    const answerLists = elements.filter((element) => element.tagName === "ol" && htmlClasses(element).includes("MCAnswers"));
+    const answerButtons = elements.filter((element) => element.tagName === "button" && /\bCheckMCAnswer\s*\(/i.test(htmlAttribute(element, "onclick")));
+    const questionIndexes = questionItems.map((element) => htmlAttribute(element, "id")).filter((id) => /^Q_\d+$/i.test(id));
+    push(requirement("CO-01", "Direct body wrapper is canonical .wrapfit with the comprehension family marker", Boolean(wrapper && htmlAttribute(wrapper, "data-sis-exercise-family") === "comp"),
+      { wrapperTag: wrapper?.tagName || null, classes: wrapper ? htmlClasses(wrapper) : [], family: htmlAttribute(wrapper, "data-sis-exercise-family") || null }));
+    push(requirement("CO-02", "Instruction, main, feedback, and Questions blocks are unique and nested in the exercise wrapper", Boolean(wrapper && questions.length === 1 && [instructions, main, feedback].every((matches) => matches.length === 1 && nodeContains(wrapper, matches[0])) && nodeContains(main[0], questions[0])),
+      { questions: questions.length, instructions: instructions.length, main: main.length, feedback: feedback.length, questionsInMain: Boolean(main[0] && questions[0] && nodeContains(main[0], questions[0])) }));
+    push(requirement("CO-03", "Each comprehension question has one indexed QuizQuestion and a multiple-choice answer list", questionItems.length > 0 && questionIndexes.length === questionItems.length && new Set(questionIndexes).size === questionIndexes.length && answerLists.length === questionItems.length && questionItems.every((item) => nodeContains(questions[0], item)),
+      { questionItems: questionItems.length, indexedQuestions: questionIndexes.length, answerLists: answerLists.length }));
+    push(requirement("CO-04", "Each comprehension answer is wired to the legacy CheckMCAnswer scorer", answerButtons.length > 0 && answerButtons.length >= questionItems.length && answerButtons.every((button) => nodeContains(questions[0], button)),
+      { answerButtons: answerButtons.length, questionItems: questionItems.length }));
   }
 
   const wrapperPass = bodies.length === 1 && directWrapperCandidates.length === 1 && wrapper?.tagName === "div" &&
@@ -468,7 +556,8 @@ function auditMmor(source, root, page, profile, options = {}) {
     sharedUiSource.includes("hp-visibility-hidden");
   const runtimePatternsNormalized = !forbiddenRuntimePatterns.test(source) && legacyHandlerAttributes.length === 0 && uiVisibilityContract;
   const feedbackRuntime = identitySource.includes('feedbackRegion.classList.add("hp-display-none")') &&
-    identitySource.includes('feedbackRegion.classList.toggle("hp-display-none", isHidden)') &&
+    (identitySource.includes('feedbackRegion.classList.toggle("hp-display-none", isHidden)') ||
+      identitySource.includes('feedbackRegion.classList.toggle("hp-display-none", hidden)')) &&
     identitySource.includes("new window.MutationObserver");
   const sentenceGuessVisibility = profile.family !== "sent" || (
     identitySource.includes('guess.classList.toggle(') &&
@@ -477,6 +566,31 @@ function auditMmor(source, root, page, profile, options = {}) {
   );
   push(requirement("SH-07", "Visibility uses shared classes, legacy handlers are removed, and empty feedback and sentence answer panels stay hidden", runtimePatternsNormalized && feedbackRuntime && sentenceGuessVisibility,
     { legacyVisibilityWritesRemain: !runtimePatternsNormalized, legacyHandlerCount: legacyHandlerAttributes.length, sharedVisibilityRuntime: uiVisibilityContract, emptyFeedbackHiddenByRuntime: feedbackRuntime, emptySentenceAnswerHiddenByRuntime: sentenceGuessVisibility }));
+
+  const emptyNavigationBars = emptyLegacyNavigationBars(elements);
+  push(requirement("SH-11", "Empty legacy TopNavBar and BottomNavBar elements are absent", emptyNavigationBars.length === 0,
+    { count: emptyNavigationBars.length, ids: emptyNavigationBars.map((element) => htmlAttribute(element, "id")) }));
+
+  const actionContract = actionControlContract(root, elements);
+  push(requirement("SH-12", "Every non-Close action control uses btn-17 hp-button and the shared button rule clips its animated effect", actionContract.invalid.length === 0 && actionContract.clippingRule,
+    actionContract));
+
+  if (profile.family === "dict" || profile.family === "sent") {
+    const placementContract = profile.family === "dict"
+      ? identitySource.includes('controls.setAttribute("aria-label", "Dictation question controls")') &&
+        identitySource.includes("finalControls.appendChild(submitRow)")
+      : identitySource.includes('controls.setAttribute("aria-label", "Sentence exercise controls")') &&
+        identitySource.includes("controls.appendChild(submitRegion)");
+    push(requirement(profile.family === "dict" ? "DI-04" : "SE-04", "Family runtime places controls in the required inline question group", placementContract,
+      { family: profile.family, placementContract }));
+  }
+
+  if (profile.family === "comp") {
+    const submissionFields = ["totalQuestions", "correctCount", "pendingCount", "incorrectCount", "scorePercent"];
+    const comprehensionSubmissionContract = submissionFields.every((field) => identitySource.includes(field));
+    push(requirement("CO-05", "Comprehension submission sends all SIS scoring fields", comprehensionSubmissionContract,
+      { fields: submissionFields, missing: submissionFields.filter((field) => !identitySource.includes(field)) }));
+  }
 
   if (new Set(results.map((item) => item.id)).size !== results.length) {
     throw new Error(page.relative + ": internal MMOR requirement IDs are not unique");
@@ -581,7 +695,9 @@ function validatePageMmor(source, root, profile, relative, originalStyles = null
     ? "js/sis-cloze-submit.js"
     : profile.family === "dict" || profile.family === "sent"
       ? "js/sis-exercise-submit.js"
-      : null;
+      : profile.family === "comp"
+        ? "js/sis-comprehension-submit.js"
+        : null;
   if (submissionAsset) {
     const absoluteAsset = path.resolve(root, submissionAsset);
     if (!SUBMISSION_ASSET_SOURCE_CACHE.has(absoluteAsset)) {
@@ -820,10 +936,12 @@ function scanTargets(root, roots = ROOTS, paths = []) {
   const pages = [];
   const ambiguous = [];
   const skippedBackups = [];
+  const requested = paths.length ? new Set(paths) : null;
   for (const relativeDirectory of roots) {
     const absoluteDirectory = path.resolve(root, relativeDirectory);
     for (const absolute of walkHtml(absoluteDirectory)) {
       const relative = path.relative(root, absolute).split(path.sep).join("/");
+      if (requested && !requested.has(relative)) continue;
       if (/-bu\.html?$/i.test(absolute)) {
         skippedBackups.push(relative);
         continue;
@@ -854,13 +972,11 @@ function scanTargets(root, roots = ROOTS, paths = []) {
     }
   }
   if (!paths.length) return { ambiguous, pages, skippedBackups };
-  const requested = new Set(paths);
-  const selected = pages.filter((page) => requested.has(page.relative));
-  const found = new Set(selected.map((page) => page.relative));
+  const found = new Set(pages.map((page) => page.relative));
   for (const relative of requested) {
     if (!found.has(relative)) ambiguous.push(`${relative}: requested page is not a recognized Hot Potatoes exercise`);
   }
-  return { ambiguous, pages: selected, skippedBackups };
+  return { ambiguous, pages, skippedBackups };
 }
 
 function cssMember(node) {
@@ -1170,8 +1286,11 @@ function transformMarkup(source, file) {
     buttons: 0,
     closeButtons: 0,
     closeLinks: 0,
+    clozeControls: 0,
     clozeGapLabels: 0,
+    clozeNavBarsUnwrapped: 0,
     emptyFeedbackPanelsHidden: 0,
+    emptyNavBarsRemoved: 0,
     horizontalRules: 0,
     legacyHandlers: 0,
     styleAttributes: 0,
@@ -1231,13 +1350,32 @@ function transformMarkup(source, file) {
     return transformOpenTag(token, file, counters);
   });
   next = hideEmptyGuessDivs(next, file, counters);
+  next = removeEmptyNavigationBars(next, counters);
   next = normalizeExerciseTitleHeadings(next, file, counters);
   next = wrapTitleWithInstructions(next, file, counters);
   return { source: next, counters };
 }
 
+function removeEmptyNavigationBars(source, counters) {
+  const openings = [...source.matchAll(/<div\b(?=[^>]*\bid\s*=\s*(["'])(?:TopNavBar|BottomNavBar)\1)[^>]*>/gi)];
+  for (const opening of openings.reverse()) {
+    const end = findMatchingDivEnd(source, opening);
+    if (end < 0) continue;
+    const block = source.slice(opening.index, end);
+    const closing = /<\/div\s*>$/i.exec(block);
+    if (!closing) continue;
+    const content = block.slice(opening[0].length, block.length - closing[0].length)
+      .replace(/<!--[\s\S]*?-->/g, "")
+      .trim();
+    if (content) continue;
+    source = `${source.slice(0, opening.index)}${source.slice(end)}`;
+    counters.emptyNavBarsRemoved += 1;
+  }
+  return source;
+}
+
 function normalizeFamilyStructure(source, page, profile, counters) {
-  if (!["cloze", "dict", "sent"].includes(profile.family)) return source;
+  if (!["cloze", "dict", "sent", "comp"].includes(profile.family)) return source;
   const inventory = directWrapperSnapshot(source);
   if (inventory.bodyCount !== 1) {
     throw new Error(page.relative + ": WRAPPER PREFLIGHT blocked; expected one body#TheBody, found " + inventory.bodyCount);
@@ -1296,7 +1434,6 @@ function normalizeFamilyStructure(source, page, profile, counters) {
     const normalizedOpening = wrapperOpening.replace(/\sclass\s*=\s*(["'])[^"']*\1/i, ' class="wrapfit"');
     source = `${source.slice(0, wrapperIndex)}${normalizedOpening}${source.slice(wrapperIndex + wrapperOpening.length)}`;
     wrapperOpening = normalizedOpening;
-    wrapperClasses = readTagAttribute(wrapperOpening, "class").split(/\s+/).filter(Boolean);
   }
 
   let normalizedOpening = removeClasses(wrapperOpening, ["exercise-wrapper", "wrapit"]);
@@ -1307,8 +1444,6 @@ function normalizeFamilyStructure(source, page, profile, counters) {
     source = `${source.slice(0, wrapperIndex)}${normalizedOpening}${source.slice(wrapperIndex + wrapperOpening.length)}`;
     wrapperOpening = normalizedOpening;
   }
-  wrapperClasses = readTagAttribute(wrapperOpening, "class").split(/\s+/).filter(Boolean);
-
   if (profile.family === "cloze") {
     const main = [...source.matchAll(/<div\b(?=[^>]*\bid\s*=\s*(["'])MainDiv\1)[^>]*>/gi)];
     if (main.length !== 1) throw new Error(`${page.relative}: SOURCE STRUCTURE BLOCKED; expected one MainDiv, found ${main.length}`);
@@ -1319,7 +1454,9 @@ function normalizeFamilyStructure(source, page, profile, counters) {
       const closeLength = /<\/div\s*>$/i.exec(mainMarkup)?.[0].length || 0;
       source = `${source.slice(0, mainEnd - closeLength)}<div class="btn17Container"></div>${source.slice(mainEnd - closeLength)}`;
     }
-    return source;
+    if (/\bclass\s*=\s*(["'])[^"']*\bbtn-74\b[^"']*\1/i.test(source)) {
+      return normalizeClozeCloseControls(source, counters);
+    }
   }
 
   if (/\bclass\s*=\s*(["'])[^"']*\bbtn-74\b[^"']*\1/i.test(source)) return source;
@@ -1580,6 +1717,7 @@ function injectAssets(source, options) {
   headContent = `${before}${newline}${assetBlock}${newline}${after}`.replace(/[\t \r\n]*$/, "");
   headContent = `${headContent.replace(/[\t \r\n]*$/, "")}${newline}${styleBlock}${newline}`;
   headContent = compactHeadSpacing(headContent, newline);
+  headContent = headContent.replace(/(<\/title>)(?=<(?:link|script|meta)\b)/gi, `$1${newline}`);
 
   const replacementHead = `${openTag}${headContent}${closeTag}`;
   return `${source.slice(0, headMatch.index)}${replacementHead}${source.slice(headMatch.index + headMatch[0].length)}`;
@@ -1645,8 +1783,11 @@ function normalizeFeedbackPage(page, options) {
       buttons: 0,
       closeButtons: 0,
       closeLinks: 0,
+      clozeControls: 0,
       clozeGapLabels: 0,
+      clozeNavBarsUnwrapped: 0,
       emptyFeedbackPanelsHidden: 0,
+      emptyNavBarsRemoved: 0,
       horizontalRules: 0,
       legacyHandlers: 0,
       styleAttributes: 0,
@@ -1662,14 +1803,19 @@ function normalizeFeedbackPage(page, options) {
   };
 }
 
-function removeProfileAssetTags(source) {
+function removeProfileAssetTags(source, includeThemeAssets = false) {
   const knownAssetNames = new Set([
     "sis-cloze-submit.css",
     "sis-exercise-layout.css",
     "sis-exercise-family-layout.css",
     "sis-cloze-submit.js",
     "sis-exercise-submit.js",
+    "sis-comprehension-submit.js",
   ]);
+  if (includeThemeAssets) {
+    knownAssetNames.add(path.basename(FONT_STACK_CSS));
+    knownAssetNames.add(path.basename(THEME_SELECTOR));
+  }
   return source.replace(/<head\b[^>]*>[\s\S]*?<\/head\s*>/i, (head) => {
     const newline = head.includes("\r\n") ? "\r\n" : "\n";
     return head
@@ -1687,8 +1833,11 @@ function removeProfileAssetTags(source) {
 function injectProfileAssets(source, options) {
   const { file, root, profile } = options;
   const styles = profile.family === "cloze"
-    ? [["css/sis-cloze-submit.css", options.clozeSubmitCssIntegrity]]
-    : ["dict", "sent"].includes(profile.family)
+    ? [
+        [FONT_STACK_CSS, options.fontStackCssIntegrity],
+        ["css/sis-cloze-submit.css", options.clozeSubmitCssIntegrity],
+      ]
+    : ["dict", "sent", "comp"].includes(profile.family)
       ? [
           ["css/sis-exercise-layout.css", options.exerciseLayoutCssIntegrity],
           ["css/sis-cloze-submit.css", options.clozeSubmitCssIntegrity],
@@ -1696,9 +1845,16 @@ function injectProfileAssets(source, options) {
         ]
       : [];
   const scripts = profile.family === "cloze"
-    ? [["js/sis-cloze-submit.js", options.clozeSubmitJsIntegrity, "cloze"]]
-    : ["dict", "sent"].includes(profile.family)
-      ? [["js/sis-exercise-submit.js", options.exerciseSubmitJsIntegrity, profile.family]]
+    ? [
+        [THEME_SELECTOR, options.themeSelectorJsIntegrity],
+        ["js/sis-cloze-submit.js", options.clozeSubmitJsIntegrity, "cloze"],
+      ]
+    : ["dict", "sent", "comp"].includes(profile.family)
+      ? [[
+          profile.family === "comp" ? "js/sis-comprehension-submit.js" : "js/sis-exercise-submit.js",
+          profile.family === "comp" ? options.comprehensionSubmitJsIntegrity : options.exerciseSubmitJsIntegrity,
+          profile.family,
+        ]]
       : [];
   if (!styles.length && !scripts.length) return source;
 
@@ -1708,7 +1864,7 @@ function injectProfileAssets(source, options) {
   const closeTag = headMatch[0].match(/<\/head\s*>$/i)?.[0];
   if (!openTag || !closeTag) throw new Error(`${path.relative(root, file)}: cannot isolate head element`);
   const newline = source.includes("\r\n") ? "\r\n" : "\n";
-  const strippedHead = removeProfileAssetTags(headMatch[0]);
+  const strippedHead = removeProfileAssetTags(headMatch[0], profile.family === "cloze");
   let headContent = strippedHead.slice(openTag.length, strippedHead.length - closeTag.length);
 
   const additions = [];
@@ -1723,8 +1879,10 @@ function injectProfileAssets(source, options) {
   for (const [assetPath, integrity, family] of scripts) {
     if (!integrity) throw new Error(`Missing SRI for ${assetPath}`);
     const href = relativeHref(file, path.resolve(root, assetPath));
+    const familyAttribute = family ? ` data-sis-exercise-family="${escapeAttribute(family)}"` : "";
+    const deferAttribute = assetPath === THEME_SELECTOR ? "" : " defer";
     additions.push(
-      `<script defer src="${href}" integrity="${integrity}" data-sis-exercise-family="${family}"></script>`,
+      `<script${deferAttribute} src="${href}" integrity="${integrity}"${familyAttribute}></script>`,
     );
   }
   headContent = `${headContent.replace(/[\t \r\n]*$/, "")}${newline}${additions.join(newline)}${newline}`;
@@ -1786,6 +1944,86 @@ function normalizeClozeGapLabels(source, counters) {
     const insertAt = input.index;
     return `${opening}${inner.slice(0, insertAt)}${label}${inner.slice(insertAt)}${closing}`;
   });
+}
+
+function activeButtonBlocks(source) {
+  const visible = source.replace(
+    /<!--[\s\S]*?-->|<script\b[^>]*>[\s\S]*?<\/script\s*>|<style\b[^>]*>[\s\S]*?<\/style\s*>/gi,
+    (block) => " ".repeat(block.length),
+  );
+  return [...visible.matchAll(/<button\b[^>]*>[\s\S]*?<\/button\s*>/gi)].map((match) => {
+    const original = source.slice(match.index, match.index + match[0].length);
+    const opening = original.match(/^<button\b[^>]*>/i)?.[0] || "";
+    const closing = original.match(/<\/button\s*>$/i)?.[0] || "</button>";
+    const content = original.slice(opening.length, original.length - closing.length);
+    const label = decodeHtmlText(content.replace(/<[^>]*>/g, " ")).replace(/\s+/g, " ").trim();
+    return { index: match.index, original, opening, closing, content, label };
+  });
+}
+
+function normalizeClozeControls(source, file, counters) {
+  const blocks = activeButtonBlocks(source);
+  const controls = {
+    check: blocks.filter((block) =>
+      /^check$/i.test(block.label) ||
+      /\bCheckAnswers\s*\(/i.test(readTagAttribute(block.opening, "onclick")) ||
+      /^(?:checkbutton\d*)$/i.test(readTagAttribute(block.opening, "id")),
+    ),
+    hint: blocks.filter((block) =>
+      /^hint$/i.test(block.label) ||
+      /\bShowHint\s*\(/i.test(readTagAttribute(block.opening, "onclick")) ||
+      /^hint$/i.test(readTagAttribute(block.opening, "id")),
+    ),
+  };
+  const edits = [];
+  for (const [name, matches] of Object.entries(controls)) {
+    if (matches.length !== 1) {
+      throw new Error(`${file}: CLOZE CONTROLS BLOCKED; expected one active ${name} control, found ${matches.length}`);
+    }
+    const block = matches[0];
+    let opening = removeAttribute(block.opening, "onclick");
+    opening = setTagAttribute(opening, "id", name);
+    opening = setTagAttribute(opening, "type", name === "check" ? "submit" : "button");
+    if (name === "check") opening = setTagAttribute(opening, "form", "Cloze");
+    else opening = removeAttribute(opening, "form");
+    opening = addClasses(opening, ["hp-button", "btn-17"]);
+    if (opening !== block.opening) counters.clozeControls += 1;
+    edits.push({
+      index: block.index,
+      originalLength: block.original.length,
+      value: `${opening}${block.original.slice(block.opening.length)}`,
+    });
+  }
+  for (const edit of edits.sort((left, right) => right.index - left.index)) {
+    source = `${source.slice(0, edit.index)}${edit.value}${source.slice(edit.index + edit.originalLength)}`;
+  }
+  return source;
+}
+
+function normalizeClozeCloseControls(source, counters) {
+  const closeBlocks = activeButtonBlocks(source).filter((block) =>
+    /\bbtn-74\b/i.test(readTagAttribute(block.opening, "class")) &&
+    /\bdata-hp-close(?:\s*=|\s|>)/i.test(block.opening),
+  );
+  for (const block of closeBlocks.slice(0, -1).reverse()) {
+    source = `${source.slice(0, block.index)}${source.slice(block.index + block.original.length)}`;
+    counters.closeButtons += 1;
+  }
+  source = removeEmptyNavigationBars(source, counters);
+  const openings = [...source.matchAll(/<div\b(?=[^>]*\bid\s*=\s*(["'])(?:TopNavBar|BottomNavBar)\1)[^>]*>/gi)];
+  for (const opening of openings.reverse()) {
+    const end = findMatchingDivEnd(source, opening);
+    if (end < 0) continue;
+    const block = source.slice(opening.index, end);
+    const closing = /<\/div\s*>$/i.exec(block);
+    if (!closing) continue;
+    const content = block.slice(opening[0].length, block.length - closing[0].length);
+    const meaningfulContent = content.replace(/<!--[\s\S]*?-->/g, "").trim();
+    if (!/^<button\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bbtn-74\b[^"']*\1)(?=[^>]*\bdata-hp-close(?:\s*=|\s|>))[^>]*>[\s\S]*?<\/button>$/i.test(meaningfulContent)) continue;
+    source = `${source.slice(0, opening.index)}${content}${source.slice(end)}`;
+    counters.clozeNavBarsUnwrapped += 1;
+  }
+  return source;
 }
 
 function replaceAttribute(tag, name, value) {
@@ -1890,6 +2128,7 @@ function normalizePage(page, options) {
   const markup = transformMarkup(source, page.relative);
   source = ensureHeadMeta(markup.source, "viewport", "width=device-width, initial-scale=1.0");
   if (profile.family === "cloze") {
+    source = normalizeClozeControls(source, page.relative, markup.counters);
     source = ensureHeadMeta(source, "sis-cloze-prototype", "current", "viewport");
     source = normalizeClozeGapLabels(source, markup.counters);
   }
@@ -1897,6 +2136,8 @@ function normalizePage(page, options) {
   source = normalizeFamilyStructure(source, page, profile, markup.counters);
   source = removeManagedScriptTags(source);
   source = removeProfileAssetTags(source);
+  const injectProfile = () => injectProfileAssets(source, { ...options, file: page.absolute, root, profile });
+  if (profile.family === "cloze") source = injectProfile();
   source = injectAssets(source, {
     cssIntegrity,
     feedbackCssIntegrity,
@@ -1908,7 +2149,7 @@ function normalizePage(page, options) {
     storyIntegrity,
     uiIntegrity,
   });
-  source = injectProfileAssets(source, { ...options, file: page.absolute, root, profile });
+  if (profile.family !== "cloze") source = injectProfile();
   source = ensureHeadMeta(source, "viewport", "width=device-width, initial-scale=1.0");
   if (profile.family === "cloze") source = ensureHeadMeta(source, "sis-cloze-prototype", "current", "viewport");
   const mmor = validatePageMmor(source, root, profile, page.relative, originalStyles);
@@ -1958,6 +2199,9 @@ function collectAssetInfo(root) {
     exerciseLayoutCss: path.resolve(root, "css/sis-exercise-layout.css"),
     clozeSubmitJs: path.resolve(root, "js/sis-cloze-submit.js"),
     exerciseSubmitJs: path.resolve(root, "js/sis-exercise-submit.js"),
+    comprehensionSubmitJs: path.resolve(root, "js/sis-comprehension-submit.js"),
+    fontStackCss: path.resolve(root, FONT_STACK_CSS),
+    themeSelectorJs: path.resolve(root, THEME_SELECTOR),
     story: path.resolve(root, STORY_THEME),
     ui: path.resolve(root, SHARED_UI),
   };
@@ -1972,6 +2216,9 @@ function collectAssetInfo(root) {
     exerciseLayoutCssIntegrity: integrityFor(files.exerciseLayoutCss),
     clozeSubmitJsIntegrity: integrityFor(files.clozeSubmitJs),
     exerciseSubmitJsIntegrity: integrityFor(files.exerciseSubmitJs),
+    comprehensionSubmitJsIntegrity: integrityFor(files.comprehensionSubmitJs),
+    fontStackCssIntegrity: integrityFor(files.fontStackCss),
+    themeSelectorJsIntegrity: integrityFor(files.themeSelectorJs),
     storyIntegrity: integrityFor(files.story),
     uiIntegrity: integrityFor(files.ui),
   };
@@ -2177,8 +2424,11 @@ function summarize(plans, inventory, apply, scopes) {
       result.buttons += plan.result.counters.buttons;
       result.closeButtons += plan.result.counters.closeButtons;
       result.closeLinks += plan.result.counters.closeLinks;
+      result.clozeControls += plan.result.counters.clozeControls || 0;
       result.clozeGapLabels += plan.result.counters.clozeGapLabels || 0;
+      result.clozeNavBarsUnwrapped += plan.result.counters.clozeNavBarsUnwrapped || 0;
       result.emptyFeedbackPanelsHidden += plan.result.counters.emptyFeedbackPanelsHidden;
+      result.emptyNavBarsRemoved += plan.result.counters.emptyNavBarsRemoved || 0;
       result.horizontalRules += plan.result.counters.horizontalRules;
       result.legacyHandlers += plan.result.counters.legacyHandlers;
       result.runtimeButtonFunctions += plan.result.stats.buttonFunctions;
@@ -2196,8 +2446,11 @@ function summarize(plans, inventory, apply, scopes) {
       buttons: 0,
       closeButtons: 0,
       closeLinks: 0,
+      clozeControls: 0,
       clozeGapLabels: 0,
+      clozeNavBarsUnwrapped: 0,
       emptyFeedbackPanelsHidden: 0,
+      emptyNavBarsRemoved: 0,
       horizontalRules: 0,
       legacyHandlers: 0,
       runtimeButtonFunctions: 0,
@@ -2263,9 +2516,12 @@ function summarize(plans, inventory, apply, scopes) {
   console.log(`Buttons normalized: ${totals.buttons}`);
   console.log(`Animated functional buttons normalized: ${totals.animatedButtons}`);
   console.log(`Special Close buttons normalized: ${totals.closeButtons}`);
+  console.log(`Cloze Check and Hint controls normalized: ${totals.clozeControls}`);
   console.log(`Cloze gap fields given accessible names: ${totals.clozeGapLabels}`);
+  console.log(`Cloze legacy navigation bars unwrapped: ${totals.clozeNavBarsUnwrapped}`);
   console.log(`JavaScript Close links migrated to buttons: ${totals.closeLinks}`);
   console.log(`Empty feedback panels hidden until feedback: ${totals.emptyFeedbackPanelsHidden}`);
+  console.log(`Empty legacy navigation bars removed: ${totals.emptyNavBarsRemoved}`);
   console.log(`Horizontal rules removed: ${totals.horizontalRules}`);
   console.log(`Title heading levels normalized to h1: ${totals.titleHeadingsNormalized}`);
   console.log(`Missing title headings safely restored from page text/title: ${totals.titleHeadingsCreated}`);
@@ -2546,12 +2802,14 @@ module.exports = {
   auditMmor,
   applyPagePlans,
   applySafetyError,
+  actionControlContract,
   classifyPageChanges,
   CURRENT_MODERNIZATION_VERSION,
   collectAssetInfo,
   collectRuntimePatches,
   createModernizerReport,
   directWrapperSnapshot,
+  emptyLegacyNavigationBars,
   extractHeadStyleBlocks,
   main,
   normalizeFeedbackPage,
