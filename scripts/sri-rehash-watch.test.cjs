@@ -4,7 +4,27 @@ const os = require("node:os");
 const path = require("node:path");
 const test = require("node:test");
 
-const { collectHtmlTargets } = require("./sri-rehash-watch.cjs");
+const {
+  collectHtmlTargets,
+  readHtmlTargets,
+} = require("./sri-rehash-watch.cjs");
+
+test("does not scan generated HTML under tmp", (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "sri-watch-ignore-"));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+
+  fs.mkdirSync(path.join(root, "tmp", "begin6"), { recursive: true });
+  fs.mkdirSync(path.join(root, "pages"), { recursive: true });
+  fs.writeFileSync(
+    path.join(root, "tmp", "begin6", "generated.html"),
+    "<html></html>",
+  );
+  fs.writeFileSync(path.join(root, "pages", "tracked.html"), "<html></html>");
+
+  assert.deepEqual(readHtmlTargets(root), [
+    path.join(root, "pages", "tracked.html"),
+  ]);
+});
 
 test("batches changed asset references while reading each HTML page once", (t) => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "sri-watch-test-"));

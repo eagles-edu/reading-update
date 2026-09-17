@@ -114,6 +114,7 @@ function readHtmlTargets(root) {
       "**/node_modules/**",
       "**/.playwright-cli/**",
       "**/.sto/**",
+      "tmp/**",
       "**/*.BAK",
     ],
   });
@@ -322,4 +323,5 @@ if (require.main === module) {
 module.exports = {
   collectAssetState,
   collectHtmlTargets,
+  readHtmlTargets,
 };

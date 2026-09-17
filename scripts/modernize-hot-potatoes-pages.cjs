@@ -944,7 +944,7 @@ function storyTarget(root, file) {
     match = stem.match(/^(?:d|cloze|comp)(\d+)/i);
     if (match) storyRelative = `eslread/ss/s${match[1].padStart(3, "0")}.html`;
   } else if (section === "essays") {
-    match = stem.match(/^(?:aigdict|aigcloze|essaycomp|comp)(\d+)/i);
+    match = stem.match(/^(?:aigdict|aigcloze|cloze|essaycomp|comp)(\d+)/i);
     if (match) storyRelative = `essays/e/essay${match[1].padStart(3, "0")}.html`;
   } else if (section === "kidsenglish") {
     match = stem.match(/^(?:ked|kecloze|kemx)(\d+)/i);
@@ -2275,6 +2275,7 @@ function normalizePage(page, options) {
   if (profile.family !== "cloze") source = injectProfile();
   source = ensureHeadMeta(source, "viewport", "width=device-width, initial-scale=1.0");
   if (profile.family === "cloze") source = ensureHeadMeta(source, "sis-cloze-prototype", "current", "viewport");
+  source = source.replace(/<\/style>(?=<(?:link|script)\b)/gi, "</style>\n");
   const mmor = validatePageMmor(source, root, profile, page.relative, originalStyles);
 
   const normalizedStyles = extractHeadStyleBlocks(source);

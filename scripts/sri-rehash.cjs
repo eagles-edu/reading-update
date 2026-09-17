@@ -104,6 +104,7 @@ function readTargets(args) {
       "**/node_modules/**",
       "**/.playwright-cli/**",
       "**/.sto/**",
+      "tmp/**",
       "**/*.BAK",
     ],
   });

@@ -12,91 +12,91 @@ Generated: 2026-09-17T09:53:34.452Z
 
 ## Collection/level totals
 
-| Level | Pages | Pass | Action required |
-|---|---:|---:|---:|
-| begin1 | 104 | 104 | 0 |
-| begin2 | 110 | 110 | 0 |
-| begin3 | 110 | 110 | 0 |
-| begin4 | 100 | 100 | 0 |
-| begin5 | 100 | 100 | 0 |
-| begin6 | 59 | 59 | 0 |
-| eslread | 363 | 363 | 0 |
-| essays | 100 | 99 | 1 |
-| kidsenglish | 100 | 100 | 0 |
-| kidsenglish2 | 100 | 100 | 0 |
-| kidsenglish3 | 100 | 100 | 0 |
-| people | 100 | 100 | 0 |
+| Level        | Pages | Pass | Action required |
+|--------------|------:|-----:|----------------:|
+| begin1       |   104 |  104 |               0 |
+| begin2       |   110 |  110 |               0 |
+| begin3       |   110 |  110 |               0 |
+| begin4       |   100 |  100 |               0 |
+| begin5       |   100 |  100 |               0 |
+| begin6       |    59 |   59 |               0 |
+| eslread      |   363 |  363 |               0 |
+| essays       |   100 |   99 |               1 |
+| kidsenglish  |   100 |  100 |               0 |
+| kidsenglish2 |   100 |  100 |               0 |
+| kidsenglish3 |   100 |  100 |               0 |
+| people       |   100 |  100 |               0 |
 
 ## Checklist totals
 
-| ID | Pass | Fail |
-|---|---:|---:|
-| CL-01 Exactly one body#TheBody exists | 1445 | 1 |
-| CL-02 Viewport metadata declares device width and initial scale 1 | 1445 | 1 |
-| CL-03 Instruction panel contains Titles > h1.ExerciseTitle and #InstructionsDiv | 1445 | 1 |
-| CL-04 #MainDiv, #ClozeDiv, and #FeedbackDiv are unique and correctly nested | 1445 | 1 |
-| CL-05 One direct canonical wrapfit/hp-exercise-shell is present | 1445 | 1 |
-| CL-06 Check and Hint controls use the current btn-17 contract | 1445 | 1 |
-| CL-07 Every GapN input is unique and has a matching label | 1445 | 1 |
-| CL-08 Close is an accessible btn-74 control | 1445 | 1 |
-| CL-09 Required local assets resolve and their SRI matches the file bytes | 1445 | 1 |
-| CL-10 Companion story resolves and story-theme.js has the matching key | 1445 | 1 |
-| CL-11 Identity gate and SIS cloze bridge contain the required Check/Hint guard | 1446 | 0 |
-| CL-12 No forbidden legacy wrappers, inline styles, or empty legacy navigation bars remain | 1446 | 0 |
-| CL-13 Head style blocks are present and the page has no inline style attributes | 1446 | 0 |
-| CL-14 The structural shape matches the B1 cloze prototype contract | 1445 | 1 |
-| CL-15 Source is an exercise document, not an HTTP error placeholder or duplicated document | 1445 | 1 |
-| CL-16 Every non-Close action control uses btn-17 hp-button and the shared button rule clips its animated effect | 1446 | 0 |
+| ID                                                                                                              | Pass | Fail |
+|-----------------------------------------------------------------------------------------------------------------|-----:|-----:|
+| CL-01 Exactly one body#TheBody exists                                                                           | 1445 |    1 |
+| CL-02 Viewport metadata declares device width and initial scale 1                                               | 1445 |    1 |
+| CL-03 Instruction panel contains Titles > h1.ExerciseTitle and #InstructionsDiv                                 | 1445 |    1 |
+| CL-04 #MainDiv, #ClozeDiv, and #FeedbackDiv are unique and correctly nested                                     | 1445 |    1 |
+| CL-05 One direct canonical wrapfit/hp-exercise-shell is present                                                 | 1445 |    1 |
+| CL-06 Check and Hint controls use the current btn-17 contract                                                   | 1445 |    1 |
+| CL-07 Every GapN input is unique and has a matching label                                                       | 1445 |    1 |
+| CL-08 Close is an accessible btn-74 control                                                                     | 1445 |    1 |
+| CL-09 Required local assets resolve and their SRI matches the file bytes                                        | 1445 |    1 |
+| CL-10 Companion story resolves and story-theme.js has the matching key                                          | 1445 |    1 |
+| CL-11 Identity gate and SIS cloze bridge contain the required Check/Hint guard                                  | 1446 |    0 |
+| CL-12 No forbidden legacy wrappers, inline styles, or empty legacy navigation bars remain                       | 1446 |    0 |
+| CL-13 Head style blocks are present and the page has no inline style attributes                                 | 1446 |    0 |
+| CL-14 The structural shape matches the B1 cloze prototype contract                                              | 1445 |    1 |
+| CL-15 Source is an exercise document, not an HTTP error placeholder or duplicated document                      | 1445 |    1 |
+| CL-16 Every non-Close action control uses btn-17 hp-button and the shared button rule clips its animated effect | 1446 |    0 |
 
 ## Visual sample set
 
-| Level | Page | Desktop artifact | Mobile artifact |
-|---|---|---|---|
-| begin1 | `begin1/cloze/b1cloze001.html` | `output/playwright/cloze-integrity/begin1-b1cloze001-desktop.png` | `output/playwright/cloze-integrity/begin1-b1cloze001-mobile.png` |
-| begin1 | `begin1/cloze/b1cloze027.html` | `output/playwright/cloze-integrity/begin1-b1cloze027-desktop.png` | `output/playwright/cloze-integrity/begin1-b1cloze027-mobile.png` |
-| begin1 | `begin1/cloze/b1cloze053.html` | `output/playwright/cloze-integrity/begin1-b1cloze053-desktop.png` | `output/playwright/cloze-integrity/begin1-b1cloze053-mobile.png` |
-| begin1 | `begin1/cloze/b1cloze078.html` | `output/playwright/cloze-integrity/begin1-b1cloze078-desktop.png` | `output/playwright/cloze-integrity/begin1-b1cloze078-mobile.png` |
-| begin1 | `begin1/cloze/b1cloze104.html` | `output/playwright/cloze-integrity/begin1-b1cloze104-desktop.png` | `output/playwright/cloze-integrity/begin1-b1cloze104-mobile.png` |
-| begin2 | `begin2/cloze/b2cloze001.html` | `output/playwright/cloze-integrity/begin2-b2cloze001-desktop.png` | `output/playwright/cloze-integrity/begin2-b2cloze001-mobile.png` |
-| begin2 | `begin2/cloze/b2cloze028.html` | `output/playwright/cloze-integrity/begin2-b2cloze028-desktop.png` | `output/playwright/cloze-integrity/begin2-b2cloze028-mobile.png` |
-| begin2 | `begin2/cloze/b2cloze056.html` | `output/playwright/cloze-integrity/begin2-b2cloze056-desktop.png` | `output/playwright/cloze-integrity/begin2-b2cloze056-mobile.png` |
-| begin2 | `begin2/cloze/b2cloze083.html` | `output/playwright/cloze-integrity/begin2-b2cloze083-desktop.png` | `output/playwright/cloze-integrity/begin2-b2cloze083-mobile.png` |
-| begin2 | `begin2/cloze/b2cloze110.html` | `output/playwright/cloze-integrity/begin2-b2cloze110-desktop.png` | `output/playwright/cloze-integrity/begin2-b2cloze110-mobile.png` |
-| begin3 | `begin3/cloze/b3cloze001.html` | `output/playwright/cloze-integrity/begin3-b3cloze001-desktop.png` | `output/playwright/cloze-integrity/begin3-b3cloze001-mobile.png` |
-| begin3 | `begin3/cloze/b3cloze028.html` | `output/playwright/cloze-integrity/begin3-b3cloze028-desktop.png` | `output/playwright/cloze-integrity/begin3-b3cloze028-mobile.png` |
-| begin3 | `begin3/cloze/b3cloze056.html` | `output/playwright/cloze-integrity/begin3-b3cloze056-desktop.png` | `output/playwright/cloze-integrity/begin3-b3cloze056-mobile.png` |
-| begin3 | `begin3/cloze/b3cloze083.html` | `output/playwright/cloze-integrity/begin3-b3cloze083-desktop.png` | `output/playwright/cloze-integrity/begin3-b3cloze083-mobile.png` |
-| begin3 | `begin3/cloze/b3cloze110.html` | `output/playwright/cloze-integrity/begin3-b3cloze110-desktop.png` | `output/playwright/cloze-integrity/begin3-b3cloze110-mobile.png` |
-| begin4 | `begin4/cloze/b4cloze001.html` | `output/playwright/cloze-integrity/begin4-b4cloze001-desktop.png` | `output/playwright/cloze-integrity/begin4-b4cloze001-mobile.png` |
-| begin4 | `begin4/cloze/b4cloze026.html` | `output/playwright/cloze-integrity/begin4-b4cloze026-desktop.png` | `output/playwright/cloze-integrity/begin4-b4cloze026-mobile.png` |
-| begin4 | `begin4/cloze/b4cloze051.html` | `output/playwright/cloze-integrity/begin4-b4cloze051-desktop.png` | `output/playwright/cloze-integrity/begin4-b4cloze051-mobile.png` |
-| begin4 | `begin4/cloze/b4cloze075.html` | `output/playwright/cloze-integrity/begin4-b4cloze075-desktop.png` | `output/playwright/cloze-integrity/begin4-b4cloze075-mobile.png` |
-| begin4 | `begin4/cloze/b4cloze100.html` | `output/playwright/cloze-integrity/begin4-b4cloze100-desktop.png` | `output/playwright/cloze-integrity/begin4-b4cloze100-mobile.png` |
-| begin5 | `begin5/cloze/b5cloze001.html` | `output/playwright/cloze-integrity/begin5-b5cloze001-desktop.png` | `output/playwright/cloze-integrity/begin5-b5cloze001-mobile.png` |
-| begin5 | `begin5/cloze/b5cloze026.html` | `output/playwright/cloze-integrity/begin5-b5cloze026-desktop.png` | `output/playwright/cloze-integrity/begin5-b5cloze026-mobile.png` |
-| begin5 | `begin5/cloze/b5cloze051.html` | `output/playwright/cloze-integrity/begin5-b5cloze051-desktop.png` | `output/playwright/cloze-integrity/begin5-b5cloze051-mobile.png` |
-| begin5 | `begin5/cloze/b5cloze075.html` | `output/playwright/cloze-integrity/begin5-b5cloze075-desktop.png` | `output/playwright/cloze-integrity/begin5-b5cloze075-mobile.png` |
-| begin5 | `begin5/cloze/b5cloze100.html` | `output/playwright/cloze-integrity/begin5-b5cloze100-desktop.png` | `output/playwright/cloze-integrity/begin5-b5cloze100-mobile.png` |
-| begin6 | `begin6/cloze/b6cloze001.html` | `output/playwright/cloze-integrity/begin6-b6cloze001-desktop.png` | `output/playwright/cloze-integrity/begin6-b6cloze001-mobile.png` |
-| begin6 | `begin6/cloze/b6cloze017.html` | `output/playwright/cloze-integrity/begin6-b6cloze017-desktop.png` | `output/playwright/cloze-integrity/begin6-b6cloze017-mobile.png` |
-| begin6 | `begin6/cloze/b6cloze031.html` | `output/playwright/cloze-integrity/begin6-b6cloze031-desktop.png` | `output/playwright/cloze-integrity/begin6-b6cloze031-mobile.png` |
-| begin6 | `begin6/cloze/b6cloze046.html` | `output/playwright/cloze-integrity/begin6-b6cloze046-desktop.png` | `output/playwright/cloze-integrity/begin6-b6cloze046-mobile.png` |
-| begin6 | `begin6/cloze/b6cloze060.html` | `output/playwright/cloze-integrity/begin6-b6cloze060-desktop.png` | `output/playwright/cloze-integrity/begin6-b6cloze060-mobile.png` |
-| eslread | `eslread/cloze/cloze001.html` | `output/playwright/cloze-integrity/eslread-cloze001-desktop.png` | `output/playwright/cloze-integrity/eslread-cloze001-mobile.png` |
-| eslread | `eslread/cloze/cloze092.html` | `output/playwright/cloze-integrity/eslread-cloze092-desktop.png` | `output/playwright/cloze-integrity/eslread-cloze092-mobile.png` |
-| eslread | `eslread/cloze/cloze183.html` | `output/playwright/cloze-integrity/eslread-cloze183-desktop.png` | `output/playwright/cloze-integrity/eslread-cloze183-mobile.png` |
-| eslread | `eslread/cloze/cloze275.html` | `output/playwright/cloze-integrity/eslread-cloze275-desktop.png` | `output/playwright/cloze-integrity/eslread-cloze275-mobile.png` |
-| eslread | `eslread/cloze/cloze365.html` | `output/playwright/cloze-integrity/eslread-cloze365-desktop.png` | `output/playwright/cloze-integrity/eslread-cloze365-mobile.png` |
-| essays | `essays/cloze/aigcloze001.html` | `output/playwright/cloze-integrity/essays-aigcloze001-desktop.png` | `output/playwright/cloze-integrity/essays-aigcloze001-mobile.png` |
-| essays | `essays/cloze/aigcloze026.html` | `output/playwright/cloze-integrity/essays-aigcloze026-desktop.png` | `output/playwright/cloze-integrity/essays-aigcloze026-mobile.png` |
-| essays | `essays/cloze/aigcloze051.html` | `output/playwright/cloze-integrity/essays-aigcloze051-desktop.png` | `output/playwright/cloze-integrity/essays-aigcloze051-mobile.png` |
-| essays | `essays/cloze/aigcloze075.html` | `output/playwright/cloze-integrity/essays-aigcloze075-desktop.png` | `output/playwright/cloze-integrity/essays-aigcloze075-mobile.png` |
-| essays | `essays/cloze/cloze100.html` | `output/playwright/cloze-integrity/essays-cloze100-desktop.png` | `output/playwright/cloze-integrity/essays-cloze100-mobile.png` |
-| kidsenglish | `kidsenglish/cloze/kecloze001.html` | `output/playwright/cloze-integrity/kidsenglish-kecloze001-desktop.png` | `output/playwright/cloze-integrity/kidsenglish-kecloze001-mobile.png` |
-| kidsenglish | `kidsenglish/cloze/kecloze026.html` | `output/playwright/cloze-integrity/kidsenglish-kecloze026-desktop.png` | `output/playwright/cloze-integrity/kidsenglish-kecloze026-mobile.png` |
-| kidsenglish | `kidsenglish/cloze/kecloze051.html` | `output/playwright/cloze-integrity/kidsenglish-kecloze051-desktop.png` | `output/playwright/cloze-integrity/kidsenglish-kecloze051-mobile.png` |
-| kidsenglish | `kidsenglish/cloze/kecloze075.html` | `output/playwright/cloze-integrity/kidsenglish-kecloze075-desktop.png` | `output/playwright/cloze-integrity/kidsenglish-kecloze075-mobile.png` |
-| kidsenglish | `kidsenglish/cloze/kecloze100.html` | `output/playwright/cloze-integrity/kidsenglish-kecloze100-desktop.png` | `output/playwright/cloze-integrity/kidsenglish-kecloze100-mobile.png` |
+| Level        | Page                                  | Desktop artifact                                                         | Mobile artifact                                                         |
+|--------------|---------------------------------------|--------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| begin1       | `begin1/cloze/b1cloze001.html`        | `output/playwright/cloze-integrity/begin1-b1cloze001-desktop.png`        | `output/playwright/cloze-integrity/begin1-b1cloze001-mobile.png`        |
+| begin1       | `begin1/cloze/b1cloze027.html`        | `output/playwright/cloze-integrity/begin1-b1cloze027-desktop.png`        | `output/playwright/cloze-integrity/begin1-b1cloze027-mobile.png`        |
+| begin1       | `begin1/cloze/b1cloze053.html`        | `output/playwright/cloze-integrity/begin1-b1cloze053-desktop.png`        | `output/playwright/cloze-integrity/begin1-b1cloze053-mobile.png`        |
+| begin1       | `begin1/cloze/b1cloze078.html`        | `output/playwright/cloze-integrity/begin1-b1cloze078-desktop.png`        | `output/playwright/cloze-integrity/begin1-b1cloze078-mobile.png`        |
+| begin1       | `begin1/cloze/b1cloze104.html`        | `output/playwright/cloze-integrity/begin1-b1cloze104-desktop.png`        | `output/playwright/cloze-integrity/begin1-b1cloze104-mobile.png`        |
+| begin2       | `begin2/cloze/b2cloze001.html`        | `output/playwright/cloze-integrity/begin2-b2cloze001-desktop.png`        | `output/playwright/cloze-integrity/begin2-b2cloze001-mobile.png`        |
+| begin2       | `begin2/cloze/b2cloze028.html`        | `output/playwright/cloze-integrity/begin2-b2cloze028-desktop.png`        | `output/playwright/cloze-integrity/begin2-b2cloze028-mobile.png`        |
+| begin2       | `begin2/cloze/b2cloze056.html`        | `output/playwright/cloze-integrity/begin2-b2cloze056-desktop.png`        | `output/playwright/cloze-integrity/begin2-b2cloze056-mobile.png`        |
+| begin2       | `begin2/cloze/b2cloze083.html`        | `output/playwright/cloze-integrity/begin2-b2cloze083-desktop.png`        | `output/playwright/cloze-integrity/begin2-b2cloze083-mobile.png`        |
+| begin2       | `begin2/cloze/b2cloze110.html`        | `output/playwright/cloze-integrity/begin2-b2cloze110-desktop.png`        | `output/playwright/cloze-integrity/begin2-b2cloze110-mobile.png`        |
+| begin3       | `begin3/cloze/b3cloze001.html`        | `output/playwright/cloze-integrity/begin3-b3cloze001-desktop.png`        | `output/playwright/cloze-integrity/begin3-b3cloze001-mobile.png`        |
+| begin3       | `begin3/cloze/b3cloze028.html`        | `output/playwright/cloze-integrity/begin3-b3cloze028-desktop.png`        | `output/playwright/cloze-integrity/begin3-b3cloze028-mobile.png`        |
+| begin3       | `begin3/cloze/b3cloze056.html`        | `output/playwright/cloze-integrity/begin3-b3cloze056-desktop.png`        | `output/playwright/cloze-integrity/begin3-b3cloze056-mobile.png`        |
+| begin3       | `begin3/cloze/b3cloze083.html`        | `output/playwright/cloze-integrity/begin3-b3cloze083-desktop.png`        | `output/playwright/cloze-integrity/begin3-b3cloze083-mobile.png`        |
+| begin3       | `begin3/cloze/b3cloze110.html`        | `output/playwright/cloze-integrity/begin3-b3cloze110-desktop.png`        | `output/playwright/cloze-integrity/begin3-b3cloze110-mobile.png`        |
+| begin4       | `begin4/cloze/b4cloze001.html`        | `output/playwright/cloze-integrity/begin4-b4cloze001-desktop.png`        | `output/playwright/cloze-integrity/begin4-b4cloze001-mobile.png`        |
+| begin4       | `begin4/cloze/b4cloze026.html`        | `output/playwright/cloze-integrity/begin4-b4cloze026-desktop.png`        | `output/playwright/cloze-integrity/begin4-b4cloze026-mobile.png`        |
+| begin4       | `begin4/cloze/b4cloze051.html`        | `output/playwright/cloze-integrity/begin4-b4cloze051-desktop.png`        | `output/playwright/cloze-integrity/begin4-b4cloze051-mobile.png`        |
+| begin4       | `begin4/cloze/b4cloze075.html`        | `output/playwright/cloze-integrity/begin4-b4cloze075-desktop.png`        | `output/playwright/cloze-integrity/begin4-b4cloze075-mobile.png`        |
+| begin4       | `begin4/cloze/b4cloze100.html`        | `output/playwright/cloze-integrity/begin4-b4cloze100-desktop.png`        | `output/playwright/cloze-integrity/begin4-b4cloze100-mobile.png`        |
+| begin5       | `begin5/cloze/b5cloze001.html`        | `output/playwright/cloze-integrity/begin5-b5cloze001-desktop.png`        | `output/playwright/cloze-integrity/begin5-b5cloze001-mobile.png`        |
+| begin5       | `begin5/cloze/b5cloze026.html`        | `output/playwright/cloze-integrity/begin5-b5cloze026-desktop.png`        | `output/playwright/cloze-integrity/begin5-b5cloze026-mobile.png`        |
+| begin5       | `begin5/cloze/b5cloze051.html`        | `output/playwright/cloze-integrity/begin5-b5cloze051-desktop.png`        | `output/playwright/cloze-integrity/begin5-b5cloze051-mobile.png`        |
+| begin5       | `begin5/cloze/b5cloze075.html`        | `output/playwright/cloze-integrity/begin5-b5cloze075-desktop.png`        | `output/playwright/cloze-integrity/begin5-b5cloze075-mobile.png`        |
+| begin5       | `begin5/cloze/b5cloze100.html`        | `output/playwright/cloze-integrity/begin5-b5cloze100-desktop.png`        | `output/playwright/cloze-integrity/begin5-b5cloze100-mobile.png`        |
+| begin6       | `begin6/cloze/b6cloze001.html`        | `output/playwright/cloze-integrity/begin6-b6cloze001-desktop.png`        | `output/playwright/cloze-integrity/begin6-b6cloze001-mobile.png`        |
+| begin6       | `begin6/cloze/b6cloze017.html`        | `output/playwright/cloze-integrity/begin6-b6cloze017-desktop.png`        | `output/playwright/cloze-integrity/begin6-b6cloze017-mobile.png`        |
+| begin6       | `begin6/cloze/b6cloze031.html`        | `output/playwright/cloze-integrity/begin6-b6cloze031-desktop.png`        | `output/playwright/cloze-integrity/begin6-b6cloze031-mobile.png`        |
+| begin6       | `begin6/cloze/b6cloze046.html`        | `output/playwright/cloze-integrity/begin6-b6cloze046-desktop.png`        | `output/playwright/cloze-integrity/begin6-b6cloze046-mobile.png`        |
+| begin6       | `begin6/cloze/b6cloze060.html`        | `output/playwright/cloze-integrity/begin6-b6cloze060-desktop.png`        | `output/playwright/cloze-integrity/begin6-b6cloze060-mobile.png`        |
+| eslread      | `eslread/cloze/cloze001.html`         | `output/playwright/cloze-integrity/eslread-cloze001-desktop.png`         | `output/playwright/cloze-integrity/eslread-cloze001-mobile.png`         |
+| eslread      | `eslread/cloze/cloze092.html`         | `output/playwright/cloze-integrity/eslread-cloze092-desktop.png`         | `output/playwright/cloze-integrity/eslread-cloze092-mobile.png`         |
+| eslread      | `eslread/cloze/cloze183.html`         | `output/playwright/cloze-integrity/eslread-cloze183-desktop.png`         | `output/playwright/cloze-integrity/eslread-cloze183-mobile.png`         |
+| eslread      | `eslread/cloze/cloze275.html`         | `output/playwright/cloze-integrity/eslread-cloze275-desktop.png`         | `output/playwright/cloze-integrity/eslread-cloze275-mobile.png`         |
+| eslread      | `eslread/cloze/cloze365.html`         | `output/playwright/cloze-integrity/eslread-cloze365-desktop.png`         | `output/playwright/cloze-integrity/eslread-cloze365-mobile.png`         |
+| essays       | `essays/cloze/aigcloze001.html`       | `output/playwright/cloze-integrity/essays-aigcloze001-desktop.png`       | `output/playwright/cloze-integrity/essays-aigcloze001-mobile.png`       |
+| essays       | `essays/cloze/aigcloze026.html`       | `output/playwright/cloze-integrity/essays-aigcloze026-desktop.png`       | `output/playwright/cloze-integrity/essays-aigcloze026-mobile.png`       |
+| essays       | `essays/cloze/aigcloze051.html`       | `output/playwright/cloze-integrity/essays-aigcloze051-desktop.png`       | `output/playwright/cloze-integrity/essays-aigcloze051-mobile.png`       |
+| essays       | `essays/cloze/aigcloze075.html`       | `output/playwright/cloze-integrity/essays-aigcloze075-desktop.png`       | `output/playwright/cloze-integrity/essays-aigcloze075-mobile.png`       |
+| essays       | `essays/cloze/cloze100.html`          | `output/playwright/cloze-integrity/essays-cloze100-desktop.png`          | `output/playwright/cloze-integrity/essays-cloze100-mobile.png`          |
+| kidsenglish  | `kidsenglish/cloze/kecloze001.html`   | `output/playwright/cloze-integrity/kidsenglish-kecloze001-desktop.png`   | `output/playwright/cloze-integrity/kidsenglish-kecloze001-mobile.png`   |
+| kidsenglish  | `kidsenglish/cloze/kecloze026.html`   | `output/playwright/cloze-integrity/kidsenglish-kecloze026-desktop.png`   | `output/playwright/cloze-integrity/kidsenglish-kecloze026-mobile.png`   |
+| kidsenglish  | `kidsenglish/cloze/kecloze051.html`   | `output/playwright/cloze-integrity/kidsenglish-kecloze051-desktop.png`   | `output/playwright/cloze-integrity/kidsenglish-kecloze051-mobile.png`   |
+| kidsenglish  | `kidsenglish/cloze/kecloze075.html`   | `output/playwright/cloze-integrity/kidsenglish-kecloze075-desktop.png`   | `output/playwright/cloze-integrity/kidsenglish-kecloze075-mobile.png`   |
+| kidsenglish  | `kidsenglish/cloze/kecloze100.html`   | `output/playwright/cloze-integrity/kidsenglish-kecloze100-desktop.png`   | `output/playwright/cloze-integrity/kidsenglish-kecloze100-mobile.png`   |
 | kidsenglish2 | `kidsenglish2/cloze/kecloze2001.html` | `output/playwright/cloze-integrity/kidsenglish2-kecloze2001-desktop.png` | `output/playwright/cloze-integrity/kidsenglish2-kecloze2001-mobile.png` |
 | kidsenglish2 | `kidsenglish2/cloze/kecloze2026.html` | `output/playwright/cloze-integrity/kidsenglish2-kecloze2026-desktop.png` | `output/playwright/cloze-integrity/kidsenglish2-kecloze2026-mobile.png` |
 | kidsenglish2 | `kidsenglish2/cloze/kecloze2051.html` | `output/playwright/cloze-integrity/kidsenglish2-kecloze2051-desktop.png` | `output/playwright/cloze-integrity/kidsenglish2-kecloze2051-mobile.png` |
@@ -107,11 +107,11 @@ Generated: 2026-09-17T09:53:34.452Z
 | kidsenglish3 | `kidsenglish3/cloze/kecloze3051.html` | `output/playwright/cloze-integrity/kidsenglish3-kecloze3051-desktop.png` | `output/playwright/cloze-integrity/kidsenglish3-kecloze3051-mobile.png` |
 | kidsenglish3 | `kidsenglish3/cloze/kecloze3075.html` | `output/playwright/cloze-integrity/kidsenglish3-kecloze3075-desktop.png` | `output/playwright/cloze-integrity/kidsenglish3-kecloze3075-mobile.png` |
 | kidsenglish3 | `kidsenglish3/cloze/kecloze3100.html` | `output/playwright/cloze-integrity/kidsenglish3-kecloze3100-desktop.png` | `output/playwright/cloze-integrity/kidsenglish3-kecloze3100-mobile.png` |
-| people | `people/cloze/apcloze001.html` | `output/playwright/cloze-integrity/people-apcloze001-desktop.png` | `output/playwright/cloze-integrity/people-apcloze001-mobile.png` |
-| people | `people/cloze/apcloze026.html` | `output/playwright/cloze-integrity/people-apcloze026-desktop.png` | `output/playwright/cloze-integrity/people-apcloze026-mobile.png` |
-| people | `people/cloze/apcloze051.html` | `output/playwright/cloze-integrity/people-apcloze051-desktop.png` | `output/playwright/cloze-integrity/people-apcloze051-mobile.png` |
-| people | `people/cloze/apcloze075.html` | `output/playwright/cloze-integrity/people-apcloze075-desktop.png` | `output/playwright/cloze-integrity/people-apcloze075-mobile.png` |
-| people | `people/cloze/apcloze100.html` | `output/playwright/cloze-integrity/people-apcloze100-desktop.png` | `output/playwright/cloze-integrity/people-apcloze100-mobile.png` |
+| people       | `people/cloze/apcloze001.html`        | `output/playwright/cloze-integrity/people-apcloze001-desktop.png`        | `output/playwright/cloze-integrity/people-apcloze001-mobile.png`        |
+| people       | `people/cloze/apcloze026.html`        | `output/playwright/cloze-integrity/people-apcloze026-desktop.png`        | `output/playwright/cloze-integrity/people-apcloze026-mobile.png`        |
+| people       | `people/cloze/apcloze051.html`        | `output/playwright/cloze-integrity/people-apcloze051-desktop.png`        | `output/playwright/cloze-integrity/people-apcloze051-mobile.png`        |
+| people       | `people/cloze/apcloze075.html`        | `output/playwright/cloze-integrity/people-apcloze075-desktop.png`        | `output/playwright/cloze-integrity/people-apcloze075-mobile.png`        |
+| people       | `people/cloze/apcloze100.html`        | `output/playwright/cloze-integrity/people-apcloze100-desktop.png`        | `output/playwright/cloze-integrity/people-apcloze100-mobile.png`        |
 
 ## Actionable findings
 

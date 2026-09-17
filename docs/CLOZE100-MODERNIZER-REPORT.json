@@ -1,0 +1,1011 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-17T14:04:14.050Z",
+  "mode": "apply",
+  "runPolicy": {
+    "allowBlocked": false,
+    "blockedFailuresExcluded": 0
+  },
+  "root": "/home/eagles/dockerz/efast-copy",
+  "scopes": [
+    "begin1",
+    "begin2",
+    "begin3",
+    "begin4",
+    "begin5",
+    "begin6",
+    "easyread",
+    "eslread",
+    "essays",
+    "kidsenglish",
+    "kidsenglish2",
+    "kidsenglish3",
+    "people",
+    "supereasy",
+    "writing"
+  ],
+  "paths": [
+    "essays/cloze/cloze100.html"
+  ],
+  "modernizationVersion": "2026-09-17.2",
+  "totals": {
+    "scanned": 1,
+    "evaluated": 1,
+    "sourceCompliant": 0,
+    "normalizedCompliant": 1,
+    "structuralUpdates": 1,
+    "sriOnlyUpdates": 0,
+    "versionOnlyUpdates": 0,
+    "unchanged": 0,
+    "blocked": 0
+  },
+  "byFamily": {
+    "cloze": {
+      "scanned": 1,
+      "sourceCompliant": 0,
+      "normalizedCompliant": 1,
+      "structuralUpdates": 1,
+      "sriOnlyUpdates": 0,
+      "versionOnlyUpdates": 0,
+      "blocked": 0
+    }
+  },
+  "findings": {
+    "good": {
+      "count": 1,
+      "pages": [
+        "essays/cloze/cloze100.html"
+      ]
+    },
+    "bad": {
+      "count": 0,
+      "pages": []
+    },
+    "ugly": {
+      "count": 1,
+      "pages": [
+        {
+          "path": "essays/cloze/cloze100.html",
+          "changes": {
+            "changed": true,
+            "structuralChanged": true,
+            "sriChanged": true,
+            "versionChanged": true,
+            "versionOnly": false,
+            "sriOnly": false
+          }
+        }
+      ]
+    }
+  },
+  "wrapperInventory": {
+    "variants": [
+      {
+        "classes": "div|wrapit",
+        "count": 1
+      }
+    ],
+    "pages": [
+      {
+        "path": "essays/cloze/cloze100.html",
+        "family": null,
+        "bodyFound": true,
+        "bodyCount": 1,
+        "directElementCount": 1,
+        "wrapperCandidateCount": 1,
+        "classification": "wrapit",
+        "directChildren": [
+          {
+            "tag": "div",
+            "id": null,
+            "classes": [
+              "wrapit"
+            ],
+            "family": null
+          }
+        ],
+        "wrappers": [
+          {
+            "tag": "div",
+            "id": null,
+            "classes": [
+              "wrapit"
+            ],
+            "family": null
+          }
+        ],
+        "nestedWrappers": [],
+        "tag": "div",
+        "id": null,
+        "classes": [
+          "wrapit"
+        ]
+      }
+    ]
+  },
+  "pages": [
+    {
+      "path": "essays/cloze/cloze100.html",
+      "family": "cloze",
+      "prototype": "begin1/cloze/b1cloze001.html",
+      "story": "essays/e/essay100.html",
+      "status": "UPDATE",
+      "failure": null,
+      "wrappers": {
+        "before": {
+          "bodyFound": true,
+          "bodyCount": 1,
+          "directElementCount": 1,
+          "wrapperCandidateCount": 1,
+          "classification": "wrapit",
+          "directChildren": [
+            {
+              "tag": "div",
+              "id": null,
+              "classes": [
+                "wrapit"
+              ],
+              "family": null
+            }
+          ],
+          "wrappers": [
+            {
+              "tag": "div",
+              "id": null,
+              "classes": [
+                "wrapit"
+              ],
+              "family": null
+            }
+          ],
+          "nestedWrappers": [],
+          "tag": "div",
+          "id": null,
+          "classes": [
+            "wrapit"
+          ],
+          "family": null
+        },
+        "after": {
+          "bodyFound": true,
+          "bodyCount": 1,
+          "directElementCount": 1,
+          "wrapperCandidateCount": 1,
+          "classification": "wrapfit",
+          "directChildren": [
+            {
+              "tag": "div",
+              "id": null,
+              "classes": [
+                "hp-exercise-shell",
+                "wrapfit"
+              ],
+              "family": "cloze"
+            }
+          ],
+          "wrappers": [
+            {
+              "tag": "div",
+              "id": null,
+              "classes": [
+                "hp-exercise-shell",
+                "wrapfit"
+              ],
+              "family": "cloze"
+            }
+          ],
+          "nestedWrappers": [],
+          "tag": "div",
+          "id": null,
+          "classes": [
+            "hp-exercise-shell",
+            "wrapfit"
+          ],
+          "family": "cloze"
+        }
+      },
+      "changes": {
+        "changed": true,
+        "structuralChanged": true,
+        "sriChanged": true,
+        "versionChanged": true,
+        "versionOnly": false,
+        "sriOnly": false
+      },
+      "mmor": {
+        "before": [
+          {
+            "id": "SH-01",
+            "description": "body#TheBody exists exactly once",
+            "pass": true,
+            "evidence": {
+              "count": 1,
+              "idCount": 1
+            }
+          },
+          {
+            "id": "SH-02",
+            "description": "Viewport declares device width and initial scale 1",
+            "pass": true,
+            "evidence": {
+              "content": "width=device-width, initial-scale=1"
+            }
+          },
+          {
+            "id": "SH-03",
+            "description": "Exactly one instruction panel contains the only .Titles > h1.ExerciseTitle and #InstructionsDiv; #MainDiv is unique in the wrapper",
+            "pass": false,
+            "evidence": {
+              "instructionPanels": 0,
+              "titleBlocks": 1,
+              "exerciseTitles": 0,
+              "titleFound": false,
+              "instructions": 1,
+              "main": 1
+            }
+          },
+          {
+            "id": "SH-04",
+            "description": "Exactly one Close is an accessible btn-74 button with the shared tm1-5 margin token and Close runtime",
+            "pass": false,
+            "evidence": {
+              "count": 0,
+              "accessible": false,
+              "marginToken": false,
+              "runtimeBound": true
+            }
+          },
+          {
+            "id": "SH-05",
+            "description": "Companion story resolves and story-theme.js binds its title and theme at runtime",
+            "pass": false,
+            "evidence": {
+              "story": "essays/e/essay100.html",
+              "scriptCount": 0,
+              "titleUrl": null,
+              "themeKey": null,
+              "runtimeBound": true
+            }
+          },
+          {
+            "id": "ASSET-CSS-SIS-HOT-POTATOES-CSS",
+            "description": "Local link css/sis-hot-potatoes.css resolves and has current SRI",
+            "pass": false,
+            "evidence": {
+              "expectedIntegrity": "sha384-Iw7lAV3YR65Y2+/muxR/wW9o+OheDvHjeRW1Nqy3OYTalZHUuOHhG4WoDq/oJ2zZ",
+              "observed": []
+            }
+          },
+          {
+            "id": "ASSET-JS-HOT-POTATOES-UI-JS",
+            "description": "Local script js/hot-potatoes-ui.js resolves and has current SRI",
+            "pass": false,
+            "evidence": {
+              "expectedIntegrity": "sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g",
+              "observed": []
+            }
+          },
+          {
+            "id": "ASSET-CSS-HOT-POTATOES-FEEDBACK-CSS",
+            "description": "Local link css/hot-potatoes-feedback.css resolves and has current SRI",
+            "pass": false,
+            "evidence": {
+              "expectedIntegrity": "sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4",
+              "observed": []
+            }
+          },
+          {
+            "id": "ASSET-JS-HOT-POTATOES-FEEDBACK-JS",
+            "description": "Local script js/hot-potatoes-feedback.js resolves and has current SRI",
+            "pass": false,
+            "evidence": {
+              "expectedIntegrity": "sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq",
+              "observed": []
+            }
+          },
+          {
+            "id": "ASSET-JS-STORY-THEME-JS",
+            "description": "Local script js/story-theme.js resolves and has current SRI",
+            "pass": false,
+            "evidence": {
+              "expectedIntegrity": "sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ",
+              "observed": []
+            }
+          },
+          {
+            "id": "ASSET-STYLE-FONT-STACK-CSS",
+            "description": "Local link style/font-stack.css resolves and has current SRI",
+            "pass": false,
+            "evidence": {
+              "expectedIntegrity": "sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS",
+              "observed": []
+            }
+          },
+          {
+            "id": "ASSET-JS-THEME-SELECTOR-JS",
+            "description": "Local script js/theme-selector.js resolves and has current SRI",
+            "pass": false,
+            "evidence": {
+              "expectedIntegrity": "sha384-Z1/JSOxBq9/FDcKgAV/WlspujLmY1FVDWPKUBtGpMaemJRTV4PhhWDV5ftWg8zni",
+              "observed": []
+            }
+          },
+          {
+            "id": "ASSET-CLOZE-SUBMIT-CSS",
+            "description": "Local link css/sis-cloze-submit.css resolves and has current SRI",
+            "pass": false,
+            "evidence": {
+              "expectedIntegrity": "sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW",
+              "observed": []
+            }
+          },
+          {
+            "id": "ASSET-CLOZE-SUBMIT-JS",
+            "description": "Local script js/sis-cloze-submit.js resolves and has current SRI",
+            "pass": false,
+            "evidence": {
+              "expectedIntegrity": "sha384-O2sv/vzNnN+sJ9lANy/kIHEhQYQYCdxGuGrkt/ukl6DtUIudEQKXhl4Tdo6x1qzJ",
+              "observed": []
+            }
+          },
+          {
+            "id": "SH-06",
+            "description": "Every required shared and family asset resolves locally with its current SRI",
+            "pass": false,
+            "evidence": {
+              "required": 9,
+              "failed": [
+                "ASSET-CSS-SIS-HOT-POTATOES-CSS",
+                "ASSET-JS-HOT-POTATOES-UI-JS",
+                "ASSET-CSS-HOT-POTATOES-FEEDBACK-CSS",
+                "ASSET-JS-HOT-POTATOES-FEEDBACK-JS",
+                "ASSET-JS-STORY-THEME-JS",
+                "ASSET-STYLE-FONT-STACK-CSS",
+                "ASSET-JS-THEME-SELECTOR-JS",
+                "ASSET-CLOZE-SUBMIT-CSS",
+                "ASSET-CLOZE-SUBMIT-JS"
+              ]
+            }
+          },
+          {
+            "id": "ID-01",
+            "description": "EaglesID and student email are required by runtime Check and Hint guards",
+            "pass": true,
+            "evidence": {
+              "asset": "js/sis-cloze-submit.js",
+              "instructionFound": true,
+              "eaglesIdField": true,
+              "emailField": true,
+              "checkAndHintGuarded": true
+            }
+          },
+          {
+            "id": "CL-06",
+            "description": "Cloze Check and Hint controls use the canonical ids and btn-17 button contract",
+            "pass": false,
+            "evidence": {
+              "check": [],
+              "hint": []
+            }
+          },
+          {
+            "id": "CL-01",
+            "description": "Direct body wrapper has .wrapfit and the cloze family marker",
+            "pass": false,
+            "evidence": {
+              "wrapperTag": null,
+              "classes": [],
+              "family": null
+            }
+          },
+          {
+            "id": "CL-02",
+            "description": "sis-cloze-prototype marker is current",
+            "pass": false,
+            "evidence": {}
+          },
+          {
+            "id": "CL-03",
+            "description": "Unique ClozeDiv and FeedbackDiv are inside MainDiv/wrapper",
+            "pass": false,
+            "evidence": {
+              "clozeDiv": 1,
+              "feedbackDiv": 1
+            }
+          },
+          {
+            "id": "CL-04",
+            "description": "btn17Container is inside MainDiv",
+            "pass": false,
+            "evidence": {
+              "actionRows": 0
+            }
+          },
+          {
+            "id": "CL-05",
+            "description": "At least one unique GapN input has a matching label",
+            "pass": false,
+            "evidence": {
+              "gaps": [
+                "Gap0",
+                "Gap1",
+                "Gap2",
+                "Gap3",
+                "Gap4",
+                "Gap5",
+                "Gap6",
+                "Gap7",
+                "Gap8",
+                "Gap9",
+                "Gap10",
+                "Gap11",
+                "Gap12",
+                "Gap13",
+                "Gap14",
+                "Gap15",
+                "Gap16",
+                "Gap17",
+                "Gap18",
+                "Gap19",
+                "Gap20",
+                "Gap21",
+                "Gap22",
+                "Gap23",
+                "Gap24",
+                "Gap25",
+                "Gap26",
+                "Gap27",
+                "Gap28",
+                "Gap29",
+                "Gap30",
+                "Gap31"
+              ],
+              "missingLabels": [
+                "Gap0",
+                "Gap1",
+                "Gap2",
+                "Gap3",
+                "Gap4",
+                "Gap5",
+                "Gap6",
+                "Gap7",
+                "Gap8",
+                "Gap9",
+                "Gap10",
+                "Gap11",
+                "Gap12",
+                "Gap13",
+                "Gap14",
+                "Gap15",
+                "Gap16",
+                "Gap17",
+                "Gap18",
+                "Gap19",
+                "Gap20",
+                "Gap21",
+                "Gap22",
+                "Gap23",
+                "Gap24",
+                "Gap25",
+                "Gap26",
+                "Gap27",
+                "Gap28",
+                "Gap29",
+                "Gap30",
+                "Gap31"
+              ]
+            }
+          },
+          {
+            "id": "SH-10",
+            "description": "One direct canonical shell has .hp-exercise-shell, .wrapfit, and data-sis-exercise-shell; no legacy wrapper alias remains",
+            "pass": false,
+            "evidence": {
+              "directWrappers": [
+                {
+                  "tag": "div",
+                  "classes": [
+                    "wrapit"
+                  ],
+                  "shell": false
+                }
+              ],
+              "nestedWrappers": []
+            }
+          },
+          {
+            "id": "SH-09",
+            "description": "Required exercise IDs are unique",
+            "pass": true,
+            "evidence": {
+              "ids": {
+                "InstructionsDiv": 1,
+                "MainDiv": 1,
+                "FeedbackDiv": 1,
+                "ClozeDiv": 1
+              }
+            }
+          },
+          {
+            "id": "SH-08",
+            "description": "No inline style attributes remain and head style blocks are preserved",
+            "pass": true,
+            "evidence": {
+              "inlineStyleAttributes": 0,
+              "preservedStyleBlocks": 2,
+              "stylesPreserved": true
+            }
+          },
+          {
+            "id": "SH-07",
+            "description": "Visibility uses shared classes, legacy handlers are removed, and empty feedback and sentence answer panels stay hidden",
+            "pass": false,
+            "evidence": {
+              "legacyVisibilityWritesRemain": true,
+              "legacyHandlerCount": 30,
+              "sharedVisibilityRuntime": true,
+              "emptyFeedbackHiddenByRuntime": true,
+              "emptySentenceAnswerHiddenByRuntime": true
+            }
+          },
+          {
+            "id": "SH-11",
+            "description": "Empty legacy TopNavBar and BottomNavBar elements are absent",
+            "pass": true,
+            "evidence": {
+              "count": 0,
+              "ids": []
+            }
+          },
+          {
+            "id": "SH-12",
+            "description": "Every non-Close action control uses btn-17 hp-button and the shared button rule clips its animated effect",
+            "pass": false,
+            "evidence": {
+              "total": 5,
+              "nonClose": 5,
+              "invalid": [
+                {
+                  "tag": "button",
+                  "id": null,
+                  "classes": [
+                    "NavButton"
+                  ]
+                },
+                {
+                  "tag": "button",
+                  "id": "CheckButton2",
+                  "classes": [
+                    "FuncButton"
+                  ]
+                },
+                {
+                  "tag": "button",
+                  "id": null,
+                  "classes": [
+                    "FuncButton"
+                  ]
+                },
+                {
+                  "tag": "button",
+                  "id": "FeedbackOKButton",
+                  "classes": [
+                    "FuncButton"
+                  ]
+                },
+                {
+                  "tag": "button",
+                  "id": null,
+                  "classes": [
+                    "NavButton"
+                  ]
+                }
+              ],
+              "clippingRule": true
+            }
+          }
+        ],
+        "after": [
+          {
+            "id": "SH-01",
+            "description": "body#TheBody exists exactly once",
+            "pass": true,
+            "evidence": {
+              "count": 1,
+              "idCount": 1
+            }
+          },
+          {
+            "id": "SH-02",
+            "description": "Viewport declares device width and initial scale 1",
+            "pass": true,
+            "evidence": {
+              "content": "width=device-width, initial-scale=1.0"
+            }
+          },
+          {
+            "id": "SH-03",
+            "description": "Exactly one instruction panel contains the only .Titles > h1.ExerciseTitle and #InstructionsDiv; #MainDiv is unique in the wrapper",
+            "pass": true,
+            "evidence": {
+              "instructionPanels": 1,
+              "titleBlocks": 1,
+              "exerciseTitles": 1,
+              "titleFound": true,
+              "instructions": 1,
+              "main": 1
+            }
+          },
+          {
+            "id": "SH-04",
+            "description": "Exactly one Close is an accessible btn-74 button with the shared tm1-5 margin token and Close runtime",
+            "pass": true,
+            "evidence": {
+              "count": 1,
+              "accessible": true,
+              "marginToken": true,
+              "runtimeBound": true
+            }
+          },
+          {
+            "id": "SH-05",
+            "description": "Companion story resolves and story-theme.js binds its title and theme at runtime",
+            "pass": true,
+            "evidence": {
+              "story": "essays/e/essay100.html",
+              "scriptCount": 1,
+              "titleUrl": "../e/essay100.html",
+              "themeKey": "essay100.html",
+              "runtimeBound": true
+            }
+          },
+          {
+            "id": "ASSET-CSS-SIS-HOT-POTATOES-CSS",
+            "description": "Local link css/sis-hot-potatoes.css resolves and has current SRI",
+            "pass": true,
+            "evidence": {
+              "expectedIntegrity": "sha384-Iw7lAV3YR65Y2+/muxR/wW9o+OheDvHjeRW1Nqy3OYTalZHUuOHhG4WoDq/oJ2zZ",
+              "observed": [
+                {
+                  "url": "../../css/sis-hot-potatoes.css",
+                  "family": null,
+                  "integrity": "sha384-Iw7lAV3YR65Y2+/muxR/wW9o+OheDvHjeRW1Nqy3OYTalZHUuOHhG4WoDq/oJ2zZ"
+                }
+              ]
+            }
+          },
+          {
+            "id": "ASSET-JS-HOT-POTATOES-UI-JS",
+            "description": "Local script js/hot-potatoes-ui.js resolves and has current SRI",
+            "pass": true,
+            "evidence": {
+              "expectedIntegrity": "sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g",
+              "observed": [
+                {
+                  "url": "../../js/hot-potatoes-ui.js",
+                  "family": null,
+                  "integrity": "sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g"
+                }
+              ]
+            }
+          },
+          {
+            "id": "ASSET-CSS-HOT-POTATOES-FEEDBACK-CSS",
+            "description": "Local link css/hot-potatoes-feedback.css resolves and has current SRI",
+            "pass": true,
+            "evidence": {
+              "expectedIntegrity": "sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4",
+              "observed": [
+                {
+                  "url": "../../css/hot-potatoes-feedback.css",
+                  "family": null,
+                  "integrity": "sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4"
+                }
+              ]
+            }
+          },
+          {
+            "id": "ASSET-JS-HOT-POTATOES-FEEDBACK-JS",
+            "description": "Local script js/hot-potatoes-feedback.js resolves and has current SRI",
+            "pass": true,
+            "evidence": {
+              "expectedIntegrity": "sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq",
+              "observed": [
+                {
+                  "url": "../../js/hot-potatoes-feedback.js",
+                  "family": null,
+                  "integrity": "sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq"
+                }
+              ]
+            }
+          },
+          {
+            "id": "ASSET-JS-STORY-THEME-JS",
+            "description": "Local script js/story-theme.js resolves and has current SRI",
+            "pass": true,
+            "evidence": {
+              "expectedIntegrity": "sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ",
+              "observed": [
+                {
+                  "url": "../../js/story-theme.js",
+                  "family": null,
+                  "integrity": "sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ"
+                }
+              ]
+            }
+          },
+          {
+            "id": "ASSET-STYLE-FONT-STACK-CSS",
+            "description": "Local link style/font-stack.css resolves and has current SRI",
+            "pass": true,
+            "evidence": {
+              "expectedIntegrity": "sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS",
+              "observed": [
+                {
+                  "url": "../../style/font-stack.css",
+                  "family": null,
+                  "integrity": "sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS"
+                }
+              ]
+            }
+          },
+          {
+            "id": "ASSET-JS-THEME-SELECTOR-JS",
+            "description": "Local script js/theme-selector.js resolves and has current SRI",
+            "pass": true,
+            "evidence": {
+              "expectedIntegrity": "sha384-Z1/JSOxBq9/FDcKgAV/WlspujLmY1FVDWPKUBtGpMaemJRTV4PhhWDV5ftWg8zni",
+              "observed": [
+                {
+                  "url": "../../js/theme-selector.js",
+                  "family": null,
+                  "integrity": "sha384-Z1/JSOxBq9/FDcKgAV/WlspujLmY1FVDWPKUBtGpMaemJRTV4PhhWDV5ftWg8zni"
+                }
+              ]
+            }
+          },
+          {
+            "id": "ASSET-CLOZE-SUBMIT-CSS",
+            "description": "Local link css/sis-cloze-submit.css resolves and has current SRI",
+            "pass": true,
+            "evidence": {
+              "expectedIntegrity": "sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW",
+              "observed": [
+                {
+                  "url": "../../css/sis-cloze-submit.css",
+                  "family": null,
+                  "integrity": "sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW"
+                }
+              ]
+            }
+          },
+          {
+            "id": "ASSET-CLOZE-SUBMIT-JS",
+            "description": "Local script js/sis-cloze-submit.js resolves and has current SRI",
+            "pass": true,
+            "evidence": {
+              "expectedIntegrity": "sha384-O2sv/vzNnN+sJ9lANy/kIHEhQYQYCdxGuGrkt/ukl6DtUIudEQKXhl4Tdo6x1qzJ",
+              "observed": [
+                {
+                  "url": "../../js/sis-cloze-submit.js",
+                  "family": "cloze",
+                  "integrity": "sha384-O2sv/vzNnN+sJ9lANy/kIHEhQYQYCdxGuGrkt/ukl6DtUIudEQKXhl4Tdo6x1qzJ"
+                }
+              ]
+            }
+          },
+          {
+            "id": "SH-06",
+            "description": "Every required shared and family asset resolves locally with its current SRI",
+            "pass": true,
+            "evidence": {
+              "required": 9,
+              "failed": []
+            }
+          },
+          {
+            "id": "ID-01",
+            "description": "EaglesID and student email are required by runtime Check and Hint guards",
+            "pass": true,
+            "evidence": {
+              "asset": "js/sis-cloze-submit.js",
+              "instructionFound": true,
+              "eaglesIdField": true,
+              "emailField": true,
+              "checkAndHintGuarded": true
+            }
+          },
+          {
+            "id": "CL-06",
+            "description": "Cloze Check and Hint controls use the canonical ids and btn-17 button contract",
+            "pass": true,
+            "evidence": {
+              "check": [
+                {
+                  "tag": "button",
+                  "classes": [
+                    "FuncButton",
+                    "hp-button",
+                    "btn-17"
+                  ],
+                  "type": "submit",
+                  "form": "Cloze"
+                }
+              ],
+              "hint": [
+                {
+                  "tag": "button",
+                  "classes": [
+                    "FuncButton",
+                    "hp-button",
+                    "btn-17"
+                  ],
+                  "type": "button"
+                }
+              ]
+            }
+          },
+          {
+            "id": "CL-01",
+            "description": "Direct body wrapper has .wrapfit and the cloze family marker",
+            "pass": true,
+            "evidence": {
+              "wrapperTag": "div",
+              "classes": [
+                "hp-exercise-shell",
+                "wrapfit"
+              ],
+              "family": "cloze"
+            }
+          },
+          {
+            "id": "CL-02",
+            "description": "sis-cloze-prototype marker is current",
+            "pass": true,
+            "evidence": {}
+          },
+          {
+            "id": "CL-03",
+            "description": "Unique ClozeDiv and FeedbackDiv are inside MainDiv/wrapper",
+            "pass": true,
+            "evidence": {
+              "clozeDiv": 1,
+              "feedbackDiv": 1
+            }
+          },
+          {
+            "id": "CL-04",
+            "description": "btn17Container is inside MainDiv",
+            "pass": true,
+            "evidence": {
+              "actionRows": 1
+            }
+          },
+          {
+            "id": "CL-05",
+            "description": "At least one unique GapN input has a matching label",
+            "pass": true,
+            "evidence": {
+              "gaps": [
+                "Gap0",
+                "Gap1",
+                "Gap2",
+                "Gap3",
+                "Gap4",
+                "Gap5",
+                "Gap6",
+                "Gap7",
+                "Gap8",
+                "Gap9",
+                "Gap10",
+                "Gap11",
+                "Gap12",
+                "Gap13",
+                "Gap14",
+                "Gap15",
+                "Gap16",
+                "Gap17",
+                "Gap18",
+                "Gap19",
+                "Gap20",
+                "Gap21",
+                "Gap22",
+                "Gap23",
+                "Gap24",
+                "Gap25",
+                "Gap26",
+                "Gap27",
+                "Gap28",
+                "Gap29",
+                "Gap30",
+                "Gap31"
+              ],
+              "missingLabels": []
+            }
+          },
+          {
+            "id": "SH-10",
+            "description": "One direct canonical shell has .hp-exercise-shell, .wrapfit, and data-sis-exercise-shell; no legacy wrapper alias remains",
+            "pass": true,
+            "evidence": {
+              "directWrappers": [
+                {
+                  "tag": "div",
+                  "classes": [
+                    "hp-exercise-shell",
+                    "wrapfit"
+                  ],
+                  "shell": true
+                }
+              ],
+              "nestedWrappers": []
+            }
+          },
+          {
+            "id": "SH-09",
+            "description": "Required exercise IDs are unique",
+            "pass": true,
+            "evidence": {
+              "ids": {
+                "InstructionsDiv": 1,
+                "MainDiv": 1,
+                "FeedbackDiv": 1,
+                "ClozeDiv": 1
+              }
+            }
+          },
+          {
+            "id": "SH-08",
+            "description": "No inline style attributes remain and head style blocks are preserved",
+            "pass": true,
+            "evidence": {
+              "inlineStyleAttributes": 0,
+              "preservedStyleBlocks": 2,
+              "stylesPreserved": true
+            }
+          },
+          {
+            "id": "SH-07",
+            "description": "Visibility uses shared classes, legacy handlers are removed, and empty feedback and sentence answer panels stay hidden",
+            "pass": true,
+            "evidence": {
+              "legacyVisibilityWritesRemain": false,
+              "legacyHandlerCount": 0,
+              "sharedVisibilityRuntime": true,
+              "emptyFeedbackHiddenByRuntime": true,
+              "emptySentenceAnswerHiddenByRuntime": true
+            }
+          },
+          {
+            "id": "SH-11",
+            "description": "Empty legacy TopNavBar and BottomNavBar elements are absent",
+            "pass": true,
+            "evidence": {
+              "count": 0,
+              "ids": []
+            }
+          },
+          {
+            "id": "SH-12",
+            "description": "Every non-Close action control uses btn-17 hp-button and the shared button rule clips its animated effect",
+            "pass": true,
+            "evidence": {
+              "total": 4,
+              "nonClose": 3,
+              "invalid": [],
+              "clippingRule": true
+            }
+          }
+        ]
+      },
+      "failedRequirements": [],
+      "remediation": null
+    }
+  ],
+  "blockedFiles": [],
+  "applyOutcome": {
+    "status": "written-and-verified",
+    "changedPages": 1,
+    "backupRoot": "/home/eagles/dockerz/efast-bu/modernize-hot-potatoes-2026-09-17T14-04-14-061Z-171242"
+  }
+}
