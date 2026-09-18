@@ -50,7 +50,9 @@ if (!Array.isArray(manifest.items)) {
 }
 
 const sourceMap = new Map();
+const sourceMapLower = new Map();
 const urlMap = new Map();
+const legacyReferenceMap = new Map();
 for (const item of manifest.items) {
   if (!item || typeof item.sourcePath !== 'string' || typeof item.url !== 'string') {
     throw new Error('Each manifest item requires sourcePath and url');
@@ -65,7 +67,24 @@ for (const item of manifest.items) {
     throw new Error(`Duplicate manifest URL: ${item.url}`);
   }
   sourceMap.set(item.sourcePath, item);
+  const lowerSourcePath = item.sourcePath.toLowerCase();
+  if (sourceMapLower.has(lowerSourcePath) && sourceMapLower.get(lowerSourcePath).url !== item.url) {
+    throw new Error(`Case-insensitive duplicate manifest sourcePath: ${item.sourcePath}`);
+  }
+  sourceMapLower.set(lowerSourcePath, item);
   urlMap.set(item.url, item);
+  if (Array.isArray(item.legacyReferences)) {
+    for (const reference of item.legacyReferences) {
+      if (typeof reference !== 'string' || !reference) {
+        throw new Error(`Manifest legacyReferences contains an invalid value for ${item.sourcePath}`);
+      }
+      const normalizedReference = reference.replace(/[?#].*$/, '');
+      if (legacyReferenceMap.has(normalizedReference)) {
+        throw new Error(`Duplicate manifest legacy reference: ${normalizedReference}`);
+      }
+      legacyReferenceMap.set(normalizedReference, item);
+    }
+  }
 }
 
 const excludedDirectories = new Set([
@@ -106,6 +125,7 @@ if (sourceMap.has('audio/')) {
 }
 
 const audioSourcePattern = /(\bsrc\s*=\s*)(["'])([^"']+?\.mp3(?:[?#][^"']*)?)(\2)/gi;
+const flashAudioPattern = /(\bsoundFile\s*=\s*)([^&"'\s>]+?\.mp3(?:[?#][^&"'\s>]*)?)/gi;
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -130,40 +150,62 @@ for (const filePath of htmlFiles.sort()) {
   let fileLinksChanged = 0;
   let filePreloadsChanged = 0;
   const preloadItems = new Map();
-  let updated = original.replace(
-    audioSourcePattern,
-    (fullMatch, prefix, quote, rawSource, closingQuote) => {
+  function findItem(rawSource) {
+    const sourceWithoutQuery = rawSource.replace(/[?#].*$/, '');
+    const legacyItem = legacyReferenceMap.get(sourceWithoutQuery);
+    if (legacyItem) return legacyItem;
+    const absoluteProxyMatch = sourceWithoutQuery.match(
+      /^https?:\/\/[^/]+(\/reading\/_audio\/[^\s]+)$/i
+    );
+    if (absoluteProxyMatch) {
+      return urlMap.get(absoluteProxyMatch[1]) || null;
+    }
+    if (sourceWithoutQuery.startsWith('/reading/_audio/')) {
+      return urlMap.get(sourceWithoutQuery) || null;
+    }
+    if (
+      !sourceWithoutQuery.includes('/audio/') ||
+      /^(?:[a-z]+:|\/\/|data:|blob:)/i.test(sourceWithoutQuery)
+    ) {
+      return null;
+    }
+    const sourcePath = path.posix.normalize(
+      path.posix.join(path.posix.dirname(relativePath), sourceWithoutQuery)
+    );
+    return sourceMap.get(sourcePath) || sourceMapLower.get(sourcePath.toLowerCase()) || null;
+  }
+
+  function replaceAudioReference(fullMatch, prefix, rawSource, quote, closingQuote) {
+    const item = findItem(rawSource);
+    if (!item) {
       const sourceWithoutQuery = rawSource.replace(/[?#].*$/, '');
       if (
-        !sourceWithoutQuery.includes('/audio/') ||
-        /^(?:[a-z]+:|\/\/|data:|blob:)/i.test(sourceWithoutQuery)
+        sourceWithoutQuery.includes('/audio/') &&
+        !/^(?:data:|blob:)/i.test(sourceWithoutQuery)
       ) {
-        return fullMatch;
-      }
-
-      if (sourceWithoutQuery.startsWith('/reading/_audio/')) {
-        const item = urlMap.get(sourceWithoutQuery);
-        if (item?.preload === true) {
-          preloadItems.set(item.url, item);
-        }
-        return fullMatch;
-      }
-
-      const sourcePath = path.posix.normalize(
-        path.posix.join(path.posix.dirname(relativePath), sourceWithoutQuery)
-      );
-      const item = sourceMap.get(sourcePath);
-      if (!item) {
         unmatchedLinks += 1;
-        return fullMatch;
       }
-      fileLinksChanged += 1;
-      changedLinks += 1;
-      if (item.preload === true) {
-        preloadItems.set(item.url, item);
-      }
-      return `${prefix}${quote}${item.url}${closingQuote}`;
+      return fullMatch;
     }
+    if (item.url === rawSource) {
+      if (item.preload === true) preloadItems.set(item.url, item);
+      return fullMatch;
+    }
+    fileLinksChanged += 1;
+    changedLinks += 1;
+    if (item.preload === true) preloadItems.set(item.url, item);
+    if (quote === undefined) return `${prefix}${item.url}`;
+    return `${prefix}${quote}${item.url}${closingQuote}`;
+  }
+
+  let updated = original.replace(
+    audioSourcePattern,
+    (fullMatch, prefix, quote, rawSource, closingQuote) =>
+      replaceAudioReference(fullMatch, prefix, rawSource, quote, closingQuote)
+  );
+  updated = updated.replace(
+    flashAudioPattern,
+    (fullMatch, prefix, rawSource) => replaceAudioReference(fullMatch, prefix, rawSource)
   );
 
   for (const item of preloadItems.values()) {

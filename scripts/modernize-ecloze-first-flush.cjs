@@ -4,7 +4,6 @@ const fs = require("node:fs");
 const { spawnSync } = require("node:child_process");
 const path = require("node:path");
 
-const glob = require("glob");
 const { createBackupManager } = require("./write-backup.cjs");
 
 const ROOT = path.resolve(__dirname, "..");
@@ -124,15 +123,6 @@ function copyIntoPrototype(source, target) {
     backupManager.backupBeforeWrite(target);
   }
   fs.copyFileSync(source, target);
-}
-
-function listFamilyFiles() {
-  return glob.sync("*.html", {
-    absolute: true,
-    cwd: DEFAULT_FAMILY_DIR,
-    dot: true,
-    ignore: ["**/*.copy.html", "**/*.legacy.html", "**/*.prototype.html"],
-  });
 }
 
 function main() {

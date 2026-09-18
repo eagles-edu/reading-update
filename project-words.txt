@@ -8,8 +8,10 @@ CEFR
 cfat
 checkbutton
 CMYK
+contan
 cqi
 ecross
+essayd
 Fic
 fontxz
 GCMD
@@ -27,6 +29,7 @@ Lywvvln
 lzpuf
 MMOR
 ndy
+nse
 OOM
 Pantone
 pcomp

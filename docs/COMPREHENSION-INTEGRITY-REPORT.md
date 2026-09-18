@@ -1,13 +1,13 @@
 # Comprehension Integrity and Prototype Audit
 
-Generated: 2026-09-17T09:53:19.947Z
+Generated: 2026-09-18T13:53:39.440+07:00
 
 ## Summary
 
 - Pages audited: 563
 - Pages passing every check: 562
 - Pages requiring action: 1
-- Prototype: `essays/comp/essaycomp001.html`
+- Prototype: [essays/comp/essaycomp001.html:1:1](</home/eagles/dockerz/efast-copy/essays/comp/essaycomp001.html>)
 - Prototype MMOR status: PASS
 - Visual samples: 0/30 expected artifacts captured (PLANNED)
 
@@ -57,25 +57,25 @@ Generated: 2026-09-17T09:53:19.947Z
 
 | Collection | Page | Desktop artifact | Mobile artifact |
 |---|---|---|---|
-| eslread | `eslread/comp/comp001.html` | `output/playwright/comp-integrity/eslread-comp001-desktop.png` | `output/playwright/comp-integrity/eslread-comp001-mobile.png` |
-| eslread | `eslread/comp/comp092.html` | `output/playwright/comp-integrity/eslread-comp092-desktop.png` | `output/playwright/comp-integrity/eslread-comp092-mobile.png` |
-| eslread | `eslread/comp/comp183.html` | `output/playwright/comp-integrity/eslread-comp183-desktop.png` | `output/playwright/comp-integrity/eslread-comp183-mobile.png` |
-| eslread | `eslread/comp/comp275.html` | `output/playwright/comp-integrity/eslread-comp275-desktop.png` | `output/playwright/comp-integrity/eslread-comp275-mobile.png` |
-| eslread | `eslread/comp/comp365.html` | `output/playwright/comp-integrity/eslread-comp365-desktop.png` | `output/playwright/comp-integrity/eslread-comp365-mobile.png` |
-| essays | `essays/comp/comp100.html` | `output/playwright/comp-integrity/essays-comp100-desktop.png` | `output/playwright/comp-integrity/essays-comp100-mobile.png` |
-| essays | `essays/comp/essaycomp025.html` | `output/playwright/comp-integrity/essays-essaycomp025-desktop.png` | `output/playwright/comp-integrity/essays-essaycomp025-mobile.png` |
-| essays | `essays/comp/essaycomp050.html` | `output/playwright/comp-integrity/essays-essaycomp050-desktop.png` | `output/playwright/comp-integrity/essays-essaycomp050-mobile.png` |
-| essays | `essays/comp/essaycomp074.html` | `output/playwright/comp-integrity/essays-essaycomp074-desktop.png` | `output/playwright/comp-integrity/essays-essaycomp074-mobile.png` |
-| essays | `essays/comp/essaycomp099.html` | `output/playwright/comp-integrity/essays-essaycomp099-desktop.png` | `output/playwright/comp-integrity/essays-essaycomp099-mobile.png` |
-| people | `people/comp/pcomp001.html` | `output/playwright/comp-integrity/people-pcomp001-desktop.png` | `output/playwright/comp-integrity/people-pcomp001-mobile.png` |
-| people | `people/comp/pcomp026.html` | `output/playwright/comp-integrity/people-pcomp026-desktop.png` | `output/playwright/comp-integrity/people-pcomp026-mobile.png` |
-| people | `people/comp/pcomp051.html` | `output/playwright/comp-integrity/people-pcomp051-desktop.png` | `output/playwright/comp-integrity/people-pcomp051-mobile.png` |
-| people | `people/comp/pcomp075.html` | `output/playwright/comp-integrity/people-pcomp075-desktop.png` | `output/playwright/comp-integrity/people-pcomp075-mobile.png` |
-| people | `people/comp/pcomp100.html` | `output/playwright/comp-integrity/people-pcomp100-desktop.png` | `output/playwright/comp-integrity/people-pcomp100-mobile.png` |
+| eslread | [eslread/comp/comp001.html:1:1](</home/eagles/dockerz/efast-copy/eslread/comp/comp001.html>) | [output/playwright/comp-integrity/eslread-comp001-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/eslread-comp001-desktop.png>) | [output/playwright/comp-integrity/eslread-comp001-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/eslread-comp001-mobile.png>) |
+| eslread | [eslread/comp/comp092.html:1:1](</home/eagles/dockerz/efast-copy/eslread/comp/comp092.html>) | [output/playwright/comp-integrity/eslread-comp092-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/eslread-comp092-desktop.png>) | [output/playwright/comp-integrity/eslread-comp092-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/eslread-comp092-mobile.png>) |
+| eslread | [eslread/comp/comp183.html:1:1](</home/eagles/dockerz/efast-copy/eslread/comp/comp183.html>) | [output/playwright/comp-integrity/eslread-comp183-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/eslread-comp183-desktop.png>) | [output/playwright/comp-integrity/eslread-comp183-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/eslread-comp183-mobile.png>) |
+| eslread | [eslread/comp/comp275.html:1:1](</home/eagles/dockerz/efast-copy/eslread/comp/comp275.html>) | [output/playwright/comp-integrity/eslread-comp275-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/eslread-comp275-desktop.png>) | [output/playwright/comp-integrity/eslread-comp275-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/eslread-comp275-mobile.png>) |
+| eslread | [eslread/comp/comp365.html:1:1](</home/eagles/dockerz/efast-copy/eslread/comp/comp365.html>) | [output/playwright/comp-integrity/eslread-comp365-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/eslread-comp365-desktop.png>) | [output/playwright/comp-integrity/eslread-comp365-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/eslread-comp365-mobile.png>) |
+| essays | [essays/comp/comp100.html:1:1](</home/eagles/dockerz/efast-copy/essays/comp/comp100.html>) | [output/playwright/comp-integrity/essays-comp100-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/essays-comp100-desktop.png>) | [output/playwright/comp-integrity/essays-comp100-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/essays-comp100-mobile.png>) |
+| essays | [essays/comp/essaycomp025.html:1:1](</home/eagles/dockerz/efast-copy/essays/comp/essaycomp025.html>) | [output/playwright/comp-integrity/essays-essaycomp025-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/essays-essaycomp025-desktop.png>) | [output/playwright/comp-integrity/essays-essaycomp025-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/essays-essaycomp025-mobile.png>) |
+| essays | [essays/comp/essaycomp050.html:1:1](</home/eagles/dockerz/efast-copy/essays/comp/essaycomp050.html>) | [output/playwright/comp-integrity/essays-essaycomp050-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/essays-essaycomp050-desktop.png>) | [output/playwright/comp-integrity/essays-essaycomp050-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/essays-essaycomp050-mobile.png>) |
+| essays | [essays/comp/essaycomp074.html:1:1](</home/eagles/dockerz/efast-copy/essays/comp/essaycomp074.html>) | [output/playwright/comp-integrity/essays-essaycomp074-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/essays-essaycomp074-desktop.png>) | [output/playwright/comp-integrity/essays-essaycomp074-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/essays-essaycomp074-mobile.png>) |
+| essays | [essays/comp/essaycomp099.html:1:1](</home/eagles/dockerz/efast-copy/essays/comp/essaycomp099.html>) | [output/playwright/comp-integrity/essays-essaycomp099-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/essays-essaycomp099-desktop.png>) | [output/playwright/comp-integrity/essays-essaycomp099-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/essays-essaycomp099-mobile.png>) |
+| people | [people/comp/pcomp001.html:1:1](</home/eagles/dockerz/efast-copy/people/comp/pcomp001.html>) | [output/playwright/comp-integrity/people-pcomp001-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/people-pcomp001-desktop.png>) | [output/playwright/comp-integrity/people-pcomp001-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/people-pcomp001-mobile.png>) |
+| people | [people/comp/pcomp026.html:1:1](</home/eagles/dockerz/efast-copy/people/comp/pcomp026.html>) | [output/playwright/comp-integrity/people-pcomp026-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/people-pcomp026-desktop.png>) | [output/playwright/comp-integrity/people-pcomp026-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/people-pcomp026-mobile.png>) |
+| people | [people/comp/pcomp051.html:1:1](</home/eagles/dockerz/efast-copy/people/comp/pcomp051.html>) | [output/playwright/comp-integrity/people-pcomp051-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/people-pcomp051-desktop.png>) | [output/playwright/comp-integrity/people-pcomp051-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/people-pcomp051-mobile.png>) |
+| people | [people/comp/pcomp075.html:1:1](</home/eagles/dockerz/efast-copy/people/comp/pcomp075.html>) | [output/playwright/comp-integrity/people-pcomp075-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/people-pcomp075-desktop.png>) | [output/playwright/comp-integrity/people-pcomp075-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/people-pcomp075-mobile.png>) |
+| people | [people/comp/pcomp100.html:1:1](</home/eagles/dockerz/efast-copy/people/comp/pcomp100.html>) | [output/playwright/comp-integrity/people-pcomp100-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/people-pcomp100-desktop.png>) | [output/playwright/comp-integrity/people-pcomp100-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/comp-integrity/people-pcomp100-mobile.png>) |
 
 ## Actionable findings
 
-### `essays/comp/comp100.html`
+### [essays/comp/comp100.html:1:1](</home/eagles/dockerz/efast-copy/essays/comp/comp100.html>)
 
 - **SH-01:** body#TheBody exists exactly once. Observed: `{"count":0,"idCount":0}`. Remediation: undefined
 - **SH-02:** Viewport declares device width and initial scale 1. Observed: `{"content":null}`. Remediation: undefined
@@ -99,7 +99,7 @@ Generated: 2026-09-17T09:53:19.947Z
 - **SH-10:** One direct canonical shell has .hp-exercise-shell, .wrapfit, and data-sis-exercise-shell; no legacy wrapper alias remains. Observed: `{"directWrappers":[],"nestedWrappers":[]}`. Remediation: undefined
 - **SH-09:** Required exercise IDs are unique. Observed: `{"ids":{"InstructionsDiv":0,"MainDiv":0,"FeedbackDiv":0}}`. Remediation: undefined
 - **SRC-01:** Source is not an HTTP error placeholder or duplicated document. Observed: `{"bytes":635,"errorPlaceholder":true,"duplicateHtmlEndings":false}`. Remediation: Recover the original exercise source or exclude this malformed placeholder until its content is restored.
-- **PROTO-01:** Structural shape matches the comp prototype contract. Observed: `{"pass":false,"differences":["body false != prototype true","wrapper false != prototype true","instructionPanel false != prototype true","title false != prototype true","instructions 0 != prototype 1","main 0 != prototype 1","feedback 0 != prototype 1","close count 0 is missing the prototype control","questionList is missing from comprehension structure","answerLists is missing from comprehension structure","answerButtons is missing from comprehension structure"]}`. Remediation: Compare this page with essays/comp/essaycomp001.html and repair the named structural difference.
+- **PROTO-01:** Structural shape matches the comp prototype contract. Observed: `{"pass":false,"differences":["body false != prototype true","wrapper false != prototype true","instructionPanel false != prototype true","title false != prototype true","instructions 0 != prototype 1","main 0 != prototype 1","feedback 0 != prototype 1","close count 0 is missing the prototype control","questionList is missing from comprehension structure","answerLists is missing from comprehension structure","answerButtons is missing from comprehension structure"]}`. Remediation: Compare this page with [essays/comp/essaycomp001.html:1:1](</home/eagles/dockerz/efast-copy/essays/comp/essaycomp001.html>) and repair the named structural difference.
 
 ## Visual verification note
 

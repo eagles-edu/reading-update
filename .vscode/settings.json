@@ -110,6 +110,7 @@
     "emx",
     "essaycomp",
     "esult",
+    "ewords",
     "fieldlabel",
     "fieldlabelid",
     "fieldtype",
@@ -123,6 +124,7 @@
     "Fractors",
     "Frm",
     "gfind",
+    "gradedread",
     "healthcheck",
     "healthchecksdb",
     "hhc",
@@ -224,6 +226,7 @@
     "tss",
     "ublish",
     "uild",
+    "unindexed",
     "unreviewed",
     "userosscache",
     "userprefs",
@@ -237,6 +240,7 @@
     "vspx",
     "vssscc",
     "vti",
+    "wasn",
     "wpftmp",
     "wrapfit",
     "wrapit",
@@ -255,5 +259,6 @@
     "/home/eagles/dockerz/efast-copy/scripts/modernize-hot-potatoes-pages.cjs:47",
     "/home/eagles/dockerz/efast-copy/scripts/modernize-hot-potatoes-pages.cjs:61",
     "/home/eagles/dockerz/efast-copy/scripts/modernize-hot-potatoes-pages.cjs:76"
-  ]
+  ],
+  "github.copilot.llm-gateway.serverUrl": "http://localhost:8620"
 }

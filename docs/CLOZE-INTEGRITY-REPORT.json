@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-17T09:53:34.452Z",
+  "generatedAt": "2026-09-18T13:54:01.458+07:00",
   "root": "/home/eagles/dockerz/efast-copy",
   "prototype": "begin1/cloze/b1cloze001.html",
   "checklist": [
@@ -87,78 +87,58 @@
   ],
   "totals": {
     "scanned": 1446,
-    "pass": 1445,
-    "actionRequired": 1,
+    "pass": 1446,
+    "actionRequired": 0,
     "checklist": {
       "CL-01": {
-        "pass": 1445,
-        "fail": 1,
-        "pages": [
-          "essays/cloze/cloze100.html"
-        ]
+        "pass": 1446,
+        "fail": 0,
+        "pages": []
       },
       "CL-02": {
-        "pass": 1445,
-        "fail": 1,
-        "pages": [
-          "essays/cloze/cloze100.html"
-        ]
+        "pass": 1446,
+        "fail": 0,
+        "pages": []
       },
       "CL-03": {
-        "pass": 1445,
-        "fail": 1,
-        "pages": [
-          "essays/cloze/cloze100.html"
-        ]
+        "pass": 1446,
+        "fail": 0,
+        "pages": []
       },
       "CL-04": {
-        "pass": 1445,
-        "fail": 1,
-        "pages": [
-          "essays/cloze/cloze100.html"
-        ]
+        "pass": 1446,
+        "fail": 0,
+        "pages": []
       },
       "CL-05": {
-        "pass": 1445,
-        "fail": 1,
-        "pages": [
-          "essays/cloze/cloze100.html"
-        ]
+        "pass": 1446,
+        "fail": 0,
+        "pages": []
       },
       "CL-06": {
-        "pass": 1445,
-        "fail": 1,
-        "pages": [
-          "essays/cloze/cloze100.html"
-        ]
+        "pass": 1446,
+        "fail": 0,
+        "pages": []
       },
       "CL-07": {
-        "pass": 1445,
-        "fail": 1,
-        "pages": [
-          "essays/cloze/cloze100.html"
-        ]
+        "pass": 1446,
+        "fail": 0,
+        "pages": []
       },
       "CL-08": {
-        "pass": 1445,
-        "fail": 1,
-        "pages": [
-          "essays/cloze/cloze100.html"
-        ]
+        "pass": 1446,
+        "fail": 0,
+        "pages": []
       },
       "CL-09": {
-        "pass": 1445,
-        "fail": 1,
-        "pages": [
-          "essays/cloze/cloze100.html"
-        ]
+        "pass": 1446,
+        "fail": 0,
+        "pages": []
       },
       "CL-10": {
-        "pass": 1445,
-        "fail": 1,
-        "pages": [
-          "essays/cloze/cloze100.html"
-        ]
+        "pass": 1446,
+        "fail": 0,
+        "pages": []
       },
       "CL-11": {
         "pass": 1446,
@@ -176,18 +156,14 @@
         "pages": []
       },
       "CL-14": {
-        "pass": 1445,
-        "fail": 1,
-        "pages": [
-          "essays/cloze/cloze100.html"
-        ]
+        "pass": 1446,
+        "fail": 0,
+        "pages": []
       },
       "CL-15": {
-        "pass": 1445,
-        "fail": 1,
-        "pages": [
-          "essays/cloze/cloze100.html"
-        ]
+        "pass": 1446,
+        "fail": 0,
+        "pages": []
       },
       "CL-16": {
         "pass": 1446,
@@ -233,8 +209,8 @@
       },
       "essays": {
         "scanned": 100,
-        "pass": 99,
-        "actionRequired": 1
+        "pass": 100,
+        "actionRequired": 0
       },
       "kidsenglish": {
         "scanned": 100,
@@ -366026,169 +366002,129 @@
     {
       "path": "essays/cloze/cloze100.html",
       "level": "essays",
-      "status": "ACTION_REQUIRED",
+      "status": "PASS",
       "checks": [
         {
           "id": "CL-01",
           "expected": "one body#TheBody",
           "observed": {
-            "count": 0
+            "count": 1
           },
-          "pass": false,
-          "remediation": "Repair the document body id before changing the cloze shell."
+          "pass": true,
+          "remediation": null
         },
         {
           "id": "CL-02",
           "expected": "width=device-width and initial-scale=1",
           "observed": {
-            "content": null
+            "content": "width=device-width, initial-scale=1.0"
           },
-          "pass": false,
-          "remediation": "Add or correct the viewport meta tag."
+          "pass": true,
+          "remediation": null
         },
         {
           "id": "CL-03",
           "expected": "one instruction panel with Titles > h1.ExerciseTitle and InstructionsDiv",
           "observed": {
-            "panels": 0,
-            "titles": 0,
-            "headings": 0,
-            "instructions": 0
+            "panels": 1,
+            "titles": 1,
+            "headings": 1,
+            "instructions": 1
           },
-          "pass": false,
-          "remediation": "Move the exercise title and instructions into the canonical instruction panel."
+          "pass": true,
+          "remediation": null
         },
         {
           "id": "CL-04",
           "expected": "unique MainDiv/ClozeDiv/FeedbackDiv nested under the shell",
           "observed": {
-            "InstructionsDiv": 0,
-            "MainDiv": 0,
-            "ClozeDiv": 0,
-            "FeedbackDiv": 0
+            "InstructionsDiv": 1,
+            "MainDiv": 1,
+            "ClozeDiv": 1,
+            "FeedbackDiv": 1
           },
-          "pass": false,
-          "remediation": "Repair duplicate or misplaced exercise blocks; do not fabricate missing exercise content."
+          "pass": true,
+          "remediation": null
         },
         {
           "id": "CL-05",
           "expected": "direct wrapfit hp-exercise-shell with data-sis-exercise-shell=true and family=cloze",
           "observed": {
-            "wrapper": null
+            "wrapper": {
+              "classes": "hp-exercise-shell wrapfit",
+              "shell": "true",
+              "family": "cloze"
+            }
           },
-          "pass": false,
-          "remediation": "Normalize the direct body wrapper to the current cloze shell."
+          "pass": true,
+          "remediation": null
         },
         {
           "id": "CL-06",
           "expected": "#check and #hint are current btn-17 controls",
           "observed": {
-            "check": null,
-            "hint": null
+            "check": {
+              "tag": "button",
+              "classes": "FuncButton hp-button btn-17",
+              "type": "submit",
+              "form": "Cloze"
+            },
+            "hint": {
+              "tag": "button",
+              "classes": "FuncButton hp-button btn-17",
+              "type": "button"
+            }
           },
-          "pass": false,
-          "remediation": "Restore the static Check and Hint controls with their current ids and types."
+          "pass": true,
+          "remediation": null
         },
         {
           "id": "CL-07",
           "expected": "unique GapN inputs each have a matching label",
           "observed": {
-            "gapCount": 0,
+            "gapCount": 32,
             "duplicateIds": [],
             "missingLabels": []
           },
-          "pass": false,
-          "remediation": "Add a label for each gap or stop for manual source repair if the gap structure is incomplete."
+          "pass": true,
+          "remediation": null
         },
         {
           "id": "CL-08",
           "expected": "one accessible btn-74 button with the shared tm1-5 margin token",
           "observed": {
-            "count": 0,
-            "marginToken": false,
-            "labels": []
+            "count": 1,
+            "marginToken": true,
+            "labels": [
+              "Close"
+            ]
           },
-          "pass": false,
-          "remediation": "Add the tm1-5 class to the single Close control and define its 1.5em top margin in css/sis-hot-potatoes.css."
+          "pass": true,
+          "remediation": null
         },
         {
           "id": "CL-09",
           "expected": "all required local assets resolve with current SRI",
           "observed": {
             "required": 9,
-            "failures": [
-              {
-                "path": "css/sis-hot-potatoes.css",
-                "present": false,
-                "resolves": false,
-                "integrityMatches": false
-              },
-              {
-                "path": "js/hot-potatoes-ui.js",
-                "present": false,
-                "resolves": false,
-                "integrityMatches": false
-              },
-              {
-                "path": "css/hot-potatoes-feedback.css",
-                "present": false,
-                "resolves": false,
-                "integrityMatches": false
-              },
-              {
-                "path": "js/hot-potatoes-feedback.js",
-                "present": false,
-                "resolves": false,
-                "integrityMatches": false
-              },
-              {
-                "path": "js/story-theme.js",
-                "present": false,
-                "resolves": false,
-                "integrityMatches": false
-              },
-              {
-                "path": "style/font-stack.css",
-                "present": false,
-                "resolves": false,
-                "integrityMatches": false
-              },
-              {
-                "path": "js/theme-selector.js",
-                "present": false,
-                "resolves": false,
-                "integrityMatches": false
-              },
-              {
-                "path": "css/sis-cloze-submit.css",
-                "present": false,
-                "resolves": false,
-                "integrityMatches": false
-              },
-              {
-                "path": "js/sis-cloze-submit.js",
-                "present": false,
-                "resolves": false,
-                "integrityMatches": false
-              }
-            ]
+            "failures": []
           },
-          "pass": false,
-          "remediation": "Correct the asset URL or regenerate its SHA-384 integrity value."
+          "pass": true,
+          "remediation": null
         },
         {
           "id": "CL-10",
           "expected": "companion story and matching story-theme metadata resolve",
           "observed": {
-            "scriptPresent": false,
-            "titleUrl": null,
-            "themeKey": null,
-            "storyRelative": null,
-            "resolves": false,
-            "storyFile": null
+            "scriptPresent": true,
+            "titleUrl": "../e/essay100.html",
+            "themeKey": "essay100.html",
+            "storyRelative": "essays/e/essay100.html",
+            "resolves": true,
+            "storyFile": "essays/e/essay100.html"
           },
-          "pass": false,
-          "remediation": "Repair the story mapping; the page title/theme must come from its companion story."
+          "pass": true,
+          "remediation": null
         },
         {
           "id": "CL-11",
@@ -366216,7 +366152,7 @@
           "id": "CL-13",
           "expected": "at least one head style block and no inline style attributes",
           "observed": {
-            "styleBlocks": 1,
+            "styleBlocks": 2,
             "inlineStyleAttributes": 0
           },
           "pass": true,
@@ -366226,40 +366162,29 @@
           "id": "CL-14",
           "expected": "shape matches the B1 cloze prototype contract",
           "observed": {
-            "pass": false,
-            "differences": [
-              "direct wrapper missing",
-              "InstructionsDiv count 0 != prototype 1",
-              "MainDiv count 0 != prototype 1",
-              "ClozeDiv count 0 != prototype 1",
-              "FeedbackDiv count 0 != prototype 1",
-              "check count 0 != prototype 1",
-              "hint count 0 != prototype 1",
-              "instruction panel count differs from prototype",
-              "ExerciseTitle heading count differs from prototype",
-              "sis-cloze-prototype marker count 0 != prototype 1"
-            ]
+            "pass": true,
+            "differences": []
           },
-          "pass": false,
-          "remediation": "Compare the page against begin1/cloze/b1cloze001.html and repair the named structural difference."
+          "pass": true,
+          "remediation": null
         },
         {
           "id": "CL-15",
           "expected": "source is not an HTTP error placeholder or duplicated document",
           "observed": {
-            "bytes": 635,
-            "errorPlaceholder": true,
+            "bytes": 77227,
+            "errorPlaceholder": false,
             "duplicateHtmlEndings": false
           },
-          "pass": false,
-          "remediation": "Recover the original exercise source or exclude this placeholder from modernization until its content is restored."
+          "pass": true,
+          "remediation": null
         },
         {
           "id": "CL-16",
           "expected": "every non-Close action control uses btn-17 hp-button and shared clipping is present",
           "observed": {
-            "total": 0,
-            "nonClose": 0,
+            "total": 4,
+            "nonClose": 3,
             "invalid": [],
             "clippingRule": true
           },
@@ -366267,174 +366192,160 @@
           "remediation": null
         }
       ],
-      "failedCheckIds": [
-        "CL-01",
-        "CL-02",
-        "CL-03",
-        "CL-04",
-        "CL-05",
-        "CL-06",
-        "CL-07",
-        "CL-08",
-        "CL-09",
-        "CL-10",
-        "CL-14",
-        "CL-15"
-      ],
-      "actionable": [
-        "Repair the document body id before changing the cloze shell.",
-        "Add or correct the viewport meta tag.",
-        "Move the exercise title and instructions into the canonical instruction panel.",
-        "Repair duplicate or misplaced exercise blocks; do not fabricate missing exercise content.",
-        "Normalize the direct body wrapper to the current cloze shell.",
-        "Restore the static Check and Hint controls with their current ids and types.",
-        "Add a label for each gap or stop for manual source repair if the gap structure is incomplete.",
-        "Add the tm1-5 class to the single Close control and define its 1.5em top margin in css/sis-hot-potatoes.css.",
-        "Correct the asset URL or regenerate its SHA-384 integrity value.",
-        "Repair the story mapping; the page title/theme must come from its companion story.",
-        "Compare the page against begin1/cloze/b1cloze001.html and repair the named structural difference.",
-        "Recover the original exercise source or exclude this placeholder from modernization until its content is restored."
-      ],
+      "failedCheckIds": [],
+      "actionable": [],
       "shape": {
-        "bodyCount": 0,
-        "wrapper": null,
-        "ids": {
-          "InstructionsDiv": 0,
-          "MainDiv": 0,
-          "ClozeDiv": 0,
-          "FeedbackDiv": 0,
-          "check": 0,
-          "hint": 0,
-          "FeedbackOKButton": 0
+        "bodyCount": 1,
+        "wrapper": {
+          "tag": "div",
+          "classes": [
+            "hp-exercise-shell",
+            "wrapfit"
+          ],
+          "shell": "true",
+          "family": "cloze"
         },
-        "gapCount": 0,
+        "ids": {
+          "InstructionsDiv": 1,
+          "MainDiv": 1,
+          "ClozeDiv": 1,
+          "FeedbackDiv": 1,
+          "check": 1,
+          "hint": 1,
+          "FeedbackOKButton": 1
+        },
+        "gapCount": 32,
         "answerButtonCount": 0,
-        "styleBlockCount": 1,
-        "instructionPanelCount": 0,
-        "titleHeadingCount": 0,
-        "prototypeMarkerCount": 0,
-        "assetNames": [],
+        "styleBlockCount": 2,
+        "instructionPanelCount": 1,
+        "titleHeadingCount": 1,
+        "prototypeMarkerCount": 1,
+        "assetNames": [
+          "cloze100.htm",
+          "font-stack.css",
+          "font-stack.css",
+          "hot-potatoes-feedback.css",
+          "hot-potatoes-feedback.css",
+          "hot-potatoes-feedback.js",
+          "hot-potatoes-ui.js",
+          "sis-cloze-submit.css",
+          "sis-cloze-submit.css",
+          "sis-cloze-submit.js",
+          "sis-hot-potatoes.css",
+          "sis-hot-potatoes.css",
+          "story-theme.js",
+          "theme-selector.js"
+        ],
         "pageFile": "/home/eagles/dockerz/efast-copy/essays/cloze/cloze100.html"
       },
       "sourceHealth": {
-        "bytes": 635,
-        "errorPlaceholder": true,
+        "bytes": 77227,
+        "errorPlaceholder": false,
         "duplicateHtmlEndings": false
       },
       "story": {
-        "scriptPresent": false,
-        "titleUrl": null,
-        "themeKey": null,
-        "storyRelative": null,
-        "resolves": false,
-        "storyFile": null
+        "scriptPresent": true,
+        "titleUrl": "../e/essay100.html",
+        "themeKey": "essay100.html",
+        "storyRelative": "essays/e/essay100.html",
+        "resolves": true,
+        "storyFile": "essays/e/essay100.html"
       },
       "assets": [
         {
           "path": "css/sis-hot-potatoes.css",
-          "present": false,
-          "localFile": null,
-          "resolves": false,
-          "integrityPresent": false,
-          "integrityMatches": false,
-          "expectedIntegrity": null,
-          "actualIntegrity": null
+          "present": true,
+          "localFile": "css/sis-hot-potatoes.css",
+          "resolves": true,
+          "integrityPresent": true,
+          "integrityMatches": true,
+          "expectedIntegrity": "sha384-Iw7lAV3YR65Y2+/muxR/wW9o+OheDvHjeRW1Nqy3OYTalZHUuOHhG4WoDq/oJ2zZ",
+          "actualIntegrity": "sha384-Iw7lAV3YR65Y2+/muxR/wW9o+OheDvHjeRW1Nqy3OYTalZHUuOHhG4WoDq/oJ2zZ"
         },
         {
           "path": "js/hot-potatoes-ui.js",
-          "present": false,
-          "localFile": null,
-          "resolves": false,
-          "integrityPresent": false,
-          "integrityMatches": false,
-          "expectedIntegrity": null,
-          "actualIntegrity": null
+          "present": true,
+          "localFile": "js/hot-potatoes-ui.js",
+          "resolves": true,
+          "integrityPresent": true,
+          "integrityMatches": true,
+          "expectedIntegrity": "sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g",
+          "actualIntegrity": "sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g"
         },
         {
           "path": "css/hot-potatoes-feedback.css",
-          "present": false,
-          "localFile": null,
-          "resolves": false,
-          "integrityPresent": false,
-          "integrityMatches": false,
-          "expectedIntegrity": null,
-          "actualIntegrity": null
+          "present": true,
+          "localFile": "css/hot-potatoes-feedback.css",
+          "resolves": true,
+          "integrityPresent": true,
+          "integrityMatches": true,
+          "expectedIntegrity": "sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4",
+          "actualIntegrity": "sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4"
         },
         {
           "path": "js/hot-potatoes-feedback.js",
-          "present": false,
-          "localFile": null,
-          "resolves": false,
-          "integrityPresent": false,
-          "integrityMatches": false,
-          "expectedIntegrity": null,
-          "actualIntegrity": null
+          "present": true,
+          "localFile": "js/hot-potatoes-feedback.js",
+          "resolves": true,
+          "integrityPresent": true,
+          "integrityMatches": true,
+          "expectedIntegrity": "sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq",
+          "actualIntegrity": "sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq"
         },
         {
           "path": "js/story-theme.js",
-          "present": false,
-          "localFile": null,
-          "resolves": false,
-          "integrityPresent": false,
-          "integrityMatches": false,
-          "expectedIntegrity": null,
-          "actualIntegrity": null
+          "present": true,
+          "localFile": "js/story-theme.js",
+          "resolves": true,
+          "integrityPresent": true,
+          "integrityMatches": true,
+          "expectedIntegrity": "sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ",
+          "actualIntegrity": "sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ"
         },
         {
           "path": "style/font-stack.css",
-          "present": false,
-          "localFile": null,
-          "resolves": false,
-          "integrityPresent": false,
-          "integrityMatches": false,
-          "expectedIntegrity": null,
-          "actualIntegrity": null
+          "present": true,
+          "localFile": "style/font-stack.css",
+          "resolves": true,
+          "integrityPresent": true,
+          "integrityMatches": true,
+          "expectedIntegrity": "sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS",
+          "actualIntegrity": "sha384-vUruqAnVDOvPl9cKsjkKIwbhwldrr4SyS1jTJvuhaqKeTlMF/MRcJ39//nKy7MhS"
         },
         {
           "path": "js/theme-selector.js",
-          "present": false,
-          "localFile": null,
-          "resolves": false,
-          "integrityPresent": false,
-          "integrityMatches": false,
-          "expectedIntegrity": null,
-          "actualIntegrity": null
+          "present": true,
+          "localFile": "js/theme-selector.js",
+          "resolves": true,
+          "integrityPresent": true,
+          "integrityMatches": true,
+          "expectedIntegrity": "sha384-Z1/JSOxBq9/FDcKgAV/WlspujLmY1FVDWPKUBtGpMaemJRTV4PhhWDV5ftWg8zni",
+          "actualIntegrity": "sha384-Z1/JSOxBq9/FDcKgAV/WlspujLmY1FVDWPKUBtGpMaemJRTV4PhhWDV5ftWg8zni"
         },
         {
           "path": "css/sis-cloze-submit.css",
-          "present": false,
-          "localFile": null,
-          "resolves": false,
-          "integrityPresent": false,
-          "integrityMatches": false,
-          "expectedIntegrity": null,
-          "actualIntegrity": null
+          "present": true,
+          "localFile": "css/sis-cloze-submit.css",
+          "resolves": true,
+          "integrityPresent": true,
+          "integrityMatches": true,
+          "expectedIntegrity": "sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW",
+          "actualIntegrity": "sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW"
         },
         {
           "path": "js/sis-cloze-submit.js",
-          "present": false,
-          "localFile": null,
-          "resolves": false,
-          "integrityPresent": false,
-          "integrityMatches": false,
-          "expectedIntegrity": null,
-          "actualIntegrity": null
+          "present": true,
+          "localFile": "js/sis-cloze-submit.js",
+          "resolves": true,
+          "integrityPresent": true,
+          "integrityMatches": true,
+          "expectedIntegrity": "sha384-O2sv/vzNnN+sJ9lANy/kIHEhQYQYCdxGuGrkt/ukl6DtUIudEQKXhl4Tdo6x1qzJ",
+          "actualIntegrity": "sha384-O2sv/vzNnN+sJ9lANy/kIHEhQYQYCdxGuGrkt/ukl6DtUIudEQKXhl4Tdo6x1qzJ"
         }
       ],
       "prototypeComparison": {
-        "pass": false,
-        "differences": [
-          "direct wrapper missing",
-          "InstructionsDiv count 0 != prototype 1",
-          "MainDiv count 0 != prototype 1",
-          "ClozeDiv count 0 != prototype 1",
-          "FeedbackDiv count 0 != prototype 1",
-          "check count 0 != prototype 1",
-          "hint count 0 != prototype 1",
-          "instruction panel count differs from prototype",
-          "ExerciseTitle heading count differs from prototype",
-          "sis-cloze-prototype marker count 0 != prototype 1"
-        ]
+        "pass": true,
+        "differences": []
       }
     },
     {

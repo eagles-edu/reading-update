@@ -9,7 +9,6 @@ const { createBackupManager } = require('./write-backup.cjs');
 
 const DEFAULT_ROOT = path.resolve(__dirname, '..');
 const MAX_SAFE_APPLY_PAGES = 50;
-const PLAYER_VERSION = '2026-09-16.1';
 const STORY_PATHS = [
   'eslread/ss',
   'easyread/es',

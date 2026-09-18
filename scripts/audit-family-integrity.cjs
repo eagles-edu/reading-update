@@ -10,6 +10,13 @@ const {
 } = require("./modernize-hot-potatoes-pages.cjs");
 
 const ROOT = path.resolve(__dirname, "..");
+const ICT_OFFSET_MS = 7 * 60 * 60 * 1000;
+
+function formatIctTimestamp(date = new Date()) {
+  const ictDate = new Date(date.getTime() + ICT_OFFSET_MS);
+  return `${ictDate.toISOString().slice(0, -1)}+07:00`;
+}
+
 const COLLECTIONS = [
   "begin1",
   "begin2",
@@ -208,7 +215,9 @@ function comparePrototype(current, prototype, family) {
       differences.push(`${key} ${current[key]} != prototype ${prototype[key]}`);
   }
   if (current.close < 1)
-    differences.push(`close count ${current.close} is missing the prototype control`);
+    differences.push(
+      `close count ${current.close} is missing the prototype control`,
+    );
   if (family === "comp") {
     for (const key of ["questionList", "answerLists", "answerButtons"]) {
       if (current[key] < 1)
@@ -309,6 +318,31 @@ function summarize(pages, collections) {
   };
 }
 
+function reportFileLink(root, relativePath, line = 1, column = 1) {
+  const relative = String(relativePath).split(path.sep).join("/");
+  const absolute = path.resolve(root, relativePath);
+  const location = `${relative}:${line}:${column}`;
+  return `[${location}](<${absolute}>)`;
+}
+
+function reportExistingFileLink(root, relativePath) {
+  const relative = String(relativePath).split(path.sep).join("/");
+  const absolute = path.resolve(root, relativePath);
+  return fs.existsSync(absolute)
+    ? `[${relative}](<${absolute}>)`
+    : `\`${relative}\``;
+}
+
+function reportTextWithLinks(text, root, relativePaths) {
+  return [...new Set(relativePaths.filter(Boolean))]
+    .sort((left, right) => right.length - left.length)
+    .reduce(
+      (result, relativePath) =>
+        result.split(relativePath).join(reportFileLink(root, relativePath)),
+      String(text),
+    );
+}
+
 function markdownReport(report) {
   const lines = [
     `# ${report.label} Integrity and Prototype Audit`,
@@ -320,7 +354,7 @@ function markdownReport(report) {
     `- Pages audited: ${report.totals.scanned}`,
     `- Pages passing every check: ${report.totals.pass}`,
     `- Pages requiring action: ${report.totals.actionRequired}`,
-    `- Prototype: \`${report.prototype}\``,
+    `- Prototype: ${reportFileLink(report.root, report.prototype)}`,
     `- Prototype MMOR status: ${report.prototypeAudit.status}`,
     `- Visual samples: ${report.visual.capturedArtifacts}/${report.visual.expectedArtifacts} expected artifacts captured (${report.visual.status})`,
     "",
@@ -347,7 +381,7 @@ function markdownReport(report) {
     "|---|---|---|---|",
     ...report.visual.samples.map(
       (sample) =>
-        `| ${sample.collection} | \`${sample.path}\` | \`${sample.desktopScreenshot}\` | \`${sample.mobileScreenshot}\` |`,
+        `| ${sample.collection} | ${reportFileLink(report.root, sample.path)} | ${reportExistingFileLink(report.root, sample.desktopScreenshot)} | ${reportExistingFileLink(report.root, sample.mobileScreenshot)} |`,
     ),
     "",
     "## Actionable findings",
@@ -356,10 +390,10 @@ function markdownReport(report) {
   const actionPages = report.pages.filter((page) => page.status !== "PASS");
   if (!actionPages.length) lines.push("No static findings require action.", "");
   for (const page of actionPages) {
-    lines.push(`### \`${page.path}\``, "");
+    lines.push(`### ${reportFileLink(report.root, page.path)}`, "");
     for (const check of page.checks.filter((item) => !item.pass))
       lines.push(
-        `- **${check.id}:** ${check.description}. Observed: \`${JSON.stringify(check.evidence)}\`. Remediation: ${check.remediation}`,
+        `- **${check.id}:** ${check.description}. Observed: \`${JSON.stringify(check.evidence)}\`. Remediation: ${reportTextWithLinks(check.remediation, report.root, [report.prototype])}`,
       );
     lines.push("");
   }
@@ -427,7 +461,7 @@ function main() {
     : 0;
   const report = {
     schemaVersion: 1,
-    generatedAt: new Date().toISOString(),
+    generatedAt: formatIctTimestamp(),
     label: FAMILY_LABELS[args.family],
     family: args.family,
     root: args.root,

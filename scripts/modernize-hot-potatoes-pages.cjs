@@ -117,6 +117,16 @@ const STYLE_CLASS = Object.freeze({
   "display:none": "hp-display-none",
   "display:block": "hp-display-block",
   "display:inline": "hp-display-inline",
+  "display:inline-block": "hp-legacy-inline-block",
+  "height:90px": "hp-legacy-height-90",
+  "height:auto !important": "hp-legacy-height-auto",
+  "font-size:1.2rem": "hp-legacy-text-size",
+  "margin:0 auto": "wrapfit",
+  "max-width:900px": "wrapfit",
+  "text-align:center": "hp-legacy-text-center",
+  "text-align:right": "hp-legacy-text-right",
+  "width:100%": "wrapfit",
+  "width:728px": "hp-legacy-width-728",
   "visibility:hidden": "hp-visibility-hidden",
   "visibility:visible": "hp-visibility-visible",
 });
@@ -1773,6 +1783,49 @@ function wrapTitleWithInstructions(source, file, counters) {
   return `${source.slice(0, title.index)}${movedAds.join("")}<div class="hp-instructions-panel">${source.slice(title.index, titleEnd)}${cleanBetween}${source.slice(instruction.index, instructionEnd)}</div>${source.slice(instructionEnd)}`;
 }
 
+function unwrapLegacyInstructionScale(source, file) {
+  const title = /<div\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bTitles\b[^"']*\1)[^>]*>/i.exec(source);
+  const instructions = /<div\b(?=[^>]*\bid\s*=\s*(["'])InstructionsDiv\1)[^>]*>/i.exec(source);
+  if (!title || !instructions || instructions.index <= title.index) return source;
+  const titleEnd = findMatchingDivEnd(source, title);
+  if (titleEnd < 0 || titleEnd > instructions.index) return source;
+
+  const scaleWrappers = [...source.matchAll(/<div\b(?=[^>]*(?:\bclass\s*=\s*(["'])[^"']*\bhp-legacy-text-size\b[^"']*\1|\bstyle\s*=\s*(["'])\s*font-size\s*:\s*1\.2rem\s*;?\s*\2))[^>]*>/gi)]
+    .filter((match) => match.index > titleEnd && match.index < instructions.index);
+  if (scaleWrappers.length !== 1) return source;
+  const scaleWrapper = scaleWrappers[0];
+  const scaleEnd = findMatchingDivEnd(source, scaleWrapper);
+  if (scaleEnd < 0 || scaleEnd <= instructions.index) {
+    throw new Error(`${file}: cannot safely unwrap the legacy instruction scale wrapper`);
+  }
+
+  const body = /<body\b(?=[^>]*\bid\s*=\s*(["'])TheBody\1)[^>]*>/i.exec(source);
+  if (!body) throw new Error(`${file}: missing body#TheBody while unwrapping the legacy instruction scale wrapper`);
+  const bodyTail = source.slice(body.index + body[0].length);
+  const leading = /^(?:(?:\s+)|(?:<!--[\s\S]*?-->))*/.exec(bodyTail)?.[0] || "";
+  const directWrapper = new RegExp(`<div\\b[^>]*>`, "i").exec(bodyTail.slice(leading.length));
+  if (!directWrapper) throw new Error(`${file}: missing direct exercise wrapper while unwrapping the legacy instruction scale wrapper`);
+  const directIndex = body.index + body[0].length + leading.length + directWrapper.index;
+  const directOpening = source.slice(directIndex, directIndex + directWrapper[0].length);
+  const scaledOpening = addClasses(directOpening, ["hp-legacy-text-size"]);
+  const scaleMarkup = source.slice(scaleWrapper.index, scaleEnd);
+  const closing = /<\/div\s*>$/i.exec(scaleMarkup);
+  if (!closing) throw new Error(`${file}: legacy instruction scale wrapper has no closing div`);
+  const closingIndex = scaleEnd - closing[0].length;
+  const withOuterClass = `${source.slice(0, directIndex)}${scaledOpening}${source.slice(directIndex + directOpening.length)}`;
+  const offset = scaledOpening.length - directOpening.length;
+  const shiftedScaleIndex = scaleWrapper.index + offset;
+  const shiftedClosingIndex = closingIndex + offset;
+  return `${withOuterClass.slice(0, shiftedScaleIndex)}${withOuterClass.slice(shiftedScaleIndex + scaleWrapper[0].length, shiftedClosingIndex)}${withOuterClass.slice(shiftedClosingIndex + closing[0].length)}`;
+}
+
+function repairEmbeddedBodyTail(source) {
+  return source.replace(
+    /window\.dataLayer\s*=\s*window\.da[\s\S]*?<\/body>\s*taLayer\s*\|\|\s*\[\]\s*;/i,
+    "window.dataLayer = window.dataLayer || [];",
+  );
+}
+
 function removeManagedScriptTags(source) {
   return source.replace(/<script\b([^>]*)>[\s\S]*?<\/script\s*>/gi, (tag, attributes) => {
     const src = readTagAttribute(`<script ${attributes}>`, "src");
@@ -1839,6 +1892,7 @@ function injectAssets(source, options) {
   headContent = `${before}${newline}${assetBlock}${newline}${after}`.replace(/[\t \r\n]*$/, "");
   headContent = `${headContent.replace(/[\t \r\n]*$/, "")}${newline}${styleBlock}${newline}`;
   headContent = compactHeadSpacing(headContent, newline);
+  headContent = headContent.replace(/(<\/script>)(?=<(?:link|script)\b)/gi, `$1${newline}`);
   headContent = headContent.replace(/(<\/title>)(?=<(?:link|script|meta)\b)/gi, `$1${newline}`);
 
   const replacementHead = `${openTag}${headContent}${closeTag}`;
@@ -2010,6 +2064,7 @@ function injectProfileAssets(source, options) {
   }
   headContent = `${headContent.replace(/[\t \r\n]*$/, "")}${newline}${additions.join(newline)}${newline}`;
   headContent = compactHeadSpacing(headContent, newline);
+  headContent = headContent.replace(/(<\/script>)(?=<(?:link|script)\b)/gi, `$1${newline}`);
   const replacementHead = `${openTag}${headContent}${closeTag}`;
   return `${source.slice(0, headMatch.index)}${replacementHead}${source.slice(headMatch.index + headMatch[0].length)}`;
 }
@@ -2246,8 +2301,10 @@ function normalizePage(page, options) {
   const sourceMmor = POST_CONVERSION_VERIFIED_FAMILIES.has(profile.family)
     ? auditMmor(page.source, root, page, profile)
     : null;
-  const runtime = collectRuntimePatches(page.source, { file: page.relative });
-  let source = applyPatches(page.source, runtime.patches);
+  const repairedSource = repairEmbeddedBodyTail(page.source);
+  const runtime = collectRuntimePatches(repairedSource, { file: page.relative });
+  let source = applyPatches(repairedSource, runtime.patches);
+  source = unwrapLegacyInstructionScale(source, page.relative);
   const markup = transformMarkup(source, page.relative);
   source = ensureHeadMeta(markup.source, "viewport", "width=device-width, initial-scale=1.0");
   if (profile.family === "cloze") {

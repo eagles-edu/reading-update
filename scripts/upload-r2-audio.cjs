@@ -85,6 +85,10 @@ function sha256(buffer) {
   return crypto.createHash('sha256').update(buffer).digest('hex');
 }
 
+function isRegularFile(filePath) {
+  return fs.existsSync(filePath) && fs.statSync(filePath).isFile();
+}
+
 function encodeSegment(value) {
   return encodeURIComponent(value).replace(/[!'()*]/g, (character) =>
     `%${character.charCodeAt(0).toString(16).toUpperCase()}`
@@ -249,7 +253,7 @@ function inventoryStories(root, levels, start, end, existingManifest) {
 
       const absoluteSourcePath = path.join(root, sourcePath);
       const existing = existingManifest?.get(id);
-      if (!fs.existsSync(absoluteSourcePath)) {
+      if (!isRegularFile(absoluteSourcePath)) {
         if (!existing || !cleanReference.startsWith('/reading/_audio/')) {
           throw new Error(`Missing source ${sourcePath} for ${id}`);
         }
@@ -353,7 +357,7 @@ function inventoryDictation(root, levels, existingManifest) {
         const assetId = `${level}:${path.posix.basename(sourcePath)}`;
         const existing = existingManifest?.get(assetId);
         const absoluteSourcePath = path.join(root, sourcePath);
-        if (!fs.existsSync(absoluteSourcePath)) {
+        if (!isRegularFile(absoluteSourcePath)) {
           if (!existing || !objectKey) {
             missing.push({
               assetId,
@@ -464,7 +468,7 @@ function inventoryCollections(root, collections, existingBySource) {
 
         const existing = existingBySource.get(sourcePath);
         const absoluteSourcePath = path.join(root, sourcePath);
-        if (!fs.existsSync(absoluteSourcePath)) {
+        if (!isRegularFile(absoluteSourcePath)) {
           if (existing?.objectKey && existing?.sha256) {
             itemsBySource.set(sourcePath, {
               item: {
@@ -749,38 +753,73 @@ async function main() {
       : 8
   );
 
-  async function processItem(index) {
-    const { item, body } = items[index];
-    if (body === null) {
-      const current = await client.request('GET', item.objectKey);
-      const matches =
-        current.status === 200 && sha256(current.body) === item.sha256;
-      if (!matches) {
-        throw new Error(`Existing R2 verification failed for ${item.storyId}`);
-      }
-      reused += 1;
-    } else {
-      const head = await client.request('HEAD', item.objectKey);
-      let matches =
-        head.status === 200 && Number(head.headers['content-length']) === body.length;
-      if (matches) {
-        const current = await client.request('GET', item.objectKey);
-        matches = current.status === 200 && current.body.equals(body);
-      }
-      if (!matches) {
-        const put = await client.request('PUT', item.objectKey, body);
-        if (put.status < 200 || put.status >= 300) {
-          throw new Error(`Upload failed for ${item.storyId}: HTTP ${put.status}`);
+  function isTransientUploadError(error) {
+    const message = String(error?.message || error);
+    return /timed out|ETIMEDOUT|ECONNRESET|ECONNREFUSED|EPIPE|EAI_AGAIN|socket hang up|HTTP (429|5\d\d)/i.test(
+      message
+    );
+  }
+
+  async function withUploadRetry(operation, storyId) {
+    const maxAttempts = 5;
+    let lastError;
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+      try {
+        return await operation();
+      } catch (error) {
+        lastError = error;
+        if (attempt === maxAttempts || !isTransientUploadError(error)) {
+          throw error;
         }
-        uploaded += 1;
-      } else {
-        reused += 1;
-      }
-      const verified = await client.request('GET', item.objectKey);
-      if (verified.status !== 200 || !verified.body.equals(body)) {
-        throw new Error(`Byte verification failed for ${item.storyId}: HTTP ${verified.status}`);
+        const baseDelay = Math.min(30000, 1000 * 2 ** (attempt - 1));
+        const jitter = Math.floor(Math.random() * 500);
+        const delay = baseDelay + jitter;
+        process.stderr.write(
+          `retrying ${storyId} after attempt ${attempt}/${maxAttempts} in ${delay}ms: ${error.message}\n`
+        );
+        await new Promise((resolve) => setTimeout(resolve, delay));
       }
     }
+    throw lastError;
+  }
+
+  async function processItem(index) {
+    const { item, body } = items[index];
+    await withUploadRetry(async () => {
+      let outcome;
+      if (body === null) {
+        const current = await client.request('GET', item.objectKey);
+        const matches =
+          current.status === 200 && sha256(current.body) === item.sha256;
+        if (!matches) {
+          throw new Error(`Existing R2 verification failed for ${item.storyId}`);
+        }
+        outcome = 'reused';
+      } else {
+        const head = await client.request('HEAD', item.objectKey);
+        let matches =
+          head.status === 200 && Number(head.headers['content-length']) === body.length;
+        if (matches) {
+          const current = await client.request('GET', item.objectKey);
+          matches = current.status === 200 && current.body.equals(body);
+        }
+        if (!matches) {
+          const put = await client.request('PUT', item.objectKey, body);
+          if (put.status < 200 || put.status >= 300) {
+            throw new Error(`Upload failed for ${item.storyId}: HTTP ${put.status}`);
+          }
+          outcome = 'uploaded';
+        } else {
+          outcome = 'reused';
+        }
+        const verified = await client.request('GET', item.objectKey);
+        if (verified.status !== 200 || !verified.body.equals(body)) {
+          throw new Error(`Byte verification failed for ${item.storyId}: HTTP ${verified.status}`);
+        }
+      }
+      if (outcome === 'uploaded') uploaded += 1;
+      if (outcome === 'reused') reused += 1;
+    }, item.storyId);
     completed += 1;
     if (completed % 10 === 0 || completed === items.length) {
       process.stdout.write(`verified ${completed}/${items.length}\n`);
@@ -817,7 +856,15 @@ async function main() {
   );
 }
 
-main().catch((error) => {
-  process.stderr.write(`${error.message}\n`);
-  process.exitCode = 1;
-});
+if (require.main === module) {
+  main().catch((error) => {
+    process.stderr.write(`${error.message}\n`);
+    process.exitCode = 1;
+  });
+}
+
+module.exports = {
+  createClient,
+  readCredentialDocument,
+  sha256,
+};

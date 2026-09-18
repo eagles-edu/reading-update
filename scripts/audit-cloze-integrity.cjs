@@ -10,6 +10,13 @@ const {
 } = require("./modernize-hot-potatoes-pages.cjs");
 
 const ROOT = path.resolve(__dirname, "..");
+const ICT_OFFSET_MS = 7 * 60 * 60 * 1000;
+
+function formatIctTimestamp(date = new Date()) {
+  const ictDate = new Date(date.getTime() + ICT_OFFSET_MS);
+  return `${ictDate.toISOString().slice(0, -1)}+07:00`;
+}
+
 const COLLECTIONS = [
   "begin1",
   "begin2",
@@ -588,9 +595,12 @@ function pageAudit(pageFile, prototypeShape, bridgeSource, root = ROOT) {
   const sharedCss = fs.existsSync(path.join(root, "css/sis-hot-potatoes.css"))
     ? fs.readFileSync(path.join(root, "css/sis-hot-potatoes.css"), "utf8")
     : "";
-  const closeMarginToken = closeButtons.length === 1 &&
+  const closeMarginToken =
+    closeButtons.length === 1 &&
     hasClass(closeButtons[0], "tm1-5") &&
-    /body#TheBody\s+\.hp-button\.tm1-5\s*\{[^}]*margin-top:\s*1\.5em(?:\s*!important)?\s*;/s.test(sharedCss);
+    /body#TheBody\s+\.hp-button\.tm1-5\s*\{[^}]*margin-top:\s*1\.5em(?:\s*!important)?\s*;/s.test(
+      sharedCss,
+    );
   const closeRemediation =
     closeButtons.length > 1
       ? "Remove duplicate Close controls and retain exactly one accessible btn-74 footer control with the tm1-5 margin token."
@@ -673,11 +683,15 @@ function pageAudit(pageFile, prototypeShape, bridgeSource, root = ROOT) {
       "CL-12",
       "no empty legacy NavButtonBar/ClozeInstructions or inline visibility wrappers",
       {
-        emptyNavigationBars: emptyNavigationBars.map((node) => attr(node, "id")),
+        emptyNavigationBars: emptyNavigationBars.map((node) =>
+          attr(node, "id"),
+        ),
         clozeInstructions: forbiddenLegacyInstructions,
         inlineStyleAttributes: inlineStyles,
       },
-      emptyNavigationBars.length === 0 && !forbiddenLegacyInstructions && inlineStyles === 0,
+      emptyNavigationBars.length === 0 &&
+        !forbiddenLegacyInstructions &&
+        inlineStyles === 0,
       CHECKLIST[11][2],
     ),
   );
@@ -799,6 +813,31 @@ function summarize(pages) {
   };
 }
 
+function reportFileLink(root, relativePath, line = 1, column = 1) {
+  const relative = String(relativePath).split(path.sep).join("/");
+  const absolute = path.resolve(root, relativePath);
+  const location = `${relative}:${line}:${column}`;
+  return `[${location}](<${absolute}>)`;
+}
+
+function reportExistingFileLink(root, relativePath) {
+  const relative = String(relativePath).split(path.sep).join("/");
+  const absolute = path.resolve(root, relativePath);
+  return fs.existsSync(absolute)
+    ? `[${relative}](<${absolute}>)`
+    : `\`${relative}\``;
+}
+
+function reportTextWithLinks(text, root, relativePaths) {
+  return [...new Set(relativePaths.filter(Boolean))]
+    .sort((left, right) => right.length - left.length)
+    .reduce(
+      (result, relativePath) =>
+        result.split(relativePath).join(reportFileLink(root, relativePath)),
+      String(text),
+    );
+}
+
 function markdownReport(report) {
   const lines = [
     `# Cloze Integrity and Prototype Audit`,
@@ -810,7 +849,7 @@ function markdownReport(report) {
     `- Pages audited: ${report.totals.scanned}`,
     `- Pages passing every checklist item: ${report.totals.pass}`,
     `- Pages requiring action: ${report.totals.actionRequired}`,
-    `- Prototype: \`${report.prototype}\``,
+    `- Prototype: ${reportFileLink(report.root, report.prototype)}`,
     `- Visual samples: ${report.visual.capturedArtifacts}/${report.visual.expectedArtifacts} expected artifacts captured (${report.visual.status})`,
     ``,
   ];
@@ -843,7 +882,7 @@ function markdownReport(report) {
     "|---|---|---|---|",
     ...report.visual.samples.map(
       (sample) =>
-        `| ${sample.level} | \`${sample.path}\` | \`${sample.desktopScreenshot}\` | \`${sample.mobileScreenshot}\` |`,
+        `| ${sample.level} | ${reportFileLink(report.root, sample.path)} | ${reportExistingFileLink(report.root, sample.desktopScreenshot)} | ${reportExistingFileLink(report.root, sample.mobileScreenshot)} |`,
     ),
     "",
   );
@@ -854,13 +893,13 @@ function markdownReport(report) {
   else
     for (const page of actionPages)
       lines.push(
-        `### \`${page.path}\``,
+        `### ${reportFileLink(report.root, page.path)}`,
         "",
         ...page.checks
           .filter((item) => !item.pass)
           .map(
             (item) =>
-              `- **${item.id}:** ${item.expected}. Observed: \`${JSON.stringify(item.observed)}\`. Remediation: ${item.remediation}`,
+              `- **${item.id}:** ${item.expected}. Observed: \`${JSON.stringify(item.observed)}\`. Remediation: ${reportTextWithLinks(item.remediation, report.root, [report.prototype])}`,
           ),
         "",
       );
@@ -917,7 +956,7 @@ function main() {
     : 0;
   const report = {
     schemaVersion: 1,
-    generatedAt: new Date().toISOString(),
+    generatedAt: formatIctTimestamp(),
     root: args.root,
     prototype: PROTOTYPE,
     checklist: CHECKLIST.map(([id, description, remediation]) => ({

@@ -535,16 +535,13 @@ function pushAndVerify(root, upstream, commit) {
 }
 
 function lastPushedMessage(root, upstream) {
-  let ref = "";
-  if (upstream) {
-    ref = `${upstream.remote}/${upstream.branch}`;
-  } else {
-    ref = gitText(
-      root,
-      ["rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}"],
-      { accept: [0, 128] },
-    );
-  }
+  const ref = upstream
+    ? `${upstream.remote}/${upstream.branch}`
+    : gitText(
+        root,
+        ["rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}"],
+        { accept: [0, 128] },
+      );
   if (!ref) return "";
   return gitText(root, ["log", "-1", "--format=%s", ref], {
     accept: [0, 128],
@@ -688,6 +685,7 @@ async function run(options) {
       } catch (rollbackError) {
         throw new Error(
           `${error.message} Automatic unstage failed: ${rollbackError.message}`,
+          { cause: rollbackError },
         );
       }
     }

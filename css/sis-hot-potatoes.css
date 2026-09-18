@@ -1,4 +1,4 @@
-/* eslint-disable css/no-important, css/use-baseline, css/no-invalid-properties */
+/* eslint-disable css/no-important, css/use-baseline */
 
 :root {
   --hp-horizontal-gap: 12px;
@@ -151,6 +151,34 @@ body#TheBody *,
 body#TheBody *::before,
 body#TheBody *::after {
   box-sizing: border-box;
+}
+
+body#TheBody .hp-legacy-inline-block {
+  display: inline-block;
+}
+
+body#TheBody .hp-legacy-height-90 {
+  height: 90px;
+}
+
+body#TheBody .hp-legacy-height-auto {
+  height: auto !important;
+}
+
+body#TheBody .hp-legacy-text-center {
+  text-align: center;
+}
+
+body#TheBody .hp-legacy-text-right {
+  text-align: right;
+}
+
+body#TheBody .hp-legacy-text-size {
+  font-size: 1.2rem;
+}
+
+body#TheBody .hp-legacy-width-728 {
+  width: 728px;
 }
 
 body#TheBody > .hp-exercise-shell[data-sis-exercise-shell],
