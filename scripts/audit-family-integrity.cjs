@@ -491,7 +491,7 @@ function main() {
   };
   const reportFile = path.resolve(args.root, args.report);
   fs.mkdirSync(path.dirname(reportFile), { recursive: true });
-  fs.writeFileSync(reportFile, `${JSON.stringify(report, null, 2)}\n`);
+  fs.writeFileSync(reportFile, `${JSON.stringify(report)}\n`);
   const markdownFile = args.markdown
     ? path.resolve(args.root, args.markdown)
     : reportFile.replace(/\.json$/i, ".md");
