@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SIS Exercise Autofill Utility</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #172033;
+      background: #eef3f8;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; }
+    main { width: min(1500px, 100%); margin: 0 auto; padding: 1.25rem; }
+    header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+    h1 { margin: 0; font-size: clamp(1.35rem, 2vw, 2rem); }
+    header p { max-width: 62rem; margin: 0.4rem 0 0; color: #4e5b72; }
+    .badge { flex: 0 0 auto; padding: 0.45rem 0.7rem; border: 1px solid #b8c7dc; border-radius: 999px; background: #fff; color: #31547d; font-size: 0.8rem; font-weight: 700; }
+    .workspace { display: grid; grid-template-columns: minmax(20rem, 27rem) minmax(0, 1fr); gap: 1rem; align-items: start; }
+    .panel { border: 1px solid #c9d4e2; border-radius: 0.8rem; background: #fff; box-shadow: 0 0.4rem 1.4rem rgb(35 59 89 / 8%); }
+    .controls { padding: 1rem; }
+    .controls h2 { margin: 0 0 0.9rem; font-size: 1rem; }
+    label, .section-label { display: grid; gap: 0.35rem; margin-top: 0.75rem; color: #384863; font-size: 0.82rem; font-weight: 700; }
+    input, select, button { width: 100%; min-height: 2.55rem; border: 1px solid #aebed2; border-radius: 0.45rem; font: inherit; }
+    input, select { padding: 0.55rem 0.65rem; color: #172033; background: #fff; }
+    select:disabled { cursor: wait; color: #6b7890; background: #f3f6fa; }
+    button { padding: 0.55rem 0.75rem; cursor: pointer; background: #f4f7fb; color: #172033; font-weight: 700; }
+    button:hover:not(:disabled) { background: #e6eef8; }
+    button:disabled { cursor: not-allowed; opacity: 0.48; }
+    .button-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; margin-top: 1rem; }
+    .button-grid .primary { grid-column: 1 / -1; background: #1b5f9e; border-color: #1b5f9e; color: #fff; }
+    .button-grid .primary:hover:not(:disabled) { background: #154d80; }
+    .radio-group { display: grid; gap: 0.45rem; margin-top: 0.5rem; padding: 0.7rem; border: 1px solid #d8e1ec; border-radius: 0.45rem; background: #f8fafc; }
+    .radio-option { display: flex; align-items: flex-start; gap: 0.55rem; margin: 0; color: #253653; font-size: 0.84rem; font-weight: 700; }
+    .radio-option input { flex: 0 0 auto; width: 1rem; min-height: 1rem; margin: 0.12rem 0 0; accent-color: #1b5f9e; }
+    .radio-option small { display: block; margin-top: 0.12rem; color: #69778c; font-size: 0.75rem; font-weight: 500; }
+    .radio-option:has(input:disabled) { color: #7d899c; }
+
+    .destination-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.45rem;
+      margin: 0 0 0.9rem;
+    }
+
+    .destination-switch button[aria-pressed="true"] {
+      border-color: #1b5f9e;
+      background: #e5f0fb;
+      color: #154d80;
+    }
+
+    .destination-note {
+      margin: -0.4rem 0 0.8rem;
+      color: #69778c;
+      font-size: 0.74rem;
+      line-height: 1.35;
+    }
+    .resolved-path { display: block; margin-top: 0.8rem; padding: 0.55rem 0.65rem; overflow-wrap: anywhere; border: 1px solid #d8e1ec; border-radius: 0.45rem; background: #f8fafc; color: #53627a; font: 0.75rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .resolved-path strong { display: block; margin-bottom: 0.2rem; color: #354866; font-family: inherit; font-size: 0.72rem; }
+    .notice { margin: 1rem 0 0; padding: 0.7rem; border-left: 0.25rem solid #d49330; background: #fff8e8; color: #624719; font-size: 0.82rem; line-height: 1.45; }
+    .notice strong { color: #4c3611; }
+    .status { min-height: 3.2rem; margin: 1rem 0 0; padding: 0.65rem 0.75rem; border-radius: 0.45rem; background: #eef3f8; color: #3d4c63; font-size: 0.86rem; line-height: 1.4; }
+    .status[data-kind="success"] { background: #e9f7ee; color: #155b31; }
+    .status[data-kind="error"] { background: #fff0f0; color: #8c2323; }
+    .details { margin: 1rem 0 0; padding: 0.7rem; overflow: auto; border: 1px solid #d8e1ec; border-radius: 0.45rem; background: #f8fafc; color: #46556c; font: 0.75rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; }
+    .preview { min-width: 0; overflow: hidden; }
+    .preview-bar { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.65rem 0.85rem; border-bottom: 1px solid #d8e1ec; color: #516077; font-size: 0.82rem; }
+    .preview-bar strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    iframe { display: block; width: 100%; height: min(78vh, 920px); min-height: 38rem; border: 0; background: #fff; }
+    @media (max-width: 850px) {
+      header { display: block; }
+      .badge { display: inline-block; margin-top: 0.8rem; }
+      .workspace { grid-template-columns: 1fr; }
+      iframe { min-height: 34rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>SIS Exercise Autofill Utility</h1>
+        <p>Choose a level, story, and exercise type. Fill for review or submit a checked result from the same-origin exercise preview.</p>
+      </div>
+      <span class="badge">TESTING TOOL</span>
+    </header>
+
+    <div class="workspace">
+      <section class="panel controls" aria-label="Autofill controls">
+        <h2>Choose an exercise</h2>
+        <span class="section-label">Submission destination</span>
+        <div class="destination-switch">
+          <button id="destination-test" type="button" aria-pressed="true">1 · Test mirror</button>
+          <button id="destination-admin" type="button" aria-pressed="false">2 · Admin mirror</button>
+        </div>
+        <div id="destination-note" class="destination-note">https://test.eagles.edu.vn · test mirror</div>
+        <label>Level
+          <select id="level">
+            <option value="begin1">Begin 1</option>
+            <option value="begin2">Begin 2</option>
+            <option value="begin3">Begin 3</option>
+            <option value="begin4">Begin 4</option>
+            <option value="begin5">Begin 5</option>
+            <option value="begin6">Begin 6</option>
+          </select>
+        </label>
+        <label>Story
+          <select id="story" disabled>
+            <option>Loading stories...</option>
+          </select>
+        </label>
+        <span class="section-label">Exercise type</span>
+        <div class="radio-group" role="radiogroup" aria-label="Exercise type">
+          <label class="radio-option"><input type="radio" name="exercise-type" value="comp" disabled><span>Comprehension<small>Unavailable in Begin 1–6</small></span></label>
+          <label class="radio-option"><input type="radio" name="exercise-type" value="dict"><span>Dictation</span></label>
+          <label class="radio-option"><input type="radio" name="exercise-type" value="cloze" checked><span>Cloze</span></label>
+          <label class="radio-option"><input type="radio" name="exercise-type" value="sent"><span>Sentence</span></label>
+          <label class="radio-option"><input type="radio" name="exercise-type" value="all"><span>All story exercises<small>Fill cloze, dictation, and every sentence page for the selected story</small></span></label>
+        </div>
+        <label>Test student
+          <select id="student">
+            <option value="ex001|ex001@example.com">ex001</option>
+            <option value="ex002|ex002@example.com">ex002</option>
+            <option value="ex003|ex003@example.com">ex003</option>
+          </select>
+        </label>
+        <label>Student email
+          <input id="email" type="email" value="sis-autofill@example.com" autocomplete="off">
+        </label>
+        <label>Eagles ID
+          <input id="eagles-id" type="text" value="test001" autocomplete="off" autocapitalize="none" spellcheck="false">
+        </label>
+        <label>Submission endpoint
+          <input id="submit-url" type="url" placeholder="http://127.0.0.1:8786/api/exercise-submission" spellcheck="false">
+        </label>
+
+        <div class="button-grid">
+          <button class="primary" id="load" type="button" disabled>Load selected exercise</button>
+          <button id="fill-hold" type="button" disabled>Fill - Hold for review</button>
+          <button id="fill-submit" type="button" disabled>Fill &amp; submit</button>
+          <button id="submit" type="button" disabled>Submit</button>
+          <button id="reload" type="button" disabled>Reload</button>
+        </div>
+
+        <div class="notice"><strong>Review flow:</strong> Fill - Hold for review fills the selected exercise and leaves Submit active. Fill &amp; submit sends it immediately. For All story exercises, the batch includes cloze, dictation, and all eight sentence pages for the selected story.</div>
+        <code id="resolved-path" class="resolved-path"><strong>Selected path</strong>Choose a level and story.</code>
+        <div id="status" class="status" role="status" aria-live="polite">Loading the story catalog...</div>
+        <pre id="details" class="details">No exercise loaded.</pre>
+      </section>
+
+      <section class="panel preview" aria-label="Exercise preview">
+        <div class="preview-bar"><strong id="preview-label">No exercise loaded</strong><span id="family-label">—</span></div>
+        <iframe id="exercise-frame" title="Exercise preview"></iframe>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var LEVELS = {
+        begin1: { value: "begin1", label: "Begin 1", prefix: "b1", sentenceWidth: 2, sentenceCount: 5, storyCount: 104 },
+        begin2: { value: "begin2", label: "Begin 2", prefix: "b2", sentenceWidth: 2, sentenceCount: 5, storyCount: 110 },
+        begin3: { value: "begin3", label: "Begin 3", prefix: "b3", sentenceWidth: 2, sentenceCount: 5, storyCount: 110 },
+        begin4: { value: "begin4", label: "Begin 4", prefix: "b4", sentenceWidth: 1, sentenceCount: 5, storyCount: 100 },
+        begin5: { value: "begin5", label: "Begin 5", prefix: "b5", sentenceWidth: 1, sentenceCount: 5, storyCount: 100 },
+        begin6: { value: "begin6", label: "Begin 6", prefix: "b6", sentenceWidth: 1, sentenceCount: 8, storyCount: 100 },
+      };
+      var FAMILY_LABELS = { comp: "Comprehension", dict: "Dictation", cloze: "Cloze", sent: "Sentence" };
+      var DESTINATIONS = {
+        test: { label: "Test mirror", origin: "https://test.eagles.edu.vn", endpoint: "https://test.eagles.edu.vn/api/exercise-submission" },
+        admin: { label: "Admin mirror", origin: "https://admin.eagles.edu.vn", endpoint: "https://admin.eagles.edu.vn/api/exercise-submission" },
+      };
+      var frame = document.getElementById("exercise-frame");
+      var levelInput = document.getElementById("level");
+      var storyInput = document.getElementById("story");
+      var destinationTestButton = document.getElementById("destination-test");
+      var destinationAdminButton = document.getElementById("destination-admin");
+      var destinationNote = document.getElementById("destination-note");
+      var studentInput = document.getElementById("student");
+      var emailInput = document.getElementById("email");
+      var eaglesIdInput = document.getElementById("eagles-id");
+      var submitUrlInput = document.getElementById("submit-url");
+      var resolvedPath = document.getElementById("resolved-path");
+      var statusNode = document.getElementById("status");
+      var detailsNode = document.getElementById("details");
+      var previewLabel = document.getElementById("preview-label");
+      var familyLabel = document.getElementById("family-label");
+      var loadButton = document.getElementById("load");
+      var fillHoldButton = document.getElementById("fill-hold");
+      var submitButton = document.getElementById("submit");
+      var fillSubmitButton = document.getElementById("fill-submit");
+      var reloadButton = document.getElementById("reload");
+      var storyCatalogs = {};
+      var ready = false;
+      var loadedUrl = "";
+      var loadToken = 0;
+      var catalogToken = 0;
+      var pendingReview = [];
+      var busy = false;
+      var destinationKey = "test";
+      var catalogReady = false;
+
+      function normalizeText(value) { return String(value == null ? "" : value).trim(); }
+      function setStatus(message, kind) { statusNode.textContent = message; statusNode.dataset.kind = kind || ""; }
+      function setButtons(enabled) {
+        loadButton.disabled = !catalogReady || busy;
+        fillHoldButton.disabled = !enabled || busy;
+        fillSubmitButton.disabled = !enabled || busy;
+        reloadButton.disabled = !enabled || busy;
+        submitButton.disabled = !enabled || busy || pendingReview.length === 0;
+      }
+      function clearReview() { pendingReview = []; setButtons(ready); }
+      function applyStudentPreset() {
+        var values = studentInput.value.split("|");
+        eaglesIdInput.value = values[0] || "ex001";
+        emailInput.value = values[1] || "ex001@example.com";
+      }
+      function selectDestination(key) {
+        var destination = DESTINATIONS[key];
+        if (!destination) return;
+        destinationKey = key;
+        destinationTestButton.setAttribute("aria-pressed", key === "test" ? "true" : "false");
+        destinationAdminButton.setAttribute("aria-pressed", key === "admin" ? "true" : "false");
+        submitUrlInput.value = destination.endpoint;
+        destinationNote.textContent = destination.origin + " · " + destination.label + (window.location.origin === destination.origin ? " · same-origin preview" : " · current-host preview");
+        if (ready) {
+          try {
+            setEndpoint();
+            setStatus(destination.label + " selected for submissions.", "success");
+          } catch (error) {
+            setStatus(error.message, "error");
+          }
+        } else {
+          setStatus(destination.label + " selected. Load an exercise to continue.", "");
+        }
+      }
+      function selectedRadio() { return document.querySelector('input[name="exercise-type"]:checked'); }
+      function selectedFamily() { var radio = selectedRadio(); return radio ? radio.value : "cloze"; }
+      function selectedLevel() { return LEVELS[levelInput.value] || LEVELS.begin1; }
+      function selectedStory() {
+        var catalog = storyCatalogs[levelInput.value] || [];
+        return catalog.find(function (story) { return story.number === Number(storyInput.value); }) || catalog[0] || null;
+      }
+      function storyNumberText(story) { return String(story.number).padStart(3, "0"); }
+      function exercisePath(family, level, storyNumber) {
+        var number = String(storyNumber).padStart(3, "0");
+        if (family === "cloze") return "../" + level.value + "/cloze/" + level.prefix + "cloze" + number + ".html";
+        if (family === "dict") return "../" + level.value + "/dict/" + level.prefix + "d" + number + ".html";
+        if (family === "sent") return "../" + level.value + "/sent/" + level.prefix + "mx" + number + (level.sentenceWidth === 2 ? "01" : "1") + ".html";
+        return "../" + level.value + "/comp/" + level.prefix + "comp" + number + ".html";
+      }
+      function sentenceCountFor(level, storyNumber) {
+        if (level.value === "begin6") return 8;
+        return level.sentenceCount;
+      }
+      function sentenceSetUrls(url, sentenceCount) {
+        var parsed = new URL(url, window.location.href);
+        var match = /^(.*?)(\d)(\.html?)$/i.exec(parsed.pathname);
+        if (!match) return [url];
+        var urls = [];
+        for (var index = 1; index <= sentenceCount; index += 1) {
+          var next = new URL(parsed.href);
+          next.pathname = match[1] + String(index) + match[3];
+          urls.push(next.href);
+        }
+        return urls;
+      }
+      function selectedPreviewFamily() { return selectedFamily() === "all" ? "cloze" : selectedFamily(); }
+      function selectedDescriptor() {
+        var story = selectedStory();
+        var level = selectedLevel();
+        if (!story) return null;
+        var family = selectedPreviewFamily();
+        var relativeUrl = exercisePath(family, level, story.number);
+        return { level: level, story: story, family: selectedFamily(), previewFamily: family, relativeUrl: relativeUrl, url: new URL(relativeUrl, window.location.href).href };
+      }
+      function updateResolvedPath() {
+        var descriptor = selectedDescriptor();
+        var family = selectedFamily();
+        if (!descriptor) {
+          resolvedPath.innerHTML = "<strong>Selected path</strong>Choose a level and story.";
+          return;
+        }
+        var sentenceCount = sentenceCountFor(descriptor.level, descriptor.story.number);
+        var pathText = family === "all" ? "3 exercise families; sentence expands to " + String(sentenceCount) + (sentenceCount === 1 ? " page" : " pages") : descriptor.relativeUrl;
+        resolvedPath.innerHTML = "<strong>Selected path</strong>" + pathText;
+        previewLabel.textContent = descriptor.level.label + " / Story " + storyNumberText(descriptor.story) + " / " + (family === "all" ? "All story exercises" : FAMILY_LABELS[family]);
+      }
+      function parseStoryCatalog(source, level) {
+        var pattern = new RegExp('"(' + level.prefix + '\\/' + level.prefix + '\\d{3}\\.html)"\\s*,\\s*"([^"]+)"', "g");
+        var stories = [];
+        var match;
+        while ((match = pattern.exec(source))) {
+          var numberMatch = new RegExp(level.prefix + "(\\d{3})").exec(match[1]);
+          if (!numberMatch) continue;
+          var number = Number(numberMatch[1]);
+          if (!stories.some(function (story) { return story.number === number; })) stories.push({ number: number, title: match[2].replace(/\\"/g, '"').replace(/\\u0026/g, "&") });
+        }
+        stories.sort(function (left, right) { return left.number - right.number; });
+        return stories;
+      }
+      async function completeStoryCatalog(stories, level) {
+        var completed = stories.slice();
+        var missing = [];
+        for (var number = 1; number <= level.storyCount; number += 1) {
+          if (!completed.some(function (story) { return story.number === number; })) missing.push(number);
+        }
+        var recovered = await Promise.all(missing.map(async function (number) {
+          var path = "../" + level.value + "/" + level.prefix + "/" + level.prefix + String(number).padStart(3, "0") + ".html";
+          try {
+            var response = await fetch(path, { cache: "no-store" });
+            if (!response.ok) throw new Error("Story page unavailable.");
+            var page = new DOMParser().parseFromString(await response.text(), "text/html");
+            var heading = page.querySelector("h1");
+            var title = normalizeText(heading && heading.textContent).replace(/^\d+\.\s*/, "");
+            return { number: number, title: title || "Story " + String(number) };
+          } catch (error) {
+            return { number: number, title: "Story " + String(number) };
+          }
+        }));
+        completed = completed.concat(recovered);
+        completed.sort(function (left, right) { return left.number - right.number; });
+        return completed;
+      }
+      async function loadStoryCatalog(levelKey) {
+        if (storyCatalogs[levelKey]) return storyCatalogs[levelKey];
+        var level = LEVELS[levelKey];
+        var response = await fetch("../" + levelKey + "/index.html", { cache: "no-store" });
+        if (!response.ok) throw new Error("The " + level.label + " story index could not be loaded.");
+        var stories = parseStoryCatalog(await response.text(), level);
+        storyCatalogs[levelKey] = await completeStoryCatalog(stories, level);
+        return storyCatalogs[levelKey];
+      }
+      function populateStories(stories) {
+        storyInput.replaceChildren();
+        stories.forEach(function (story) {
+          var option = document.createElement("option");
+          option.value = String(story.number);
+          option.textContent = storyNumberText(story) + " — " + story.title;
+          storyInput.appendChild(option);
+        });
+        storyInput.disabled = false;
+      }
+      async function changeLevel() {
+        var token = ++catalogToken;
+        ready = false;
+        catalogReady = false;
+        clearReview();
+        setButtons(false);
+        storyInput.disabled = true;
+        storyInput.replaceChildren();
+        var loadingOption = document.createElement("option");
+        loadingOption.textContent = "Loading stories...";
+        storyInput.appendChild(loadingOption);
+        setStatus("Loading " + selectedLevel().label + " stories...", "");
+        try {
+          var stories = await loadStoryCatalog(levelInput.value);
+          if (token !== catalogToken) return;
+          populateStories(stories);
+          catalogReady = true;
+          updateResolvedPath();
+          setStatus("Choose an exercise type, then load the selected story.", "success");
+          setButtons(false);
+        } catch (error) {
+          if (token !== catalogToken) return;
+          setStatus(error.message || "The story catalog could not be loaded.", "error");
+        }
+      }
+      function updateFamilyAvailability() {
+        var compRadio = document.querySelector('input[name="exercise-type"][value="comp"]');
+        compRadio.disabled = true;
+        if (selectedFamily() === "comp") document.querySelector('input[name="exercise-type"][value="cloze"]').checked = true;
+        updateResolvedPath();
+        clearReview();
+      }
+      function targetUrl() {
+        var descriptor = selectedDescriptor();
+        if (!descriptor) throw new Error("Choose a story before loading an exercise.");
+        return descriptor.url;
+      }
+      function frameApi() {
+        try {
+          if (!frame.contentWindow || !frame.contentWindow.SISExerciseAutofill) throw new Error("The autofill helper has not loaded in the exercise frame.");
+          return frame.contentWindow.SISExerciseAutofill;
+        } catch (error) { throw new Error("The target must be same-origin with this utility."); }
+      }
+      function setEndpoint() {
+        try { frame.contentWindow.SIS_EXERCISE_SUBMIT_URL = submitUrlInput.value.trim(); }
+        catch (error) { throw new Error("The submission endpoint can only be set for a same-origin exercise."); }
+      }
+      function injectHelper() {
+        return new Promise(function (resolve, reject) {
+          try {
+            if (frame.contentWindow.SISExerciseAutofill) { resolve(); return; }
+            var script = frame.contentDocument.createElement("script");
+            script.src = new URL("../js/sis-exercise-autofill.js?autofill-helper=3", window.location.href).href;
+            script.onload = resolve;
+            script.onerror = function () { reject(new Error("Could not load js/sis-exercise-autofill.js into the exercise frame.")); };
+            frame.contentDocument.head.appendChild(script);
+          } catch (error) { reject(new Error("The target must be same-origin with this utility.")); }
+        });
+      }
+      function updateInspection() {
+        var inspection = frameApi().inspect(frame.contentDocument);
+        familyLabel.textContent = inspection.family || "Unknown family";
+        detailsNode.textContent = JSON.stringify(inspection, null, 2);
+        return inspection;
+      }
+      function waitForFrameLoad(url) {
+        return new Promise(function (resolve, reject) {
+          var token = ++loadToken;
+          var timeout = window.setTimeout(function () { if (token === loadToken) reject(new Error("Timed out loading the exercise.")); }, 20000);
+          frame.onload = function () { if (token !== loadToken) return; window.clearTimeout(timeout); resolve(); };
+          frame.onerror = function () { window.clearTimeout(timeout); reject(new Error("The exercise could not be loaded.")); };
+          frame.src = url;
+        });
+      }
+      async function loadExercise(url) {
+        ready = false;
+        setButtons(false);
+        setStatus("Loading the selected exercise...", "");
+        await waitForFrameLoad(url);
+        setEndpoint();
+        await injectHelper();
+        loadedUrl = url;
+        ready = true;
+        setButtons(true);
+        var inspection = updateInspection();
+        setStatus("Loaded " + (inspection.family || "an unsupported family") + ". Choose a fill action.", inspection.family ? "success" : "error");
+        return inspection;
+      }
+      function identity() { return { email: normalizeText(emailInput.value), eaglesId: normalizeText(eaglesIdInput.value).toLowerCase() }; }
+      function fillCurrent() {
+        var family = frameApi().detectFamily(frame.contentDocument);
+        var result = frameApi().autofillAndCheck({ family: family, email: identity().email, eaglesId: identity().eaglesId }, frame.contentDocument);
+        updateInspection();
+        return result;
+      }
+      function submissionFailureMessage(family) {
+        var status = frame.contentDocument && frame.contentDocument.querySelector("[data-sis-exercise-status]");
+        var detail = normalizeText(status && status.textContent);
+        return "The submission endpoint rejected " + FAMILY_LABELS[family] + (detail ? ": " + detail : ".");
+      }
+      function batchTargets() {
+        var descriptor = selectedDescriptor();
+        if (!descriptor) throw new Error("Choose a story before filling an exercise.");
+        var families = descriptor.family === "all" ? ["dict", "cloze", "sent"] : [descriptor.family];
+        var targets = [];
+        for (var familyIndex = 0; familyIndex < families.length; familyIndex += 1) {
+          var family = families[familyIndex];
+          var baseUrl = new URL(exercisePath(family, descriptor.level, descriptor.story.number), window.location.href).href;
+          var urls = family === "sent" ? sentenceSetUrls(baseUrl, sentenceCountFor(descriptor.level, descriptor.story.number)) : [baseUrl];
+          for (var urlIndex = 0; urlIndex < urls.length; urlIndex += 1) {
+            targets.push({ family: family, url: urls[urlIndex] });
+          }
+        }
+        return targets;
+      }
+      async function fillBatch(shouldSubmit) {
+        var targets = await batchTargets();
+        var completed = 0;
+        for (var index = 0; index < targets.length; index += 1) {
+          var target = targets[index];
+          setStatus("Filling " + FAMILY_LABELS[target.family] + " " + String(index + 1) + " of " + String(targets.length) + "...", "");
+          await loadExercise(target.url);
+          fillCurrent();
+          completed += 1;
+        }
+        if (shouldSubmit) {
+          for (var submitIndex = 0; submitIndex < targets.length; submitIndex += 1) {
+            var submitTarget = targets[submitIndex];
+            setStatus("Submitting " + FAMILY_LABELS[submitTarget.family] + " " + String(submitIndex + 1) + " of " + String(targets.length) + "...", "");
+            await loadExercise(submitTarget.url);
+            fillCurrent();
+            var accepted = await frameApi().submit(frame.contentDocument);
+            if (!accepted) throw new Error(submissionFailureMessage(submitTarget.family));
+          }
+        }
+        pendingReview = shouldSubmit ? [] : targets;
+        setButtons(true);
+        setStatus((shouldSubmit ? "Filled and submitted " : "Filled and holding ") + String(completed) + " exercise page(s)." + (shouldSubmit ? "" : " Review the visible result, then choose Submit."), "success");
+      }
+      async function submitReview() {
+        if (!pendingReview.length) return;
+        var targets = pendingReview.slice();
+        pendingReview = [];
+        for (var index = 0; index < targets.length; index += 1) {
+          var target = targets[index];
+          setStatus("Submitting " + FAMILY_LABELS[target.family] + " " + String(index + 1) + " of " + String(targets.length) + "...", "");
+          await loadExercise(target.url);
+          fillCurrent();
+          var accepted = await frameApi().submit(frame.contentDocument);
+          if (!accepted) throw new Error(submissionFailureMessage(target.family));
+        }
+        setButtons(true);
+        setStatus("Submitted " + String(targets.length) + " reviewed exercise page(s).", "success");
+      }
+      async function withBusy(task) {
+        if (busy) return;
+        busy = true;
+        setButtons(false);
+        try { await task(); }
+        catch (error) {
+          pendingReview = [];
+          setButtons(ready);
+          setStatus(error && error.message ? error.message : "The exercise action failed.", "error");
+        } finally { busy = false; setButtons(ready); }
+      }
+
+      loadButton.addEventListener("click", function () { withBusy(function () { return loadExercise(targetUrl()); }); });
+      reloadButton.addEventListener("click", function () { withBusy(function () { return loadExercise(loadedUrl || targetUrl()); }); });
+      fillHoldButton.addEventListener("click", function () { withBusy(function () { return fillBatch(false); }); });
+      fillSubmitButton.addEventListener("click", function () { withBusy(function () { return fillBatch(true); }); });
+      submitButton.addEventListener("click", function () { withBusy(submitReview); });
+      levelInput.addEventListener("change", changeLevel);
+      storyInput.addEventListener("change", function () { clearReview(); updateResolvedPath(); if (ready) setStatus("Story changed. Load the selected exercise to continue.", ""); });
+      document.querySelectorAll('input[name="exercise-type"]').forEach(function (radio) {
+        radio.addEventListener("change", function () { clearReview(); updateResolvedPath(); if (ready) setStatus("Exercise type changed. Load the selected exercise to continue.", ""); });
+      });
+      studentInput.addEventListener("change", applyStudentPreset);
+      submitUrlInput.addEventListener("change", function () {
+        if (!ready) return;
+        try { setEndpoint(); setStatus("Submission endpoint updated for the loaded exercise.", "success"); }
+        catch (error) { setStatus(error.message, "error"); }
+      });
+      destinationTestButton.addEventListener("click", function () { selectDestination("test"); });
+      destinationAdminButton.addEventListener("click", function () { selectDestination("admin"); });
+
+      applyStudentPreset();
+      submitUrlInput.value = DESTINATIONS[destinationKey].endpoint;
+      selectDestination(destinationKey);
+      updateResolvedPath();
+      changeLevel();
+    })();
+  </script>
+</body>
+
+</html>

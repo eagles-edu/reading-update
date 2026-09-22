@@ -55,6 +55,12 @@
     return String(value == null ? "" : value).trim();
   }
 
+  function sentenceSetQuestionCount() {
+    return /\/begin6\/sent\//i.test(normalizeText(location.pathname))
+      ? 8
+      : REQUIRED_SET_QUESTIONS;
+  }
+
   function readStorage(key) {
     try {
       return window.localStorage ? window.localStorage.getItem(key) || "" : "";
@@ -159,20 +165,24 @@
     var pathname = normalizeText(location.pathname) || "exercise";
     var filename = pathname.slice(pathname.lastIndexOf("/") + 1);
     if (family === "sent") {
-      var sentencePage = /^(.*)([1-5])(\.html?)$/i.exec(filename);
+      var sentenceTotalQuestions = sentenceSetQuestionCount();
+      var sentencePage = new RegExp(
+        "^(.*)([1-" + String(sentenceTotalQuestions) + "])(\\.html?)$",
+        "i",
+      ).exec(filename);
       if (sentencePage) {
         return {
           key:
             pathname.slice(0, pathname.length - filename.length) +
             sentencePage[1],
           questionKey: String(Number(sentencePage[2])).padStart(2, "0"),
-          totalQuestions: REQUIRED_SET_QUESTIONS,
+          totalQuestions: sentenceTotalQuestions,
         };
       }
       return {
         key: pageKey(),
         questionKey: "01",
-        totalQuestions: REQUIRED_SET_QUESTIONS,
+        totalQuestions: sentenceTotalQuestions,
       };
     }
 
@@ -466,11 +476,10 @@
   function isExerciseSetComplete() {
     var info = exerciseSetInfo();
     if (family === "sent") {
-      if (info.totalQuestions !== REQUIRED_SET_QUESTIONS) return false;
       var completed = currentExerciseProgress().completedByQuestion;
       for (
         var questionNumber = 1;
-        questionNumber <= REQUIRED_SET_QUESTIONS;
+        questionNumber <= info.totalQuestions;
         questionNumber += 1
       ) {
         if (!completed[String(questionNumber).padStart(2, "0")]) return false;
@@ -490,13 +499,14 @@
   function getAnswerCounts() {
     var score = finiteScore();
     if (family === "sent") {
+      var sentenceTotalQuestions = exerciseSetInfo().totalQuestions;
       var completedSentences = currentExerciseProgress().completedByQuestion;
       var sentenceCorrectCount = 0;
       var sentenceScoreTotal = 0;
       var completedCount = 0;
       for (
         var sentenceNumber = 1;
-        sentenceNumber <= REQUIRED_SET_QUESTIONS;
+        sentenceNumber <= sentenceTotalQuestions;
         sentenceNumber += 1
       ) {
         var sentenceResult =
@@ -507,13 +517,13 @@
         if (sentenceResult.correct) sentenceCorrectCount += 1;
       }
       return {
-        totalQuestions: REQUIRED_SET_QUESTIONS,
+        totalQuestions: sentenceTotalQuestions,
         correctCount: sentenceCorrectCount,
-        pendingCount: Math.max(REQUIRED_SET_QUESTIONS - completedCount, 0),
+        pendingCount: Math.max(sentenceTotalQuestions - completedCount, 0),
         incorrectCount: Math.max(completedCount - sentenceCorrectCount, 0),
         scorePercent:
-          completedCount === REQUIRED_SET_QUESTIONS
-            ? Number((sentenceScoreTotal / REQUIRED_SET_QUESTIONS).toFixed(2))
+          completedCount === sentenceTotalQuestions
+            ? Number((sentenceScoreTotal / sentenceTotalQuestions).toFixed(2))
             : score == null
               ? 0
               : score,
@@ -728,7 +738,7 @@
     }
     if (!isExerciseSetComplete()) {
       throw new Error(
-        "Complete all 5 questions in this exercise set before submitting.",
+        "Complete all " + String(exerciseSetInfo().totalQuestions) + " questions in this exercise set before submitting.",
       );
     }
     var counts = getAnswerCounts();
@@ -753,7 +763,7 @@
     if (state.submitting && state.submitPromise) return state.submitPromise;
     if (!isExerciseSetComplete()) {
       setStatus(
-        "Complete all 5 questions in this exercise set before submitting.",
+        "Complete all " + String(exerciseSetInfo().totalQuestions) + " questions in this exercise set before submitting.",
         "error",
       );
       updateActionButtons();

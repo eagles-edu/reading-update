@@ -48,6 +48,8 @@
     "audit:dict:integrity": "node ./scripts/audit-family-integrity.cjs --family dict",
     "audit:sent:integrity": "node ./scripts/audit-family-integrity.cjs --family sent",
     "audit:comp:integrity": "node ./scripts/audit-family-integrity.cjs --family comp",
+    "scrape:begin6:audio": "node ./scripts/scrape-begin6-audio.cjs",
+    "upload:begin6:r2": "node ./scripts/upload-begin6-audio-r2.cjs",
     "modernize:dict:dry": "node ./scripts/modernize-dictation-pages.cjs --dry-run",
     "modernize:dict:apply": "node ./scripts/modernize-dictation-pages.cjs --apply",
     "modernize:audio:dry": "node ./scripts/modernize-audio-players.cjs --dry-run",

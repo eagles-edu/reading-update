@@ -1,11 +1,11 @@
 # Sentence Scramble Integrity and Prototype Audit
 
-Generated: 2026-09-18T14:06:04.213+07:00
+Generated: 2026-09-21T00:06:27.709+07:00
 
 ## Summary
 
-- Pages audited: 3842
-- Pages passing every check: 3842
+- Pages audited: 4402
+- Pages passing every check: 4402
 - Pages requiring action: 0
 - Prototype: [begin1/sent/b1mx00101.html:1:1](</home/eagles/dockerz/efast-copy/begin1/sent/b1mx00101.html>)
 - Prototype MMOR status: PASS
@@ -20,7 +20,7 @@ Generated: 2026-09-18T14:06:04.213+07:00
 | begin3 | 540 | 540 | 0 |
 | begin4 | 500 | 500 | 0 |
 | begin5 | 500 | 500 | 0 |
-| begin6 | 240 | 240 | 0 |
+| begin6 | 800 | 800 | 0 |
 | kidsenglish2 | 500 | 500 | 0 |
 | kidsenglish3 | 492 | 492 | 0 |
 
@@ -28,35 +28,35 @@ Generated: 2026-09-18T14:06:04.213+07:00
 
 | ID | Pass | Fail |
 |---|---:|---:|
-| SH-01 | 3842 | 0 |
-| SH-02 | 3842 | 0 |
-| SH-03 | 3842 | 0 |
-| SH-04 | 3842 | 0 |
-| SH-05 | 3842 | 0 |
-| ASSET-CSS-SIS-HOT-POTATOES-CSS | 3842 | 0 |
-| ASSET-JS-HOT-POTATOES-UI-JS | 3842 | 0 |
-| ASSET-CSS-HOT-POTATOES-FEEDBACK-CSS | 3842 | 0 |
-| ASSET-JS-HOT-POTATOES-FEEDBACK-JS | 3842 | 0 |
-| ASSET-JS-STORY-THEME-JS | 3842 | 0 |
-| ASSET-CSS-SIS-EXERCISE-LAYOUT-CSS | 3842 | 0 |
-| ASSET-CLOZE-SUBMIT-CSS | 3842 | 0 |
-| ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS | 3842 | 0 |
-| ASSET-EXERCISE-SUBMIT-SENT | 3842 | 0 |
-| SH-06 | 3842 | 0 |
-| ID-01 | 3842 | 0 |
-| SE-01 | 3842 | 0 |
-| SE-02 | 3842 | 0 |
-| SE-03 | 3842 | 0 |
-| SH-10 | 3842 | 0 |
-| SH-09 | 3842 | 0 |
-| SH-08 | 3842 | 0 |
-| SH-07 | 3842 | 0 |
-| SH-11 | 3842 | 0 |
-| SE-05 | 3842 | 0 |
-| SH-12 | 3842 | 0 |
-| SE-04 | 3842 | 0 |
-| SRC-01 | 3842 | 0 |
-| PROTO-01 | 3842 | 0 |
+| SH-01 | 4402 | 0 |
+| SH-02 | 4402 | 0 |
+| SH-03 | 4402 | 0 |
+| SH-04 | 4402 | 0 |
+| SH-05 | 4402 | 0 |
+| ASSET-CSS-SIS-HOT-POTATOES-CSS | 4402 | 0 |
+| ASSET-JS-HOT-POTATOES-UI-JS | 4402 | 0 |
+| ASSET-CSS-HOT-POTATOES-FEEDBACK-CSS | 4402 | 0 |
+| ASSET-JS-HOT-POTATOES-FEEDBACK-JS | 4402 | 0 |
+| ASSET-JS-STORY-THEME-JS | 4402 | 0 |
+| ASSET-CSS-SIS-EXERCISE-LAYOUT-CSS | 4402 | 0 |
+| ASSET-CLOZE-SUBMIT-CSS | 4402 | 0 |
+| ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS | 4402 | 0 |
+| ASSET-EXERCISE-SUBMIT-SENT | 4402 | 0 |
+| SH-06 | 4402 | 0 |
+| ID-01 | 4402 | 0 |
+| SE-01 | 4402 | 0 |
+| SE-02 | 4402 | 0 |
+| SE-03 | 4402 | 0 |
+| SH-10 | 4402 | 0 |
+| SH-09 | 4402 | 0 |
+| SH-08 | 4402 | 0 |
+| SH-07 | 4402 | 0 |
+| SH-11 | 4402 | 0 |
+| SE-05 | 4402 | 0 |
+| SH-12 | 4402 | 0 |
+| SE-04 | 4402 | 0 |
+| SRC-01 | 4402 | 0 |
+| PROTO-01 | 4402 | 0 |
 
 ## Visual sample set
 
@@ -88,10 +88,10 @@ Generated: 2026-09-18T14:06:04.213+07:00
 | begin5 | [begin5/sent/b5mx0755.html:1:1](</home/eagles/dockerz/efast-copy/begin5/sent/b5mx0755.html>) | [output/playwright/sent-integrity/begin5-b5mx0755-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/begin5-b5mx0755-desktop.png>) | [output/playwright/sent-integrity/begin5-b5mx0755-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/begin5-b5mx0755-mobile.png>) |
 | begin5 | [begin5/sent/b5mx1005.html:1:1](</home/eagles/dockerz/efast-copy/begin5/sent/b5mx1005.html>) | [output/playwright/sent-integrity/begin5-b5mx1005-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/begin5-b5mx1005-desktop.png>) | [output/playwright/sent-integrity/begin5-b5mx1005-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/begin5-b5mx1005-mobile.png>) |
 | begin6 | [begin6/sent/b6mx0011.html:1:1](</home/eagles/dockerz/efast-copy/begin6/sent/b6mx0011.html>) | [output/playwright/sent-integrity/begin6-b6mx0011-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/begin6-b6mx0011-desktop.png>) | [output/playwright/sent-integrity/begin6-b6mx0011-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/begin6-b6mx0011-mobile.png>) |
-| begin6 | [begin6/sent/b6mx0085.html:1:1](</home/eagles/dockerz/efast-copy/begin6/sent/b6mx0085.html>) | [output/playwright/sent-integrity/begin6-b6mx0085-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/begin6-b6mx0085-desktop.png>) | [output/playwright/sent-integrity/begin6-b6mx0085-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/begin6-b6mx0085-mobile.png>) |
-| begin6 | [begin6/sent/b6mx0161.html:1:1](</home/eagles/dockerz/efast-copy/begin6/sent/b6mx0161.html>) | [output/playwright/sent-integrity/begin6-b6mx0161-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/begin6-b6mx0161-desktop.png>) | [output/playwright/sent-integrity/begin6-b6mx0161-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/begin6-b6mx0161-mobile.png>) |
-| begin6 | [begin6/sent/b6mx0234.html:1:1](</home/eagles/dockerz/efast-copy/begin6/sent/b6mx0234.html>) | [output/playwright/sent-integrity/begin6-b6mx0234-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/begin6-b6mx0234-desktop.png>) | [output/playwright/sent-integrity/begin6-b6mx0234-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/begin6-b6mx0234-mobile.png>) |
-| begin6 | [begin6/sent/b6mx0308.html:1:1](</home/eagles/dockerz/efast-copy/begin6/sent/b6mx0308.html>) | [output/playwright/sent-integrity/begin6-b6mx0308-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/begin6-b6mx0308-desktop.png>) | [output/playwright/sent-integrity/begin6-b6mx0308-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/begin6-b6mx0308-mobile.png>) |
+| begin6 | [begin6/sent/b6mx0261.html:1:1](</home/eagles/dockerz/efast-copy/begin6/sent/b6mx0261.html>) | `output/playwright/sent-integrity/begin6-b6mx0261-desktop.png` | `output/playwright/sent-integrity/begin6-b6mx0261-mobile.png` |
+| begin6 | [begin6/sent/b6mx0511.html:1:1](</home/eagles/dockerz/efast-copy/begin6/sent/b6mx0511.html>) | `output/playwright/sent-integrity/begin6-b6mx0511-desktop.png` | `output/playwright/sent-integrity/begin6-b6mx0511-mobile.png` |
+| begin6 | [begin6/sent/b6mx0758.html:1:1](</home/eagles/dockerz/efast-copy/begin6/sent/b6mx0758.html>) | `output/playwright/sent-integrity/begin6-b6mx0758-desktop.png` | `output/playwright/sent-integrity/begin6-b6mx0758-mobile.png` |
+| begin6 | [begin6/sent/b6mx1008.html:1:1](</home/eagles/dockerz/efast-copy/begin6/sent/b6mx1008.html>) | `output/playwright/sent-integrity/begin6-b6mx1008-desktop.png` | `output/playwright/sent-integrity/begin6-b6mx1008-mobile.png` |
 | kidsenglish2 | [kidsenglish2/sent/kemx20011.html:1:1](</home/eagles/dockerz/efast-copy/kidsenglish2/sent/kemx20011.html>) | [output/playwright/sent-integrity/kidsenglish2-kemx20011-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/kidsenglish2-kemx20011-desktop.png>) | [output/playwright/sent-integrity/kidsenglish2-kemx20011-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/kidsenglish2-kemx20011-mobile.png>) |
 | kidsenglish2 | [kidsenglish2/sent/kemx20261.html:1:1](</home/eagles/dockerz/efast-copy/kidsenglish2/sent/kemx20261.html>) | [output/playwright/sent-integrity/kidsenglish2-kemx20261-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/kidsenglish2-kemx20261-desktop.png>) | [output/playwright/sent-integrity/kidsenglish2-kemx20261-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/kidsenglish2-kemx20261-mobile.png>) |
 | kidsenglish2 | [kidsenglish2/sent/kemx20511.html:1:1](</home/eagles/dockerz/efast-copy/kidsenglish2/sent/kemx20511.html>) | [output/playwright/sent-integrity/kidsenglish2-kemx20511-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/kidsenglish2-kemx20511-desktop.png>) | [output/playwright/sent-integrity/kidsenglish2-kemx20511-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/sent-integrity/kidsenglish2-kemx20511-mobile.png>) |

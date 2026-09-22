@@ -1,0 +1,57 @@
+@media only screen and (max-width:728px) {
+   body > div {
+      width:100%;
+   }
+   table > tbody > tr {
+      text-align:center;
+   }
+   table > tbody > tr > td {
+      display:inline-block !important;
+      padding-right:.5em;
+      padding-left:.5em;
+      margin-bottom:.7em;
+   }
+   table > tbody > tr > td li {
+      text-align:left;
+   }
+   table > tbody > tr > td ol {
+      list-style-type:decimal;
+   }
+   p.timed, p.read_text, div.ClozeBody {
+      margin-left:.5em;
+      margin-right:.5em;
+   }
+   /* fix dictation exercise layout */
+   body {
+      padding-left:0 !important;
+      margin-left:0 !important;
+      margin-right:0 !important;
+   }
+   .StdDiv {
+      padding-left:0 !important;
+      padding-right:0 !important;
+   }
+   div.QuestionNavigation > p {
+      padding-right:.5em; !important;
+   }
+   ol.QuizQuestions, li.QuizQuestion, .ShortAnswer {
+      text-align:center !important;
+      padding:0 !important;
+   }
+   textarea.ShortAnswerBox {
+      max-width:95% !important;
+      padding:0 !important;
+   }
+}
+
+@media only screen and (max-width:480px) {
+   .content-body .timed {
+      Font-size: 18px !important;
+   }
+}
+.ads-top {
+	/*float: left;*/
+	width: 100%;
+	margin: 20px 0 20px 0;
+	height: 300px;
+}

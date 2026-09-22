@@ -1601,7 +1601,7 @@ function normalizeFamilyStructure(source, page, profile, counters) {
   const wrapperMatch = { index: wrapperIndex, 0: wrapperOpening };
   const wrapperEnd = findMatchingDivEnd(source, wrapperMatch);
   if (wrapperEnd < 0) throw new Error(`${page.relative}: SOURCE STRUCTURE BLOCKED; cannot locate exercise wrapper end`);
-  const closeButton = '<button class="hp-button btn-74 tm1-5" type="button" data-hp-close="" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise."><span></span><span></span><span></span><span></span>Close</button>';
+  const closeButton = '<button class="hp-button btn-74 tm1-5" type="button" data-hp-close="" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise.">Close</button>';
   const wrapperMarkup = source.slice(wrapperMatch.index, wrapperEnd);
   const closeContainers = [...wrapperMarkup.matchAll(/<div\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bcenmar\b[^"']*\1)[^>]*>/gi)];
   if (closeContainers.length > 1) throw new Error(`${page.relative}: SOURCE STRUCTURE BLOCKED; multiple Close containers`);
@@ -1820,9 +1820,12 @@ function unwrapLegacyInstructionScale(source, file) {
 }
 
 function repairEmbeddedBodyTail(source) {
-  return source.replace(
+  const repaired = source.replace(
     /window\.dataLayer\s*=\s*window\.da[\s\S]*?<\/body>\s*taLayer\s*\|\|\s*\[\]\s*;/i,
     "window.dataLayer = window.dataLayer || [];",
+  );
+  return repaired.replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, (script) =>
+    script.replace(/<\s+!--/g, "<!--"),
   );
 }
 
@@ -1902,7 +1905,9 @@ function injectAssets(source, options) {
 function normalizeFeedbackPage(page, options) {
   const { file, root, feedbackCssIntegrity, feedbackUiIntegrity } = options;
   const profile = modernizationProfile(page);
-  let source = removeManagedScriptTags(page.source);
+  let source = removeScrapedLegacyAssetTags(
+    removeScrapedThirdPartyHeadMarkup(removeManagedScriptTags(page.source)),
+  );
   const headMatch = source.match(/<head\b[^>]*>[\s\S]*?<\/head\s*>/i);
   if (!headMatch) throw new Error(`${page.relative}: missing head element`);
   const openTag = headMatch[0].match(/^<head\b[^>]*>/i)?.[0];
@@ -2005,6 +2010,66 @@ function removeProfileAssetTags(source, includeThemeAssets = false) {
         /^<(?:script|style)\b/i.test(match) ? match : `${newline}${newline}`,
       );
   });
+}
+
+function removeScrapedThirdPartyHeadMarkup(source) {
+  return source.replace(/<head\b[^>]*>[\s\S]*?<\/head\s*>/i, (head) => {
+    const newline = head.includes("\r\n") ? "\r\n" : "\n";
+    let cleaned = head.replace(/<!--[\s\S]*?-->/g, (comment) =>
+      /google\s+tag|google\s+analytics|googletagmanager|gtag|jquery-validation/i.test(comment) ? "" : comment,
+    );
+    cleaned = cleaned.replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, (tag) => {
+      const src = readTagAttribute(tag, "src");
+      return /^(?:https?:)?\/\//i.test(src) || /dataLayer|googletagmanager|google\s+analytics|\bgtag\s*\(/i.test(tag)
+        ? ""
+        : tag;
+    });
+    cleaned = cleaned.replace(/<link\b[^>]*>/gi, (tag) => {
+      const href = readTagAttribute(tag, "href");
+      const rel = readTagAttribute(tag, "rel");
+      return /^(?:https?:)?\/\//i.test(href) || /(?:^|\s)(?:non-)?canonical(?:\s|$)/i.test(rel)
+        ? ""
+        : tag;
+    });
+    cleaned = cleaned.replace(/<meta\b[^>]*\bhttp-equiv\s*=\s*(["'])Content-Security-Policy\1[^>]*>/gi, "");
+    return compactHeadSpacing(cleaned, newline);
+  });
+}
+
+function removeScrapedAdvertisingMarkup(source) {
+  let cleaned = source.replace(/<div\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bads-top\b[^"']*\1)[^>]*>[\s\S]*?<\/div\s*>/gi, (block) =>
+    /adsbygoogle|data-ad-(?:client|slot)/i.test(block) ? "" : block,
+  );
+  cleaned = cleaned.replace(/<ins\b[^>]*\bclass\s*=\s*(["'])[^"']*\badsbygoogle\b[^"']*\1[^>]*>[\s\S]*?<\/ins\s*>/gi, "");
+  cleaned = cleaned.replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, (script) =>
+    /\(\s*adsbygoogle\s*=\s*window\.adsbygoogle\s*\|\|\s*\[\]\s*\)\.push\s*\(/i.test(script)
+      ? ""
+      : script,
+  );
+  return cleaned.replace(/<div\b(?=[^>]*\bclass\s*=\s*(["'])[^"']*\bhp-legacy-text-center\b[^"']*\1)[^>]*>\s*(?:<!--[\s\S]*?-->\s*)*<\/div\s*>/gi, "");
+}
+
+function removeScrapedMembershipRuntime(source) {
+  return source.replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, (script) =>
+    /https?:\/\/www\.eslfast\.com\/membership\/|#login_frm|checkCookie\s*\(|userLogout\s*\(/i.test(script)
+      ? ""
+      : script,
+  );
+}
+
+function removeScrapedLegacyAssetTags(source) {
+  let cleaned = source.replace(/<link\b[^>]*>/gi, (tag) =>
+    /(?:^|\/)responsive\.css(?:[?#]|$)/i.test(readTagAttribute(tag, "href")) ||
+    /(?:^|\/)assets\//i.test(readTagAttribute(tag, "href"))
+      ? ""
+      : tag,
+  );
+  return cleaned.replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, (script) =>
+    /(?:^|\/)(?:main_validate|time_spend_on_page)\.js(?:[?#]|$)/i.test(readTagAttribute(script, "src")) ||
+    /(?:^|\/)assets\//i.test(readTagAttribute(script, "src"))
+      ? ""
+      : script,
+  );
 }
 
 function injectProfileAssets(source, options) {
@@ -2301,7 +2366,13 @@ function normalizePage(page, options) {
   const sourceMmor = POST_CONVERSION_VERIFIED_FAMILIES.has(profile.family)
     ? auditMmor(page.source, root, page, profile)
     : null;
-  const repairedSource = repairEmbeddedBodyTail(page.source);
+  const repairedSource = removeScrapedAdvertisingMarkup(
+    removeScrapedMembershipRuntime(
+      removeScrapedLegacyAssetTags(
+        removeScrapedThirdPartyHeadMarkup(repairEmbeddedBodyTail(page.source)),
+      ),
+    ),
+  );
   const runtime = collectRuntimePatches(repairedSource, { file: page.relative });
   let source = applyPatches(repairedSource, runtime.patches);
   source = unwrapLegacyInstructionScale(source, page.relative);
@@ -2998,9 +3069,14 @@ module.exports = {
   main,
   normalizeFeedbackPage,
   normalizePage,
+  removeScrapedThirdPartyHeadMarkup,
+  removeScrapedAdvertisingMarkup,
+  removeScrapedMembershipRuntime,
+  removeScrapedLegacyAssetTags,
   modernizationProfile,
   normalizeStyleValue,
   preflightBlockingReason,
+  repairEmbeddedBodyTail,
   MAX_SAFE_APPLY_PAGES,
   parseArgs,
   scanTargets,

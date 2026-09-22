@@ -30,7 +30,7 @@ function exerciseFixture(family) {
     '<div class="Feedback" id="FeedbackDiv"><div class="FeedbackText" id="FeedbackContent"></div></div>' +
     '<div class="NavButtonBar" id="BottomNavBar"><button type="button">Next</button></div>' +
     '<div class="cenmar"><button class="hp-button btn-74" type="button" data-hp-close aria-label="Close">CLOSE' +
-    "<span></span><span></span><span></span><span></span></button></div></div></body></html>";
+    "</button></div></div></body></html>";
 
   if (family === "sent") {
     return (

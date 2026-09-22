@@ -152,6 +152,7 @@ begin3/b3/vnu.jar
 *.old
 *.older
 *.bu
+*.invalid
 *.zip
 *.7z
 *.log

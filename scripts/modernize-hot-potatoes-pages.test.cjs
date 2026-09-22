@@ -17,8 +17,13 @@ const {
   normalizePage,
   normalizeStyleValue,
   modernizationProfile,
+  removeScrapedAdvertisingMarkup,
+  removeScrapedLegacyAssetTags,
+  removeScrapedMembershipRuntime,
+  removeScrapedThirdPartyHeadMarkup,
   parseArgs,
   preflightBlockingReason,
+  repairEmbeddedBodyTail,
   scanTargets,
   summarizePagePlans,
   storyTarget,
@@ -26,6 +31,59 @@ const {
   validatePageMmor,
   verifyPostConversionPage,
 } = require("./modernize-hot-potatoes-pages.cjs");
+
+test("scraped third-party head markup is removed without touching body links", () => {
+  const source = `<!doctype html>
+<html><head>
+  <meta charset="utf-8">
+  <!-- Google tag (gtag.js) -->
+  <script>window.dataLayer = window.dataLayer || []; gtag("config", "G-TEST");</script>
+  <link rel="canonical" href="https://www.eslfast.com/example.html">
+  <link rel="stylesheet" href="https://www.eslfast.com/membership/assets/css/all.css">
+  <script src="https://www.eslfast.com/membership/assets/jquery/jquery.min.js"></script>
+  <meta http-equiv="Content-Security-Policy" content="script-src https:; object-src 'none'">
+  <script src="../../js/story-theme.js"></script>
+</head><body><a href="https://example.com/word">word</a></body></html>`;
+  const cleaned = removeScrapedThirdPartyHeadMarkup(source);
+  assert.doesNotMatch(cleaned, /Google tag|dataLayer|gtag\(|rel="canonical"|membership\/assets|Content-Security-Policy|<script src="https:\/\//i);
+  assert.match(cleaned, /<script src="\.\.\/\.\.\/js\/story-theme\.js"><\/script>/);
+  assert.match(cleaned, /href="https:\/\/example\.com\/word"/);
+  assert.equal(removeScrapedThirdPartyHeadMarkup(cleaned), cleaned);
+});
+
+test("scraped malformed JavaScript comment markers are repaired before parsing", () => {
+  const source = `<html><head></head><body><script>\n<![CDATA[\n< !--\nfunction Client() {}\n//-->\n//]]>\n</script></body></html>`;
+  const repaired = repairEmbeddedBodyTail(source);
+  assert.match(repaired, /\n<!--\nfunction Client\(\) \{\}\n/);
+  assert.doesNotMatch(repaired, /< !--/);
+});
+
+test("scraped advertising markup is removed without removing nearby content", () => {
+  const source = `<script>function KeepLegacyRuntime() { return $('.adsbygoogle').length; }</script><div class="hp-legacy-text-center"><div class="ads-top"><ins class="adsbygoogle" data-ad-client="ca-pub-test" data-ad-slot="123"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div></div><p>Keep this exercise content.</p>`;
+  const cleaned = removeScrapedAdvertisingMarkup(source);
+  assert.doesNotMatch(cleaned, /ads-top|data-ad-client|data-ad-slot|adsbygoogle\s*=\s*window\.adsbygoogle/);
+  assert.match(cleaned, /KeepLegacyRuntime/);
+  assert.match(cleaned, /Keep this exercise content/);
+  assert.equal(removeScrapedAdvertisingMarkup(cleaned), cleaned);
+});
+
+test("scraped membership runtime is removed without removing exercise runtime", () => {
+  const source = `<script>function ExerciseRuntime() { return true; }</script><script>function checkCookie() {} fetch("https://www.eslfast.com/membership/api/ajaxLogin");</script><p>Keep this exercise content.</p>`;
+  const cleaned = removeScrapedMembershipRuntime(source);
+  assert.match(cleaned, /ExerciseRuntime/);
+  assert.doesNotMatch(cleaned, /checkCookie|membership\/api\/ajaxLogin/);
+  assert.match(cleaned, /Keep this exercise content/);
+  assert.equal(removeScrapedMembershipRuntime(cleaned), cleaned);
+});
+
+test("scraped legacy asset tags are removed while modern local assets remain", () => {
+  const source = `<link href="/css/responsive.css" rel="stylesheet"><script src="/js/main_validate.js"></script><script src="/js/time_spend_on_page.js"></script><link href="assets/all.css" rel="stylesheet"><script src="assets/f.txt"></script><link href="../../css/sis-hot-potatoes.css" rel="stylesheet"><p>Keep this exercise content.</p>`;
+  const cleaned = removeScrapedLegacyAssetTags(source);
+  assert.doesNotMatch(cleaned, /responsive\.css|main_validate|time_spend_on_page|assets\//);
+  assert.match(cleaned, /sis-hot-potatoes\.css/);
+  assert.match(cleaned, /Keep this exercise content/);
+  assert.equal(removeScrapedLegacyAssetTags(cleaned), cleaned);
+});
 
 function withoutSentenceNavigation(source) {
   return source.replace(
@@ -789,7 +847,7 @@ test("page migration preserves head style blocks and rewrites inline state and c
 
 </div>
 <div id="FeedbackDiv"><div id="FeedbackContent"></div></div>
-<div class="cenmar"><a href="JavaScript:window.close()"> CLOSE </a><button class="btn-74" onclick="location='JavaScript:window.close() '; return false;"><span></span><span></span><span></span><span></span>Close</button></div></div>
+<div class="cenmar"><a href="JavaScript:window.close()"> CLOSE </a><button class="btn-74" onclick="location='JavaScript:window.close() '; return false;">Close</button></div></div>
 <script>function Toggle() { var question = document.getElementById("Q_0"); question.style.display = "none"; if (question.style.display === "none") question.style.display = ""; }
 function FuncBtnOut(Btn) { Btn.className = "FuncButton"; }
 function NavBtnOut(Btn) { Btn.className = "NavButton"; }</script>
@@ -1144,7 +1202,7 @@ test("dictation profile repairs the known outer cenmar shell only when its full 
   const page = {
     absolute: path.join(root, "supereasy/dict/se_d039.html"),
     relative: "supereasy/dict/se_d039.html",
-    source: `<!doctype html><html><head><meta charset="utf-8"><title>Dictation</title></head><body id="TheBody"><div class="cenmar"><div class="Titles"><h1 class="ExerciseTitle">Dictation</h1></div><div id="InstructionsDiv">Listen and type.</div><div id="MainDiv"><textarea class="ShortAnswerBox" id="Q_0_Guess"></textarea></div><div id="FeedbackDiv"></div><div class="cenmar"><button class="hp-button btn-74" type="button" data-hp-close=""><span></span><span></span><span></span><span></span>Close</button></div></div></body></html>`,
+    source: `<!doctype html><html><head><meta charset="utf-8"><title>Dictation</title></head><body id="TheBody"><div class="cenmar"><div class="Titles"><h1 class="ExerciseTitle">Dictation</h1></div><div id="InstructionsDiv">Listen and type.</div><div id="MainDiv"><textarea class="ShortAnswerBox" id="Q_0_Guess"></textarea></div><div id="FeedbackDiv"></div><div class="cenmar"><button class="hp-button btn-74" type="button" data-hp-close="">Close</button></div></div></body></html>`,
     story: storyTarget(root, path.join(root, "supereasy/dict/se_d039.html")),
   };
   const assets = { ...collectAssetInfo(root), root };

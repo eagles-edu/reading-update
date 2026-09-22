@@ -23,6 +23,15 @@ async function startRealPageServer() {
       response.end();
       return;
     }
+    if (pathname.startsWith("/reading/_audio/")) {
+      response.writeHead(204, {
+        "Access-Control-Allow-Origin": "*",
+        "Accept-Ranges": "bytes",
+        "Content-Type": "audio/mpeg",
+      });
+      response.end();
+      return;
+    }
     const relative = pathname.replace(/^\/+/, "");
     const file = path.resolve(ROOT, relative || "index.html");
     if (!file.startsWith(`${ROOT}${path.sep}`) || !fs.existsSync(file) || !fs.statSync(file).isFile()) {

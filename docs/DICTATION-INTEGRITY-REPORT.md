@@ -1,15 +1,15 @@
 # Dictation Integrity and Prototype Audit
 
-Generated: 2026-09-18T13:54:14.510+07:00
+Generated: 2026-09-19T16:38:50.076+07:00
 
 ## Summary
 
-- Pages audited: 1785
-- Pages passing every check: 1784
+- Pages audited: 1885
+- Pages passing every check: 1884
 - Pages requiring action: 1
 - Prototype: [begin1/dict/b1d001.html:1:1](</home/eagles/dockerz/efast-copy/begin1/dict/b1d001.html>)
 - Prototype MMOR status: PASS
-- Visual samples: 0/132 expected artifacts captured (PLANNED)
+- Visual samples: 0/140 expected artifacts captured (PLANNED)
 
 ## Collection totals
 
@@ -20,7 +20,7 @@ Generated: 2026-09-18T13:54:14.510+07:00
 | begin3 | 110 | 110 | 0 |
 | begin4 | 100 | 100 | 0 |
 | begin5 | 100 | 100 | 0 |
-| begin6 | 1 | 1 | 0 |
+| begin6 | 101 | 101 | 0 |
 | easyread | 199 | 199 | 0 |
 | eslread | 362 | 362 | 0 |
 | essays | 100 | 100 | 0 |
@@ -34,34 +34,34 @@ Generated: 2026-09-18T13:54:14.510+07:00
 
 | ID | Pass | Fail |
 |---|---:|---:|
-| SH-01 | 1785 | 0 |
-| SH-02 | 1784 | 1 |
-| SH-03 | 1784 | 1 |
-| SH-04 | 1784 | 1 |
-| SH-05 | 1784 | 1 |
-| ASSET-CSS-SIS-HOT-POTATOES-CSS | 1784 | 1 |
-| ASSET-JS-HOT-POTATOES-UI-JS | 1784 | 1 |
-| ASSET-CSS-HOT-POTATOES-FEEDBACK-CSS | 1784 | 1 |
-| ASSET-JS-HOT-POTATOES-FEEDBACK-JS | 1784 | 1 |
-| ASSET-JS-STORY-THEME-JS | 1784 | 1 |
-| ASSET-CSS-SIS-EXERCISE-LAYOUT-CSS | 1784 | 1 |
-| ASSET-CLOZE-SUBMIT-CSS | 1784 | 1 |
-| ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS | 1784 | 1 |
-| ASSET-EXERCISE-SUBMIT-DICT | 1784 | 1 |
-| SH-06 | 1784 | 1 |
-| ID-01 | 1785 | 0 |
-| DI-01 | 1784 | 1 |
-| DI-02 | 1784 | 1 |
-| DI-03 | 1784 | 1 |
-| SH-10 | 1784 | 1 |
-| SH-09 | 1785 | 0 |
-| SH-08 | 1784 | 1 |
-| SH-07 | 1784 | 1 |
-| SH-11 | 1785 | 0 |
-| SH-12 | 1784 | 1 |
-| DI-04 | 1785 | 0 |
-| SRC-01 | 1785 | 0 |
-| PROTO-01 | 1784 | 1 |
+| SH-01 | 1885 | 0 |
+| SH-02 | 1884 | 1 |
+| SH-03 | 1884 | 1 |
+| SH-04 | 1884 | 1 |
+| SH-05 | 1884 | 1 |
+| ASSET-CSS-SIS-HOT-POTATOES-CSS | 1884 | 1 |
+| ASSET-JS-HOT-POTATOES-UI-JS | 1884 | 1 |
+| ASSET-CSS-HOT-POTATOES-FEEDBACK-CSS | 1884 | 1 |
+| ASSET-JS-HOT-POTATOES-FEEDBACK-JS | 1884 | 1 |
+| ASSET-JS-STORY-THEME-JS | 1884 | 1 |
+| ASSET-CSS-SIS-EXERCISE-LAYOUT-CSS | 1884 | 1 |
+| ASSET-CLOZE-SUBMIT-CSS | 1884 | 1 |
+| ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS | 1884 | 1 |
+| ASSET-EXERCISE-SUBMIT-DICT | 1884 | 1 |
+| SH-06 | 1884 | 1 |
+| ID-01 | 1885 | 0 |
+| DI-01 | 1884 | 1 |
+| DI-02 | 1884 | 1 |
+| DI-03 | 1884 | 1 |
+| SH-10 | 1884 | 1 |
+| SH-09 | 1885 | 0 |
+| SH-08 | 1884 | 1 |
+| SH-07 | 1884 | 1 |
+| SH-11 | 1885 | 0 |
+| SH-12 | 1884 | 1 |
+| DI-04 | 1885 | 0 |
+| SRC-01 | 1885 | 0 |
+| PROTO-01 | 1884 | 1 |
 
 ## Visual sample set
 
@@ -93,6 +93,10 @@ Generated: 2026-09-18T13:54:14.510+07:00
 | begin5 | [begin5/dict/b5d075.html:1:1](</home/eagles/dockerz/efast-copy/begin5/dict/b5d075.html>) | [output/playwright/dict-integrity/begin5-b5d075-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/dict-integrity/begin5-b5d075-desktop.png>) | [output/playwright/dict-integrity/begin5-b5d075-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/dict-integrity/begin5-b5d075-mobile.png>) |
 | begin5 | [begin5/dict/b5d100.html:1:1](</home/eagles/dockerz/efast-copy/begin5/dict/b5d100.html>) | [output/playwright/dict-integrity/begin5-b5d100-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/dict-integrity/begin5-b5d100-desktop.png>) | [output/playwright/dict-integrity/begin5-b5d100-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/dict-integrity/begin5-b5d100-mobile.png>) |
 | begin6 | [begin6/dict/1. The Hairstyle Change.html:1:1](</home/eagles/dockerz/efast-copy/begin6/dict/1. The Hairstyle Change.html>) | [output/playwright/dict-integrity/begin6-1. The Hairstyle Change-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/dict-integrity/begin6-1. The Hairstyle Change-desktop.png>) | [output/playwright/dict-integrity/begin6-1. The Hairstyle Change-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/dict-integrity/begin6-1. The Hairstyle Change-mobile.png>) |
+| begin6 | [begin6/dict/b6d025.html:1:1](</home/eagles/dockerz/efast-copy/begin6/dict/b6d025.html>) | `output/playwright/dict-integrity/begin6-b6d025-desktop.png` | `output/playwright/dict-integrity/begin6-b6d025-mobile.png` |
+| begin6 | [begin6/dict/b6d050.html:1:1](</home/eagles/dockerz/efast-copy/begin6/dict/b6d050.html>) | `output/playwright/dict-integrity/begin6-b6d050-desktop.png` | `output/playwright/dict-integrity/begin6-b6d050-mobile.png` |
+| begin6 | [begin6/dict/b6d075.html:1:1](</home/eagles/dockerz/efast-copy/begin6/dict/b6d075.html>) | `output/playwright/dict-integrity/begin6-b6d075-desktop.png` | `output/playwright/dict-integrity/begin6-b6d075-mobile.png` |
+| begin6 | [begin6/dict/b6d100.html:1:1](</home/eagles/dockerz/efast-copy/begin6/dict/b6d100.html>) | `output/playwright/dict-integrity/begin6-b6d100-desktop.png` | `output/playwright/dict-integrity/begin6-b6d100-mobile.png` |
 | easyread | [easyread/dict/er_d001.html:1:1](</home/eagles/dockerz/efast-copy/easyread/dict/er_d001.html>) | [output/playwright/dict-integrity/easyread-er_d001-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/dict-integrity/easyread-er_d001-desktop.png>) | [output/playwright/dict-integrity/easyread-er_d001-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/dict-integrity/easyread-er_d001-mobile.png>) |
 | easyread | [easyread/dict/er_d052.html:1:1](</home/eagles/dockerz/efast-copy/easyread/dict/er_d052.html>) | [output/playwright/dict-integrity/easyread-er_d052-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/dict-integrity/easyread-er_d052-desktop.png>) | [output/playwright/dict-integrity/easyread-er_d052-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/dict-integrity/easyread-er_d052-mobile.png>) |
 | easyread | [easyread/dict/er_d101.html:1:1](</home/eagles/dockerz/efast-copy/easyread/dict/er_d101.html>) | [output/playwright/dict-integrity/easyread-er_d101-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/dict-integrity/easyread-er_d101-desktop.png>) | [output/playwright/dict-integrity/easyread-er_d101-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/dict-integrity/easyread-er_d101-mobile.png>) |
@@ -142,13 +146,13 @@ Generated: 2026-09-18T13:54:14.510+07:00
 - **SH-03:** Exactly one instruction panel contains the only .Titles > h1.ExerciseTitle and #InstructionsDiv; #MainDiv is unique in the wrapper. Observed: `{"instructionPanels":0,"titleBlocks":1,"exerciseTitles":1,"titleFound":false,"instructions":1,"main":1}`. Remediation: undefined
 - **SH-04:** Exactly one Close is an accessible btn-74 button with the shared tm1-5 margin token and Close runtime. Observed: `{"count":0,"accessible":false,"marginToken":false,"runtimeBound":true}`. Remediation: undefined
 - **SH-05:** Companion story resolves and story-theme.js binds its title and theme at runtime. Observed: `{"story":null,"scriptCount":0,"titleUrl":null,"themeKey":null,"runtimeBound":true}`. Remediation: undefined
-- **ASSET-CSS-SIS-HOT-POTATOES-CSS:** Local link css/sis-hot-potatoes.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-Iw7lAV3YR65Y2+/muxR/wW9o+OheDvHjeRW1Nqy3OYTalZHUuOHhG4WoDq/oJ2zZ","observed":[]}`. Remediation: undefined
+- **ASSET-CSS-SIS-HOT-POTATOES-CSS:** Local link css/sis-hot-potatoes.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-6MPyLbqq9FFGh9HTIhQxf48mR2AJik7vNHRtoADTcSDOMZ+MVs/8i1IXc/hyexKW","observed":[]}`. Remediation: undefined
 - **ASSET-JS-HOT-POTATOES-UI-JS:** Local script js/hot-potatoes-ui.js resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g","observed":[]}`. Remediation: undefined
 - **ASSET-CSS-HOT-POTATOES-FEEDBACK-CSS:** Local link css/hot-potatoes-feedback.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-ZQ3tblPuuwTjNvW0dnwXf3qe3MbFrBiveKXfa5sVqlzprA7wAC8WIUBaPPIDklM4","observed":[]}`. Remediation: undefined
 - **ASSET-JS-HOT-POTATOES-FEEDBACK-JS:** Local script js/hot-potatoes-feedback.js resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq","observed":[]}`. Remediation: undefined
 - **ASSET-JS-STORY-THEME-JS:** Local script js/story-theme.js resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-8VAqiIrvm0upO+8Nkxle4qQ0pcWFb1/TxOLqexMoqaS4uuFA1o4tOvOc72iWfgbJ","observed":[]}`. Remediation: undefined
 - **ASSET-CSS-SIS-EXERCISE-LAYOUT-CSS:** Local link css/sis-exercise-layout.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-5HOjSZ/dHoz5qDsXvpEOXtqPTq50symoGkXfouRlWh+2X5MCVufbyJuTDg7a3y6o","observed":[]}`. Remediation: undefined
-- **ASSET-CLOZE-SUBMIT-CSS:** Local link css/sis-cloze-submit.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-wIU4s2RoinjEPHSNAi9TwjKEiKX0RY0IJvrLFi8IW+2ZbaE06yTTxCa9+7DcLttW","observed":[]}`. Remediation: undefined
+- **ASSET-CLOZE-SUBMIT-CSS:** Local link css/sis-cloze-submit.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-bGawcIsJP3Gl+awPySZzc6mtNOE+ofWPcHgA68WhSKJFBHfWBmvjh7DzNXNFonXD","observed":[]}`. Remediation: undefined
 - **ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS:** Local link css/sis-exercise-family-layout.css resolves and has current SRI. Observed: `{"expectedIntegrity":"sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j","observed":[]}`. Remediation: undefined
 - **ASSET-EXERCISE-SUBMIT-DICT:** Local script js/sis-exercise-submit.js resolves and has current SRI for dict. Observed: `{"expectedIntegrity":"sha384-mMNp6FvFWm02ZkDK9ga/h/qUissJKdll6Xqi6KsgfvSy8kf7DQSy2X3Kx+biLPmo","observed":[]}`. Remediation: undefined
 - **SH-06:** Every required shared and family asset resolves locally with its current SRI. Observed: `{"required":9,"failed":["ASSET-CSS-SIS-HOT-POTATOES-CSS","ASSET-JS-HOT-POTATOES-UI-JS","ASSET-CSS-HOT-POTATOES-FEEDBACK-CSS","ASSET-JS-HOT-POTATOES-FEEDBACK-JS","ASSET-JS-STORY-THEME-JS","ASSET-CSS-SIS-EXERCISE-LAYOUT-CSS","ASSET-CLOZE-SUBMIT-CSS","ASSET-CSS-SIS-EXERCISE-FAMILY-LAYOUT-CSS","ASSET-EXERCISE-SUBMIT-DICT"]}`. Remediation: undefined

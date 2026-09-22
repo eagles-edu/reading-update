@@ -480,6 +480,7 @@
 
   function submitAttempt() {
     if (state.submitted) return Promise.resolve(true);
+    if (state.submitting && state.submitPromise) return state.submitPromise;
     var payload;
     try {
       payload = buildPayload();
@@ -498,7 +499,7 @@
     persistIdentity({ email: payload.email, eaglesId: payload.eaglesId });
     setStatus("Submitting your result to SIS...", "");
     updateButtonState();
-    state.submitPromise = window.fetch
+    var request = window.fetch
       ? window
           .fetch(resolveSubmitUrl(), {
             method: "POST",
@@ -531,28 +532,29 @@
             reject(new Error("Submission failed"));
           };
           xhr.send(JSON.stringify(payload));
-        })
-          .then(function () {
-            state.submitted = true;
-            setStatus(
-              "Submitted. A receipt has been emailed to " + payload.email + ".",
-              "success",
-            );
-            return true;
-          })
-          .catch(function (error) {
-            if (state.retryButton) state.retryButton.hidden = false;
-            setStatus(
-              "Submission failed. Retry when you are back online. " +
-                (error && error.message ? error.message : ""),
-              "error",
-            );
-            return false;
-          })
-          .finally(function () {
-            state.submitting = false;
-            updateButtonState();
-          });
+        });
+    state.submitPromise = request
+      .then(function () {
+        state.submitted = true;
+        setStatus(
+          "Submitted. A receipt has been emailed to " + payload.email + ".",
+          "success",
+        );
+        return true;
+      })
+      .catch(function (error) {
+        if (state.retryButton) state.retryButton.hidden = false;
+        setStatus(
+          "Submission failed. Retry when you are back online. " +
+            (error && error.message ? error.message : ""),
+          "error",
+        );
+        return false;
+      })
+      .finally(function () {
+        state.submitting = false;
+        updateButtonState();
+      });
     return state.submitPromise;
   }
 

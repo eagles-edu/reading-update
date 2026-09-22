@@ -25,6 +25,7 @@ EXCLUDE_PATTERNS=(
   "**/AboutPageAssets/***" "**/_notes/***" "**/_vti_cnf/***"
   "**/*.bak*" "**/*.BAK" "**/*.old" "**/*.older" "**/*.bu"
   "**/*.audio-player-prototype.html"
+  "**/*.invalid"
   "**/*.zip" "**/*.7z" "**/*.log" "**/*.gz" "**/*.br"
 )
 
@@ -100,6 +101,15 @@ run_rsync() {
   fi
 }
 
+target_directory_exists() {
+  local target="$1"
+  if [[ "$USE_SUDO" == "never" ]]; then
+    [[ -d "$target" ]]
+  else
+    sudo -n test -d "$target"
+  fi
+}
+
 append_common_filters() {
   local pattern
   for pattern in "${EXCLUDE_PATTERNS[@]}"; do
@@ -125,7 +135,7 @@ if [[ "$APPLY" -eq 1 ]]; then
   else
     sudo mkdir -p -- "$PUBLIC_ROOT" "$READING_ROOT"
   fi
-elif [[ ! -d "$PUBLIC_ROOT" || ! -d "$READING_ROOT" ]]; then
+elif ! target_directory_exists "$PUBLIC_ROOT" || ! target_directory_exists "$READING_ROOT"; then
   echo "ERROR: dry-run requires both target directories:" >&2
   echo "  $PUBLIC_ROOT" >&2
   echo "  $READING_ROOT" >&2

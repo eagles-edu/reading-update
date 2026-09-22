@@ -143,6 +143,7 @@
     "ipdb",
     "Jabbar",
     "JCLOZE",
+    "JCROSS",
     "jfm",
     "jmconfig",
     "JMIX",
@@ -260,5 +261,7 @@
     "/home/eagles/dockerz/efast-copy/scripts/modernize-hot-potatoes-pages.cjs:61",
     "/home/eagles/dockerz/efast-copy/scripts/modernize-hot-potatoes-pages.cjs:76"
   ],
-  "github.copilot.llm-gateway.serverUrl": "http://localhost:8620"
+  "github.copilot.llm-gateway.serverUrl": "http://localhost:8620",
+  "files.hotExit": "off",
+  "window.restoreWindows": "none"
 }

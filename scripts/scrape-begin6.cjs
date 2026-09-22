@@ -335,7 +335,14 @@ function renderStoryPage(story) {
   const nextLink = next
     ? `<a href="${next}"><img src="../../images/blue-arrow-304924_50-right.png" width="50" height="50" alt="Next"></a>`
     : "";
-  const separators = [previousLink, `<a href="../index.html">MENU</a>`, nextLink].filter(Boolean).join("\n&nbsp;&nbsp;&nbsp;\n");
+  const storyNumber = String(story.number).padStart(3, "0");
+  const exerciseLinks = [
+    `<a href="../w6/b6w${storyNumber}.html" target="_self">Vocabulary</a>`,
+    `<a href="../cloze/b6cloze${storyNumber}.html" target="_blank">Cloze</a>`,
+    `<a href="../sent/b6mx${storyNumber}1.html" target="_blank">Sentences</a>`,
+    `<a href="../dict/b6d${storyNumber}.html" target="_blank">Dictation</a>`,
+  ].join("\n&nbsp;&nbsp;&nbsp;&nbsp;\n");
+  const separators = [previousLink, `<a href="../../begin5/index.html">MENU</a>`, nextLink].filter(Boolean).join("\n&nbsp;&nbsp;&nbsp;\n");
   return `<!DOCTYPE html>
 
 <html lang="en">
@@ -366,6 +373,10 @@ ${paragraphs}
 
 <div class="cenmar textres20 fw500 tm01-5em">
     <hr>
+
+${exerciseLinks}
+
+<hr>
 
 ${separators}
 

@@ -1,8 +1,7 @@
 
        <!DOCTYPE html> <html lang="en-US">
 
-             <head>  <meta charset="utf-8"> <!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-M335KR2ZY9"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-M335KR2ZY9'); </script> <link rel="canonical" href="https://www.eslfast.com/begin6/dict/b6d095.html">  <link rel="stylesheet" type="text/css" href="https://www.eslfast.com/membership/assets/bootstrap/css/bootstrap.min.css">  <link rel="stylesheet" type="text/css" href="https://www.eslfast.com/membership/assets/css/all.css">  <script src="https://www.eslfast.com/membership/assets/jquery/jquery.min.js"></script>
-<script src='https://www.eslfast.com/membership/assets/bootstrap/js/bootstrap.min.js'></script> <!-- jquery-validation --> <script src="https://www.eslfast.com/membership/jquery-validation/jquery.validate.min.js"></script> <script src="https://www.eslfast.com/membership/jquery-validation/additional-methods.min.js"></script>
+             <head>  <meta charset="utf-8">
 
 <meta name="DC:Title" content="95. A Big Secret">
 
@@ -13,8 +12,6 @@
 <script src="../../js/hot-potatoes-ui.js" integrity="sha384-c4OwTCi/mt46Ngl5y4KjpMDXFfOrzS4A0tGg3r4Oxq71V680/2tAQ/4V+l4Cfp8g"></script>
 <script src="../../js/hot-potatoes-feedback.js" integrity="sha384-oXf/svhjkrSmioKJy1ewVAuWM+qroqJyxsGnKH+xMdYcKu034RNe8owRKiNw64Tq"></script>
 <!-- HOT POTATOES MODERNIZATION ASSETS END -->
-<meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-inline' 'unsafe-eval' https:; object-src 'none'; base-uri 'none';">  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4240992229388079" crossorigin="anonymous"> </script>  <link href="/css/responsive.css" rel="stylesheet">
-
 <title>
 95. A Big Secret
 </title>
@@ -1860,7 +1857,7 @@ function ShowHint(QNum){
 <link rel="stylesheet" href="../../css/sis-cloze-submit.css" integrity="sha384-bGawcIsJP3Gl+awPySZzc6mtNOE+ofWPcHgA68WhSKJFBHfWBmvjh7DzNXNFonXD">
 <link rel="preload" href="../../css/sis-exercise-family-layout.css" as="style" integrity="sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j">
 <link rel="stylesheet" href="../../css/sis-exercise-family-layout.css" integrity="sha384-lMrEC2hIdcG0BKizRp5odtgd0DMvWdtT5o63AE4zenOH6B92c9t6MDTuoLK0214j">
-<script defer src="../../js/sis-exercise-submit.js" integrity="sha384-mMNp6FvFWm02ZkDK9ga/h/qUissJKdll6Xqi6KsgfvSy8kf7DQSy2X3Kx+biLPmo" data-sis-exercise-family="dict"></script>
+<script defer src="../../js/sis-exercise-submit.js" integrity="sha384-/SeM0Tsj+EG0frJKGVSDh8XE0NcQkAilKz89ZNt67YAcpSv2EY+IOKEA78RA63Z4" data-sis-exercise-family="dict"></script>
 </head>
 
 <body onload="StartUp()" id="TheBody" > <div class="hp-legacy-text-size wrapfit hp-exercise-shell" data-sis-exercise-shell="true" data-sis-exercise-family="dict">
@@ -1899,7 +1896,7 @@ function ShowHint(QNum){
 
 </div>
 
-<ol class="QuizQuestions" id="Questions"> <div class="ads-top"> <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4240992229388079" crossorigin="anonymous"></script> <!-- ResponsiveESLfastRongchangAll --> <ins class="adsbygoogle hp-display-block" data-full-width-responsive="true" data-ad-client="ca-pub-4240992229388079" data-ad-slot="3927226390" data-ad-format="auto"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> </div>
+<ol class="QuizQuestions" id="Questions">
 <li class="QuizQuestion hp-display-none" id="Q_0"><div class="QuestionText"></div><div class="ShortAnswer" id="Q_0_SA">
 
 <audio controls="controls" oncontextmenu="return false;"><source src="/reading/_audio/begin6/audio/d/440c2d79/b6d0951.mp3" type="audio/mp3"></audio>
@@ -1958,175 +1955,6 @@ function ShowHint(QNum){
 
  <div class="cenmar"><button class="hp-button btn-74 tm1-5" type="button" data-hp-close="" aria-label="Close" data-hp-tooltip="Close this exercise." aria-description="Close this exercise."><span></span><span></span><span></span><span></span>Close</button></div></div> <br>
 
-        <script>
-            $(document).ready(function () {
-                let searchParams = new URLSearchParams(window.location.search);
-                if (searchParams.has('token')) {
-                    let tkn = searchParams.get('token');
-                    setCookie('login_token', tkn, 365);
-                }
-                checkCookie();
-//                    $('#exampleModalCenter').modal('show');
-            });
-
-            $('#ajax_forgot_password').validate({
-                submitHandler: function (form) {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: {email: $('#forg_email').val()},
-                        dataType: 'json',
-
-                        url: 'https://www.eslfast.com/membership/api/checkEmail',
-                    }).done(function (res) {
-                        $('.full_loading').hide();
-                        if (res.status == 'error') {
-                            alert('Email not found');
-                            $('#forg_email').val('');
-                            return false;
-                        }
-                        if (res.status == 'success') {
-                            form.submit();
-                            return true;
-                        }
-
-                    }).fail(function () {
-                        alert('Error found. Try again..');
-                        return false;
-                    });
-
-                    return false;
-                },
-
-                rules: {
-                    email: {
-                        required: true,
-                        email: true
-                    }
-                },
-                messages: {
-                    email: {
-                        required: "Enter your login email."
-                    }
-                },
-                errorElement: 'div',
-                errorClass: 'error text-danger'
-            });
-
-            $('#login_frm').validate({
-                submitHandler: function (form) {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: $('#login_frm').serialize(),
-                        dataType: 'json',
-//                            beforeSend: function (xhr) {
-//                                xhr.setRequestHeader('X-CSRF-Token',<?= json_encode($this->request->getParam('_csrfToken')); ?>);
-//                            },
-                        url: 'https://www.eslfast.com/membership/api/ajaxLogin',
-                    }).done(function (res) {
-                        if (res.status == 'error') {
-                            $('#up_msg_div').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>' + res.msg + '</strong> .<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-                        }
-                        if (res.status == 'success') {
-                            $('#up_msg_div').html('<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>' + res.msg + '</strong> .<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-
-                        }
-                        if (res.login_token != '') {
-                            setCookie('login_token', res.login_token, 365);
-                            location.reload();
-
-                        }
-                        return false;
-                    }).fail(function () {
-                        alert('Error found. Try again..');
-                        return false;
-                    });
-
-                    return false;
-                },
-                rules: {
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    password: {
-                        required: true
-                    }
-                },
-                errorElement: 'div',
-                errorClass: 'error text-danger text-left',
-            });
-
-            function getCookie(cname) {
-                var name = cname + "=";
-                var decodedCookie = decodeURIComponent(document.cookie);
-                var ca = decodedCookie.split(';');
-                for (var i = 0; i < ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ') {
-                        c = c.substring(1);
-                    }
-                    if (c.indexOf(name) == 0) {
-                        return c.substring(name.length, c.length);
-                    }
-                }
-                return "";
-            }
-
-            function setCookie(cname, cvalue, exdays) {
-                var d = new Date();
-                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-                var expires = "expires=" + d.toUTCString();
-                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-            }
-
-            function checkCookie() {
-                var login_token = getCookie("login_token");
-                if (login_token != "") {
-//                   // alert("token " + login_token);
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: $('#login_frm').serialize(),
-                        dataType: 'json',
-                        url: 'https://www.eslfast.com/membership/api/valid-token/' + login_token,
-                    }).done(function (res) {
-                        // if ((res.token_key != '') && (res.memb_status == 1)) {
-                        if ((res.token_key != '')) {
-                            setCookie('login_token', res.token_key, 365);
-                            $('.after_login').show();
-                            $('.before_login').hide();
-                            $('a').each(function () {
-                                let current_url = $(this).attr('href');
-                                let new_url = current_url.replace("TOKEN_KEY", res.token_key);
-
-                                $(this).removeAttr('href');
-                                $(this).attr('href', new_url);
-                            });
-                            if ((res.memb_status == 1)) {
-                                $('div[class^="ads-"]').remove(); setTimeout(function () { $('.google-auto-placed').hide(); $( '.google-auto-placed' ).remove();   $('.adsbygoogle').remove(); }, 1000 );
-
-                            }
-                        } else {
-                            $('.after_login').hide();
-                            $('.before_login').show();
-                        }
-                        return false;
-                    }).fail(function () {
-                    });
-
-                } else {
-//                     alert("no token ");
-                    $('.after_login').hide();
-                    $('.before_login').show();
-                }
-            }
-
-            function userLogout() {
-                setCookie('login_token', '', 365);
-                window.location.href = "https://www.eslfast.com/membership/logout";
-            }
-
-        </script>
-
-<script src="/js/time_spend_on_page.js"></script>  </body>
+  </body>
 
 </html>

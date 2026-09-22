@@ -58,6 +58,7 @@
             <Item>*.older</Item>
             <Item>*.bu</Item>
             <Item>*.audio-player-prototype.html</Item>
+            <Item>*.invalid</Item>
             <Item>*.zip</Item>
             <Item>*.7z</Item>
             <Item>*.log</Item>

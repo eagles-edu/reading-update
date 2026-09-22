@@ -1,11 +1,11 @@
 # Cloze Integrity and Prototype Audit
 
-Generated: 2026-09-18T13:54:01.458+07:00
+Generated: 2026-09-19T16:38:41.120+07:00
 
 ## Summary
 
-- Pages audited: 1446
-- Pages passing every checklist item: 1446
+- Pages audited: 1487
+- Pages passing every checklist item: 1487
 - Pages requiring action: 0
 - Prototype: [begin1/cloze/b1cloze001.html:1:1](</home/eagles/dockerz/efast-copy/begin1/cloze/b1cloze001.html>)
 - Visual samples: 0/120 expected artifacts captured (PLANNED)
@@ -19,7 +19,7 @@ Generated: 2026-09-18T13:54:01.458+07:00
 | begin3 | 110 | 110 | 0 |
 | begin4 | 100 | 100 | 0 |
 | begin5 | 100 | 100 | 0 |
-| begin6 | 59 | 59 | 0 |
+| begin6 | 100 | 100 | 0 |
 | eslread | 363 | 363 | 0 |
 | essays | 100 | 100 | 0 |
 | kidsenglish | 100 | 100 | 0 |
@@ -31,22 +31,22 @@ Generated: 2026-09-18T13:54:01.458+07:00
 
 | ID | Pass | Fail |
 |---|---:|---:|
-| CL-01 Exactly one body#TheBody exists | 1446 | 0 |
-| CL-02 Viewport metadata declares device width and initial scale 1 | 1446 | 0 |
-| CL-03 Instruction panel contains Titles > h1.ExerciseTitle and #InstructionsDiv | 1446 | 0 |
-| CL-04 #MainDiv, #ClozeDiv, and #FeedbackDiv are unique and correctly nested | 1446 | 0 |
-| CL-05 One direct canonical wrapfit/hp-exercise-shell is present | 1446 | 0 |
-| CL-06 Check and Hint controls use the current btn-17 contract | 1446 | 0 |
-| CL-07 Every GapN input is unique and has a matching label | 1446 | 0 |
-| CL-08 Close is an accessible btn-74 control | 1446 | 0 |
-| CL-09 Required local assets resolve and their SRI matches the file bytes | 1446 | 0 |
-| CL-10 Companion story resolves and story-theme.js has the matching key | 1446 | 0 |
-| CL-11 Identity gate and SIS cloze bridge contain the required Check/Hint guard | 1446 | 0 |
-| CL-12 No forbidden legacy wrappers, inline styles, or empty legacy navigation bars remain | 1446 | 0 |
-| CL-13 Head style blocks are present and the page has no inline style attributes | 1446 | 0 |
-| CL-14 The structural shape matches the B1 cloze prototype contract | 1446 | 0 |
-| CL-15 Source is an exercise document, not an HTTP error placeholder or duplicated document | 1446 | 0 |
-| CL-16 Every non-Close action control uses btn-17 hp-button and the shared button rule clips its animated effect | 1446 | 0 |
+| CL-01 Exactly one body#TheBody exists | 1487 | 0 |
+| CL-02 Viewport metadata declares device width and initial scale 1 | 1487 | 0 |
+| CL-03 Instruction panel contains Titles > h1.ExerciseTitle and #InstructionsDiv | 1487 | 0 |
+| CL-04 #MainDiv, #ClozeDiv, and #FeedbackDiv are unique and correctly nested | 1487 | 0 |
+| CL-05 One direct canonical wrapfit/hp-exercise-shell is present | 1487 | 0 |
+| CL-06 Check and Hint controls use the current btn-17 contract | 1487 | 0 |
+| CL-07 Every GapN input is unique and has a matching label | 1487 | 0 |
+| CL-08 Close is an accessible btn-74 control | 1487 | 0 |
+| CL-09 Required local assets resolve and their SRI matches the file bytes | 1487 | 0 |
+| CL-10 Companion story resolves and story-theme.js has the matching key | 1487 | 0 |
+| CL-11 Identity gate and SIS cloze bridge contain the required Check/Hint guard | 1487 | 0 |
+| CL-12 No forbidden legacy wrappers, inline styles, or empty legacy navigation bars remain | 1487 | 0 |
+| CL-13 Head style blocks are present and the page has no inline style attributes | 1487 | 0 |
+| CL-14 The structural shape matches the B1 cloze prototype contract | 1487 | 0 |
+| CL-15 Source is an exercise document, not an HTTP error placeholder or duplicated document | 1487 | 0 |
+| CL-16 Every non-Close action control uses btn-17 hp-button and the shared button rule clips its animated effect | 1487 | 0 |
 
 ## Visual sample set
 
@@ -78,10 +78,10 @@ Generated: 2026-09-18T13:54:01.458+07:00
 | begin5 | [begin5/cloze/b5cloze075.html:1:1](</home/eagles/dockerz/efast-copy/begin5/cloze/b5cloze075.html>) | [output/playwright/cloze-integrity/begin5-b5cloze075-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/begin5-b5cloze075-desktop.png>) | [output/playwright/cloze-integrity/begin5-b5cloze075-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/begin5-b5cloze075-mobile.png>) |
 | begin5 | [begin5/cloze/b5cloze100.html:1:1](</home/eagles/dockerz/efast-copy/begin5/cloze/b5cloze100.html>) | [output/playwright/cloze-integrity/begin5-b5cloze100-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/begin5-b5cloze100-desktop.png>) | [output/playwright/cloze-integrity/begin5-b5cloze100-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/begin5-b5cloze100-mobile.png>) |
 | begin6 | [begin6/cloze/b6cloze001.html:1:1](</home/eagles/dockerz/efast-copy/begin6/cloze/b6cloze001.html>) | [output/playwright/cloze-integrity/begin6-b6cloze001-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/begin6-b6cloze001-desktop.png>) | [output/playwright/cloze-integrity/begin6-b6cloze001-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/begin6-b6cloze001-mobile.png>) |
-| begin6 | [begin6/cloze/b6cloze017.html:1:1](</home/eagles/dockerz/efast-copy/begin6/cloze/b6cloze017.html>) | [output/playwright/cloze-integrity/begin6-b6cloze017-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/begin6-b6cloze017-desktop.png>) | [output/playwright/cloze-integrity/begin6-b6cloze017-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/begin6-b6cloze017-mobile.png>) |
-| begin6 | [begin6/cloze/b6cloze031.html:1:1](</home/eagles/dockerz/efast-copy/begin6/cloze/b6cloze031.html>) | [output/playwright/cloze-integrity/begin6-b6cloze031-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/begin6-b6cloze031-desktop.png>) | [output/playwright/cloze-integrity/begin6-b6cloze031-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/begin6-b6cloze031-mobile.png>) |
-| begin6 | [begin6/cloze/b6cloze046.html:1:1](</home/eagles/dockerz/efast-copy/begin6/cloze/b6cloze046.html>) | [output/playwright/cloze-integrity/begin6-b6cloze046-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/begin6-b6cloze046-desktop.png>) | [output/playwright/cloze-integrity/begin6-b6cloze046-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/begin6-b6cloze046-mobile.png>) |
-| begin6 | [begin6/cloze/b6cloze060.html:1:1](</home/eagles/dockerz/efast-copy/begin6/cloze/b6cloze060.html>) | [output/playwright/cloze-integrity/begin6-b6cloze060-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/begin6-b6cloze060-desktop.png>) | [output/playwright/cloze-integrity/begin6-b6cloze060-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/begin6-b6cloze060-mobile.png>) |
+| begin6 | [begin6/cloze/b6cloze026.html:1:1](</home/eagles/dockerz/efast-copy/begin6/cloze/b6cloze026.html>) | `output/playwright/cloze-integrity/begin6-b6cloze026-desktop.png` | `output/playwright/cloze-integrity/begin6-b6cloze026-mobile.png` |
+| begin6 | [begin6/cloze/b6cloze051.html:1:1](</home/eagles/dockerz/efast-copy/begin6/cloze/b6cloze051.html>) | `output/playwright/cloze-integrity/begin6-b6cloze051-desktop.png` | `output/playwright/cloze-integrity/begin6-b6cloze051-mobile.png` |
+| begin6 | [begin6/cloze/b6cloze075.html:1:1](</home/eagles/dockerz/efast-copy/begin6/cloze/b6cloze075.html>) | `output/playwright/cloze-integrity/begin6-b6cloze075-desktop.png` | `output/playwright/cloze-integrity/begin6-b6cloze075-mobile.png` |
+| begin6 | [begin6/cloze/b6cloze100.html:1:1](</home/eagles/dockerz/efast-copy/begin6/cloze/b6cloze100.html>) | `output/playwright/cloze-integrity/begin6-b6cloze100-desktop.png` | `output/playwright/cloze-integrity/begin6-b6cloze100-mobile.png` |
 | eslread | [eslread/cloze/cloze001.html:1:1](</home/eagles/dockerz/efast-copy/eslread/cloze/cloze001.html>) | [output/playwright/cloze-integrity/eslread-cloze001-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/eslread-cloze001-desktop.png>) | [output/playwright/cloze-integrity/eslread-cloze001-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/eslread-cloze001-mobile.png>) |
 | eslread | [eslread/cloze/cloze092.html:1:1](</home/eagles/dockerz/efast-copy/eslread/cloze/cloze092.html>) | [output/playwright/cloze-integrity/eslread-cloze092-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/eslread-cloze092-desktop.png>) | [output/playwright/cloze-integrity/eslread-cloze092-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/eslread-cloze092-mobile.png>) |
 | eslread | [eslread/cloze/cloze183.html:1:1](</home/eagles/dockerz/efast-copy/eslread/cloze/cloze183.html>) | [output/playwright/cloze-integrity/eslread-cloze183-desktop.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/eslread-cloze183-desktop.png>) | [output/playwright/cloze-integrity/eslread-cloze183-mobile.png](</home/eagles/dockerz/efast-copy/output/playwright/cloze-integrity/eslread-cloze183-mobile.png>) |
